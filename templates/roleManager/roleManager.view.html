@@ -1,0 +1,146 @@
+<md-content id="interiores">
+  <div class="contenedor">
+
+    <!--imagen_top-->
+    <div class="imgtop">
+      <div class="divtitulos">
+        <div class="titulos_menu">
+          {{vm.text.label.title}}</div>
+      </div>
+      <img ng-src="{{vm.img}}" />
+    </div>
+    <!--fin_imagen_top-->
+
+
+    <div class="contents">
+      <h2>&nbsp;</h2>
+
+      <h2>{{vm.text.label.legend}}</h2>
+
+      <div class="tabla_monto">
+        <table>
+          <tbody>
+            <tr>
+              <th>{{vm.text.label.col1}}</th>
+            </tr>
+            <tr ng-repeat="role in vm.roles">
+              <td>{{role.name}}</td>
+              <td><a href="" ng-click="vm.showPermissions(role)">Editar</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+
+
+
+
+      <h2>&nbsp;</h2>
+
+      <div class="widthbtn2">
+
+        <a href="" ng-click="vm.go('/roleManager/newRole')">
+          <div class="btnverdebig">
+            <div class="btntex">
+              {{vm.text.button.add}}
+            </div>
+            <div class="btnverde">
+            </div>
+
+          </div>
+        </a>
+
+        <!--
+        <a href="#">
+          <div class="btnverdebig">
+            <div class="btntex">
+              {{vm.text.button.save}}
+            </div>
+            <div class="btnverde">
+            </div>
+
+          </div>
+        </a>
+      -->
+
+        <a href="#">
+          <div class="btnrojobig">
+            <div class="btntex">
+              {{vm.text.button.cancel}}
+            </div>
+            <div class="btnrojo">
+            </div>
+
+          </div>
+        </a>
+
+
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+
+  <!--Modal START -->
+  <div id="myModalRole" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="margin-top:0px;">
+      <span class="close" ng-click="vm.close()">&times;</span>
+      <!--
+      <div class="alerta">
+        <img src="./assets/img/icon_alerta.png" /> 
+      </div>
+      -->
+      <div layout="row">
+      <lable ng-if=true>Elija los permisos para el role {{vm.roleName}}:</label> <input flex="40" type="text"/>
+      </div>
+        <!--<h2>&nbsp;</h2>-->
+      <!--<p>{{vm.message}}</p>-->
+
+      <div layout="row" style="height:300px; margin-top: 10px;">
+        <div flex="50" layout="column">
+          <md-checkbox ng-model="permission.value" class="md-primary" ng-repeat="permission in vm.permissions" ng-if="$even">
+            {{permission.name}}
+          </md-checkbox>
+        </div>
+        <div flex="50" layout="column">
+          <md-checkbox ng-model="permission.value" class="md-primary" ng-repeat="permission in vm.permissions" ng-if="$odd">
+            {{permission.name}}
+          </md-checkbox>
+        </div>
+      </div>
+
+      <div layout="row" layout-align="center center">
+
+        <a href="" ng-click="vm.updateRole()">
+          <div class="btnverdebig">
+            <div class="btntex">
+              Aceptar
+            </div>
+            <div class="btnverde">
+            </div>
+
+          </div>
+        </a>
+        <a href="" ng-click="vm.close()">
+          <div class="btnrojobig">
+            <div class="btntex">
+              Cancelar
+            </div>
+            <div class="btnrojo">
+            </div>
+
+          </div>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+  <!--Modal END -->
+</md-content>

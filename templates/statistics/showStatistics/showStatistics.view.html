@@ -1,0 +1,85 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}
+                </div>
+            </div>
+            <img ng-src="{{vm.img}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <h2>{{vm.text.label.legend}}</h2>
+
+            <!--Filtros-->
+            <div class="tabla_top" layout="row" layout-wrap style="background-color: rgba(245, 248, 255, 0.87); opacity: .4;">
+                <div flex="100">
+                    <h4>Filtros:</h4>
+                </div>
+                <div flex="20">
+                    <md-select ng-model="armor" placeholder="Armor" class="md-no-underline" required md-no-asterisk="false">
+                        <md-option value="cloth">Cloth</md-option>
+                        <md-option value="leather">Leather</md-option>
+                        <md-option value="chain">Chainmail</md-option>
+                        <md-option value="plate">Plate</md-option>
+                    </md-select>
+                </div>
+
+            </div>
+
+            <!--Graficas-->
+            <div class="tabla_clientes" style="overflow: hidden;">
+
+                <canvas id="bar" class="chart chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-series="vm.series" chart-options="vm.options" height= "135"></canvas>
+
+            </div>
+
+
+            <div class="widthbtn3" style="margin-top: 15px;">
+                <a href="#">
+                    <div class="btnnarbig">
+                        <div class="btntex">
+                            {{vm.text.button.newList}}</div>
+                        <div class="btnnar">
+                        </div>
+
+                    </div>
+                </a>
+                </a>
+                <a href="#">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            {{vm.text.button.back}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div class="btnrojobig">
+                        <div class="btntex2">
+                            {{vm.text.button.deleteSelected}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+            </div>
+            
+        </div>
+
+
+
+
+    </div>
+</md-content>

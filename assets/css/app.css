@@ -1,0 +1,10 @@
+ div.viewport {
+  overflow: hidden;
+  position: relative;
+      float: left;
+}
+
+img.clipped {
+  display: block;
+  position: absolute;
+}

@@ -1,0 +1,125 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--Table-->
+        <div class="contents">
+            <h2>&nbsp;</h2>
+
+            <h2>{{vm.text.label.legend}}</h2>
+            <div class="tabla_top">
+                <table >
+                    <tbody>
+                        <tr>
+                            <th width="15%"><input type="checkbox" id="{{user.id}}" name="{{user.id}}" value="">
+                                <label style="padding-left: 3px;" for="{{user.id}}">{{vm.text.label.all}}</label>
+                            </th>
+                            <th width="22%">
+                                <div class="top_select"><input type="text" placeholder="{{vm.text.label.filter}}">
+                                </div>
+                            </th>
+
+                            <th width="13%">
+                                <div class="top_select"><select>
+                       <option value="gold">{{vm.text.label.debt}}</option>
+               <option value="gold">{{vm.text.label.maxtomin}}</option>
+                   <option value="silver">{{vm.text.label.mintomax}}</option>
+                   
+               </select></div>
+                            </th>
+                            <th width="20%">{{vm.text.label.credit}}</th>
+                            <th width="10%">
+                                <div class="top_select"><select>
+                       <option value="gold">{{vm.text.label.level}}</option>
+               <option value="gold">{{vm.text.label.gold}}</option>
+                   <option value="silver">{{vm.text.label.silver}}</option>
+                   <option value="bronze">{{vm.text.label.bronze}}</option>
+               </select></div>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="tabla_clientes2">
+                <table>
+                    <tbody>
+                        <tr ng-repeat="user in vm.users">
+                            <td width="15%"><input type="checkbox" id="cb1" name="cb" value="">
+                                <label for="cb1"></label>
+                                <br>
+                            </td>
+                            <td width="23%">{{user.name}}</td>
+
+                            <td width="12%">{{user.dept}}</td>
+                            <td width="21%">{{user.credit}}</td>
+                            <td width="10%">
+                                <div class="select-style">
+                                    <select name="select">
+                             <option value="gold">{{vm.text.label.gold}}</option>
+                             <option value="silver">{{vm.text.label.silver}}</option>
+                             <option value="bronze">{{vm.text.label.bronze}}</option>
+                           </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="widthbtn3">
+                <div class="formulario_med">
+                    <input type="number" placeholder="Crédito Autorizado">
+                </div>
+                <div class="formulario_med">
+                    <a href="#">
+                        <div class="btnagregar">
+                            <div class="btntex">
+                                {{vm.text.button.all}}
+                            </div>
+                            <div class="btnverde">
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+            <div class="widthbtn2">
+                <a href="#">
+                    <div class="btnnarbig">
+                        <div class="btntex">
+                            {{vm.text.button.add}}</div>
+                        <div class="btnnar">
+                        </div>
+
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="btnrojobig">
+                        <div class="btntex">
+                            {{vm.text.button.back}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+        <!--end Table-->
+
+    </div>
+
+</md-content>

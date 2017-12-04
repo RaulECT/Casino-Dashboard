@@ -1,0 +1,25 @@
+{
+  "name": "caja",
+  "authors": [
+    "andres.castro@springlabs.net"
+  ],
+  "description": "Aplicacion del modulo de caja",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.6.4",
+    "angular-jwt": "^0.1.9",
+    "a0-angular-storage": "^0.0.15",
+    "bootstrap": "boostrap#^3.3.7",
+    "angular-material": "^1.1.4",
+    "angular-chart.js": "^1.1.1"
+  }
+}

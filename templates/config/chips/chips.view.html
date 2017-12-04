@@ -1,0 +1,106 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--chips-->
+        <div class="contents">
+            <h2>&nbsp;</h2>
+
+            <!--Left-->
+            <div class="middlecont">
+                <div class="fichas" ng-repeat="chip in vm.chips" ng-if="$even">
+                    <div class="ficha"><img ng-src="./assets/img/ficha_{{chip.color}}.png" width="90" height="90" alt="" />
+                    </div>
+                    <div class="formficha">
+                        <input type="number" value="{{chip.value}}" ng-model="chip.value">
+                    </div>
+                </div>
+            </div>
+
+            <!--Rigth-->
+            <div class="middlecont">
+                <div class="fichas" ng-repeat="chip in vm.chips" ng-if="$odd">
+                    <div class="ficha"><img ng-src="./assets/img/ficha_{{chip.color}}.png" width="90" height="90" alt="" />
+                    </div>
+                    <div class="formficha">
+                        <input type="number" value="{{chip.value}}" ng-model="chip.value">
+                    </div>
+                </div>
+            </div>
+
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+            <!--Buttons-->
+            <div class="widthbtn2">
+
+                <a href="" id="myBtn">
+                    <div class="btnverdebig" ng-click="vm.save()">
+                        <div class="btntex">
+                            Continuar
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="">
+                    <div class="btnrojobig" ng-click="vm.go('/config')">
+                        <div class="btntex">
+                            Cancelar
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+                <!--End Buttons-->
+            </div>
+            <!-- EndButtons -->
+        </div>
+        <!--end chips -->
+
+    </div>
+
+
+    <!--Modal START -->
+    <div id="ConfigChipsModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" ng-click="vm.close()">&times;</span>
+            <div class="alerta">
+
+                <img src="./assets/img/icon_alerta.png" /> </div>
+
+            <p>{{vm.message}}</p>
+
+            <div layout="row" layout-align="center center">
+
+                <a href="" ng-click="vm.updateChips()">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            Aceptar
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <!--Modal END -->
+
+</md-content>

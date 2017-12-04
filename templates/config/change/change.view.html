@@ -1,0 +1,103 @@
+<md-content id="interiores">
+    <!--Tipo de Cambio-->
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--change-->
+        <div class="contents1">
+            <div class="twocontents2">
+                <div class="cajero">
+                    <p>&nbsp;</p>
+                    <h2>{{vm.text.label.dollar}}</h2>
+                    <p><img ng-src="{{vm.dollar}}" width="90" height="90" alt="" /></p>
+                    <input type="number" value="{{vm.change.exchangeRate}}" ng-model="vm.change.exchangeRate">
+
+                </div>
+            </div>
+
+            <div class="twocontents2">
+                <div class="cajero">
+                    <p>&nbsp;</p>
+                    <h2>{{vm.text.label.chips}}</h2>
+                    <p><img src="{{vm.chips}}" width="90" height="90" alt="" /></p>
+                    <input type="number" value="{{vm.change.valueUnitChip}}" ng-model="vm.change.valueUnitChip">>
+
+                </div>
+            </div>
+
+            <!--Buttons-->
+            <div class="widthbtn2">
+
+                <a href="" id="myBtn">
+                    <div class="btnverdebig" ng-click="vm.save()">
+                        <div class="btntex">
+                            {{vm.text.button.save}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="">
+                    <div class="btnrojobig">
+                        <div class="btntex" ng-click="vm.go('/config')">
+                            {{vm.text.button.cancel}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+
+            </div>
+            <!--end Buttons-->
+
+
+        </div>
+        <!--end change -->
+
+    </div>
+    <!--Tipo de Cambio END-->
+
+    <!--Modal START -->
+    <div id="ConfigChangeModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" ng-click="vm.close()">&times;</span>
+            <div class="alerta">
+
+                <img src="./assets/img/icon_alerta.png" /> </div>
+
+            <p>{{vm.message}}</p>
+
+            <div layout="row" layout-align="center center">
+
+                <a href="" ng-click="vm.updateExchange()">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            Aceptar
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <!--Modal END -->
+</md-content>

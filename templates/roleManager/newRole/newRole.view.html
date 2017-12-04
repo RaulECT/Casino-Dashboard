@@ -1,0 +1,73 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--casino-->
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <h2>{{vm.text.label.legend}}</h2>
+            <div class="permisonuevo"><input type="text" placeholder="Nuevo role" ng-model="vm.roleName"></div>
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+            <h2>{{vm.text.label.legend2}}</h2>
+
+
+            <div flex class="middlecont3" style="height: 200px;" layout="column">
+                    <div class="permiso" ng-repeat="permiso in vm.permissions" ng-if="$even" ng-click="vm.change(permiso.id)">
+                            
+                            <input type="checkbox"   ng-model="permiso.value" value="permiso.value" ng-click="vm.change(permiso.id)"/>
+                            <label for="cb6">{{permiso.name}}</label><br>
+                        </div>
+            </div>
+            <div flex class="middlecont3">
+                <div class="permiso" ng-repeat="permiso in vm.permissions" ng-if="$odd" ng-click="vm.change(permiso.id)">
+                    
+                    <input type="checkbox"   ng-model="permiso.value" value="permiso.value" ng-click="vm.change(permiso.id)"/>
+                    <label for="cb6">{{permiso.name}}</label><br>
+                </div>
+            </div>
+
+
+            <div class="widthbtn2" style="padding-top: 50px;">
+
+                <a href="">
+                    <div class="btnverdebig" ng-click="vm.newRole()">
+                        <div class="btntex">
+                            Guardar
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="">
+                    <div class="btnrojobig" ng-click="vm.go('/roleManager')">
+                        <div class="btntex">
+                            Cancelar
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+
+            </div>
+
+
+
+        </div>
+        <!--end change -->
+
+    </div>
+</md-content>

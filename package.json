@@ -1,0 +1,37 @@
+{
+  "name": "caja",
+  "version": "1.0.0",
+  "description": "caja casinos",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "install": "electron-rebuild",
+    "yarn": "yarn add electron-builder --dev",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": {
+    "name": "Springlabs",
+    "email": "andres.castro@springlabs.net",
+    "url": "http://springlabs.net/"
+  },
+  "build": {
+    "appId": "springlabs.casino.caja",
+    "productName": "caja",
+    "compression": "maximum",
+    "win": {
+      "icon": "./build/casino.ico"
+    }
+  },
+  "devDependencies": {
+    "electron": "^1.4.1",
+    "electron-builder": "^19.22.1",
+    "electron-rebuild": "^1.4.0"
+  },
+  "dependencies": {
+    "binascii": "0.0.1",
+    "data-table": "^2.0.0",
+    "request-promise": "^4.2.1",
+    "serialport": "^4.0.7"
+  }
+}

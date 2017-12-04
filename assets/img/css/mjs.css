@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#mjsbg{
+	background-color:#fff;
+	margin: 0px;
+}
+
+.lateral {
+	width:400px;
+	height:768px;
+	position:absolute;
+	bottom:0px;
+	background-color: #b3b3b3;
+	
+}
+
+
+.globo {
+	width:360px;
+	height:auto;
+	margin-top:22px;
+	margin-left:20px;
+}
+
+.triangle-right {
+    position: relative;
+    padding: 15px;
+    margin: 1em 0 3em;
+    color: #b3b3b3;
+    background: #fff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.triangle-right:after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 50px;
+    border-width: 20px 0 0 20px;
+    border-style: solid;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+}

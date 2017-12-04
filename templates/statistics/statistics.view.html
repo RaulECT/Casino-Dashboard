@@ -1,0 +1,47 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}
+                </div>
+            </div>
+            <img ng-src="{{vm.img}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+
+            <div class="menu_par" ng-click="vm.go('/statistics/emailmanager')">
+                <div class="divtitulos2" >
+                    <div class="titulos">
+                        {{vm.text.label.menu1}}</div>
+                </div>
+                <img ng-src="{{vm.icon1}}" />
+            </div>
+
+            <div class="menu_par" ng-click="vm.go('/statistics/showStatistics')">
+                <div class="divtitulos2">
+                    <div class="titulos">
+                            {{vm.text.label.menu2}}</div>
+                </div>
+                <img ng/src="{{vm.icon2}}" />
+            </div>
+
+        </div>
+    </div>
+
+
+    </div>
+
+</md-content>

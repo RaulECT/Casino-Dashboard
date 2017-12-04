@@ -1,0 +1,18 @@
+<md-content id="interiores">
+    <div class="contenedor">
+        <div class="top_titulo">
+            <h2>{{vm.text.label.title}} </h2>
+        </div>
+
+        <div class="menu">
+            <div class="menu1"  ng-repeat="tile in vm.tiles" ng-click="tile.action(tile.go)" ng-if="tile.view">
+                <div class="divtitulos1">
+                    <div class="titulos_menu">
+                        {{tile.footer}}
+                    </div>
+                </div>
+                <img ng-src="{{tile.icon}}" /> </div>
+
+        </div>
+    </div>
+</md-content>

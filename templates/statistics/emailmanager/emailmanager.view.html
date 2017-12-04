@@ -1,0 +1,119 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}
+                </div>
+            </div>
+            <img ng-src="{{vm.img}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <h2>{{vm.text.label.legend}}</h2>
+
+            <div class="tabla_top">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th width="30%">{{vm.text.label.col1}}</th>
+
+                            <th width="42%">{{vm.text.label.col2}}</th>
+                            <th width="19%">{{vm.text.label.col3}}</th>
+                            <th width="9%">{{vm.text.label.col4}}</th>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="tabla_clientes">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Nombre del envío</td>
+
+                            <td><input type="checkbox" id="cb1" name="cb" value="">
+                                <label for="cb1">Seleccionar</label><br></td>
+                            <td><a href="#">Editar</a></td>
+                            <td><a href="#">Eliminar</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>Nombre del envío</td>
+
+                            <td><input type="checkbox" id="cb2" name="cb" value="">
+                                <label for="cb2">Seleccionar</label><br></td>
+                            <td><a href="#">Editar</a></td>
+                            <td><a href="#">Eliminar</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>Nombre del envío</td>
+
+                            <td><input type="checkbox" id="cb3" name="cb" value="">
+                                <label for="cb3">Seleccionar</label><br></td>
+                            <td><a href="#">Editar</a></td>
+                            <td><a href="#">Eliminar</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>Nombre del envío</td>
+                            <td><input type="checkbox" id="cb4" name="cb" value="">
+                                <label for="cb4">Seleccionar</label><br></td>
+                            <td><a href="#">Editar</a></td>
+                            <td><a href="#">Eliminar</a></td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="widthbtn3">
+                <a href="#">
+                    <div class="btnnarbig">
+                        <div class="btntex">
+                            {{vm.text.button.newList}}</div>
+                        <div class="btnnar">
+                        </div>
+
+                    </div>
+                </a>
+                </a>
+                <a href="#">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            {{vm.text.button.back}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div class="btnrojobig">
+                        <div class="btntex2">
+                            {{vm.text.button.deleteSelected}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+</md-content>

@@ -1,0 +1,105 @@
+<md-content id="interiores">
+    <!--Precio Mebresias-->
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--level-->
+        <div class="contents" layout="column" layout-align="space-around center">
+            <div>
+                <h2>&nbsp;</h2>
+                <h2>&nbsp;</h2>
+            </div>
+            <div layout="row" layout-align="space-around center" style="width: 80%">
+                <div class="levels_member" flex="100">
+                    <p>{{vm.text.label.legend1}}</p>
+                    <input type="time" value="{{vm.schedule.beginWorkingDay}}" ng-model="vm.schedule.beginWorkingDay" style="width: 80%; margin-left: 30px;">
+                    <p>{{vm.text.label.legend2}}</p>
+                    <input type="time" value="{{vm.schedule.endWorkingDay}}" ng-model="vm.schedule.endWorkingDay" style="width: 80%; margin-left: 30px;">
+                </div>
+                <div class="levels_member"  flex="100">
+                    <p>{{vm.text.label.legend3}}</p>
+                    <input type="number" value="{{vm.schedule.intervalMinutesSchedules}}" min="1"  step="1"  ng-model="vm.schedule.intervalMinutesSchedules">
+                    <p>{{vm.text.label.legend4}}</p>
+                    <input type="number" value="{{vm.schedule.intervalMinutesScores}}" min="1"  step="1"  ng-model="vm.schedule.intervalMinutesScores">
+                </div>
+            </div>
+
+
+
+            <h2>&nbsp;</h2>
+
+            <!--Buttons-->
+            <div class="widthbtn2">
+
+                <a href="">
+                    <div class="btnverdebig" ng-click="vm.save()">
+                        <div class="btntex">
+                            {{vm.text.button.save}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="">
+                    <div class="btnrojobig" ng-click="vm.go('/config')">
+                        <div class="btntex">
+                            {{vm.text.button.cancel}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+
+            </div>
+
+        </div>
+
+        <!--end level -->
+
+    </div>
+    <!--Precio Membrecias -->
+
+    <!--Modal START -->
+    <div id="ConfigScheduleModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" ng-click="vm.close()">&times;</span>
+            <div class="alerta">
+
+                <img src="./assets/img/icon_alerta.png" /> </div>
+
+            <p>{{vm.message}}</p>
+
+            <div layout="row" layout-align="center center">
+
+                <a href="" ng-click="vm.updateMembership()">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            Aceptar
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <!--Modal END -->
+</md-content>

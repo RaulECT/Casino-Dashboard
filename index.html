@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="./bower_components/angular-material/angular-material.min.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/app.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/estilos.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/popup.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/mjs.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/animate.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/mjs.css">
+  <link rel="stylesheet" type="text/css" href="./assets/css/popup.css">
+
+  <title>.:Casino:.</title>
+</head>
+
+<body ng-controller="appCtrl as vm">
+
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <!-- FingerPrint SDK -->
+  <script src="./assets/libs/jquery.min.js"></script>
+  <script src="./assets/libs/async.min.js"></script>
+  <script src="./assets/libs/es6-shim.js"></script>
+  <script src="./assets/libs/websdk.client.bundle.min.js"></script>
+  <script src="./assets/libs/fingerprint.sdk.min.js"></script>
+
+  <!--CardReader SDK -->
+  <!--<script src="./assets/libs/msr605.js"></script>-->
+
+  <!-- Insert this line after script imports -->
+  <script>if (window.module) module = window.module;</script>
+  <!-- Angular -->
+  <script src="./bower_components/angular/angular.js"></script>
+  <script src="./bower_components/angular-route/angular-route.js"></script>
+  <script src="./bower_components/angular-animate/angular-animate.js"></script>
+  <script src="./bower_components/angular-aria/angular-aria.js"></script>
+  <script src="./bower_components/angular-material/angular-material.js"></script>
+  <script src="./bower_components/a0-angular-storage/dist/angular-storage.min.js"></script>
+  <script src="./bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
+  <script src="./bower_components/angular-route/angular-route.min.js"></script>
+  <script src="./bower_components/chart.js/dist/Chart.min.js"></script>
+  <script src="./bower_components/angular-chart.js/angular-chart.js"></script>
+
+  <!--Constantes -->
+  <script src="./assets/js/env.js"></script>
+
+  <!-- App -->
+  <script src="./assets/js/app.module.js"></script>
+  <script src="./assets/js/app.config.js"></script>
+  <script src="./assets/js/app.controller.js"></script>
+
+  <!-- Factorys -->
+  <script src="./assets/js/authenticate.factory.js"></script>
+  <script src="./assets/js/config.factory.js"></script>
+  <script src="./assets/js/fingerprint.factory.js"></script>
+  <script src="./assets/js/newfactory.factory.js"></script>
+  <script src="./assets/js/role.factory.js"></script>
+
+  <!-- Language-->
+  <script src="./assets/language/spanish.js"></script>
+
+  <!-- Templates -->
+  <script src="./templates/login/login.controller.js"></script>
+  <script src="./templates/home/home.controller.js"></script>
+    <!--Config-->
+  <script src="./templates/config/config.controller.js"></script>
+  <script src="./templates/config/chips/chips.controller.js"></script>
+  <script src="./templates/config/fastAmounts/fastAmounts.controller.js"></script>
+  <script src="./templates/config/level/level.controller.js"></script>
+  <script src="./templates/config/membership/membership.controller.js"></script>
+  <script src="./templates/config/change/change.controller.js"></script>
+  <script src="./templates/config/casino/casino.controller.js"></script>
+  <script src="./templates/config/levelManager/levelManager.controller.js"></script>
+  <script src="./templates/config/schedule/schedule.controller.js"></script>
+  <!--Role-->
+  <script src="./templates/roleManager/roleManager.controller.js"></script>
+  <script src="./templates/roleManager/newRole/newRole.controller.js"></script>
+  <script src="./templates/roleManager/editRole/editRole.controller.js"></script>
+  <!-- EmployeeManager-->
+  <script src="./templates/employeeManager/employeeManager.controller.js"></script>
+  <!-- ClientManager-->
+  <script src="./templates/clientManager/clientManager.controller.js"></script>
+  <!-- Sales-->
+  <script src="./templates/sales/sales.controller.js"></script>
+  <!-- Statistics -->
+  <script src="./templates/statistics/statistics.controller.js"></script>
+  <script src="./templates/statistics/emailmanager/emailmanager.controller.js"></script>
+  <script src="./templates/statistics/showStatistics/showStatistics.controller.js"></script>
+
+  <section layout="row" flex style="height: 100%;">
+
+
+    <!--Cuerpo del Programa -->
+    <md-content style="width: 100%;">
+      <ng-view class="view-animate"></ng-view>
+    </md-content>
+
+    <!-- Text Button -->
+    <!--
+    <md-button ng-click="vm.toggleRight()" ng-hide="vm.isOpenRight()" class="md-primary">
+      Toggle right
+    </md-button>
+    -->
+
+    <!--Sidebar de notificaciones -->
+    <md-content md-component-id="right" md-whiteframe="4" ng-hide="!vm.isOpenRight()">
+
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Sidenav Right</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+        <md-button ng-click="vm.toggleRight()" class="md-primary">
+          Close Sidenav Right
+        </md-button>
+      </md-content>
+    </md-content flex layout-padding>
+
+
+  </section>
+
+</body>
+
+</html>

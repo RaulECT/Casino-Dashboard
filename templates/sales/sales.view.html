@@ -1,0 +1,107 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--casino-->
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <!--<h2>{{vm.text.label.legend}}</h2>-->
+            <div class="tabla_top">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>{{vm.text.label.col1}}</th>
+                            <th>{{vm.text.label.col2}}</th>
+                            <th>{{vm.text.label.col3}}</th>
+                            <th>{{vm.text.label.col4}}</th>
+                            <th>{{vm.text.label.col5}}</th>
+                            <th>{{vm.text.label.col6}}</th>
+                            <th>{{vm.text.label.col7}}</th>
+                            <th>{{vm.text.label.col8}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="tabla_clientes">
+                <table>
+                    <tbody>
+                        <tr ng-repeat="sale in vm.sales">
+                            <td width="12%"><input type="checkbox" id="cb1" name="cb" value="">
+                                <label for="cb1"> </label><br></td>
+                            <td width="22%">{{sale.name}}</td>
+                            <td width="10%">{{sale.status}}</td>
+                            <td width="13%">{{sale.max}}</td>
+                            <td width="13%">{{sale.min}}</td>
+                            <td>{{sale.date}}</td>
+                            <td><a href="#">{{vm.text.label.col7}}</a></td>
+                            <td><a href="#">{{vm.text.label.col8}}</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="widthbtn4">
+                    <a href="#">
+                            <div class="btnnarbig">
+                                <div class="btntex2">
+                                    {{vm.text.button.birthday}}</div>
+                                <div class="btnnar">
+                                </div>
+        
+                            </div>
+                        </a>
+                <a href="#">
+                    <div class="btnnarbig">
+                        <div class="btntex">
+                            {{vm.text.button.add}}</div>
+                        <div class="btnnar">
+                        </div>
+
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            {{vm.text.button.back}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div class="btnrojobig">
+                        <div class="btntex2">
+                            {{vm.text.button.deleteSelected}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+
+            </div>
+
+
+
+
+        </div>
+        <!--end change -->
+
+    </div>
+</md-content>

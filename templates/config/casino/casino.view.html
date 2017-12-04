@@ -1,0 +1,72 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}</div>
+            </div>
+            <img ng-src="{{vm.logo}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+        <!--casino-->
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+
+            <h2>{{vm.text.label.legend}}</h2>
+
+            <div class="onecontents1">
+
+                <a href="#">
+                    <div class="btnagregar">
+                        <div class="btntex">
+                            {{vm.text.button.search}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <div class="logo">
+                    <img ng-src="{{vm.img}}" /> </div>
+            </div>
+
+            <!--Buttons-->
+            <div class="widthbtn2">
+
+                <a href="#" id="myBtn">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            {{vm.text.button.save}}
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div class="btnrojobig">
+                        <div class="btntex">
+                            {{vm.text.button.cancel}}
+                        </div>
+                        <div class="btnrojo">
+                        </div>
+
+                    </div>
+                </a>
+
+
+            </div>
+            <!--end Casino-->
+
+
+        </div>
+        <!--end change -->
+
+    </div>
+</md-content>

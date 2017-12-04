@@ -1,0 +1,76 @@
+<md-content ng-cloak="ng-cloak">
+  <div id="portada">
+
+    <!--VIEW START -->
+    <div class="contenedorpass">
+      <div class="login">
+        <h1>{{vm.text.label.toolbar}}
+        </h1>
+        <p ng-if="vm.typelogin">
+          {{vm.text.label.insertData}}
+        </p>
+        <p ng-if="!vm.typelogin">
+          {{vm.text.label.insertFinger}}
+        </p>
+        <p ng-if="vm.typelogin">
+          <input  style="width: 50%;" type="text" ng-model="vm.user.username" placeholder="{{vm.text.label.userInput}}" required=""
+          />
+        </p>
+        <p ng-if="vm.typelogin">
+          <input  style="width: 50%;" type="password" ng-model="vm.user.password" placeholder="{{vm.text.label.passInput}}" required=""
+          />
+        </p>
+        <p>&nbsp;</p>
+        <img ng-if="!vm.typelogin" ng-src="{{vm.fingerprint}}" style="padding-left: 32%;" />
+
+
+        <div class="btn" ng-if="vm.typelogin">
+          <div class="btnverdebig">
+            <div class="btntex" ng-disabled="!Form.$valid" ng-click="vm.login()">
+              {{vm.text.button.submit}}
+            </div>
+            <div class="btnverde">
+            </div>
+
+          </div>
+        </div>
+        <p ng-if="vm.typelogin && vm.reader" style="margin-top: 100px;" ng-click="vm.change();"><a href="#!/login">{{vm.text.button.finger}}</a></p>
+        <p ng-if="!vm.typelogin" ng-click="vm.change();"><a href="#!/login">{{vm.text.button.password}}</a></p>
+
+      </div>
+    </div>
+    <!--VIEW END -->
+
+    <!--Modal START -->
+    <div id="myModalLogin" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" ng-click="vm.close()">&times;</span>
+        <div class="alerta">
+
+          <img src="./assets/img/icon_alerta.png" /> </div>
+
+        <p>{{vm.message}}</p>
+
+        <div layout="row" layout-align="center center">
+
+          <a href="" ng-click="vm.close()">
+            <div class="btnverdebig" >
+              <div class="btntex">
+                Aceptar
+              </div>
+              <div class="btnverde">
+              </div>
+
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+    <!--Modal END -->
+
+  </div>
+</md-content>
