@@ -100,6 +100,16 @@
                 controller: 'employeeManagerCtrl',
                 controllerAs: 'vm'
             })
+            .when('/employeeManager/newUser', {
+                templateUrl: _templateBase + '/employeeManager/newUser/newUser.view.html',
+                controller: 'newUserCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/employeeManager/editUser', {
+                templateUrl: _templateBase + '/employeeManager/editUser/editUser.view.html',
+                controller: 'editUserCtrl',
+                controllerAs: 'vm'
+            })
             .when('/clientManager', {
                 templateUrl: _templateBase + '/clientManager/clientManager.view.html',
                 controller: 'clientManagerCtrl',

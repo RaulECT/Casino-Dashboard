@@ -29,8 +29,8 @@
       roleFactory.getRoles().then(function(x){
         if(x.success){
           x.data.forEach(function(item){
-            console.log(item);
-            item.name=vm.text.role[item.id];
+            /*console.log(item);
+            item.name=vm.text.role[item.id];*/
             vm.roles.push(item);
           });
         }

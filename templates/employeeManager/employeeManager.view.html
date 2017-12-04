@@ -11,18 +11,21 @@
         </div>
         <!--fin_imagen_top-->
 
+
         <!--casino-->
         <div class="contents">
             <h2>&nbsp;</h2>
             <!--<h2>{{vm.text.label.legend}}</h2>-->
-            <div class="tabla_top">
-                <table>
+            <div class="tabla_top"><input type="text" placeholder="Nombre del usuario" ng-model="vm.roleName" ng-change="vm.seachByName(vm.roleName)"></div>
+            <div class="tabla_top" style="height: 20px;">
+                    <table>
                     <tbody>
                         <tr>
                             <th width="15%">{{vm.text.label.col1}}</th>
                             <th width="23%">{{vm.text.label.col2}}</th>
-                            <th width="19%">{{vm.text.label.col3}}</th>
-                            <th width="25%">{{vm.text.label.col4}}</th>
+                            <th width="23%">{{vm.text.label.col3}}</th>
+                            <th width="19%">{{vm.text.label.col4}}</th>
+                            <th width="25%">{{vm.text.label.col5}}</th>
                         </tr>
                     </tbody>
                 </table>
@@ -33,11 +36,12 @@
                 <table>
                     <tbody>
                         <tr ng-repeat="user in vm.users">
-                            <td width="15%"><input type="checkbox" id="cb1" name="cb" value="">
-                                <label for="cb1">{{vm.text.label.col1}}</label><br></td>
+                            <td width="15%" ng-click="user.checked=vm.change(user.checked);"><input type="checkbox" id="user.userId"  ng-model="user.checked">
+                                <label for="cb1"></label><br></td>
                             <td width="23%">{{user.name}}</td>
-                            <td width="19%"><a href="#">{{vm.text.label.col3}}</a></td>
-                            <td width="25%"><a href="#">{{vm.text.label.col4}}</a></td>
+                            <td width="23%">{{user.roleName}}</td>
+                            <td width="19%"><a href="" ng-click="vm.edit(user)">{{vm.text.label.col4}}</a></td>
+                            <td width="25%"><a href="" ng-click="console.log(user.checked)">{{vm.text.label.col5}}</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -46,8 +50,8 @@
 
 
             <div class="widthbtn3">
-                <a href="#">
-                    <div class="btnnarbig">
+                <a href="">
+                    <div class="btnnarbig" ng-click="vm.go('/employeeManager/newUser')">
                         <div class="btntex">
                             {{vm.text.button.add}}</div>
                         <div class="btnnar">

@@ -63,7 +63,7 @@
       for(var i=0; i<vm.permissions.length;i++){
         role[vm.permissions[i]['id']]=vm.permissions[i]['value'];
       }
-      roleFactory.editRole({id:roleId, permissions:role}).then(function(x){
+      roleFactory.editRole({id:roleId, name:vm.roleName, permissions:role}).then(function(x){
         if(x.success){
           roleFactory.setRole(null);
           go('/roleManager');

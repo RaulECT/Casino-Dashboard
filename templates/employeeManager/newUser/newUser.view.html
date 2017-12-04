@@ -1,0 +1,211 @@
+<md-cotent>
+    <div id="interiores">
+        <div class="contenedor">
+            <!--imagen_top-->
+            <div class="imgtop">
+                <div class="divtitulos">
+                    <div class="titulos_menu">
+                        Registrar Usuario</div>
+                </div>
+                <img ng-src="{{vm.logo}}" />
+            </div>
+            <!--fin_imagen_top-->
+
+            <div class="contents">
+                <!--Datatos de Usuario-->
+                <div ng-if="vm.page1" class="contenidos1" layout="column" layout-aling="space-around center">
+
+
+                    <div flex style="height: 50px;">
+                        <input ng-model="vm.user.names"  type="text" placeholder="Nombres">
+                    </div>
+
+                    <div layout="row" layout-aling="space-around center" style="height: 50px;">
+                        <div flex>
+                            <input ng-model="vm.user.firstSurname"  type="text" placeholder="Primer apellido">
+                        </div>
+                        <div flex=5></div>
+                        <div flex>
+                            <input ng-model="vm.user.secondSurname"  type="text" placeholder="Segundo apellido">
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-aling="space-around center" style="height: 50px;">
+                        <div flex>
+                            <input ng-model="vm.user.username"  type="text" placeholder="Nombre de Usuario">
+                        </div>
+                        <div flex=5></div>
+                        <div flex>
+                            <input ng-model="vm.user.email"  type="email" placeholder="E-mail">
+                        </div>
+                    </div>
+                    <div layout="row" layout-aling="space-around center" style="height: 50px;">
+                        <div flex>
+                            <input ng-model="vm.user.password"  type="password" placeholder="Contraseña">
+                        </div>
+                        <div flex=5></div>
+                        <div flex>
+                            <input ng-model="vm.checkpassword"  type="password" placeholder="Repetir Contraseña">
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-aling="space-around center" style="height: 50px;">
+                        <div flex>
+                            <input ng-model="vm.user.birthday"  type="date" placeholder="Fecha de nacimiento">
+                        </div>
+                        <div flex=5></div>
+                        <div flex>
+                            <!-- <md-input-container class="roledrop" style="margin-right: 10px;  margin-top: -1px;">
+                                <label>Role</label> -->
+                            <md-select class="roledrop" placeholder="Role" ng-model="vm.user.roleId">
+                                <md-option ng-repeat="role in vm.roles" ng-value="role.id">
+                                    {{role.name}}
+                                </md-option>
+                            </md-select>
+                            <!--</md-input-container>-->
+                        </div>
+                    </div>
+
+                    <h2>&nbsp;</h2>
+
+                    <div layout="row" layout-aling="space-around center" style="height: 50px;" flex=50>
+                        <div class="titulos_menu" flex>Genero: </div>
+                        <md-radio-group class="formulario" ng-model="vm.user.gender" layout="row" flex>
+                            <md-radio-button flex value="M" class="md-primary">Masculino</md-radio-button>
+                            <md-radio-button flex value="F"> Femenino </md-radio-button>
+                        </md-radio-group>
+                    </div>
+
+
+                </div>
+
+                <!--Captura de Huellas-->
+                <div ng-if="!vm.page1" class="contenidos1" layout="column" layout-aling="space-around center">
+
+                    <div flex layout="row" layout-aling="space-around center">
+
+                        <div layout="column" flex>
+                            <div flex class="titulos_menu" style="margin: initial;">Indice Izquierdo</div>
+                            <div>
+                                <h4></h4>
+                            </div>
+                            <div flex ng-repeat="finger in vm.finger.lefth">
+                                <div layout="row" layout-aling="space-around center">
+                                    <label flex=5 style="color:white;">{{$index+1}}</label>
+                                    <md-button flex=50 class="md-primary" style="margin-top: -8px;" ng-click="vm.readFinger('lefth',$index+1)">Añadir Huella</md-button>
+                                    <label flex=50 style="color:white;" ng-if="finger.status"> {{finger.message}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div layout="column" flex>
+                            <div flex class="titulos_menu" style="margin: initial;">Indice Derecho</div>
+                            <div>
+                                <h4></h4>
+                            </div>
+                            <div flex ng-repeat="finger in vm.finger.rigth">
+                                <div layout="row" layout-aling="space-around center">
+                                    <label flex=5 style="color:white;">{{$index+1}}</label>
+                                    <md-button flex=50 class="md-primary" style="margin-top: -8px;" ng-click="vm.readFinger('rigth',$index+1)">Añadir Huella</md-button>
+                                    <label flex=50 style="color:white;" ng-if="finger.status"> {{finger.message}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <h2>&nbsp;</h2>
+                    <h2>&nbsp;</h2>
+                </div>
+
+                <h2>&nbsp;</h2>
+
+                <!--Botones-->
+                <div class="widthbtn2">
+                    <!--
+                    <a href="">
+                        <div class="btnnarbig" ng-click="vm.addFinger()">
+                            <div class="btntex">
+                                Añadir huellas
+                            </div>
+                            <div class="btnnar">
+                            </div>
+
+                        </div>
+                    </a>
+                    -->
+                    <a href="">
+                        <div class="btnverdebig" ng-click="vm.continuar(vm.page1)">
+                            <div class="btntex">
+                                Continuar
+                            </div>
+                            <div class="btnverde">
+                            </div>
+
+                        </div>
+                    </a>
+
+                    <a href="">
+                        <div class="btnrojobig" ng-click="vm.cancelar(vm.page1)">
+                            <div class="btntex">
+                                Cancelar
+                            </div>
+                            <div class="btnrojo">
+                            </div>
+
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="alerta">
+
+                <img src="./assets/img/icon_alerta.png" /> </div>
+
+            <p>{{vm.message}}</p>
+
+            <div div layout="row" layout-align="center center">
+
+                <a href="" ng-click="vm.close()" style="margin-left: 55px;">
+                    <div class="btnverdebig">
+                        <div class="btntex">
+                            Aceptar
+                        </div>
+                        <div class="btnverde">
+                        </div>
+
+                    </div>
+                </a>
+
+                <!--
+                                                        <a href="#">
+                                                            <div class="btnrojobig">
+                                                                <div class="btntex">
+                                                                    No
+                                                                </div>
+                                                                <div class="btnrojo">
+                                                                </div>
+                            
+                                                            </div>
+                                                        </a>
+                                                        -->
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- The Modal-fin -->
+</md-cotent>

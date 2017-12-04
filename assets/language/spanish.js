@@ -304,8 +304,9 @@
       legend: "Por favor asigne los valores deseados:",
       col1: "Seleccionar",
       col2: "Usuario",
-      col3: "Editar",
-      col4: "Eliminar"
+      col3: "Role",
+      col4: "Editar",
+      col5: "Eliminar"
     };
     button = {
       add: "Agregar",
