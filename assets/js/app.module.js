@@ -1,8 +1,8 @@
 var env = {};
 
 // Import variables if present (from env.js)
-if(window){  
-  Object.assign(env, window.__env);
+if (window) {
+    Object.assign(env, window.__env);
 }
 
 (function () {
@@ -19,7 +19,7 @@ if(window){
         //storeProvider.setStore('sessionStorage');
         fingerFactory.init();
         newFactory.enumerateDivices();
-        
+
         var sys = require('util')
         var exec = require('child_process').exec;
         var deviceId = {};
@@ -33,7 +33,7 @@ if(window){
                     if (bool === true) $location.path('/login');
                 }
             }
-            else{
+            else {
                 if (!token) $location.path('/login');
                 else {
                     var bool = jwtHelper.isTokenExpired(token);
@@ -64,15 +64,9 @@ if(window){
                     return;
                 }
                 deviceId.MotherBoardId = stdout.split("  \r\r\n")[1];
-                exec("wmic DISKDRIVE get SerialNumber", (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`exec error: ${error}`);
-                        return;
-                    }
-                    deviceId.HDDId = "WD-WXD1EA1UXJC3";//stdout.split("  \r\r\n")[1];
-                    store.set("diviceId", deviceId);
-                    console.log(deviceId);
-                });
+                store.set("diviceId", deviceId);
+                console.log(deviceId);
+
             });
         });
 

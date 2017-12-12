@@ -26,7 +26,9 @@
       clientManager: clientManager,
       sales: sales,
       statistics: statistics,
-      statisticsEmailManager: statisticsEmailManager
+      statisticsEmailManager: statisticsEmailManager,
+      history: history,
+      historyTill:historyTill
     };
 
     return text;
@@ -62,6 +64,7 @@
       clientManager: "Administración de clientes",
       sales: "Promociones",
       stadistics: "Estadísticas",
+      history: "Historial",
       logout: "Cerrar sesión"
 
     };
@@ -82,8 +85,8 @@
       schedule: "Horarios",
       others: "Otras entradas"
     };
-    button={back:"Atrás"};
-    return { label: label, button:button };
+    button = { back: "Atrás" };
+    return { label: label, button: button };
   };
 
   function configChips() {
@@ -221,16 +224,16 @@
       cancel: "Cancelar"
     };
 
-    role= {
+    role = {
       cashier: "Cajero",
       admin: "Administrador",
       hostess: "Hostess",
       pitboss: "Pitboss",
       dealer: "Dealer",
-      role1:"hola"
+      role1: "hola"
     };
 
-    permissions={
+    permissions = {
       adminModule: "Acceso a la app de administración.",
       consultCustomers: "Ver miembros.",
       createCustomers: "Crear miembros.",
@@ -243,7 +246,7 @@
       beAssignedToTableGame: "Atender mesa de juego",
       consultCustomerBalance: "Consular saldo de miembros"
     };
-    return { label: label, button: button, role: role, permissions: permissions};
+    return { label: label, button: button, role: role, permissions: permissions };
   };
 
   function roleManagerNewRole() {
@@ -256,7 +259,7 @@
       save: "Guardar",
       cancel: "Cancelar"
     };
-    permissions={
+    permissions = {
       adminModule: "Acceso a la app de administración.",
       consultCustomers: "Ver miembros.",
       createCustomers: "Crear miembros.",
@@ -282,7 +285,7 @@
       save: "Guardar",
       cancel: "Cancelar"
     };
-    permissions={
+    permissions = {
       adminModule: "Acceso a la app de administración.",
       consultCustomers: "Ver miembros.",
       createCustomers: "Crear miembros.",
@@ -379,7 +382,38 @@
     button = {
       newList: "Nuevo envio",
       back: "Atrás",
-      deleteSelected:"Eliminar selecionados"
+      deleteSelected: "Eliminar selecionados"
+    };
+    return { label: label, button: button };
+  };
+
+  function history() {
+    label = {
+      title: "Historial",
+      menu1: "Caja",
+      menu2: "Score",
+      menu3: "Hoy"
+    };
+
+    return { label: label };
+  };
+
+  function historyTill() {
+    label = {
+      title: "Historial caja",
+      filter: "Filtro:",
+      show: "Mostrar:",
+      col1: "Operación",
+      col2: "Denominación",
+      col3: "Monto",
+      col4: "Caja",
+      col5: "Origen",
+      col6: "Cajero",
+      col7: "Creado",
+    };
+    button = {
+
+      back: "Atrás",
     };
     return { label: label, button: button };
   }

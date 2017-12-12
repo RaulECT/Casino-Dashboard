@@ -174,8 +174,8 @@
 
     function showSaveModal(msj=false) {
       console.log("showModal");
-      if (vm.saved.status) vm.message = "Miembro añadido con exito.";
-      if (!vm.saved.status) vm.message = "Ocurrio un error añadir el usuario.";
+      if (vm.saved.status) vm.message = "Usuario editado con exito.";
+      if (!vm.saved.status) vm.message = "Ocurrio un error editar el usuario.";
       if(msj=="FingerprintsEnrollmentError")  vm.message="Hubo un error al crear el enrolamiento con las huellas. Por favor capture de nuevo todas las huellas.";
 
       modal.style.display = "block";
@@ -184,10 +184,12 @@
 
 
     function continuar() {
-      if (true) {
-        if (vm.user.names && vm.user.firstSurname && vm.user.secondSurname && vm.user.username && vm.user.password && vm.user.email && vm.user.birthday && vm.user.roleId && vm.user.gender) {
+        if (vm.user.names && vm.user.firstSurname && vm.user.secondSurname && vm.user.username && vm.user.email && vm.user.birthday && vm.user.roleId && vm.user.gender) {
           if ((vm.user.password && vm.user.password == vm.checkpassword) || (!vm.user.password && !vm.checkpassword)) {
             vm.user.birthday = convertDate(vm.user.birthday);
+            delete vm.user.name;
+            delete vm.user.roleName;
+            delete vm.user.checked;
             console.log(vm.user);
             employeeFactory.editUser(vm.user).then(function(response){
               console.log(response);
@@ -203,7 +205,7 @@
             
           }
         }
-      }
+      
 
     };
 

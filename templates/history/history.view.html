@@ -1,0 +1,40 @@
+<md-content id="interiores">
+    <div class="contenedor">
+
+        <!--imagen_top-->
+        <div class="imgtop">
+            <div class="divtitulos">
+                <div class="titulos_menu">
+                    {{vm.text.label.title}}
+                </div>
+            </div>
+            <img ng-src="{{vm.img}}" />
+        </div>
+        <!--fin_imagen_top-->
+
+
+        <div class="contents">
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+
+            <h2>&nbsp;</h2>
+            <h2>&nbsp;</h2>
+
+            <div class="menu1" ng-repeat="tile in vm.tiles" ng-click="tile.action(tile.go)" ng-if="tile.view" flex="33" style="margin-left:80px; height: 33px;">
+                <div class="divtitulos2">
+                    <div class="titulos">
+                        {{tile.footer}}
+                    </div>
+                </div>
+                <img ng-src="{{tile.icon}}" />
+            </div>
+
+        </div>
+    </div>
+
+
+    </div>
+
+</md-content>

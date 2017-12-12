@@ -5,9 +5,9 @@
 
     angular.module('app').config(routers);
 
-    routers.$inject = ['$routeProvider', "$httpProvider", 'jwtInterceptorProvider', 'jwtOptionsProvider', 'storeProvider'];
+    routers.$inject = ['$routeProvider', "$httpProvider", 'jwtInterceptorProvider', 'jwtOptionsProvider', 'storeProvider', '$mdThemingProvider'];
 
-    function routers($routeProvider, $httpProvider, jwtInterceptorProvider, jwtOptionsProvider, storeProvider) {
+    function routers($routeProvider, $httpProvider, jwtInterceptorProvider, jwtOptionsProvider, storeProvider, $mdThemingProvider) {
 
         storeProvider.setStore('sessionStorage');
         $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
@@ -23,6 +23,8 @@
         $httpProvider.interceptors.push('jwtInterceptor');
         //$httpProvider.interceptors.push(config.headers['Token']);
 
+        $mdThemingProvider.theme('default')
+        .primaryPalette('green')
 
         $routeProvider
             .when('/login', {
@@ -135,6 +137,17 @@
                 controller: 'showStatisticsCtrl',
                 controllerAs: 'vm'
             })
+            .when('/history', {
+                templateUrl: _templateBase + '/history/history.view.html',
+                controller: 'historyCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/history/till', {
+                templateUrl: _templateBase + '/history/till/till.view.html',
+                controller: 'historyTillCtrl',
+                controllerAs: 'vm'
+            })
+            
             
 
         $routeProvider.otherwise({ redirectTo: '/inicio' });

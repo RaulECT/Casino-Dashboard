@@ -59,6 +59,14 @@
         action: go,
         go: "/statistics"
       },
+      history:{
+        view:true,
+        icon: "./assets/img/menu_visualizar_esta.png",
+        class: "yellow",
+        footer:  vm.text.label.history,
+        action: go,
+        go: "/history"
+      },
       logout:{
         view:true,
         icon: "./assets/img/rcp_menu_log_out.png",
