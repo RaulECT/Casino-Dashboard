@@ -8,7 +8,7 @@
   // Base url
   window.__env.baseUrl = '/';
 
-  window.__env.appId= 'A2';
+  window.__env.appId= 'A7';
 
   window.__env.appType = "adminModule";
 

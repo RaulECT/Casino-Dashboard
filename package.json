@@ -1,7 +1,7 @@
 {
-  "name": "caja",
+  "name": "administacion",
   "version": "1.0.0",
-  "description": "caja casinos",
+  "description": "administación casinos",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -16,11 +16,11 @@
     "url": "http://springlabs.net/"
   },
   "build": {
-    "appId": "springlabs.casino.caja",
-    "productName": "caja",
+    "appId": "springlabs.casino.admin",
+    "productName": "admin",
     "compression": "maximum",
     "win": {
-      "icon": "./build/casino.ico"
+      "icon": "./assets/img/casino_configuracion.ico"
     }
   },
   "devDependencies": {
@@ -32,6 +32,7 @@
     "binascii": "0.0.1",
     "data-table": "^2.0.0",
     "request-promise": "^4.2.1",
-    "serialport": "^4.0.7"
+    "serialport": "^4.0.7",
+    "yarn": "^1.3.2"
   }
 }
