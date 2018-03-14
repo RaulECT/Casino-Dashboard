@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
+import { HashRouter, Route } from 'react-router-dom'
+import Login from './pages/Login.jsx'
 
 class App extends Component {
   render() {
     return(
-      <div>
-        React base project
-      </div>
+      <HashRouter>
+        <Route exact path="/" component = {Login} />
+      </HashRouter>
     )
   }
 }

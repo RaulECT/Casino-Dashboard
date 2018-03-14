@@ -11,7 +11,7 @@ class Login extends Component {
     super( props )
 
     this.state = {
-      wrongCredentials = false
+      wrongCredentials: false
     }
   }
 
