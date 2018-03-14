@@ -29,8 +29,7 @@ class Login extends Component {
             xs={{span: 24, offset: 0}}
           >
             <div className="form-section">
-              <h1 className="login-title">Casino Administrador</h1>
-              <p className="login-subtitle">Inicia Sesión</p>
+              <h1 className="login-title">Administrador del Casino</h1>
 
               <Form
                 className="login-form"

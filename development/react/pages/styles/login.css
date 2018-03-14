@@ -1,0 +1,46 @@
+.ant-row{
+  flex-grow: 1;
+}
+
+.login-background{
+  min-height: 100vh;
+  min-height: 100vh;
+  background-color: #F0F2F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-title{
+  font-size: 33px;
+  color: rgba(0,0,0,.85);
+  font-family: Myriad Pro,Helvetica Neue,Arial,Helvetica,sans-serif;
+  font-weight: 600;
+  position: relative;
+  top: 2px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: rgba(0,0,0,.45);
+  margin-top: 12px;
+  margin-bottom: 40px;
+}
+
+.form-section {
+  background-color: #FFFFFF;
+  text-align: center;
+  color: rgba(0,0,0, .25);
+  padding: 50px 40px 50px 40px;
+  margin: auto;
+  width: 457px;
+}
+
+.form-section form{
+  margin-top: 60px;
+}
+
+.login-form-button{
+  margin-top: 60px;
+  width: 100%;
+}
