@@ -11,13 +11,67 @@ class Login extends Component {
     super( props )
 
     this.state = {
-      wrongCredentials: false
+      wrongCredentials: false,
+      errorMessage: '',
+      isShowingSpin: false
     }
+
+    this.api = new Api()
+    this.handleLoginSubmit = this.handleLoginSubmit.bind( this )
+    this.handleLoadingSpin = this.handleLoadingSpin.bind( this )
+    this.redirectToDashboard = this.redirectToDashboard.bind( this )
+  }
+
+  handleLoginSubmit( event ) {
+    event.preventDefault()
+
+    this.props.form.validateFields( ( error, values ) => {
+      if ( !error ) {
+        this.handleLoadingSpin()
+
+        this.api.passwordLogin( values.userName, values.password )
+          .then( response => {
+            //console.log( response.data )
+            this.handleLoadingSpin()
+            if ( response.data.success ) {
+              this.redirectToDashboard( response.data )
+            } else {
+              this.setState( {
+                wrongCredentials: true,
+                errorMessage: response.data.message.charAt(0).toUpperCase() + response.data.message.slice(1), // Convert first letter to uppercase
+                isShowingSpin: this.state.isShowingSpin
+              } )
+            }
+          } )
+          .catch( error => {
+            this.handleLoadingSpin()
+            //TODO: Implement errors handling
+          } )
+      } 
+    } )
+  }
+
+  redirectToDashboard( data ) {
+    localStorage.setItem( 'token', data.result.token )
+    
+    // TODO: Router Redirect to /dashboard
+  }
+
+  handleLoadingSpin() {
+    this.setState( {
+      wrongCredentials: this.state.wrongCredentials,
+      errorMessage: this.state.errorMessage,
+      isShowingSpin: !this.state.isShowingSpin
+    } )
   }
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const errorMsg = this.state.wrongCredentials ? <Alert message="User or password incorrect, try again." type="error" showIcon />: ''
+    const errorMsg = this.state.wrongCredentials ? <Alert style={ { textAlign: 'left' } } message={this.state.errorMessage} type="error" showIcon />: ''
+    const loadinSpin = this.state.isShowingSpin ? 
+      (<div className="loading-section">
+        <Icon className="loading-icon" type="loading" />
+      </div> ) : ''
 
     return(
       <div className="login-background">
@@ -29,16 +83,17 @@ class Login extends Component {
             xs={{span: 24, offset: 0}}
           >
             <div className="form-section">
-              <h1 className="login-title">Administrador del Casino</h1>
+              <h1 className="login-title">Casino Dashboard</h1>
 
               <Form
+                onSubmit={this.handleLoginSubmit}
                 className="login-form"
               >
                 <FormItem>
                   {getFieldDecorator('userName', {
                     rules: [{ required: true, message: 'Please input your Email!' }],
                   })(
-                    <Input size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Ingrese su Usuario" />
+                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                   )}
                 </FormItem>
 
@@ -46,15 +101,16 @@ class Login extends Component {
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: 'Please input your Password!' }],
                   })(
-                    <Input size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Ingrese su contraseña" />
+                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                   )}
                 </FormItem>
 
                 { errorMsg }
+                { loadinSpin }
 
                 <FormItem>
-                  <Button size="large" type="primary" htmlType="submit" className="login-form-button">
-                    Iniciar Sesión
+                  <Button disabled={this.state.isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
+                    Log In
                   </Button>
                 </FormItem>
               </Form>
