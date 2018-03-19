@@ -22,6 +22,12 @@ class Login extends Component {
     this.redirectToDashboard = this.redirectToDashboard.bind( this )
   }
 
+  componentWillMount() {
+    if ( localStorage.isLogin == 'true' ) {
+      // TODO: Router redirectt to /dashboard
+    }
+  }
+
   handleLoginSubmit( event ) {
     event.preventDefault()
 
@@ -53,6 +59,7 @@ class Login extends Component {
 
   redirectToDashboard( data ) {
     localStorage.setItem( 'token', data.result.token )
+    localStorage.setItem( 'isLogin', 'true' )
     
     // TODO: Router Redirect to /dashboard
   }
