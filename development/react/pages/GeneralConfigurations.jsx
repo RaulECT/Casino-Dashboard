@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Layout, Menu, Icon, Avatar, Divider, Select, Modal, Tooltip, Dropdown } from 'antd'
 import GlobalHeader from './GloablHeader.jsx'
+import PageHeader from './PageHeader.jsx'
 import './styles/configurations.css'
 
 const { Header, Sider, Content } = Layout
@@ -100,6 +101,11 @@ class Generalconfigurations extends Component {
           <GlobalHeader 
             toggle = {this.toggle} 
             collapsed = {this.state.collapsed} 
+          />
+
+          <PageHeader
+            path = { ['Configuración General', 'Fichas'] }
+            title = "Fichas"
           />
         </Layout>
       </Layout>
