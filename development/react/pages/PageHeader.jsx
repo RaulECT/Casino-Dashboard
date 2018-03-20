@@ -9,9 +9,9 @@ class PageHeader extends Component {
         <Breadcrumb className="breadcrumb">
           <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
           {
-            this.props.path.map( item => {
+            this.props.path.map( (item, index) => {
               return(
-                <Breadcrumb.Item>{item}</Breadcrumb.Item>
+                <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
               )
             } )
           }

@@ -1,11 +1,26 @@
 import React, {Component} from 'react'
-import { Layout, Menu, Icon, Avatar, Divider, Select, Modal, Tooltip, Dropdown } from 'antd'
+import { Layout, 
+  Menu, 
+  Icon, 
+  Avatar, 
+  Divider, 
+  Select, 
+  Modal, 
+  Tooltip, 
+  Dropdown, 
+  InputNumber,
+  Row, 
+  Form,
+  Col } from 'antd'
 import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 import './styles/configurations.css'
 
+import aquaChip from './images/poker-chip-aqua.png'
+
 const { Header, Sider, Content } = Layout
 const SubMenu = Menu.SubMenu
+const FormItem = Form.Item
 
 class Generalconfigurations extends Component {
   constructor( props ) {
@@ -107,10 +122,33 @@ class Generalconfigurations extends Component {
             path = { ['Configuración General', 'Fichas'] }
             title = "Fichas"
           />
+
+          <div className="dashboard-content">
+
+            <Form>
+              <Row>
+                <Col span={4}>
+                  <div className="chip-container">
+                    <img className="chip-image" src={aquaChip} alt=""/>
+                    <FormItem
+                      label="Valor"
+                      className="chip-form"
+                    >
+                      <InputNumber className="chip-input" min={1} defaultValue={3} />
+                    </FormItem>
+                    
+                  </div>
+                  
+                </Col>
+              </Row>
+            </Form>
+          </div>
         </Layout>
       </Layout>
     )
   }
 }
+
+
 
 module.exports = Generalconfigurations
