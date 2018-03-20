@@ -1,0 +1,89 @@
+.dashboard-header{
+  background: #FFFFFF !important;
+  height: 64px !important;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+  position: relative;
+  padding: 0 12px 0 0 !important;
+}
+
+.header-right-menu {
+  float: right;
+  height: 100%;
+}
+
+.header-right-menu .action {
+  cursor: pointer;
+  padding: 0 12px;
+  display: inline-block;
+  transition: all .3s;
+  height: 100%;
+}
+
+.header-right-menu .action > i {
+  font-size: 16px;
+  vertical-align: middle;
+  color: rgba(0,0,0,.65);
+}
+
+.header-right-menu .action:hover {
+  background: #e6f7ff;
+}
+
+.header-right-menu .account .avatar {
+  margin: 20px 8px 20px 0;
+  color: #1890ff;
+  background: hsla(0,0%,100%,.85);
+  vertical-align: middle;
+}
+
+.user-menu .anticon {
+  margin-right: 8px;
+}
+
+.user-menu .ant-dropdown-menu-item {
+  width: 160px;
+}
+
+i.trigger {
+  font-size: 20px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: all .3s, padding 0s;
+  padding: 0 24px;
+}
+
+.trigger:hover {
+  background: #e6f7ff;
+}
+
+.dashboard-header h1 {
+  float: right;
+  color: rgba(0,0,0,.25);
+}
+
+.dashboard-content {
+  margin: 24px 16px;
+  padding: 24px;
+  background: #FFFFFF;
+}
+
+.logo {
+  color: #ffffff;
+  padding: 10px 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.login-error-message {
+  color: red;
+  margin: 0;
+}
+
+.data-table {
+  margin-top: 20px;
+}
+
+.logout-icon {
+  font-size: 20px;
+  margin-left: 20px;
+}

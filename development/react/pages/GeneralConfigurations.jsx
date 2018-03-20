@@ -14,9 +14,40 @@ class Generalconfigurations extends Component {
       isLogOutModalShowing: false,
       isMobile: false
     }
+
+    this.logOutUser = this.logOutUser.bind( this )
+    this.showLogOutModal = this.showLogOutModal.bind( this )
+    this.toggle = this.toggle.bind( this )
+  }
+
+  logOutUser() {
+
+  }
+
+  showLogOutModal() {
+    this.setState( {
+      collapsed: this.state.collapsed,
+      isLogOutModalShowing: !this.state.isLogOutModalShowing,
+      isMobile: this.state.isMobile
+    } )
+  }
+
+  toggle() {
+    this.setState( {
+      collapsed: !this.state.collapsed,
+      isLogOutModalShowing: this.state.isLogOutModalShowing,
+      isMobile: this.state.isMobile
+    } )
   }
 
   render() {
+    const hoverMenu = (
+      <Menu className="user-menu" selectedKeys={[]} onClick={this.showLogOutModal}>
+        <Menu.Divider />
+        <Menu.Item key="logout"><Icon type="logout" onClick={this.showLogOutModal} />Cerrar Sesión</Menu.Item>
+      </Menu>
+    )
+
     return(
       <Layout className="dashboard-layout">
         <Sider
@@ -85,6 +116,36 @@ class Generalconfigurations extends Component {
           </Menu>
 
         </Sider>
+
+        <Layout>
+          <Header className="dashboard-header">
+            <Icon
+              className="trigger"
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+
+            <div className="header-right-menu">
+              <Dropdown overlay={hoverMenu}>
+                <span className="action account">
+                  <Avatar size="small" className="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
+                  <span className="name">Usuario</span>
+                </span>
+              </Dropdown>
+
+              <Modal
+                title="Cerrar Sesión"
+                visible={this.state.isLogOutModalShowing}
+                onOk={this.logOutUser}
+                onCancel={this.showLogOutModal}
+              >
+                <p>¿Deseas cerrar sesión?</p>
+              
+              </Modal>
+            </div>
+
+          </Header>
+        </Layout>
       </Layout>
     )
   }
