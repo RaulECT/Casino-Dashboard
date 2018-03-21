@@ -16,7 +16,7 @@ import { Layout,
 import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
-import ChipsSection from './ChipsSection.jsx'
+import ChipsSection from './Chips/ChipsSection.jsx'
 import './styles/configurations.css'
 
 

@@ -8,17 +8,17 @@ import {
   Alert,
   Modal
 } from 'antd'
-import Api from '../controllers/Api'
+import Api from '../../controllers/Api'
 
-import aquaChip from './images/poker-chip-aqua.png'
-import blackChip from './images/poker-chip-black.png'
-import blueChip from './images/poker-chip-blue.png'
-import greenChip from './images/poker-chip-green.png'
-import orangeChip from './images/poker-chip-orange.png'
-import pinkChip from './images/poker-chip-pink.png'
-import purpleChip from './images/poker-chip-purple.png'
-import redChip from './images/poker-chip-red.png'
-import grayChip from './images/poker-chip-gray.png'
+import aquaChip from './../images/poker-chip-aqua.png'
+import blackChip from './../images/poker-chip-black.png'
+import blueChip from './../images/poker-chip-blue.png'
+import greenChip from './../images/poker-chip-green.png'
+import orangeChip from './../images/poker-chip-orange.png'
+import pinkChip from './../images/poker-chip-pink.png'
+import purpleChip from './../images/poker-chip-purple.png'
+import redChip from './../images/poker-chip-red.png'
+import grayChip from './../images/poker-chip-gray.png'
 
 const FormItem = Form.Item
 
