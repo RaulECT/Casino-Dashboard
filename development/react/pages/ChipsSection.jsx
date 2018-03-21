@@ -28,6 +28,7 @@ class ChipsSection extends Component {
 
     this.state = {
       valueChange: false,
+      successOperation : false,
       isModalVisible: false
     }
 
@@ -104,6 +105,7 @@ class ChipsSection extends Component {
     if ( !this.state.valueChange ) {
       this.setState( {
         valueChange: !this.state.valueChange,
+        successOperation: false,
         isModalVisible: this.state.isModalVisible
       } )
     }
@@ -112,6 +114,7 @@ class ChipsSection extends Component {
   handleModal() {
     this.setState( {
       valueChange: this.state.valueChange,
+      successOperation: this.state.successOperation,
       isModalVisible: !this.state.isModalVisible
     } )
   }
@@ -125,6 +128,11 @@ class ChipsSection extends Component {
         this.api.updateChipsValues( chips )
           .then( response => {
             console.log( response )
+            this.setState( {
+              valueChange: false,
+              successOperation: true,
+              isModalVisible: this.state.isModalVisible
+            } )
           } )
           .catch( err => {
             console.log( err )
@@ -140,10 +148,12 @@ class ChipsSection extends Component {
     const { getFieldDecorator } = this.props.form
     const { setFieldsValue } = this.props.form
     const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    
+    const successMessage = this.state.successOperation ? (<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+
     return(
       <Form onSubmit={this.handleSubmit}>
         {changeMessage}
+        {successMessage}
 
         <Row style={{marginTop: '40px', marginBottom: '70px'}}>
           <Col span={4}>
