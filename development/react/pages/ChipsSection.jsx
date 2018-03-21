@@ -4,7 +4,8 @@ import {
   Form,
   Row,
   Col,
-  Button
+  Button,
+  Alert
 } from 'antd'
 
 import aquaChip from './images/poker-chip-aqua.png'
@@ -20,14 +21,42 @@ import grayChip from './images/poker-chip-gray.png'
 const FormItem = Form.Item
 
 class ChipsSection extends Component {
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      valueChange: false
+    }
+
+    this.handleValueChange = this.handleValueChange.bind( this )
+  }
+
+  handleValueChange( newValue ) {
+    if ( !this.state.valueChange ) {
+      this.setState( {
+        valueChange: !this.state.valueChange
+      } )
+    }
+
+    console.log(newValue)
+  }
+
   render() {
+    //(<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />)
+    
+    //(<Alert style={{width: 'max-content'}} message="Error" type="error" showIcon />)
+
+    const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     return(
       <Form>
+        {changeMessage}
+
         <Row style={{marginTop: '40px', marginBottom: '70px'}}>
           <Col span={4}>
             <ChipItem 
               img={aquaChip}
               value={1}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -35,6 +64,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={blackChip}
               value={2}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -42,6 +72,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={blueChip}
               value={5}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -49,6 +80,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={greenChip}
               value={10}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -56,6 +88,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={orangeChip}
               value={20}
+              valueChange={this.handleValueChange}
             />         
           </Col>
         </Row>
@@ -65,6 +98,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={pinkChip}
               value={50}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -72,6 +106,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={purpleChip}
               value={100}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -79,6 +114,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={redChip}
               value={200}
+              valueChange={this.handleValueChange}
             />         
           </Col>
 
@@ -86,6 +122,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={grayChip}
               value={500}
+              valueChange={this.handleValueChange}
             />         
           </Col>
         </Row>

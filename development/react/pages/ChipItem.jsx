@@ -12,7 +12,12 @@ class ChipItem extends Component {
           label="Valor"
           className="chip-form"
         >
-          <InputNumber className="chip-input" min={1} defaultValue={this.props.value}/>
+          <InputNumber 
+            className="chip-input" 
+            min={1} 
+            defaultValue={this.props.value}
+            onChange={this.props.valueChange}
+          />
         </FormItem>
       </div>
     )
