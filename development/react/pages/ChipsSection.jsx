@@ -5,7 +5,8 @@ import {
   Row,
   Col,
   Button,
-  Alert
+  Alert,
+  Modal
 } from 'antd'
 import Api from '../controllers/Api'
 
@@ -26,13 +27,15 @@ class ChipsSection extends Component {
     super( props )
 
     this.state = {
-      valueChange: false
+      valueChange: false,
+      isModalVisible: false
     }
 
     this.api = new Api()
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleValueChange = this.handleValueChange.bind( this )
-    
+    this.handleModal = this.handleModal.bind( this )
+    this.updateChipsValues = this.updateChipsValues.bind( this )
   }
 
   componentWillMount() {
@@ -52,24 +55,34 @@ class ChipsSection extends Component {
 
   handleSubmit( event ) {
     event.preventDefault()
-
+    this.handleModal()
     //console.log( this.props.form.getFieldsValue() )
-    this.props.form.validateFields((err, values) => {
+    /*this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(values)
       }
-    })
+    })*/
 
   }
 
   handleValueChange( newValue ) {
     if ( !this.state.valueChange ) {
       this.setState( {
-        valueChange: !this.state.valueChange
+        valueChange: !this.state.valueChange,
+        isModalVisible: this.state.isModalVisible
       } )
     }
+  }
 
-    console.log(newValue)
+  handleModal() {
+    this.setState( {
+      valueChange: this.state.valueChange,
+      isModalVisible: !this.state.isModalVisible
+    } )
+  }
+
+  updateChipsValues() {
+
   }
 
   render() {
@@ -173,6 +186,16 @@ class ChipsSection extends Component {
           <Button disabled={!this.state.valueChange} size="large" type="primary" htmlType="submit" icon="save">
             Guardar Cambios
           </Button>
+
+          <Modal
+            title="Actualizar Fichas"
+            visible={this.state.isModalVisible}
+            onOk={this.updateChipsValues}
+            onCancel={this.handleModal}
+          >
+            <p>¿Desea actualizar los valores de las fichas?</p>
+              
+          </Modal>
         </FormItem>
       </Form>
     )
