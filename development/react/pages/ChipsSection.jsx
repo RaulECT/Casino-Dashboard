@@ -35,24 +35,19 @@ class ChipsSection extends Component {
     
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.api.getChips()
       .then( response => {
-        console.log( response )
+        response.map( element => {
+          var item = {}
+          item[ element.color ] = element.value
+          this.props.form.setFieldsValue( item )
+        } )
       } )
       .catch( err => {
         console.log(err)
       } )
 
-    this.props.form.setFieldsValue( { aqua: 1 } )
-    this.props.form.setFieldsValue( { black: 2 } )
-    this.props.form.setFieldsValue( { blue: 5 } )
-    this.props.form.setFieldsValue( { gray: 500 } )
-    this.props.form.setFieldsValue( { green: 10 } )
-    this.props.form.setFieldsValue( { orange: 20 } )
-    this.props.form.setFieldsValue( { pink: 50 } )
-    this.props.form.setFieldsValue( { purple: 100 } )
-    this.props.form.setFieldsValue( { red: 200 } )
   }
 
   handleSubmit( event ) {
@@ -168,7 +163,7 @@ class ChipsSection extends Component {
             <ChipItem 
               img={grayChip}
               valueChange={this.handleValueChange}
-              chip = "gray"
+              chip = "white"
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
