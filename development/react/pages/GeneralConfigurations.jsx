@@ -30,16 +30,67 @@ class Generalconfigurations extends Component {
 
     this.state = {
       collapsed: false,
-      isMobile: false
+      isMobile: false,
+      actualPanel: 'Fichas'
     }
 
+    this.changePanel = this.changePanel.bind( this )
     this.toggle = this.toggle.bind( this )
+  }
+
+  changePanel( panel ) {
+    switch ( panel.key ) {
+      case '2':
+        this.setState( {
+          collapsed: this.state.collapsed,
+          isMobile: this.state.isMobile,
+          actualPanel: 'Fichas'
+        } )
+        break;
+
+      case '3':
+        this.setState( {
+          collapsed: this.state.collapsed,
+          isMobile: this.state.isMobile,
+          actualPanel: 'Montos rápidos'
+        } )
+        break;
+
+      case '4':
+        this.setState( {
+          collapsed: this.state.collapsed,
+          isMobile: this.state.isMobile,
+          actualPanel: 'Tipo de cambio'
+        } )
+        break;
+
+      case '5':
+        this.setState( {
+          collapsed: this.state.collapsed,
+          isMobile: this.state.isMobile,
+          actualPanel: 'Precio de Membresía'
+        } )
+        break;
+        
+      case '6':
+        this.setState( {
+          collapsed: this.state.collapsed,
+          isMobile: this.state.isMobile,
+          actualPanel: 'Horarios'
+        } )
+        break;
+    
+      default:
+        break;
+    }
+    
   }
 
   toggle() {
     this.setState( {
       collapsed: !this.state.collapsed,
-      isMobile: this.state.isMobile
+      isMobile: this.state.isMobile,
+      actualPanel: this.state.actualPanel
     } )
   }
 
@@ -65,6 +116,7 @@ class Generalconfigurations extends Component {
             style={{ padding: '16px 0', width: '100%' }} 
             defaultSelectedKeys={['2']}
             defaultOpenKeys={['sub2']}
+            onSelect = { this.changePanel }
           >
             <Menu.Item key="1">
               <Icon type="dashboard" />
@@ -75,6 +127,7 @@ class Generalconfigurations extends Component {
               key="sub2"
               title={<span><Icon type="setting" /><span>Configuración General</span></span>}
             >
+            
               <Menu.Item key="2">Fichas</Menu.Item>
               <Menu.Item key="3">Montos rápidos</Menu.Item>
               <Menu.Item key="4">Tipo de cambio</Menu.Item>
@@ -121,8 +174,8 @@ class Generalconfigurations extends Component {
           />
 
           <PageHeader
-            path = { ['Configuración General', 'Fichas'] }
-            title = "Fichas"
+            path = { ['Configuración General', this.state.actualPanel] }
+            title = {this.state.actualPanel}
           />
 
           <div className="dashboard-content">
