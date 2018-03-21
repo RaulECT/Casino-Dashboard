@@ -28,7 +28,32 @@ class ChipsSection extends Component {
       valueChange: false
     }
 
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleValueChange = this.handleValueChange.bind( this )
+  }
+
+  componentDidMount() {
+    this.props.form.setFieldsValue( { aqua: 1 } )
+    this.props.form.setFieldsValue( { black: 2 } )
+    this.props.form.setFieldsValue( { blue: 5 } )
+    this.props.form.setFieldsValue( { gray: 500 } )
+    this.props.form.setFieldsValue( { green: 10 } )
+    this.props.form.setFieldsValue( { orange: 20 } )
+    this.props.form.setFieldsValue( { pink: 50 } )
+    this.props.form.setFieldsValue( { purple: 100 } )
+    this.props.form.setFieldsValue( { red: 200 } )
+  }
+
+  handleSubmit( event ) {
+    event.preventDefault()
+
+    console.log( this.props.form.getFieldsValue() )
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    })
+
   }
 
   handleValueChange( newValue ) {
@@ -45,50 +70,57 @@ class ChipsSection extends Component {
     //(<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />)
     
     //(<Alert style={{width: 'max-content'}} message="Error" type="error" showIcon />)
-
+    const { getFieldDecorator } = this.props.form
+    const { setFieldsValue } = this.props.form
     const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    
     return(
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         {changeMessage}
 
         <Row style={{marginTop: '40px', marginBottom: '70px'}}>
           <Col span={4}>
             <ChipItem 
               img={aquaChip}
-              value={1}
               valueChange={this.handleValueChange}
+              chip = "aqua"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={4} offset={1}>
             <ChipItem 
               img={blackChip}
-              value={2}
               valueChange={this.handleValueChange}
+              chip = "black"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={4} offset={1}>
             <ChipItem 
               img={blueChip}
-              value={5}
               valueChange={this.handleValueChange}
+              chip = "blue"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={4} offset={1}>
             <ChipItem 
               img={greenChip}
-              value={10}
               valueChange={this.handleValueChange}
+              chip = "green"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={4} offset={1}>
             <ChipItem 
               img={orangeChip}
-              value={20}
               valueChange={this.handleValueChange}
+              chip = "orange"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
         </Row>
@@ -97,38 +129,42 @@ class ChipsSection extends Component {
           <Col span={6}>
             <ChipItem 
               img={pinkChip}
-              value={50}
               valueChange={this.handleValueChange}
+              chip = "pink"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={6}>
             <ChipItem 
               img={purpleChip}
-              value={100}
               valueChange={this.handleValueChange}
+              chip = "purple"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={6}>
             <ChipItem 
               img={redChip}
-              value={200}
               valueChange={this.handleValueChange}
+              chip = "red"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
 
           <Col span={6}>
             <ChipItem 
               img={grayChip}
-              value={500}
               valueChange={this.handleValueChange}
+              chip = "gray"
+              fieldDecorator = {getFieldDecorator}
             />         
           </Col>
         </Row>
 
         <FormItem style={{textAlign: 'center'}}>
-          <Button size="large" type="primary" htmlType="submit" icon="save">
+          <Button disabled={!this.state.valueChange} size="large" type="primary" htmlType="submit" icon="save">
             Guardar Cambios
           </Button>
         </FormItem>
@@ -137,4 +173,5 @@ class ChipsSection extends Component {
   }
 }
 
-module.exports = ChipsSection
+const WrappedChipsForm = Form.create()(ChipsSection);
+module.exports = WrappedChipsForm
