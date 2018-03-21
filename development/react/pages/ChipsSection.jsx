@@ -32,6 +32,7 @@ class ChipsSection extends Component {
     }
 
     this.api = new Api()
+    this.formatChipsData = this.formatChipsData.bind( this )
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleValueChange = this.handleValueChange.bind( this )
     this.handleModal = this.handleModal.bind( this )
@@ -53,16 +54,50 @@ class ChipsSection extends Component {
 
   }
 
+  formatChipsData( values ) {
+    return [
+      {
+        "color":  "aqua" ,
+        "value": values.aqua
+      },
+      {
+        "color":  "black" ,
+        "value": values.black
+      },
+      {
+        "color":  "blue" ,
+        "value": values.blue
+      },
+      {
+        "color":  "green" ,
+        "value": values.green
+      },
+      {
+        "color":  "orange" ,
+        "value": values.orange
+      },
+      {
+        "color":  "pink" ,
+        "value": values.pink
+      },
+      {
+        "color":  "purple" ,
+        "value": values.purple
+      } ,
+      {
+        "color":  "red" ,
+        "value": values.red
+      },
+      {
+        "color":  "white" ,
+        "value": values.white
+      }
+    ]
+  }
+
   handleSubmit( event ) {
     event.preventDefault()
     this.handleModal()
-    //console.log( this.props.form.getFieldsValue() )
-    /*this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log(values)
-      }
-    })*/
-
   }
 
   handleValueChange( newValue ) {
@@ -82,7 +117,13 @@ class ChipsSection extends Component {
   }
 
   updateChipsValues() {
-
+    //console.log( this.props.form.getFieldsValue() )
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const chips = this.formatChipsData( values )
+        console.log(chips)
+      }
+    })
   }
 
   render() {
