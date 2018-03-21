@@ -19,7 +19,7 @@ class ChipItem extends Component {
           className="chip-form"
         >
           {this.props.fieldDecorator(this.props.chip, {
-            rules: [{ required: true, message: 'Please input your Email!' }],
+            rules: [{ required: true, message: 'Ingrese un valor!' }],
           })(
             <InputNumber 
               className="chip-input" 

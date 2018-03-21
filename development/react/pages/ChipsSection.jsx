@@ -47,7 +47,7 @@ class ChipsSection extends Component {
   handleSubmit( event ) {
     event.preventDefault()
 
-    console.log( this.props.form.getFieldsValue() )
+    //console.log( this.props.form.getFieldsValue() )
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log(values)
@@ -125,7 +125,7 @@ class ChipsSection extends Component {
           </Col>
         </Row>
 
-        <Row style={{marginBottom: '70px'}}>
+        <Row style={{marginBottom: '60px'}}>
           <Col span={6}>
             <ChipItem 
               img={pinkChip}
