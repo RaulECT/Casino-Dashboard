@@ -7,6 +7,7 @@ import {
   Button,
   Alert
 } from 'antd'
+import Api from '../controllers/Api'
 
 import aquaChip from './images/poker-chip-aqua.png'
 import blackChip from './images/poker-chip-black.png'
@@ -28,11 +29,21 @@ class ChipsSection extends Component {
       valueChange: false
     }
 
+    this.api = new Api()
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleValueChange = this.handleValueChange.bind( this )
+    
   }
 
   componentDidMount() {
+    this.api.getChips()
+      .then( response => {
+        console.log( response )
+      } )
+      .catch( err => {
+        console.log(err)
+      } )
+
     this.props.form.setFieldsValue( { aqua: 1 } )
     this.props.form.setFieldsValue( { black: 2 } )
     this.props.form.setFieldsValue( { blue: 5 } )
