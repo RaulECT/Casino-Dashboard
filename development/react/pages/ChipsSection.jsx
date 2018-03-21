@@ -120,8 +120,15 @@ class ChipsSection extends Component {
     //console.log( this.props.form.getFieldsValue() )
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        this.handleModal()
         const chips = this.formatChipsData( values )
-        console.log(chips)
+        this.api.updateChipsValues( chips )
+          .then( response => {
+            console.log( response )
+          } )
+          .catch( err => {
+            console.log( err )
+          } )
       }
     })
   }

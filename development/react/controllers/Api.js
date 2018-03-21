@@ -8,6 +8,7 @@ class Api {
     this.appID = 'A2'
     this.deviceID = 'eyJQcm9jZXNzb3JJZCI6IkJGRUJGQkZGMDAwMzA2QTkiLCJNb3RoZXJCb2FyZElkIjoiQzlOMENKODU3NTkwMzczIn0='
   
+    this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyMTY1MjkzNCwiZXhwIjoxNTIxNjgxNzM0fQ._8H7bLeutUq7ksi-hycoESgTOJk9qE4BH2l939SF-GA'
     this.config = {}
     this.getConfiguration()
     
@@ -31,6 +32,16 @@ class Api {
       .catch( err => {
         reject( err )
       } )
+    } )
+  }
+
+  updateChipsValues( values ) {
+    return axios.post( `${this.apiURL}/admin/edit_config`, {
+      appId: this.appID,
+      chips: values
+    },
+    {
+      headers: { token: this.token}
     } )
   }
 
