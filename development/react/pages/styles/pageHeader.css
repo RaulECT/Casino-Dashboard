@@ -26,21 +26,4 @@
   color: rgba(0,0,0,.85);
 }
 
-.chip-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
 
-.chip-form {
-  margin-top: 20px !important;
-}
-
-.chip-image {
-  width: 97px;
-}
-
-.chip-form .ant-form-item-label, .chip-form .ant-form-item-control-wrapper {
-  display: inline-block;
-}

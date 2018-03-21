@@ -145,6 +145,25 @@ i.trigger {
   transition: opacity 300ms ease-in;
 }
 
+.chip-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.chip-form {
+  margin-top: 20px !important;
+}
+
+.chip-image {
+  width: 97px;
+}
+
+.chip-form .ant-form-item-label, .chip-form .ant-form-item-control-wrapper {
+  display: inline-block;
+}
+
 
 /* Mobile View */
 @media(max-width: 768px) {
