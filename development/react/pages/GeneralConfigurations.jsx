@@ -17,6 +17,7 @@ import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
 import ChipsSection from './Chips/ChipsSection.jsx'
+import AmountsSection from './Amounts/AmountsSection.jsx'
 import './styles/configurations.css'
 
 
@@ -179,8 +180,8 @@ class Generalconfigurations extends Component {
           />
 
           <div className="dashboard-content">
-
-            <ChipsSection/>
+            <AmountsSection/>
+            {/*<ChipsSection/>*/}
           </div>
         </Layout>
       </Layout>
