@@ -32,22 +32,16 @@ class AmountsSection extends Component {
 
     this.state = {
       revertChangesModal: false,
-      editChangeModal: false,
       fastAmountValues: []
     }
 
     this.cacheData = []
-
-    const { getFieldDecorator } = this.props.form
-    
     this.amountsBackup = []
     this.api = new Api()
+
     this.deleteAmount = this.deleteAmount.bind( this )
-    this.handleEditAmount = this.handleEditAmount.bind( this )
     this.handelRevertChangesModal = this.handelRevertChangesModal.bind( this )
     this.revertChanges = this.revertChanges.bind( this )
-
-    this.edit = this.edit.bind(this)
 
     this.columns = [{
       title: 'Monto',
@@ -64,17 +58,17 @@ class AmountsSection extends Component {
             {
               editable ?
                 <span>
-                  <a onClick={() => this.save(record.key)}>Save</a>
+                  <a onClick={() => this.save(record.key)}>Cambiar cantidad</a>
                   <Divider type="vertical" />
-                  <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
-                    <a>Cancel</a>
+                  <Popconfirm title="¿Esta seguro que quiere cancelar la operación?" onConfirm={() => this.cancel(record.key)}>
+                    <a>Cancelar</a>
                   </Popconfirm>
                 </span>
                 : 
                 <span>
                   <a onClick={() => this.edit(record.key)}>Editar</a>
                   <Divider type="vertical" />
-                  <Popconfirm title="¿Desea eliminar este elemento?" onConfirm={() => {}}>
+                  <Popconfirm title="¿Desea eliminar este elemento?" onConfirm={() => this.deleteAmount(record.key)}>
                     <a>Eliminar</a>
                   </Popconfirm>
                 </span> 
@@ -97,7 +91,6 @@ class AmountsSection extends Component {
 
         this.setState( {
           revertChangesModal: this.state.revertChangesModal,
-          editChangeModal: this.state.editChangeModal,
           fastAmountValues: data
         } )
       } )
@@ -134,10 +127,10 @@ class AmountsSection extends Component {
 
   deleteAmount( key ) {
     let amounts = this.state.fastAmountValues
+    key = amounts.findIndex( element => element.key === key.toString() )
     amounts.splice( key, 1 )
     this.setState( {
       revertChangesModal: this.state.revertChangesModal,
-      editChangeModal: this.state.editChangeModal,
       fastAmountValues: amounts
     } )
     
@@ -156,7 +149,6 @@ class AmountsSection extends Component {
       target.editable = true;
       this.setState({ 
         revertChangesModal: this.state.revertChangesModal,
-        editChangeModal: false,
         fastAmountValues: newData 
       })
     }
@@ -169,7 +161,6 @@ class AmountsSection extends Component {
       target[column] = value;
       this.setState({ 
         revertChangesModal: this.state.revertChangesModal,
-        editChangeModal: false,
         fastAmountValues: newData 
       })
     }
@@ -178,15 +169,6 @@ class AmountsSection extends Component {
   handelRevertChangesModal() {
     this.setState( {
       revertChangesModal: !this.setState.revertChangesModal,
-      editChangeModal: this.state.editChangeModal,
-      fastAmountValues: this.state.fastAmountValues
-    } )
-  }
-
-  handleEditAmount() {
-    this.setState( {
-      revertChangesModal: false,
-      editChangeModal: !this.state.editChangeModal,
       fastAmountValues: this.state.fastAmountValues
     } )
   }
@@ -207,7 +189,6 @@ class AmountsSection extends Component {
         this.amountsBackup = response
         this.setState( {
           revertChangesModal: false,
-          editChangeModal: this.state.editChangeModal,
           fastAmountValues: response
         } )
       } )
@@ -248,12 +229,6 @@ class AmountsSection extends Component {
     )
   }
 }
-
-/*<Table
-          className="amonts-table" 
-          columns={this.columns} 
-          dataSource={data} 
-        />*/
 
 const WrappedAmountsSection = Form.create()(AmountsSection);
 module.exports = WrappedAmountsSection
