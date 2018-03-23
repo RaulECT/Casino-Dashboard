@@ -8,7 +8,7 @@ class Api {
     this.appID = 'A2'
     this.deviceID = 'eyJQcm9jZXNzb3JJZCI6IkJGRUJGQkZGMDAwMzA2QTkiLCJNb3RoZXJCb2FyZElkIjoiQzlOMENKODU3NTkwMzczIn0='
   
-    this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyMTY1MjkzNCwiZXhwIjoxNTIxNjgxNzM0fQ._8H7bLeutUq7ksi-hycoESgTOJk9qE4BH2l939SF-GA'
+    this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyMTczNDIxNSwiZXhwIjoxNTIxNzYzMDE1fQ.Q0OswCHIUcJ0_Ujlj7Qd-a4ig3pU3I0KC4am3eTARew'
     this.config = {}
     this.getConfiguration()
     
@@ -25,6 +25,22 @@ class Api {
       .then( response => {
         if ( response.data.success ) {
           resolve( response.data.result.chips )
+        } else {
+          reject( { success: false, message: 'No se pudo completar la operación.' } )
+        }
+      } )
+      .catch( err => {
+        reject( err )
+      } )
+    } )
+  }
+
+  getFastAmountsValues() {
+    return new Promise( ( resolve, reject ) => {
+      this.getConfiguration()
+      .then( response => {
+        if ( response.data.success ) {
+          resolve( response.data.result.fastAmounts )
         } else {
           reject( { success: false, message: 'No se pudo completar la operación.' } )
         }
