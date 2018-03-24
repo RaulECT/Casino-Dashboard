@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { 
+  Alert,
   Table, 
   Icon, 
   Input,
@@ -31,6 +32,8 @@ class AmountsSection extends Component {
     super( props )
  
     this.state = {
+      hasChanged: false,
+      success: false,
       revertChangesModal: false,
       addModal: false,
       fastAmountValues: []
@@ -93,6 +96,8 @@ class AmountsSection extends Component {
         this.cacheData = data
 
         this.setState( {
+          hasChanged: this.state.hasChanged,
+          success: this.state.success,
           revertChangesModal: this.state.revertChangesModal,
           addModal: this.state.addModal,
           fastAmountValues: data
@@ -122,6 +127,8 @@ class AmountsSection extends Component {
         } )
 
         this.setState( {
+          hasChanged: true,
+          success: this.state.success,
           revertChangesModal: this.state.revertChangesModal,
           addModal: false,
           fastAmountValues: newFatsAmounts
@@ -140,6 +147,8 @@ class AmountsSection extends Component {
       Object.assign(target, this.cacheData.filter(item => key === item.key)[0])
       delete target.editable;
       this.setState({ 
+        hasChanged: this.state.hasChanged,
+        success: this.state.success,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
         fastAmountValues: newData 
@@ -162,6 +171,8 @@ class AmountsSection extends Component {
       } )
 
       this.setState({ 
+        hasChanged: true,
+        success: this.state.success,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
         fastAmountValues: newData 
@@ -175,6 +186,8 @@ class AmountsSection extends Component {
     key = amounts.findIndex( element => element.key === key.toString() )
     amounts.splice( key, 1 )
     this.setState( {
+      hasChanged: true,
+      success: this.state.success,
       revertChangesModal: this.state.revertChangesModal,
       addModal: this.state.addModal,
       fastAmountValues: amounts
@@ -194,6 +207,8 @@ class AmountsSection extends Component {
       
       target.editable = true;
       this.setState({ 
+        hasChanged: this.state.hasChanged,
+        success: this.state.success,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
         fastAmountValues: newData 
@@ -203,6 +218,8 @@ class AmountsSection extends Component {
 
   handleAddModal() {
     this.setState( {
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
       revertChangesModal: this.state.revertChangesModal,
       addModal: !this.state.addModal,
       fastAmountValues: this.state.fastAmountValues
@@ -215,6 +232,8 @@ class AmountsSection extends Component {
     if (target) {
       target[column] = value;
       this.setState({ 
+        hasChanged: this.state.hasChanged,
+        success: this.state.success,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
         fastAmountValues: newData 
@@ -224,6 +243,8 @@ class AmountsSection extends Component {
 
   handelRevertChangesModal() {
     this.setState( {
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
       revertChangesModal: !this.setState.revertChangesModal,
       addModal: this.state.addModal,
       fastAmountValues: this.state.fastAmountValues
@@ -245,6 +266,8 @@ class AmountsSection extends Component {
       .then( response => {
         this.amountsBackup = response
         this.setState( {
+          hasChanged: false,
+          success: this.state.success,
           revertChangesModal: false,
           addModal: this.state.addModal,
           fastAmountValues: response
@@ -257,6 +280,7 @@ class AmountsSection extends Component {
   
   render() {
     const { getFieldDecorator } = this.props.form
+    const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
 
     const changesModal = (
       <Modal
@@ -297,6 +321,7 @@ class AmountsSection extends Component {
 
     return(
       <div className="amounts-container">
+        {changeMessage}
         <h4>Porfavor, asigne los valores deseados</h4>
 
         <Table
@@ -306,9 +331,9 @@ class AmountsSection extends Component {
         />
 
         <div>
-          <Button className="button-fixed" icon="save" type="primary" >Guardar Cambios</Button>
+          <Button disabled={!this.state.hasChanged} className="button-fixed" icon="save" type="primary" >Guardar Cambios</Button>
           <Button className="button-fixed" icon="plus" type="primary" onClick={this.handleAddModal} >Agregar Monto</Button>
-          <Button icon="close" type="primary" onClick={this.handelRevertChangesModal} >Cancelar Cambios</Button>
+          <Button disabled={!this.state.hasChanged} icon="close" type="primary" onClick={this.handelRevertChangesModal} >Cancelar Cambios</Button>
 
           {changesModal}
           {addModal}
