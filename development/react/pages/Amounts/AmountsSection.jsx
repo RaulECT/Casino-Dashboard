@@ -29,9 +29,10 @@ class AmountsSection extends Component {
 
   constructor( props ) {
     super( props )
-
+ 
     this.state = {
       revertChangesModal: false,
+      addModal: false,
       fastAmountValues: []
     }
 
@@ -39,7 +40,9 @@ class AmountsSection extends Component {
     this.amountsBackup = []
     this.api = new Api()
 
+    this.addNewAmount = this.addNewAmount.bind( this )
     this.deleteAmount = this.deleteAmount.bind( this )
+    this.handleAddModal = this.handleAddModal.bind( this )
     this.handelRevertChangesModal = this.handelRevertChangesModal.bind( this )
     this.revertChanges = this.revertChanges.bind( this )
 
@@ -91,12 +94,43 @@ class AmountsSection extends Component {
 
         this.setState( {
           revertChangesModal: this.state.revertChangesModal,
+          addModal: this.state.addModal,
           fastAmountValues: data
         } )
       } )
       .catch( err => {
         console.log( err )
       } )
+  }
+
+  addNewAmount() {
+    this.props.form.validateFields( (err, values) => {
+      if( !err ) {
+        const newAmount = { 
+          key: (this.state.fastAmountValues.length + 1).toString(),
+          monto: values.newAmount 
+        }
+
+        const newFatsAmounts = this.state.fastAmountValues.concat( newAmount )
+
+        newFatsAmounts.sort( (a,b) => {
+          if (a.monto < b.monto)
+            return -1
+          if (a.monto > b.monto)
+            return 1
+          return 0
+        } )
+
+        this.setState( {
+          revertChangesModal: this.state.revertChangesModal,
+          addModal: false,
+          fastAmountValues: newFatsAmounts
+        } )
+
+        console.log(newAmount)
+        
+      }
+    } )
   }
 
   cancel(key) {
@@ -107,6 +141,7 @@ class AmountsSection extends Component {
       delete target.editable;
       this.setState({ 
         revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
         fastAmountValues: newData 
       })
     }
@@ -117,8 +152,18 @@ class AmountsSection extends Component {
     const target = newData.filter(item => key === item.key)[0];
     if (target) {
       delete target.editable;
+
+      newData.sort( (a,b) => {
+        if (a.monto < b.monto)
+          return -1
+        if (a.monto > b.monto)
+          return 1
+        return 0
+      } )
+
       this.setState({ 
         revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
         fastAmountValues: newData 
       })
       this.cacheData = newData.map(item => ({ ...item }));
@@ -131,6 +176,7 @@ class AmountsSection extends Component {
     amounts.splice( key, 1 )
     this.setState( {
       revertChangesModal: this.state.revertChangesModal,
+      addModal: this.state.addModal,
       fastAmountValues: amounts
     } )
     
@@ -149,9 +195,18 @@ class AmountsSection extends Component {
       target.editable = true;
       this.setState({ 
         revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
         fastAmountValues: newData 
       })
     }
+  }
+
+  handleAddModal() {
+    this.setState( {
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: !this.state.addModal,
+      fastAmountValues: this.state.fastAmountValues
+    } )
   }
 
   handleChange(value, key, column) {
@@ -161,6 +216,7 @@ class AmountsSection extends Component {
       target[column] = value;
       this.setState({ 
         revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
         fastAmountValues: newData 
       })
     }
@@ -169,6 +225,7 @@ class AmountsSection extends Component {
   handelRevertChangesModal() {
     this.setState( {
       revertChangesModal: !this.setState.revertChangesModal,
+      addModal: this.state.addModal,
       fastAmountValues: this.state.fastAmountValues
     } )
   }
@@ -189,6 +246,7 @@ class AmountsSection extends Component {
         this.amountsBackup = response
         this.setState( {
           revertChangesModal: false,
+          addModal: this.state.addModal,
           fastAmountValues: response
         } )
       } )
@@ -198,8 +256,45 @@ class AmountsSection extends Component {
   }
   
   render() {
+    const { getFieldDecorator } = this.props.form
 
-   
+    const changesModal = (
+      <Modal
+        title="Revertir Cambios"
+        visible={this.state.revertChangesModal}
+        onOk={this.revertChanges}
+        onCancel={this.handelRevertChangesModal}
+      >
+        <p>¿Desea revertir todos los cambios realizados?</p>
+        
+      </Modal>)
+
+    const addModal = (
+      <Modal
+        title="Agregar nuevo monto rápido"
+        visible={this.state.addModal}
+        onOk={ this.addNewAmount }
+        onCancel={this.handleAddModal}
+      >
+        <Form>
+          <FormItem
+            label="Nuevo monto:"
+            className="amount-form"
+          >
+            {getFieldDecorator('newAmount', {
+              rules: [{ required: true, message: 'Ingrese un valor!' }],
+            })(
+              <InputNumber 
+                min={1} 
+                onChange={ ()=>{} }
+              />
+            )}
+          </FormItem>
+        </Form>
+        
+      </Modal>
+    )
+
     return(
       <div className="amounts-container">
         <h4>Porfavor, asigne los valores deseados</h4>
@@ -212,18 +307,12 @@ class AmountsSection extends Component {
 
         <div>
           <Button className="button-fixed" icon="save" type="primary" >Guardar Cambios</Button>
-          <Button className="button-fixed" icon="plus" type="primary" >Agregar Monto</Button>
+          <Button className="button-fixed" icon="plus" type="primary" onClick={this.handleAddModal} >Agregar Monto</Button>
           <Button icon="close" type="primary" onClick={this.handelRevertChangesModal} >Cancelar Cambios</Button>
 
-          <Modal
-            title="Revertir Cambios"
-            visible={this.state.revertChangesModal}
-            onOk={this.revertChanges}
-            onCancel={this.handelRevertChangesModal}
-          >
-            <p>¿Desea revertir todos los cambios realizados?</p>
-              
-          </Modal>
+          {changesModal}
+          {addModal}
+          
         </div>
       </div>
     )

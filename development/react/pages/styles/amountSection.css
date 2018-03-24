@@ -20,3 +20,8 @@
 .button-fixed {
   margin-right: 30px;
 }
+
+.amount-form .ant-form-item-label,
+.amount-form .ant-form-item-control-wrapper {
+  display: inline-block;
+}
