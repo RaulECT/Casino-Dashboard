@@ -36,6 +36,7 @@ class AmountsSection extends Component {
       success: false,
       revertChangesModal: false,
       addModal: false,
+      updateModal: false,
       fastAmountValues: []
     }
 
@@ -47,7 +48,9 @@ class AmountsSection extends Component {
     this.deleteAmount = this.deleteAmount.bind( this )
     this.handleAddModal = this.handleAddModal.bind( this )
     this.handelRevertChangesModal = this.handelRevertChangesModal.bind( this )
+    this.handleUpdateModal = this.handleUpdateModal.bind( this )
     this.revertChanges = this.revertChanges.bind( this )
+    this.updateAmounts = this.updateAmounts.bind( this )
 
     this.columns = [{
       title: 'Monto',
@@ -100,6 +103,7 @@ class AmountsSection extends Component {
           success: this.state.success,
           revertChangesModal: this.state.revertChangesModal,
           addModal: this.state.addModal,
+          updateModal: this.state.updateModal,
           fastAmountValues: data
         } )
       } )
@@ -128,9 +132,10 @@ class AmountsSection extends Component {
 
         this.setState( {
           hasChanged: true,
-          success: this.state.success,
+          success: false,
           revertChangesModal: this.state.revertChangesModal,
           addModal: false,
+          updateModal: this.state.updateModal,
           fastAmountValues: newFatsAmounts
         } )
 
@@ -148,9 +153,10 @@ class AmountsSection extends Component {
       delete target.editable;
       this.setState({ 
         hasChanged: this.state.hasChanged,
-        success: this.state.success,
+        success: false,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
         fastAmountValues: newData 
       })
     }
@@ -172,9 +178,10 @@ class AmountsSection extends Component {
 
       this.setState({ 
         hasChanged: true,
-        success: this.state.success,
+        success: false,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
         fastAmountValues: newData 
       })
       this.cacheData = newData.map(item => ({ ...item }));
@@ -187,9 +194,10 @@ class AmountsSection extends Component {
     amounts.splice( key, 1 )
     this.setState( {
       hasChanged: true,
-      success: this.state.success,
+      success: false,
       revertChangesModal: this.state.revertChangesModal,
       addModal: this.state.addModal,
+      updateModal: this.state.updateModal,
       fastAmountValues: amounts
     } )
     
@@ -208,9 +216,10 @@ class AmountsSection extends Component {
       target.editable = true;
       this.setState({ 
         hasChanged: this.state.hasChanged,
-        success: this.state.success,
+        success: false,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
         fastAmountValues: newData 
       })
     }
@@ -219,9 +228,10 @@ class AmountsSection extends Component {
   handleAddModal() {
     this.setState( {
       hasChanged: this.state.hasChanged,
-      success: this.state.success,
+      success: false,
       revertChangesModal: this.state.revertChangesModal,
       addModal: !this.state.addModal,
+      updateModal: this.state.updateModal,
       fastAmountValues: this.state.fastAmountValues
     } )
   }
@@ -233,12 +243,24 @@ class AmountsSection extends Component {
       target[column] = value;
       this.setState({ 
         hasChanged: this.state.hasChanged,
-        success: this.state.success,
+        success: false,
         revertChangesModal: this.state.revertChangesModal,
         addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
         fastAmountValues: newData 
       })
     }
+  }
+
+  handleUpdateModal() {
+    this.setState( {
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: this.setState.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: !this.state.updateModal,
+      fastAmountValues: this.state.fastAmountValues
+    } )
   }
 
   handelRevertChangesModal() {
@@ -247,6 +269,7 @@ class AmountsSection extends Component {
       success: this.state.success,
       revertChangesModal: !this.setState.revertChangesModal,
       addModal: this.state.addModal,
+      updateModal: this.state.updateModal,
       fastAmountValues: this.state.fastAmountValues
     } )
   }
@@ -264,14 +287,52 @@ class AmountsSection extends Component {
   revertChanges() {
     this.api.getFastAmountsValues()
       .then( response => {
+        const data = []
+        response.map( ( amount, index ) => {
+          data.push( { key: index.toString(), monto: amount/100 } )
+        } )
+        this.cacheData = data
+
         this.amountsBackup = response
         this.setState( {
           hasChanged: false,
-          success: this.state.success,
+          success: false,
           revertChangesModal: false,
           addModal: this.state.addModal,
-          fastAmountValues: response
+          updateModal: this.state.updateModal,
+          fastAmountValues: data
         } )
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
+  }
+
+  updateAmounts() {
+    const { fastAmountValues } = this.state
+    let newAmounts = []
+
+    fastAmountValues.map( amount => {
+      newAmounts.push( (amount.monto * 100) )
+    } )
+
+
+    console.log( newAmounts )
+    this.api.updateFastAmounts( newAmounts )
+      .then( response => {
+        console.log( response )
+        if ( response.status === 200 ) {
+          this.setState( {
+            hasChanged: false,
+            success: true,
+            revertChangesModal: this.state.revertChangesModal,
+            addModal: this.state.addModal,
+            updateModal: false,
+            fastAmountValues: this.state.fastAmountValues
+          } )
+        } else {
+          // TODO: Handle Error
+        }
       } )
       .catch( err => {
         console.log( err )
@@ -281,6 +342,8 @@ class AmountsSection extends Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    const successMessage = this.state.success ? (<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+
 
     const changesModal = (
       <Modal
@@ -289,8 +352,19 @@ class AmountsSection extends Component {
         onOk={this.revertChanges}
         onCancel={this.handelRevertChangesModal}
       >
-        <p>¿Desea revertir todos los cambios realizados?</p>
-        
+        <p>¿Desea guardar todos los cambios realizados?</p>
+    
+      </Modal>)
+
+    const updateModal = (
+      <Modal
+        title="Guardar Cambios"
+        visible={this.state.updateModal}
+        onOk={this.updateAmounts}
+        onCancel={this.handleUpdateModal}
+      >
+        <p>¿Desea guardar todos los cambios realizados?</p>
+    
       </Modal>)
 
     const addModal = (
@@ -322,6 +396,8 @@ class AmountsSection extends Component {
     return(
       <div className="amounts-container">
         {changeMessage}
+        {successMessage}
+
         <h4>Porfavor, asigne los valores deseados</h4>
 
         <Table
@@ -331,11 +407,35 @@ class AmountsSection extends Component {
         />
 
         <div>
-          <Button disabled={!this.state.hasChanged} className="button-fixed" icon="save" type="primary" >Guardar Cambios</Button>
-          <Button className="button-fixed" icon="plus" type="primary" onClick={this.handleAddModal} >Agregar Monto</Button>
-          <Button disabled={!this.state.hasChanged} icon="close" type="primary" onClick={this.handelRevertChangesModal} >Cancelar Cambios</Button>
+          <Button 
+            disabled={!this.state.hasChanged} 
+            className="button-fixed" icon="save" 
+            type="primary" 
+            onClick={this.handleUpdateModal}
+          >
+            Guardar Cambios
+          </Button>
+
+          <Button
+            className="button-fixed"
+            icon="plus" 
+            type="primary"
+            onClick={this.handleAddModal} 
+          >
+            Agregar Monto
+          </Button>
+
+          <Button
+            disabled={!this.state.hasChanged} 
+            icon="close" 
+            type="primary" 
+            onClick={this.handelRevertChangesModal} 
+          >
+            Cancelar Cambios
+          </Button>
 
           {changesModal}
+          {updateModal}
           {addModal}
           
         </div>
