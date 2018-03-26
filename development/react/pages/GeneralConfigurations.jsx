@@ -19,6 +19,7 @@ import PageHeader from './PageHeader.jsx'
 import ChipsSection from './Chips/ChipsSection.jsx'
 import AmountsSection from './Amounts/AmountsSection.jsx'
 import ExchangeSection from './ExchangeRate/ExchangeSection.jsx'
+import MembershipSection from './Membreship/MembershipSection.jsx'
 
 import './styles/configurations.css'
 
@@ -184,7 +185,8 @@ class Generalconfigurations extends Component {
           <div className="dashboard-content">
             {/*<AmountsSection/>*/}
             {/*<ChipsSection/>*/}
-            {<ExchangeSection/>}
+            {/*<ExchangeSection/>*/}
+            {<MembershipSection/>}
           </div>
         </Layout>
       </Layout>

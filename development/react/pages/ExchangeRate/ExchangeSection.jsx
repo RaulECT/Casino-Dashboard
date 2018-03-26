@@ -108,8 +108,8 @@ class ExchangeSection extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const changeMessage = this.state.change ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    const successMessage = this.state.success ? (<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
 
     return(
       <div className="exchange-section">

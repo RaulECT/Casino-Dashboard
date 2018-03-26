@@ -71,6 +71,26 @@ class Api {
     } )
   }
 
+  getMembershipValues() {
+    return new Promise( ( resolve, reject ) => {
+      this.getConfiguration()
+      .then( response => {
+        if ( response.data.success ) {
+          const data = { 
+            cardReposition: response.data.result.cardReposition,
+            membershipPayment: response.data.result.membershipPayment
+          }
+          resolve( data )
+        } else {
+          reject( { success: false, message: 'No se pudo completar la operación.' } )
+        }
+      } )
+      .catch( err => {
+        reject( err )
+      } )
+    } )
+  }
+
   updateChipsValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
