@@ -51,6 +51,26 @@ class Api {
     } )
   }
 
+  getExchangeValues() {
+    return new Promise( ( resolve, reject ) => {
+      this.getConfiguration()
+      .then( response => {
+        if ( response.data.success ) {
+          const data = { 
+            valueUnitChip: response.data.result.valueUnitChip,
+            exchangeRate: response.data.result.exchangeRate
+          }
+          resolve( data )
+        } else {
+          reject( { success: false, message: 'No se pudo completar la operación.' } )
+        }
+      } )
+      .catch( err => {
+        reject( err )
+      } )
+    } )
+  }
+
   updateChipsValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -65,6 +85,20 @@ class Api {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
       fastAmounts: fastAmounts
+    }, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  updateExchangeValues( values ) {
+    return axios.post( `${this.apiURL}/admin/edit_config`, {
+      appId: this.appID,
+      exchangeRate: values.exchangeValue,
+      valueUnitChip: (values.chipValue*100)
+
     }, {
       headers: { token: this.token },
       validateStatus: function (status) {
