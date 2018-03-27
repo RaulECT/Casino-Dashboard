@@ -74,7 +74,7 @@ class SchedulesSection extends Component {
           .then( response => {
             this.handleSaveModal()
             
-            if ( response.data.success ) {
+            if ( response.status === 200 ) {
               this.setState( {
                 success: true,
                 change: false,

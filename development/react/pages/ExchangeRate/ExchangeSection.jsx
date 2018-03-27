@@ -87,13 +87,13 @@ class ExchangeSection extends Component {
           .then( response => {
             this.handleSaveModal()
 
-            if ( this.response.data.success ) {
+            if ( response.status === 200 ) {
               this.setState( {
                 success: true,
                 change: false,
                 exchangeValue: this.state.exchangeValue,
                 valueChange: this.state.valueChange,
-                saveModal: !this.state.saveModal,
+                saveModal: false,
                 revertModal: this.state.revertModal
               } )
             } else {

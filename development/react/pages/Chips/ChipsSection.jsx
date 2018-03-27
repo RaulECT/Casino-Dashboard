@@ -9,6 +9,7 @@ import {
   Modal
 } from 'antd'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 import aquaChip from './../images/poker-chip-aqua.png'
 import blackChip from './../images/poker-chip-black.png'
@@ -33,6 +34,7 @@ class ChipsSection extends Component {
     }
 
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
     this.formatChipsData = this.formatChipsData.bind( this )
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleValueChange = this.handleValueChange.bind( this )
@@ -127,8 +129,8 @@ class ChipsSection extends Component {
         this.api.updateChipsValues( chips )
           .then( response => {
             this.handleModal()
-
-            if ( response.data.success ) {
+            
+            if ( response.status === 200 ) {
               this.setState( {
                 valueChange: false,
                 successOperation: true,
@@ -136,11 +138,12 @@ class ChipsSection extends Component {
               } )  
             } else {
               //TODO: Error managment
+              this.errorManagment.resolveError( response.data )
             }
             
           } )
           .catch( err => {
-            this.handleModal()
+            //this.handleModal()
             console.log( err )
           } )
       }
