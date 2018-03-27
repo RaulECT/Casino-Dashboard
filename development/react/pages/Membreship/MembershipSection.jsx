@@ -7,6 +7,7 @@ import {
   Button
 } from 'antd'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 const FormItem = Form.Item
 
@@ -23,6 +24,7 @@ class MembershipSection extends Component {
     }
 
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
 
     this.handleInputsChange = this.handleInputsChange.bind( this )
     this.handleSaveModal = this.handleSaveModal.bind( this )
@@ -88,6 +90,7 @@ class MembershipSection extends Component {
               } )
             } else {
               // TODO: Error managment
+              this.errorManagment.resolveError( response.data )
             }
           } )
           .catch( err => {

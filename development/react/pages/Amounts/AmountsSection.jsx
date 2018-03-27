@@ -12,6 +12,7 @@ import {
   InputNumber
 } from 'antd'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 import '../styles/amountSection.css'
 
@@ -43,6 +44,7 @@ class AmountsSection extends Component {
     this.cacheData = []
     this.amountsBackup = []
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
 
     this.addNewAmount = this.addNewAmount.bind( this )
     this.deleteAmount = this.deleteAmount.bind( this )
@@ -331,6 +333,7 @@ class AmountsSection extends Component {
           } )
         } else {
           // TODO: Handle Error
+          this.errorManagment.resolveError( response.data )
         }
       } )
       .catch( err => {

@@ -11,6 +11,7 @@ import {
 } from 'antd'
 import ExchangeOption from './ExchangeOption.jsx'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 import blackChip from '../images/poker-chip-black.png'
 import dolarImg from '../images/dollar.png'
@@ -31,6 +32,7 @@ class ExchangeSection extends Component {
     }
 
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
 
     this.handleInputChanges = this.handleInputChanges.bind( this )
     this.handleSaveModal = this.handleSaveModal.bind( this )
@@ -98,10 +100,10 @@ class ExchangeSection extends Component {
               } )
             } else {
               // TODO: Error Managment
+              this.errorManagment.resolveError( response.data )
             }
           } )
           .catch( err => {
-            this.handleSaveModal()
             console.log(err)
           } )
       }

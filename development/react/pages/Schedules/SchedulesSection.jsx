@@ -9,6 +9,7 @@ import {
 } from 'antd'
 import moment from 'moment'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 const FormItem = Form.Item
 
@@ -23,6 +24,7 @@ class SchedulesSection extends Component {
     }
 
     this.api = new Api()
+    this.errorMangament = new ErrorManagment()
 
     this.handleInputsChange = this.handleInputsChange.bind( this )
     this.handleSaveModal = this.handleSaveModal.bind( this )
@@ -82,6 +84,7 @@ class SchedulesSection extends Component {
               } )
             } else {
               // TODO: Error managment
+              this.errorMangament.resolveError( response.data )
             }
           } )
           .catch( err => {
