@@ -218,6 +218,7 @@ class Generalconfigurations extends Component {
           <GlobalHeader 
             toggle = {this.toggle} 
             collapsed = {this.state.collapsed} 
+            history={this.props.history}
           />
 
           <PageHeader

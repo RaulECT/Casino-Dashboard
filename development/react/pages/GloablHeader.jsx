@@ -12,12 +12,14 @@ class GlobalHeader extends Component {
       isLogOutModalShowing: false
     }
 
-    this.logOutUser = this.logOutUser.bind( this )
+    this.logOut = this.logOut.bind( this )
     this.showLogOutModal = this.showLogOutModal.bind( this )
   }
 
-  logOutUser() {
-
+  logOut() {
+    localStorage.removeItem("isLogin")
+    localStorage.removeItem("token")
+    this.props.history.push( '/' )
   }
 
   showLogOutModal() {
@@ -53,7 +55,7 @@ class GlobalHeader extends Component {
           <Modal
             title="Cerrar Sesión"
             visible={this.state.isLogOutModalShowing}
-            onOk={this.logOutUser}
+            onOk={this.logOut}
             onCancel={this.showLogOutModal}
           >
             <p>¿Deseas cerrar sesión?</p>
