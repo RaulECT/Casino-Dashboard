@@ -20,6 +20,7 @@ import ChipsSection from './Chips/ChipsSection.jsx'
 import AmountsSection from './Amounts/AmountsSection.jsx'
 import ExchangeSection from './ExchangeRate/ExchangeSection.jsx'
 import MembershipSection from './Membreship/MembershipSection.jsx'
+import SchedulesSection from './Schedules/SchedulesSection.jsx'
 
 import './styles/configurations.css'
 
@@ -186,7 +187,8 @@ class Generalconfigurations extends Component {
             {/*<AmountsSection/>*/}
             {/*<ChipsSection/>*/}
             {/*<ExchangeSection/>*/}
-            {<MembershipSection/>}
+            {/*<MembershipSection/>*/}
+            {<SchedulesSection/>}
           </div>
         </Layout>
       </Layout>

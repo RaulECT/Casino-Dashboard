@@ -146,7 +146,7 @@ class MembershipSection extends Component {
           >
             <p>¿Desea actualizar los valores?</p>
               
-        </Modal>
+          </Modal>
         </FormItem>
       </Form>
     )

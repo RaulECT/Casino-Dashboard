@@ -91,6 +91,28 @@ class Api {
     } )
   }
 
+  getScheduleValues() {
+    return new Promise( ( resolve, reject ) => {
+      this.getConfiguration()
+      .then( response => {
+        if ( response.data.success ) {
+          const data = { 
+            beginWorkingDay: response.data.result.beginWorkingDay,
+            endWorkingDay: response.data.result.endWorkingDay,
+            intervalMinutesSchedules: response.data.result.intervalMinutesSchedules,
+            intervalMinutesScores: response.data.result.intervalMinutesScores
+          }
+          resolve( data )
+        } else {
+          reject( { success: false, message: 'No se pudo completar la operación.' } )
+        }
+      } )
+      .catch( err => {
+        reject( err )
+      } )
+    } )
+  }
+
   updateChipsValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -133,6 +155,21 @@ class Api {
       cardReposition: (values.cardReposition*100),
       membershipPayment: (values.membershipPayment*100)
 
+    }, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  setScheduleValues( values ) {
+    return axios.post( `${this.apiURL}/admin/edit_config`, {
+      appId: this.appID,
+      beginWorkingDay: values.beginWorkingDay,
+      endWorkingDay: values.endWorkingDay,
+      intervalMinutesSchedules: values.intervalMinutesSchedules,
+      intervalMinutesScores: values.intervalMinutesScores
     }, {
       headers: { token: this.token },
       validateStatus: function (status) {
