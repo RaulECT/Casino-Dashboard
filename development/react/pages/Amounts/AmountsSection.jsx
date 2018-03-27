@@ -316,11 +316,10 @@ class AmountsSection extends Component {
       newAmounts.push( (amount.monto * 100) )
     } )
 
-
-    console.log( newAmounts )
     this.api.updateFastAmounts( newAmounts )
       .then( response => {
-        console.log( response )
+        this.handleUpdateModal()
+
         if ( response.status === 200 ) {
           this.setState( {
             hasChanged: false,
@@ -335,6 +334,7 @@ class AmountsSection extends Component {
         }
       } )
       .catch( err => {
+        this.handleUpdateModal()
         console.log( err )
       } )
   }

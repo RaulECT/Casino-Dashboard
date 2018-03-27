@@ -119,7 +119,10 @@ class Api {
       chips: values
     },
     {
-      headers: { token: this.token}
+      headers: { token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
     } )
   }
 

@@ -82,10 +82,11 @@ class ExchangeSection extends Component {
   saveExchangeValues() {
     this.props.form.validateFields( (err, values) => {
       if ( !err ) {
-        console.log( values )
+
         this.api.updateExchangeValues( values )
           .then( response => {
-            console.log( response )
+            this.handleSaveModal()
+
             if ( this.response.data.success ) {
               this.setState( {
                 success: true,
@@ -100,6 +101,7 @@ class ExchangeSection extends Component {
             }
           } )
           .catch( err => {
+            this.handleSaveModal()
             console.log(err)
           } )
       }

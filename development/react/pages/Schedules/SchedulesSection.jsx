@@ -72,18 +72,20 @@ class SchedulesSection extends Component {
 
         this.api.setScheduleValues( values )
           .then( response => {
-            console.log(response)
+            this.handleSaveModal()
+            
             if ( response.data.success ) {
               this.setState( {
                 success: true,
                 change: false,
-                saveModal: !this.state.saveModal
+                saveModal: false
               } )
             } else {
               // TODO: Error managment
             }
           } )
           .catch( err => {
+            this.handleSaveModal()
             console.log(err)
           } )
       }
@@ -92,7 +94,7 @@ class SchedulesSection extends Component {
 
   render() {
     const format = 'HH:mm'
-    const style = {width: '100%'}
+    const style = {width: '120%'}
     const {getFieldDecorator} =  this.props.form
     const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
@@ -169,29 +171,29 @@ class SchedulesSection extends Component {
             )}
             
           </FormItem>
-
-          <FormItem>
-            <Button
-              icon="save"
-              type="primary" 
-              disabled={!this.state.change}
-              style={{marginTop: '30px'}}
-              onClick={this.handleSaveModal}
-            >
-              Guardar Cambios
-            </Button>
-
-            <Modal
-              title="Actualizar Valores"
-              visible={this.state.saveModal}
-              onOk={this.saveScheduleValues}
-              onCancel={this.handleSaveModal}
-            >
-              <p>¿Desea actualizar los valores?</p>
-              
-            </Modal>
-          </FormItem>
         </Form>
+
+        <FormItem>
+          <Button
+            icon="save"
+            type="primary" 
+            disabled={!this.state.change}
+            style={{marginTop: '30px'}}
+            onClick={this.handleSaveModal}
+          >
+            Guardar Cambios
+          </Button>
+
+          <Modal
+            title="Actualizar Valores"
+            visible={this.state.saveModal}
+            onOk={this.saveScheduleValues}
+            onCancel={this.handleSaveModal}
+          >
+            <p>¿Desea actualizar los valores?</p>
+              
+          </Modal>
+        </FormItem>
       </div>
     )
   }

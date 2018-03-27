@@ -75,7 +75,10 @@ class MembershipSection extends Component {
         values.membershipPayment = Number( values.membershipPayment )
         this.api.updateMembershipValues( values )
           .then( response => {
+            this.handleSaveModal()
+
             if ( response.data.success ) {
+
               this.setState( {
                 success: true,
                 change: false,
@@ -88,6 +91,8 @@ class MembershipSection extends Component {
             }
           } )
           .catch( err => {
+            this.handleSaveModal()
+
             console.log(err)
           } )
       }

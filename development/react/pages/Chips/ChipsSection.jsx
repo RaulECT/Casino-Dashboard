@@ -120,21 +120,27 @@ class ChipsSection extends Component {
   }
 
   updateChipsValues() {
-    //console.log( this.props.form.getFieldsValue() )
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.handleModal()
+        
         const chips = this.formatChipsData( values )
         this.api.updateChipsValues( chips )
           .then( response => {
-            console.log( response )
-            this.setState( {
-              valueChange: false,
-              successOperation: true,
-              isModalVisible: this.state.isModalVisible
-            } )
+            this.handleModal()
+
+            if ( response.data.success ) {
+              this.setState( {
+                valueChange: false,
+                successOperation: true,
+                isModalVisible: false
+              } )  
+            } else {
+              //TODO: Error managment
+            }
+            
           } )
           .catch( err => {
+            this.handleModal()
             console.log( err )
           } )
       }
@@ -142,9 +148,7 @@ class ChipsSection extends Component {
   }
 
   render() {
-    //(<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />)
-    
-    //(<Alert style={{width: 'max-content'}} message="Error" type="error" showIcon />)
+ 
     const { getFieldDecorator } = this.props.form
     const { setFieldsValue } = this.props.form
     const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
