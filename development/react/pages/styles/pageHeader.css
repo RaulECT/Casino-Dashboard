@@ -1,0 +1,29 @@
+.page-header {
+  background: #fff;
+  padding: 16px 32px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.page-header .breadcrumb {
+  margin-bottom: 16px;
+}
+
+.page-header .detail {
+  display: flex;
+}
+
+.page-header .main {
+  flex: auto;
+}
+
+.page-header .row {
+  display: flex;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(0,0,0,.85);
+}
+
+

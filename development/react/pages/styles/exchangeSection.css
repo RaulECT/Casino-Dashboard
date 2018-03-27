@@ -1,0 +1,31 @@
+.chip-img {
+  width: 109px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.dollar-img {
+  width: 57px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.exchange-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.exchange-container p {
+  font-size: 16px;
+}
+
+.exchange-container .ant-input-number {
+  display: block;
+}
+
+.chip-input {
+  /*width: 25% !important;*/
+}
+
