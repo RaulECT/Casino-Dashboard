@@ -32,6 +32,7 @@ const FormItem = Form.Item
 class Generalconfigurations extends Component {
   constructor( props ) {
     super( props )
+    
 
     this.state = {
       collapsed: false,
@@ -41,6 +42,14 @@ class Generalconfigurations extends Component {
 
     this.changePanel = this.changePanel.bind( this )
     this.toggle = this.toggle.bind( this )
+  }
+
+  componentWillMount() {
+    const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
+
+    if ( isNotLogged ) {
+      this.props.history.push( '/' )
+    } 
   }
 
   changePanel( panel ) {
