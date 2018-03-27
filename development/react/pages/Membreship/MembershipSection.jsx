@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {
+  Icon,
   Alert,
   Form,
   Input,
@@ -16,6 +17,7 @@ class MembershipSection extends Component {
     super(props)
 
     this.state = {
+      loading: true,
       success: false,
       change: false,
       membershipPayment: 0.0,
@@ -36,6 +38,7 @@ class MembershipSection extends Component {
       .then( response => {
         console.log(response)
         this.setState( {
+          loading: false,
           success: this.state.success,
           change: this.state.change,
           membershipPayment: Number(response.membershipPayment/100),
@@ -53,6 +56,7 @@ class MembershipSection extends Component {
 
   handleSaveModal() {
     this.setState( {
+      loading: false,
       success: this.state.success,
       change: this.state.change,
       membershipPayment: this.state.membershipPayment,
@@ -63,6 +67,7 @@ class MembershipSection extends Component {
 
   handleInputsChange() {
     this.setState( {
+      loading: false,
       success: false,
       change: true,
       membershipPayment: this.state.membershipPayment,
@@ -82,6 +87,7 @@ class MembershipSection extends Component {
             if ( response.status === 200 ) {
 
               this.setState( {
+                loading: false,
                 success: true,
                 change: false,
                 membershipPayment: this.state.membershipPayment,
@@ -106,11 +112,17 @@ class MembershipSection extends Component {
     const {getFieldDecorator} =  this.props.form
     const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    const loadingSpin = this.state.loading ? (
+      <Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
 
     return(
       <Form layout="inline">
         {changeMessage}
         {successMessage}
+        {loadingSpin}
 
         <FormItem
           label="Costo de Membresia:"
@@ -119,7 +131,7 @@ class MembershipSection extends Component {
             rules: [
               { required: true, message: 'Ingrese un valor!' }]
           } )(
-            <Input onChange={this.handleInputsChange} addonBefore="$" />
+            <Input disabled={this.state.loading} onChange={this.handleInputsChange} addonBefore="$" />
           )}
           
         </FormItem>
@@ -131,7 +143,7 @@ class MembershipSection extends Component {
             rules: [
               { required: true, message: 'Ingrese un valor!' }]
           } )(
-            <Input onChange={this.handleInputsChange} addonBefore="$" />
+            <Input disabled={this.state.loading} onChange={this.handleInputsChange} addonBefore="$" />
           )}
           
         </FormItem>

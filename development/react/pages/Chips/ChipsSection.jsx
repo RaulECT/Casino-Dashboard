@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ChipItem from './ChipItem.jsx'
 import {
+  Icon,
   Form,
   Row,
   Col,
@@ -28,6 +29,7 @@ class ChipsSection extends Component {
     super( props )
 
     this.state = {
+      loading: true,
       valueChange: false,
       successOperation : false,
       isModalVisible: false
@@ -49,6 +51,13 @@ class ChipsSection extends Component {
           var item = {}
           item[ element.color ] = element.value
           this.props.form.setFieldsValue( item )
+          
+          this.setState( {
+            loading: false,
+            valueChange: this.state.valueChange,
+            successOperation: this.state.successOperation,
+            isModalVisible: this.state.isModalVisible
+          } )
         } )
       } )
       .catch( err => {
@@ -106,6 +115,7 @@ class ChipsSection extends Component {
   handleValueChange( newValue ) {
     if ( !this.state.valueChange ) {
       this.setState( {
+        loading: false,
         valueChange: !this.state.valueChange,
         successOperation: false,
         isModalVisible: this.state.isModalVisible
@@ -115,6 +125,7 @@ class ChipsSection extends Component {
 
   handleModal() {
     this.setState( {
+      loading: false,
       valueChange: this.state.valueChange,
       successOperation: this.state.successOperation,
       isModalVisible: !this.state.isModalVisible
@@ -132,6 +143,7 @@ class ChipsSection extends Component {
             
             if ( response.status === 200 ) {
               this.setState( {
+                loading: false,
                 valueChange: false,
                 successOperation: true,
                 isModalVisible: false
@@ -157,10 +169,17 @@ class ChipsSection extends Component {
     const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const successMessage = this.state.successOperation ? (<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
 
+    const loadingSpin = this.state.loading ? (
+      <Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
     return(
       <Form onSubmit={this.handleSubmit}>
         {changeMessage}
         {successMessage}
+        {loadingSpin}
 
         <Row style={{marginTop: '40px', marginBottom: '70px'}}>
           <Col span={4}>
@@ -168,6 +187,7 @@ class ChipsSection extends Component {
               img={aquaChip}
               valueChange={this.handleValueChange}
               chip = "aqua"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -177,6 +197,7 @@ class ChipsSection extends Component {
               img={blackChip}
               valueChange={this.handleValueChange}
               chip = "black"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -186,6 +207,7 @@ class ChipsSection extends Component {
               img={blueChip}
               valueChange={this.handleValueChange}
               chip = "blue"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -195,6 +217,7 @@ class ChipsSection extends Component {
               img={greenChip}
               valueChange={this.handleValueChange}
               chip = "green"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -204,6 +227,7 @@ class ChipsSection extends Component {
               img={orangeChip}
               valueChange={this.handleValueChange}
               chip = "orange"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -215,6 +239,7 @@ class ChipsSection extends Component {
               img={pinkChip}
               valueChange={this.handleValueChange}
               chip = "pink"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -224,6 +249,7 @@ class ChipsSection extends Component {
               img={purpleChip}
               valueChange={this.handleValueChange}
               chip = "purple"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -233,6 +259,7 @@ class ChipsSection extends Component {
               img={redChip}
               valueChange={this.handleValueChange}
               chip = "red"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -242,6 +269,7 @@ class ChipsSection extends Component {
               img={grayChip}
               valueChange={this.handleValueChange}
               chip = "white"
+              avaible = {this.state.loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>

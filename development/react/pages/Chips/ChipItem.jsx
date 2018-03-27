@@ -25,6 +25,7 @@ class ChipItem extends Component {
               className="chip-input" 
               min={1} 
               onChange={this.props.valueChange}
+              disabled={this.props.avaible}
             />
           )}
         

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {
   Alert,
   Row,
+  Icon,
   Button,
   Col, 
   InputNumber,
@@ -23,6 +24,7 @@ class ExchangeSection extends Component {
     super( props )
 
     this.state = {
+      loading: true,
       success: false,
       change: false,
       exchangeValue: 0.0,
@@ -46,6 +48,7 @@ class ExchangeSection extends Component {
         this.props.form.setFieldsValue( {chipValue: (response.valueUnitChip/100)} )
 
         this.setState( {
+          loading: false,
           success: this.state.success,
           change: this.state.change,
           exchangeValue: response.exchangeRate,
@@ -61,6 +64,7 @@ class ExchangeSection extends Component {
 
   handleInputChanges() {
     this.setState( {
+      loading: false,
       success: false,
       change: true,
       exchangeValue: this.state.exchangeValue,
@@ -72,6 +76,7 @@ class ExchangeSection extends Component {
 
   handleSaveModal() {
     this.setState( {
+      loading: false,
       success: this.state.success,
       change: this.state.change,
       exchangeValue: this.state.exchangeValue,
@@ -91,6 +96,7 @@ class ExchangeSection extends Component {
 
             if ( response.status === 200 ) {
               this.setState( {
+                loading: false,
                 success: true,
                 change: false,
                 exchangeValue: this.state.exchangeValue,
@@ -114,11 +120,17 @@ class ExchangeSection extends Component {
     const { getFieldDecorator } = this.props.form
     const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    const loadingSpin = this.state.loading ? (
+      <Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
 
     return(
       <div className="exchange-section">
         {changeMessage}
         {successMessage}
+        {loadingSpin}
 
         <Row>
           <Form>
@@ -128,6 +140,7 @@ class ExchangeSection extends Component {
                 image={dolarImg}
                 imageClass="dollar-img"
                 input="number"
+                avaible={this.state.loading}
                 fieldDecorator={getFieldDecorator}
                 reference="exchangeValue"
                 change={this.handleInputChanges}
@@ -140,6 +153,7 @@ class ExchangeSection extends Component {
                 image={blackChip}
                 imageClass="chip-img"
                 input="number"
+                avaible={this.state.loading}
                 fieldDecorator={getFieldDecorator}
                 reference="chipValue"
                 change={this.handleInputChanges}

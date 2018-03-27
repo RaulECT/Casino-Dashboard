@@ -33,6 +33,7 @@ class AmountsSection extends Component {
     super( props )
  
     this.state = {
+      loading: true,
       hasChanged: false,
       success: false,
       revertChangesModal: false,
@@ -101,6 +102,7 @@ class AmountsSection extends Component {
         this.cacheData = data
 
         this.setState( {
+          loading: false,
           hasChanged: this.state.hasChanged,
           success: this.state.success,
           revertChangesModal: this.state.revertChangesModal,
@@ -133,6 +135,7 @@ class AmountsSection extends Component {
         } )
 
         this.setState( {
+          loading: false,
           hasChanged: true,
           success: false,
           revertChangesModal: this.state.revertChangesModal,
@@ -154,6 +157,7 @@ class AmountsSection extends Component {
       Object.assign(target, this.cacheData.filter(item => key === item.key)[0])
       delete target.editable;
       this.setState({ 
+        loading: false,
         hasChanged: this.state.hasChanged,
         success: false,
         revertChangesModal: this.state.revertChangesModal,
@@ -179,6 +183,7 @@ class AmountsSection extends Component {
       } )
 
       this.setState({ 
+        loading: false,
         hasChanged: true,
         success: false,
         revertChangesModal: this.state.revertChangesModal,
@@ -195,6 +200,7 @@ class AmountsSection extends Component {
     key = amounts.findIndex( element => element.key === key.toString() )
     amounts.splice( key, 1 )
     this.setState( {
+      loading: false,
       hasChanged: true,
       success: false,
       revertChangesModal: this.state.revertChangesModal,
@@ -217,6 +223,7 @@ class AmountsSection extends Component {
       
       target.editable = true;
       this.setState({ 
+        loading: false,
         hasChanged: this.state.hasChanged,
         success: false,
         revertChangesModal: this.state.revertChangesModal,
@@ -229,6 +236,7 @@ class AmountsSection extends Component {
 
   handleAddModal() {
     this.setState( {
+      loading: false,
       hasChanged: this.state.hasChanged,
       success: false,
       revertChangesModal: this.state.revertChangesModal,
@@ -244,6 +252,7 @@ class AmountsSection extends Component {
     if (target) {
       target[column] = value;
       this.setState({ 
+        loading: false,
         hasChanged: this.state.hasChanged,
         success: false,
         revertChangesModal: this.state.revertChangesModal,
@@ -256,6 +265,7 @@ class AmountsSection extends Component {
 
   handleUpdateModal() {
     this.setState( {
+      loading: false,
       hasChanged: this.state.hasChanged,
       success: this.state.success,
       revertChangesModal: this.setState.revertChangesModal,
@@ -267,6 +277,7 @@ class AmountsSection extends Component {
 
   handelRevertChangesModal() {
     this.setState( {
+      loading: false,
       hasChanged: this.state.hasChanged,
       success: this.state.success,
       revertChangesModal: !this.setState.revertChangesModal,
@@ -297,6 +308,7 @@ class AmountsSection extends Component {
 
         this.amountsBackup = response
         this.setState( {
+          loading: false,
           hasChanged: false,
           success: false,
           revertChangesModal: false,
@@ -324,6 +336,7 @@ class AmountsSection extends Component {
 
         if ( response.status === 200 ) {
           this.setState( {
+            loading: false,
             hasChanged: false,
             success: true,
             revertChangesModal: this.state.revertChangesModal,
@@ -396,10 +409,17 @@ class AmountsSection extends Component {
       </Modal>
     )
 
+    const loadingSpin = this.state.loading ? (
+      <Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
     return(
       <div className="amounts-container">
         {changeMessage}
         {successMessage}
+        {loadingSpin}
 
         <h4>Porfavor, asigne los valores deseados</h4>
 
@@ -423,6 +443,7 @@ class AmountsSection extends Component {
             className="button-fixed"
             icon="plus" 
             type="primary"
+            disabled={this.state.loading}
             onClick={this.handleAddModal} 
           >
             Agregar Monto

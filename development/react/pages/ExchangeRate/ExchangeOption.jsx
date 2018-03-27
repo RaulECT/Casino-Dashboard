@@ -9,7 +9,7 @@ class ExchangeOption extends Component {
   
 
   render() {
-    const input = this.props.input == 'number' ? (<InputNumber onChange={this.props.change} />) : (<Input onChange={this.props.change} className="chip-input"/>)
+    const input = this.props.input == 'number' ? (<InputNumber disabled={this.props.avaible} onChange={this.props.change} />) : (<Input disabled={this.props.avaible} onChange={this.props.change} className="chip-input"/>)
     const FormItem = Form.FormItem
 
     return(

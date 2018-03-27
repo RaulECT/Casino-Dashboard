@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {
   Alert,
   Form,
+  Icon,
   TimePicker,
   InputNumber,
   Modal,
@@ -18,6 +19,7 @@ class SchedulesSection extends Component {
     super( props )
 
     this.state = {
+      loading: true,
       change: false,
       success: false,
       saveModal: false
@@ -34,7 +36,12 @@ class SchedulesSection extends Component {
   componentWillMount() {
     this.api.getScheduleValues()
       .then( response => {
-        console.log(response)
+        this.setState( {
+          loading: false,
+          change: this.state.change,
+          success: this.state.success,
+          saveModal: this.state.saveModal
+        } )
 
         this.props.form.setFieldsValue( {beginWorkingDay: moment(response.beginWorkingDay, 'HH:mm') } )
         this.props.form.setFieldsValue( {endWorkingDay: moment(response.endWorkingDay, 'HH:mm') } )
@@ -48,6 +55,7 @@ class SchedulesSection extends Component {
 
   handleInputsChange() {
     this.setState( {
+      loading: false,
       change: true,
       success: false,
       saveModal: this.state.saveModal
@@ -56,6 +64,7 @@ class SchedulesSection extends Component {
 
   handleSaveModal() {
     this.setState( {
+      loading: false,
       change: this.state.change,
       success: this.state.success,
       saveModal: !this.state.saveModal
@@ -78,6 +87,7 @@ class SchedulesSection extends Component {
             
             if ( response.status === 200 ) {
               this.setState( {
+                loading: false,
                 success: true,
                 change: false,
                 saveModal: false
@@ -101,12 +111,18 @@ class SchedulesSection extends Component {
     const {getFieldDecorator} =  this.props.form
     const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    const loadingSpin = this.state.loading ? (
+      <Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
 
     return(
       <div>
         <Form layout="inline">
           {changeMessage}
           {successMessage}
+          {loadingSpin}
 
           <FormItem
             label="Hora de Apertura:"
@@ -119,6 +135,7 @@ class SchedulesSection extends Component {
               <TimePicker 
                 style={style} 
                 format={format} 
+                disabled={this.state.loading}
                 onChange={this.handleInputsChange}
               />
             )}
@@ -137,6 +154,7 @@ class SchedulesSection extends Component {
               <TimePicker 
                 style={style} 
                 format={format} 
+                disabled={this.state.loading}
                 onChange={this.handleInputsChange}
               />
             )}
@@ -153,6 +171,7 @@ class SchedulesSection extends Component {
             } )(
               <InputNumber 
                 style={style} 
+                disabled={this.state.loading}
                 onChange={this.handleInputsChange}
               />
             )}
@@ -169,6 +188,7 @@ class SchedulesSection extends Component {
             } )(
               <InputNumber 
                 style={style} 
+                disabled={this.state.loading}
                 onChange={this.handleInputsChange}  
               />
             )}
