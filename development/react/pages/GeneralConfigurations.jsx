@@ -91,6 +91,37 @@ class Generalconfigurations extends Component {
     
   }
 
+  findComponent() {
+    let component = (<ChipsSection/>)
+
+    switch ( this.state.actualPanel ) {
+      case 'Fichas':
+        component = (<ChipsSection/>)
+        break;
+
+      case 'Montos rápidos':
+        component = (<AmountsSection/>)
+        break
+      
+      case 'Tipo de cambio':
+        component = (<ExchangeSection/>)
+        break
+
+      case 'Precio de Membresía':
+        component = (<MembershipSection/>)
+        break
+
+      case 'Horarios':
+        component = (<SchedulesSection/>)
+        break
+
+      default:
+        break;
+    }
+
+    return component
+  }
+
   toggle() {
     this.setState( {
       collapsed: !this.state.collapsed,
@@ -100,6 +131,8 @@ class Generalconfigurations extends Component {
   }
 
   render() {
+
+    const component = this.findComponent()
 
     return(
       <Layout className="dashboard-layout">
@@ -184,11 +217,7 @@ class Generalconfigurations extends Component {
           />
 
           <div className="dashboard-content">
-            {/*<AmountsSection/>*/}
-            {/*<ChipsSection/>*/}
-            {/*<ExchangeSection/>*/}
-            {/*<MembershipSection/>*/}
-            {<SchedulesSection/>}
+            {component}
           </div>
         </Layout>
       </Layout>
