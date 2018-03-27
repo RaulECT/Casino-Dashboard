@@ -62,6 +62,7 @@ class Login extends Component {
     localStorage.setItem( 'isLogin', 'true' )
     
     // TODO: Router Redirect to /dashboard
+    this.props.history.push( '/dashboard/configuraciones_generales' )
   }
 
   handleLoadingSpin() {
