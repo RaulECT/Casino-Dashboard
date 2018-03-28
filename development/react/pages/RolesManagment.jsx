@@ -14,6 +14,7 @@ import { Layout,
   Form,
   Col } from 'antd'
 import GlobalHeader from './GlobalHeader.jsx'
+import PageHeader from './PageHeader.jsx'
 
 import './styles/configurations.css'
 
