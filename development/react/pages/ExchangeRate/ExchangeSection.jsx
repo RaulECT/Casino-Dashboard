@@ -14,8 +14,8 @@ import ExchangeOption from './ExchangeOption.jsx'
 import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
 
-import blackChip from '../images/poker-chip-black.png'
-import dolarImg from '../images/dollar.png'
+import blackChip from '../images/ficha_negra.png'
+import dolarImg from '../images/dolares.png'
 
 import '../styles/exchangeSection.css'
 
