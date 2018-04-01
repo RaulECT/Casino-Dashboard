@@ -1,0 +1,27 @@
+.roles-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 16px 0px 16px 0px;
+}
+
+.roles-container h4 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.roles-table {
+  margin-bottom: 40px;
+  margin-top: 40px;
+  width: 45%;
+}
+
+.button-fixed {
+  margin-right: 30px;
+}
+
+.amount-form .ant-form-item-label,
+.amount-form .ant-form-item-control-wrapper {
+  display: inline-block;
+}
