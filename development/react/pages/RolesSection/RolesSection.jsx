@@ -78,6 +78,7 @@ class RolesSection extends Component {
     this.addNewRol = this.addNewRol.bind( this )
     this.deleteRole = this.deleteRole.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
+    this.handleAddRoleModal = this.handleAddRoleModal.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
 
     this.loadRoles()
@@ -85,10 +86,35 @@ class RolesSection extends Component {
 
   addNewRol() {
 
-    this.props.form.validateFields( (err, values) => {
+    this.props.form.validateFields( ['newRole'], (err, values) => {
       if ( !err ) {
         console.log( values )
         console.log( this.newRolPermissions )
+ 
+        this.api.createRol( values.newRole, this.newRolPermissions )
+          .then( response => {
+            this.handleAddRoleModal()
+
+            if ( response.status === 200 ) {
+              this.setState( {
+                loading: this.state.loading,
+                hasChanged: false,
+                success: true,
+                revertChangesModal: this.state.revertChangesModal,
+                addModal: false,
+                updateModal: this.state.updateModal,
+                roles: this.state.roles
+              } )
+
+              this.loadRoles()
+            } else {
+              // TODO: Handle Errors
+            }
+          } )
+          .catch( err => {
+            this.handleAddRoleModal()
+            console.log( err )
+          } )
       }
     } )
   }
@@ -120,6 +146,18 @@ class RolesSection extends Component {
     this.newRolPermissions = perm
   }
 
+  handleAddRoleModal() {
+    this.setState( {
+      loading: this.state.loading,
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: !this.state.addModal,
+      updateModal: this.state.updateModal,
+      roles: this.state.roles
+    } )
+  }
+
   loadRoles() {
     this.api.getRoles()
       .then( response => {
@@ -133,7 +171,7 @@ class RolesSection extends Component {
           console.log( roles )
 
           this.setState( {
-            loading: this.state.loading,
+            loading: false,
             hasChanged: this.state.hasChanged,
             success: this.state.success,
             revertChangesModal: this.state.revertChangesModal,
@@ -155,13 +193,13 @@ class RolesSection extends Component {
     const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const addRoleModal = (
       <Modal
-        visible={false}
+        visible={this.state.addModal}
         title="Agregar nuevo Rol"
         okText="Crear rol"
-        onCancel={ () => {} }
+        onCancel={ () => { this.handleAddRoleModal() } }
         onOk={ ()=>{} }
         footer={ [
-          <Button key="2" onClick={ ()=>{} }>Cancelar</Button>,
+          <Button key="2" onClick={ ()=>{ this.handleAddRoleModal() } }>Cancelar</Button>,
           <Popconfirm key="1" title="¿Desea crear este rol?" onConfirm={ () => { this.addNewRol()  }  }>
             <Button type="primary">Crear rol</Button>
           </Popconfirm>
@@ -216,9 +254,10 @@ class RolesSection extends Component {
             className="button-fixed"
             icon="plus"
             type="primary"
+            onClick={this.handleAddRoleModal}
             disabled={this.state.loading}
           >
-            Agregar Monto
+            Agregar Rol
           </Button>
 
           <Button
