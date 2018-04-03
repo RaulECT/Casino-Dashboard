@@ -31,10 +31,12 @@ class RolesSection extends Component {
       revertChangesModal: false,
       addModal: false,
       updateModal: false,
-      roles: []
+      roles: [],
+      editRolPermisions: []
     }
 
     this.newRolPermissions = {}
+    this.rolSelected = {}
     this.api = new Api()
 
     this.labelsOptions = [
@@ -63,7 +65,7 @@ class RolesSection extends Component {
         return(
           <div className="editable-row-operations">
             <span>
-              <a onClick={()=> {}}>Editar</a>
+              <a onClick={()=> this.showEditRolModal( record.key ) }>Editar</a>
               <Divider type="vertical" />
               <Popconfirm title="¿Desea eliminar este elemento?" onConfirm={ () => this.deleteRole( record.key ) }>
                 <a>Eliminar</a>
@@ -76,7 +78,9 @@ class RolesSection extends Component {
     } ]
 
     this.addNewRol = this.addNewRol.bind( this )
+    this.closeEditRolModal = this.closeEditRolModal.bind( this )
     this.deleteRole = this.deleteRole.bind( this )
+    this.showEditRolModal = this.showEditRolModal.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
     this.handleAddRoleModal = this.handleAddRoleModal.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
@@ -103,7 +107,8 @@ class RolesSection extends Component {
                 revertChangesModal: this.state.revertChangesModal,
                 addModal: false,
                 updateModal: this.state.updateModal,
-                roles: this.state.roles
+                roles: this.state.roles,
+                editRolPermisions: this.state.editRolPermisions
               } )
 
               this.loadRoles()
@@ -116,6 +121,19 @@ class RolesSection extends Component {
             console.log( err )
           } )
       }
+    } )
+  }
+
+  closeEditRolModal() {
+    this.setState( {
+      loading: this.state.loading,
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: false,
+      roles: this.state.roles,
+      editRolPermisions: this.state.editRolPermisions
     } )
   }
 
@@ -132,7 +150,34 @@ class RolesSection extends Component {
       revertChangesModal: this.state.revertChangesModal,
       addModal: this.state.addModal,
       updateModal: this.state.updateModal,
-      roles: rolesList
+      roles: rolesList,
+      editRolPermisions: this.state.editRolPermisions
+    } )
+  }
+
+  showEditRolModal( roleKey ) {
+    let rolesList = this.state.roles
+    let permissions = []
+    const rolePosition = rolesList.findIndex( element => element.key === roleKey.toString() )
+
+    for (var key in rolesList[rolePosition].permissions) {
+      if (rolesList[rolePosition].permissions.hasOwnProperty(key)) {
+          permissions.push( key.toString() )
+      }
+    }
+    
+    this.props.form.setFieldsValue( {editRol: rolesList[rolePosition].name} )
+    this.rolSelected = rolesList[rolePosition]
+
+    this.setState( {
+      loading: this.state.loading,
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: true,
+      roles: this.state.roles,
+      editRolPermisions: permissions
     } )
   }
 
@@ -154,7 +199,8 @@ class RolesSection extends Component {
       revertChangesModal: this.state.revertChangesModal,
       addModal: !this.state.addModal,
       updateModal: this.state.updateModal,
-      roles: this.state.roles
+      roles: this.state.roles,
+      editRolPermisions: this.state.editRolPermisions
     } )
   }
 
@@ -177,7 +223,8 @@ class RolesSection extends Component {
             revertChangesModal: this.state.revertChangesModal,
             addModal: this.state.addModal,
             updateModal: this.state.updateModal,
-            roles: roles
+            roles: roles,
+            editRolPermisions: this.state.editRolPermisions
           } ) 
         } else {
           // TODO: Handle Error
@@ -225,6 +272,40 @@ class RolesSection extends Component {
         </Form>
       </Modal>
     )
+    const updateModal = (
+      <Modal
+        visible={this.state.updateModal}
+        title="Editar rol"
+        okText="Editar rol"
+        onCancel={ ()=>{ this.closeEditRolModal() } }
+        onOk={ ()=>{} }
+        footer={ [
+          <Button key="2" onClick={ ()=>{ this.closeEditRolModal() } }>Cancelar</Button>,
+          <Popconfirm key="1" title="¿Desea editar este rol?" onConfirm={ () => { }  }>
+            <Button type="primary">Editar rol</Button>
+          </Popconfirm>
+        ] }
+      >
+        <Form layout="vertical">
+          <FormItem label="Rol:" className="">
+            { getFieldDecorator( 'editRol', {
+              rules: [ {required: true, message: 'Ingrese un valor!'} ]
+            } )(
+              <Input />
+            ) }
+
+            <p>Permisos:</p>
+            <CheckboxGroup 
+              style={{ width: '100%' }}
+              className="permison-section"
+              options={this.labelsOptions}
+              onChange={this.onChangePermissions}
+              value={this.state.editRolPermisions}
+            />
+          </FormItem>
+        </Form>
+      </Modal>
+    )
 
     return(
       <div className="roles-container">
@@ -233,6 +314,7 @@ class RolesSection extends Component {
         <h4>Porfavor, asigne los valores deseados</h4>
 
         { addRoleModal }
+        { updateModal }
 
         <Table 
           className="roles-table"
