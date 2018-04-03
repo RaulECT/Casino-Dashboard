@@ -111,7 +111,7 @@ class RolesSection extends Component {
   }
 
   deleteRole( roleKey ) {
-    console.log(roleKey)
+
     let rolesList = this.state.roles
     const rolePosition = rolesList.findIndex( element => element.key === roleKey.toString() )
     rolesList.splice( rolePosition, 1 )
@@ -145,7 +145,7 @@ class RolesSection extends Component {
           const roles = response.data.result.rolesArray
           console.log( roles )
           roles.map( ( element, index ) => {
-            element['key'] = index
+            element['key'] = index.toString()
           } )
           console.log( roles )
 
