@@ -83,23 +83,6 @@ class RolesSection extends Component {
     this.loadRoles()
   }
 
-  /*componentWillMount() {
-    const roles = []
-    for (let index = 0; index < 5; index++) {
-      roles.push( { key: index.toString(), rol: `rol ${index}` } )
-    }
-
-    this.state = {
-      loading: false,
-      hasChanged: false,
-      success: false,
-      revertChangesModal: false,
-      addModal: false,
-      updateModal: false,
-      roles: roles
-    }
-  }*/
-
   addNewRol() {
 
     this.props.form.validateFields( (err, values) => {
