@@ -12,6 +12,7 @@ import {
   Form,
   InputNumber
 } from 'antd'
+import Api from '../../controllers/Api'
 
 import '../styles/rolesSection.css'
 
@@ -34,6 +35,7 @@ class RolesSection extends Component {
     }
 
     this.newRolPermissions = {}
+    this.api = new Api()
 
     this.labelsOptions = [
       { label:'Reponer membresia.', value:'editCardId' },
@@ -51,7 +53,7 @@ class RolesSection extends Component {
 
     this.columns = [ {
       title: 'Rol',
-      dataIndex: 'rol'
+      dataIndex: 'name'
     }, 
     {
       title: 'Operaciones',
@@ -76,9 +78,12 @@ class RolesSection extends Component {
     this.addNewRol = this.addNewRol.bind( this )
     this.deleteRole = this.deleteRole.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
+    this.loadRoles = this.loadRoles.bind( this )
+
+    this.loadRoles()
   }
 
-  componentWillMount() {
+  /*componentWillMount() {
     const roles = []
     for (let index = 0; index < 5; index++) {
       roles.push( { key: index.toString(), rol: `rol ${index}` } )
@@ -93,7 +98,7 @@ class RolesSection extends Component {
       updateModal: false,
       roles: roles
     }
-  }
+  }*/
 
   addNewRol() {
 
@@ -106,6 +111,7 @@ class RolesSection extends Component {
   }
 
   deleteRole( roleKey ) {
+    console.log(roleKey)
     let rolesList = this.state.roles
     const rolePosition = rolesList.findIndex( element => element.key === roleKey.toString() )
     rolesList.splice( rolePosition, 1 )
@@ -131,12 +137,42 @@ class RolesSection extends Component {
     this.newRolPermissions = perm
   }
 
+  loadRoles() {
+    this.api.getRoles()
+      .then( response => {
+        
+        if ( response.status === 200 ) {
+          const roles = response.data.result.rolesArray
+          console.log( roles )
+          roles.map( ( element, index ) => {
+            element['key'] = index
+          } )
+          console.log( roles )
+
+          this.setState( {
+            loading: this.state.loading,
+            hasChanged: this.state.hasChanged,
+            success: this.state.success,
+            revertChangesModal: this.state.revertChangesModal,
+            addModal: this.state.addModal,
+            updateModal: this.state.updateModal,
+            roles: roles
+          } ) 
+        } else {
+          // TODO: Handle Error
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     const addRoleModal = (
       <Modal
-        visible={true}
+        visible={false}
         title="Agregar nuevo Rol"
         okText="Crear rol"
         onCancel={ () => {} }
