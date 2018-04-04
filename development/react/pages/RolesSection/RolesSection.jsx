@@ -337,10 +337,16 @@ class RolesSection extends Component {
         </Form>
       </Modal>
     )
+    const loadingSpin = this.state.loading ? (
+      <Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
 
     return(
       <div className="roles-container">
         {successMessage}
+        {loadingSpin}
         
 
         <h4>Porfavor, asigne los valores deseados</h4>
