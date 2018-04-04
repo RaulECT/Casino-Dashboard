@@ -26,9 +26,7 @@ class RolesSection extends Component {
 
     this.state = {
       loading: true,
-      hasChanged: false,
       success: false,
-      revertChangesModal: false,
       addModal: false,
       updateModal: false,
       roles: [],
@@ -99,9 +97,7 @@ class RolesSection extends Component {
             if ( response.status === 200 ) {
               this.setState( {
                 loading: this.state.loading,
-                hasChanged: false,
                 success: true,
-                revertChangesModal: this.state.revertChangesModal,
                 addModal: false,
                 updateModal: this.state.updateModal,
                 roles: this.state.roles,
@@ -124,9 +120,7 @@ class RolesSection extends Component {
   closeEditRolModal() {
     this.setState( {
       loading: this.state.loading,
-      hasChanged: this.state.hasChanged,
       success: this.state.success,
-      revertChangesModal: this.state.revertChangesModal,
       addModal: this.state.addModal,
       updateModal: false,
       roles: this.state.roles,
@@ -146,9 +140,7 @@ class RolesSection extends Component {
             if ( response.status === 200 ) {
               this.setState( {
                 loading: this.state.loading,
-                hasChanged: this.state.hasChanged,
                 success: true,
-                revertChangesModal: this.state.revertChangesModal,
                 addModal: this.state.addModal,
                 updateModal: this.state.updateModal,
                 roles: this.state.roles,
@@ -191,9 +183,7 @@ class RolesSection extends Component {
 
     this.setState( {
       loading: this.state.loading,
-      hasChanged: this.state.hasChanged,
       success: this.state.success,
-      revertChangesModal: this.state.revertChangesModal,
       addModal: this.state.addModal,
       updateModal: true,
       roles: this.state.roles,
@@ -223,9 +213,7 @@ class RolesSection extends Component {
 
     this.setState( {
       loading: this.state.loading,
-      hasChanged: this.state.hasChanged,
       success: this.state.success,
-      revertChangesModal: this.state.revertChangesModal,
       addModal: this.state.addModal,
       updateModal: this.state.updateModal,
       roles: this.state.roles,
@@ -236,9 +224,7 @@ class RolesSection extends Component {
   handleAddRoleModal() {
     this.setState( {
       loading: this.state.loading,
-      hasChanged: this.state.hasChanged,
       success: this.state.success,
-      revertChangesModal: this.state.revertChangesModal,
       addModal: !this.state.addModal,
       updateModal: this.state.updateModal,
       roles: this.state.roles,
@@ -260,9 +246,7 @@ class RolesSection extends Component {
 
           this.setState( {
             loading: false,
-            hasChanged: this.state.hasChanged,
             success: this.state.success,
-            revertChangesModal: this.state.revertChangesModal,
             addModal: this.state.addModal,
             updateModal: this.state.updateModal,
             roles: roles,
@@ -329,27 +313,27 @@ class RolesSection extends Component {
         ] }
       >
         <Form layout="vertical">
-          <FormItem label="Rol:" className="">
+          <FormItem label="Rol:" className="edit-role-section">
             { getFieldDecorator( 'editRol', {
               rules: [ {required: true, message: 'Ingrese un valor!'} ]
             } )(
               <Input />
             ) }
-
-            <p>Permisos:</p>
-
-            <div style={{ width: '100%' }} className="permison-section">
-              {
-                this.labelsOptions.map( (element, index) => {
-                  const checked = this.state.editRolPermisions.indexOf( element.value ) !== -1 ? true : false
-                
-                  return(
-                    <Checkbox key={index} checked={checked} value={element.value} onChange={this.onChangeEditedPermisions} > {element.label} </Checkbox>
-                  )
-                } )
-              }
-            </div>
           </FormItem>
+
+          <p>Permisos:</p>
+
+          <div style={{ width: '100%' }} className="permison-section">
+            {
+              this.labelsOptions.map( (element, index) => {
+                const checked = this.state.editRolPermisions.indexOf( element.value ) !== -1 ? true : false
+    
+                return(
+                  <Checkbox key={index} checked={checked} value={element.value} onChange={this.onChangeEditedPermisions} > {element.label} </Checkbox>
+                )
+              } )
+            }
+          </div>
         </Form>
       </Modal>
     )
