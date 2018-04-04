@@ -82,6 +82,7 @@ class RolesSection extends Component {
     this.deleteRole = this.deleteRole.bind( this )
     this.showEditRolModal = this.showEditRolModal.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
+    this.onChangeEditedPermisions = this.onChangeEditedPermisions.bind( this )
     this.handleAddRoleModal = this.handleAddRoleModal.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
 
@@ -133,7 +134,7 @@ class RolesSection extends Component {
       addModal: this.state.addModal,
       updateModal: false,
       roles: this.state.roles,
-      editRolPermisions: this.state.editRolPermisions
+      editRolPermisions: []
     } )
   }
 
@@ -189,6 +190,28 @@ class RolesSection extends Component {
     } )
 
     this.newRolPermissions = perm
+  }
+
+  onChangeEditedPermisions( e ) {
+    let editRolPermisions = this.state.editRolPermisions
+
+    if ( e.target.checked ) {
+      editRolPermisions = editRolPermisions.concat( e.target.value )
+    } else {
+      const index = editRolPermisions.indexOf( e.target.value )
+      editRolPermisions.splice(index, 1)
+    }
+
+    this.setState( {
+      loading: this.state.loading,
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: this.state.updateModal,
+      roles: this.state.roles,
+      editRolPermisions: editRolPermisions
+    } )
   }
 
   handleAddRoleModal() {
@@ -295,13 +318,18 @@ class RolesSection extends Component {
             ) }
 
             <p>Permisos:</p>
-            <CheckboxGroup 
-              style={{ width: '100%' }}
-              className="permison-section"
-              options={this.labelsOptions}
-              onChange={this.onChangePermissions}
-              value={this.state.editRolPermisions}
-            />
+
+            <div style={{ width: '100%' }} className="permison-section">
+              {
+                this.labelsOptions.map( (element, index) => {
+                  const checked = this.state.editRolPermisions.indexOf( element.value ) !== -1 ? true : false
+                
+                  return(
+                    <Checkbox key={index} checked={checked} value={element.value} onChange={this.onChangeEditedPermisions} > {element.label} </Checkbox>
+                  )
+                } )
+              }
+            </div>
           </FormItem>
         </Form>
       </Modal>
