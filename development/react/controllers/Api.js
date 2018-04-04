@@ -31,6 +31,20 @@ class Api {
       }
     } )
   }
+
+  editRol( id, name, permissions ) {
+
+    return axios.post( `${this.apiURL}/admin/edit_rol`, {
+      id: id,
+      name: name,
+      permissions: permissions
+    }, {
+      headers: {token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
 }
 
 module.exports = Api

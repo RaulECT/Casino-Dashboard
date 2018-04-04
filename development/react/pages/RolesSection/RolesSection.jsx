@@ -160,9 +160,9 @@ class RolesSection extends Component {
   editRol() {
     this.props.form.validateFields( ['editRol'], (err, value) => {
       if( !err ) {
-        console.log(value)
+        
         const permissions = this.formatPermissions( this.state.editRolPermisions )
-        console.log(permissions)
+        this.api.editRol( this.rolSelected.id, value.editRol, permissions )
       }
     } )
   }
