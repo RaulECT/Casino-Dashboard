@@ -394,15 +394,6 @@ class RolesSection extends Component {
 
         <div>
           <Button
-            disabled={!this.state.hasChanged}
-            className="button-fixed"
-            icon="save"
-            type="primary"
-          >
-            Guardar Cambios
-          </Button>
-
-          <Button
             className="button-fixed"
             icon="plus"
             type="primary"
@@ -411,16 +402,6 @@ class RolesSection extends Component {
           >
             Agregar Rol
           </Button>
-
-          <Button
-            disabled={!this.state.hasChanged}
-            icon="close"
-            type="primary"
-          >
-            Revertir Cambios
-          </Button>
-
-
         </div>
       </div>
     )
