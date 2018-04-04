@@ -75,7 +75,6 @@ class RolesSection extends Component {
 
     this.addNewRol = this.addNewRol.bind( this )
     this.closeEditRolModal = this.closeEditRolModal.bind( this )
-    this.deleteRole = this.deleteRole.bind( this )
     this.editRol = this.editRol.bind( this )
     this.showEditRolModal = this.showEditRolModal.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
@@ -132,24 +131,6 @@ class RolesSection extends Component {
       updateModal: false,
       roles: this.state.roles,
       editRolPermisions: []
-    } )
-  }
-
-  deleteRole( roleKey ) {
-
-    let rolesList = this.state.roles
-    const rolePosition = rolesList.findIndex( element => element.key === roleKey.toString() )
-    rolesList.splice( rolePosition, 1 )
-
-    this.setState( {
-      loading: this.state.loading,
-      hasChanged: true,
-      success: this.state.success,
-      revertChangesModal: this.state.revertChangesModal,
-      addModal: this.state.addModal,
-      updateModal: this.state.updateModal,
-      roles: rolesList,
-      editRolPermisions: this.state.editRolPermisions
     } )
   }
 
