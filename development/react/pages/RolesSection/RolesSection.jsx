@@ -80,6 +80,7 @@ class RolesSection extends Component {
     this.addNewRol = this.addNewRol.bind( this )
     this.closeEditRolModal = this.closeEditRolModal.bind( this )
     this.deleteRole = this.deleteRole.bind( this )
+    this.editRol = this.editRol.bind( this )
     this.showEditRolModal = this.showEditRolModal.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
     this.onChangeEditedPermisions = this.onChangeEditedPermisions.bind( this )
@@ -154,6 +155,26 @@ class RolesSection extends Component {
       roles: rolesList,
       editRolPermisions: this.state.editRolPermisions
     } )
+  }
+
+  editRol() {
+    this.props.form.validateFields( ['editRol'], (err, value) => {
+      if( !err ) {
+        console.log(value)
+        const permissions = this.formatPermissions( this.state.editRolPermisions )
+        console.log(permissions)
+      }
+    } )
+  }
+
+  formatPermissions( permissions ) {
+    let permissionsFormated = {}
+
+    permissions.map( value => {
+      permissionsFormated[value] = true
+    } )
+
+    return permissionsFormated
   }
 
   showEditRolModal( roleKey ) {
@@ -304,7 +325,7 @@ class RolesSection extends Component {
         onOk={ ()=>{} }
         footer={ [
           <Button key="2" onClick={ ()=>{ this.closeEditRolModal() } }>Cancelar</Button>,
-          <Popconfirm key="1" title="¿Desea editar este rol?" onConfirm={ () => { }  }>
+          <Popconfirm key="1" title="¿Desea editar este rol?" onConfirm={ () => { this.editRol() }  }>
             <Button type="primary">Editar rol</Button>
           </Popconfirm>
         ] }
