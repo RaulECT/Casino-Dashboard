@@ -87,8 +87,6 @@ class RolesSection extends Component {
 
     this.props.form.validateFields( ['newRole'], (err, values) => {
       if ( !err ) {
-        console.log( values )
-        console.log( this.newRolPermissions )
  
         this.api.createRol( values.newRole, this.newRolPermissions )
           .then( response => {
@@ -238,11 +236,10 @@ class RolesSection extends Component {
         
         if ( response.status === 200 ) {
           const roles = response.data.result.rolesArray
-          console.log( roles )
+
           roles.map( ( element, index ) => {
             element['key'] = index.toString()
           } )
-          console.log( roles )
 
           this.setState( {
             loading: false,
