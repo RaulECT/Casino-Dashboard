@@ -163,6 +163,27 @@ class RolesSection extends Component {
         
         const permissions = this.formatPermissions( this.state.editRolPermisions )
         this.api.editRol( this.rolSelected.id, value.editRol, permissions )
+          .then( response => {
+            this.closeEditRolModal()
+
+            if ( response.status === 200 ) {
+              this.setState( {
+                loading: this.state.loading,
+                hasChanged: this.state.hasChanged,
+                success: true,
+                revertChangesModal: this.state.revertChangesModal,
+                addModal: this.state.addModal,
+                updateModal: this.state.updateModal,
+                roles: this.state.roles,
+                editRolPermisions: this.state.editRolPermisions
+              } )
+            } else {
+              // TODO: Error managment
+            }
+          } )
+          .catch( err => {
+            this.closeEditRolModal()
+          } )
       }
     } )
   }
