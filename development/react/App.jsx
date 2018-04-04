@@ -1,12 +1,16 @@
 import React, {Component} from 'react'
 import { HashRouter, Route } from 'react-router-dom'
+import UsersManagment from './pages/UsersManagment.jsx'
 
 class App extends Component {
   render() {
     return(
-      <div>
-        React base project
-      </div>
+      <HashRouter>
+        <div>
+          <Route exact path="/dashboard/gestion_roles" component={UsersManagment}/>
+        </div>
+      </HashRouter>
+
     )
   }
 }
