@@ -263,7 +263,7 @@ class RolesSection extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
     const addRoleModal = (
       <Modal
         visible={this.state.addModal}
@@ -340,7 +340,8 @@ class RolesSection extends Component {
 
     return(
       <div className="roles-container">
-        {changeMessage}
+        {successMessage}
+        
 
         <h4>Porfavor, asigne los valores deseados</h4>
 
