@@ -66,10 +66,6 @@ class RolesSection extends Component {
           <div className="editable-row-operations">
             <span>
               <a onClick={()=> this.showEditRolModal( record.key ) }>Editar</a>
-              <Divider type="vertical" />
-              <Popconfirm title="¿Desea eliminar este elemento?" onConfirm={ () => this.deleteRole( record.key ) }>
-                <a>Eliminar</a>
-              </Popconfirm>
             </span>
           </div>
         )
