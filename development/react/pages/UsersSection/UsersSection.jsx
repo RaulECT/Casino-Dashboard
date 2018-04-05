@@ -1,9 +1,11 @@
 import React, {Component} from 'react' 
 import {
-  Divider,
-  Popconfirm,
-  Table
+  Form,
+  Input,
+  Icon,
+  Button
 } from 'antd'
+import UsersTable from './UsersTable.jsx'
 
 import '../styles/usersSection.css'
 
@@ -18,48 +20,30 @@ for (let index = 0; index < 6; index++) {
   } )
 }
 
+const FormItem = Form.Item
+
 class UsersSection extends Component {
 
   constructor( props ) {
     super( props )
-
-    this.columns = [ {
-      title: 'Nombre',
-      dataIndex: 'name'
-    }, 
-    {
-      title: 'Rol',
-      dataIndex: 'roleName'
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email'
-    },
-    {
-      title: 'Opciones',
-      dataIndex: 'operation',
-      render: (text, record) => {
-        return (
-          <div className="editable-row-operations">
-            <span>
-              <a onClick={() => {}}>Editar</a>
-              <Divider type="vertical" />
-              <Popconfirm title="¿Desea eliminar este usuario?" onConfirm={() => {}}>
-                <a>Eliminar</a>
-              </Popconfirm>
-            </span> 
-          </div>
-        )
-      }
-    } ]
   }
+
 
   render() {
     return(
       <div className="users-container">
-        <h4>Lista de usuarios</h4>
 
-        <Table className="users-table" dataSource={data} columns={this.columns} />
+        <Form layout="inline" style={ {width: '100%'} }>
+          <FormItem className="search-field" style={ {width: '40%'}}>
+            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Buscar por nombre de usuario..." />
+          </FormItem>
+
+          <FormItem>
+            <Button type="primary">Buscar</Button>
+          </FormItem>
+        </Form>
+
+        <UsersTable data={data} />
       </div>
     )
   }

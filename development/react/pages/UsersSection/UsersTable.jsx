@@ -5,17 +5,6 @@ import {
   Table
 } from 'antd'
 
-const data = []
-
-for (let index = 0; index < 6; index++) {
-  data.push( {
-    key: index.toString(),
-    name: `name${index} name${index} name${index}`,
-    roleName: `rol_${index}`,
-    email: `email_${index}@correo.com`
-  } )
-}
-
 class UserTable extends Component {
   constructor( props ) {
     super( props )
@@ -49,11 +38,16 @@ class UserTable extends Component {
         )
       }
     } ]
+    this.rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+      }
+    }
   }
 
   render() {
     return(
-      <Table className="users-table" dataSource={data} columns={this.columns} />
+      <Table rowSelection={this.rowSelection} className="users-table" dataSource={this.props.data} columns={this.columns} />
     )
   }
 }
