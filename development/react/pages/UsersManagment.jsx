@@ -16,6 +16,8 @@ import { Layout,
 import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
+import UsersSection from './UsersSection/UsersSection.jsx'
+
 import './styles/configurations.css'
 
 const { Header, Sider, Content } = Layout
@@ -121,7 +123,7 @@ class UsersManagment extends Component {
           />
 
           <div className="dashboard-content">
-     
+            <UsersSection/>
           </div>
         </Layout>
       </Layout>
