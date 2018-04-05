@@ -21,6 +21,7 @@ for (let index = 0; index < 6; index++) {
 }
 
 const FormItem = Form.Item
+const Search = Input.Search
 
 class UsersSection extends Component {
 
@@ -33,17 +34,33 @@ class UsersSection extends Component {
     return(
       <div className="users-container">
 
-        <Form layout="inline" style={ {width: '100%'} }>
-          <FormItem className="search-field" style={ {width: '40%'}}>
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Buscar por nombre de usuario..." />
-          </FormItem>
-
-          <FormItem>
-            <Button type="primary">Buscar</Button>
-          </FormItem>
-        </Form>
+        <Search
+          placeholder="Buscar por nombre de usuario"
+          size="large"
+          onSearch={value => console.log(value)}
+          onChange={ value => console.log(value.target.value) }
+          style={ {width: '80%'} }
+          enterButton
+        />
 
         <UsersTable data={data} />
+
+        <div>
+          <Button
+            icon="user-add"
+            type="primary"
+            style={ {marginRight: '20px'} }
+          >
+            Agregar usuario
+          </Button>
+
+          <Button
+            icon="delete"
+            type="danger"
+          >
+            Eliminar (0) seleccionados 
+          </Button>
+        </div>
       </div>
     )
   }
