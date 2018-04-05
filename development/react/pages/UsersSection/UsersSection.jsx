@@ -6,6 +6,7 @@ import {
   Button
 } from 'antd'
 import UsersTable from './UsersTable.jsx'
+import AddUser from './AddUser.jsx'
 
 import '../styles/usersSection.css'
 
@@ -30,19 +31,32 @@ class UsersSection extends Component {
     super( props )
 
     this.state = {
+      addUserModal: false,
       usersToDelete: []
     }
 
     this.addUsersToDelete = this.addUsersToDelete.bind( this )
+    this.handleAddUserModal = this.handleAddUserModal.bind( this )
   }
 
   addUsersToDelete( users ) {
     const elementsToDelete = []
+    const { addUserModal } = this.state
 
     users.map( element => elementsToDelete.push( element.id ) )
 
     this.setState( {
+      addUserModal,
       usersToDelete: elementsToDelete
+    } )
+  }
+
+  handleAddUserModal() {
+    const { addUserModal, usersToDelete } = this.state
+
+    this.setState( {
+      addUserModal: !addUserModal,
+      usersToDelete
     } )
   }
 
@@ -70,6 +84,7 @@ class UsersSection extends Component {
             icon="user-add"
             type="primary"
             style={ {marginRight: '20px'} }
+            onClick={this.handleAddUserModal}
           >
             Agregar usuario
           </Button>
@@ -81,6 +96,11 @@ class UsersSection extends Component {
             Eliminar ({`${this.state.usersToDelete.length}`}) seleccionados 
           </Button>
         </div>
+
+        <AddUser
+          visible={this.state.addUserModal}
+          close={this.handleAddUserModal}
+        />
       </div>
     )
   }
