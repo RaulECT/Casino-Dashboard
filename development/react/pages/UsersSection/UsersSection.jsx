@@ -14,6 +14,7 @@ const data = []
 for (let index = 0; index < 6; index++) {
   data.push( {
     key: index.toString(),
+    id: index.toString(),
     name: `name${index} name${index} name${index}`,
     roleName: `rol_${index}`,
     email: `email_${index}@correo.com`
@@ -27,6 +28,22 @@ class UsersSection extends Component {
 
   constructor( props ) {
     super( props )
+
+    this.state = {
+      usersToDelete: []
+    }
+
+    this.addUsersToDelete = this.addUsersToDelete.bind( this )
+  }
+
+  addUsersToDelete( users ) {
+    const elementsToDelete = []
+
+    users.map( element => elementsToDelete.push( element.id ) )
+
+    this.setState( {
+      usersToDelete: elementsToDelete
+    } )
   }
 
 
@@ -43,7 +60,10 @@ class UsersSection extends Component {
           enterButton
         />
 
-        <UsersTable data={data} />
+        <UsersTable
+          data={data} 
+          selectUsersToDelete={this.addUsersToDelete}  
+        />
 
         <div>
           <Button
@@ -58,7 +78,7 @@ class UsersSection extends Component {
             icon="delete"
             type="danger"
           >
-            Eliminar (0) seleccionados 
+            Eliminar ({`${this.state.usersToDelete.length}`}) seleccionados 
           </Button>
         </div>
       </div>

@@ -8,6 +8,7 @@ import {
 class UserTable extends Component {
   constructor( props ) {
     super( props )
+    console.log(this.props)
 
     this.columns = [ {
       title: 'Nombre',
@@ -41,6 +42,7 @@ class UserTable extends Component {
     this.rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+        this.props.selectUsersToDelete( selectedRows )
       }
     }
   }
