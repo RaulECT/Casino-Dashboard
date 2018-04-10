@@ -25,7 +25,8 @@ class UsersSection extends Component {
       addUserModal: false,
       users: [],
       loading: false,
-      usersToDelete: []
+      usersToDelete: [],
+      searchValue: ''
     }
 
     this.addUsersToDelete = this.addUsersToDelete.bind( this )
@@ -36,7 +37,7 @@ class UsersSection extends Component {
 
   addUsersToDelete( usersSelected ) {
     const elementsToDelete = []
-    const { addUserModal, users, loading } = this.state
+    const { addUserModal, users, loading, searchValue } = this.state
 
     usersSelected.map( element => elementsToDelete.push( element.userId ) )
 
@@ -44,22 +45,32 @@ class UsersSection extends Component {
       addUserModal,
       users,
       loading,
-      usersToDelete: elementsToDelete
+      usersToDelete: elementsToDelete,
+      searchValue
     } )
   }
 
   deleteSingleUser( userId ) {
     this.api.deleteUser( userId )
+    .then( response => {
+      if ( response.status === 200 ) {
+        const { searchValue } = this.state
+        this.searchUserByName( searchValue )
+      } else {
+        // TODO: Handle Error
+      }
+    } )
   }
 
   handleAddUserModal() {
-    const { addUserModal, users, usersToDelete, loading } = this.state
+    const { addUserModal, users, usersToDelete, loading, searchValue } = this.state
 
     this.setState( {
       addUserModal: !addUserModal,
       loading,
       users,
-      usersToDelete
+      usersToDelete,
+      searchValue
     } )
   }
 
@@ -70,7 +81,8 @@ class UsersSection extends Component {
       loading: true,
       addUserModal,
       usersToDelete: [],
-      users
+      users,
+      searchValue: name
     } )
 
     this.api.getUserByName( name )
@@ -88,7 +100,8 @@ class UsersSection extends Component {
             users: response.data.result.usersArray,
             loading: false,
             addUserModal,
-            usersToDelete: []
+            usersToDelete: [],
+            searchValue: name
           } )
         } else {
           // TODO: Handle Error
