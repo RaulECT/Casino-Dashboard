@@ -4,9 +4,9 @@ import {
   Modal,
   Input,
   DatePicker,
-  Row,
-  Col,
   Select,
+  Button,
+  Popconfirm,
   Radio
 } from 'antd'
 
@@ -18,6 +18,17 @@ class AddUser extends Component {
 
   constructor( props ) {
     super( props )
+
+    this.dateFormat = "DD/MM/YYYY"
+  }
+
+  getModalFooter() {
+    return [
+      <Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar</Button>,
+      <Popconfirm key="1" title="¿Desea crear este usuario?" onConfirm={ () => {}  }>
+        <Button type="primary">Crear usuario</Button>
+      </Popconfirm>
+    ]
   }
 
   render() {
@@ -32,6 +43,9 @@ class AddUser extends Component {
         style={ {width: 1000} }
         width={800}
         onCancel={close}
+        okText="Crear rol"
+        onOk={ ()=>{} }
+        footer={ this.getModalFooter() }
       >
         <Form layout="inline">
           
@@ -105,7 +119,7 @@ class AddUser extends Component {
             className="add-user-form"
           >
             {getFieldDecorator( 'birthday', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <DatePicker placeholder="dd/mm/yyyy" />
+              <DatePicker placeholder="dd/mm/yyyy" format={this.dateFormat} />
             )}
           </FormItem>
 
