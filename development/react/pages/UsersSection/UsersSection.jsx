@@ -5,6 +5,7 @@ import {
   Icon,
   Button
 } from 'antd'
+import Api from '../../controllers/Api'
 import UsersTable from './UsersTable.jsx'
 import AddUser from './AddUser.jsx'
 
@@ -30,34 +31,66 @@ class UsersSection extends Component {
   constructor( props ) {
     super( props )
 
+    this.api = new Api()
+
     this.state = {
       addUserModal: false,
+      users: [],
       usersToDelete: []
     }
 
     this.addUsersToDelete = this.addUsersToDelete.bind( this )
     this.handleAddUserModal = this.handleAddUserModal.bind( this )
+    this.searchUserByName = this.searchUserByName.bind( this )
   }
 
-  addUsersToDelete( users ) {
+  addUsersToDelete( usersSelected ) {
     const elementsToDelete = []
-    const { addUserModal } = this.state
+    const { addUserModal, users } = this.state
 
-    users.map( element => elementsToDelete.push( element.id ) )
+    usersSelected.map( element => elementsToDelete.push( element.userId ) )
 
     this.setState( {
       addUserModal,
+      users: users,
       usersToDelete: elementsToDelete
     } )
   }
 
   handleAddUserModal() {
-    const { addUserModal, usersToDelete } = this.state
+    const { addUserModal, users, usersToDelete } = this.state
 
     this.setState( {
       addUserModal: !addUserModal,
+      users,
       usersToDelete
     } )
+  }
+
+  searchUserByName( name ) {
+    this.api.getUserByName( name )
+      .then( response => {
+   
+        if ( response.status === 200 ) {
+          const { addUserModal, usersToDelete } = this.state
+          let usersArray = response.data.result.usersArray
+
+          usersArray.map( (element, index) => { 
+            element['key'] = index
+           } )
+
+          this.setState( {
+            users: response.data.result.usersArray,
+            addUserModal,
+            usersToDelete
+          } )
+        } else {
+          // TODO: Handle Error
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
   }
 
 
@@ -68,14 +101,14 @@ class UsersSection extends Component {
         <Search
           placeholder="Buscar por nombre de usuario"
           size="large"
-          onSearch={value => console.log(value)}
-          onChange={ value => console.log(value.target.value) }
+          onSearch={value => this.searchUserByName( value ) }
+          onChange={ value => this.searchUserByName( value.target.value ) }
           style={ {width: '80%'} }
           enterButton
         />
 
         <UsersTable
-          data={data} 
+          data={this.state.users} 
           selectUsersToDelete={this.addUsersToDelete}  
         />
 
