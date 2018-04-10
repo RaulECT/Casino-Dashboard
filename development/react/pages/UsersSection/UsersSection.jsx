@@ -52,14 +52,17 @@ class UsersSection extends Component {
 
   deleteSingleUser( userId ) {
     this.api.deleteUser( userId )
-    .then( response => {
-      if ( response.status === 200 ) {
-        const { searchValue } = this.state
-        this.searchUserByName( searchValue )
-      } else {
-        // TODO: Handle Error
-      }
-    } )
+      .then( response => {
+        if ( response.status === 200 ) {
+          const { searchValue } = this.state
+          this.searchUserByName( searchValue )
+        } else {
+          // TODO: Handle Error
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
   }
 
   handleAddUserModal() {
