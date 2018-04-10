@@ -15,3 +15,20 @@
   width: 100%;
   margin-top: 30px;
 }
+
+.add-user-form {
+  margin-bottom: 15px !important;
+}
+
+.add-user-form .ant-form-item-label,
+.add-user-form .ant-form-item-control-wrapper{
+  display: inline-block;
+}
+
+.add-user-form:nth-child(1) .ant-form-item-control-wrapper {
+  width: 70%;
+}
+
+.add-user-form:nth-child(2n) {
+  margin-right: 30px !important;
+}
