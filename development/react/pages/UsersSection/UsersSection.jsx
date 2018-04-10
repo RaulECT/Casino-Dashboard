@@ -36,6 +36,7 @@ class UsersSection extends Component {
     this.state = {
       addUserModal: false,
       users: [],
+      loading: false,
       usersToDelete: []
     }
 
@@ -46,33 +47,44 @@ class UsersSection extends Component {
 
   addUsersToDelete( usersSelected ) {
     const elementsToDelete = []
-    const { addUserModal, users } = this.state
+    const { addUserModal, users, loading } = this.state
 
     usersSelected.map( element => elementsToDelete.push( element.userId ) )
 
     this.setState( {
       addUserModal,
-      users: users,
+      users,
+      loading,
       usersToDelete: elementsToDelete
     } )
   }
 
   handleAddUserModal() {
-    const { addUserModal, users, usersToDelete } = this.state
+    const { addUserModal, users, usersToDelete, loading } = this.state
 
     this.setState( {
       addUserModal: !addUserModal,
+      loading,
       users,
       usersToDelete
     } )
   }
 
   searchUserByName( name ) {
+    const { addUserModal, usersToDelete, users } = this.state
+
+    this.setState( {
+      loading: true,
+      addUserModal,
+      usersToDelete,
+      users
+    } )
+
     this.api.getUserByName( name )
       .then( response => {
    
         if ( response.status === 200 ) {
-          const { addUserModal, usersToDelete } = this.state
+          
           let usersArray = response.data.result.usersArray
 
           usersArray.map( (element, index) => { 
@@ -81,6 +93,7 @@ class UsersSection extends Component {
 
           this.setState( {
             users: response.data.result.usersArray,
+            loading: false,
             addUserModal,
             usersToDelete
           } )
@@ -95,6 +108,8 @@ class UsersSection extends Component {
 
 
   render() {
+    const { users, loading } = this.state
+
     return(
       <div className="users-container">
 
@@ -108,7 +123,7 @@ class UsersSection extends Component {
         />
 
         <UsersTable
-          data={this.state.users} 
+          data={users} 
           selectUsersToDelete={this.addUsersToDelete}  
         />
 
@@ -118,6 +133,7 @@ class UsersSection extends Component {
             type="primary"
             style={ {marginRight: '20px'} }
             onClick={this.handleAddUserModal}
+            loading={loading}
           >
             Agregar usuario
           </Button>
@@ -125,6 +141,7 @@ class UsersSection extends Component {
           <Button
             icon="delete"
             type="danger"
+            loading={loading}
           >
             Eliminar ({`${this.state.usersToDelete.length}`}) seleccionados 
           </Button>
