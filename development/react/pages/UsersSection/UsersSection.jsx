@@ -11,18 +11,6 @@ import AddUser from './AddUser.jsx'
 
 import '../styles/usersSection.css'
 
-const data = []
-
-for (let index = 0; index < 6; index++) {
-  data.push( {
-    key: index.toString(),
-    id: index.toString(),
-    name: `name${index} name${index} name${index}`,
-    roleName: `rol_${index}`,
-    email: `email_${index}@correo.com`
-  } )
-}
-
 const FormItem = Form.Item
 const Search = Input.Search
 
@@ -41,6 +29,7 @@ class UsersSection extends Component {
     }
 
     this.addUsersToDelete = this.addUsersToDelete.bind( this )
+    this.deleteSingleUser = this.deleteSingleUser.bind( this )
     this.handleAddUserModal = this.handleAddUserModal.bind( this )
     this.searchUserByName = this.searchUserByName.bind( this )
   }
@@ -57,6 +46,10 @@ class UsersSection extends Component {
       loading,
       usersToDelete: elementsToDelete
     } )
+  }
+
+  deleteSingleUser( userId ) {
+    this.api.deleteUser( userId )
   }
 
   handleAddUserModal() {
@@ -76,7 +69,7 @@ class UsersSection extends Component {
     this.setState( {
       loading: true,
       addUserModal,
-      usersToDelete,
+      usersToDelete: [],
       users
     } )
 
@@ -95,7 +88,7 @@ class UsersSection extends Component {
             users: response.data.result.usersArray,
             loading: false,
             addUserModal,
-            usersToDelete
+            usersToDelete: []
           } )
         } else {
           // TODO: Handle Error
@@ -108,7 +101,7 @@ class UsersSection extends Component {
 
 
   render() {
-    const { users, loading } = this.state
+    const { users, loading, usersToDelete, addUserModal } = this.state
 
     return(
       <div className="users-container">
@@ -124,6 +117,7 @@ class UsersSection extends Component {
 
         <UsersTable
           data={users} 
+          deleteSingleUser={this.deleteSingleUser}
           selectUsersToDelete={this.addUsersToDelete}  
         />
 
@@ -143,12 +137,12 @@ class UsersSection extends Component {
             type="danger"
             loading={loading}
           >
-            Eliminar ({`${this.state.usersToDelete.length}`}) seleccionados 
+            Eliminar ({`${usersToDelete.length}`}) seleccionados 
           </Button>
         </div>
 
         <AddUser
-          visible={this.state.addUserModal}
+          visible={addUserModal}
           close={this.handleAddUserModal}
         />
       </div>

@@ -20,6 +20,21 @@ class Api {
     } )
   }
 
+  deleteUser( userId ) {
+
+    return axios.post( `${this.apiURL}/admin/deactive_user`, {
+      appId: this.appID,
+      userId: userId
+    }, {
+      headers: {token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+
+    console.log( req )
+  }
+
 }
 
 module.exports = Api
