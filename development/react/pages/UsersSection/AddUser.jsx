@@ -40,7 +40,6 @@ class AddUser extends Component {
       <Modal
         title="Agregar usuario"
         visible={visible}
-        style={ {width: 1000} }
         width={800}
         onCancel={close}
         okText="Crear rol"
