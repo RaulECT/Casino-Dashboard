@@ -10,6 +10,15 @@ class Api {
     this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyMzQ1NzcxOSwiZXhwIjoxNTIzNDg2NTE5fQ.BjMhO7V0jr_2Sl1lRvKcUIjXNf2Cv8AaVieMVdw_vuw'
   }
 
+  getRoles() {
+    return axios.get( `${this.apiURL}/admin/get_roles`, {
+      headers: {token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
   getUserByName( name ) {
 
     return axios.get( `${this.apiURL}/admin/users_by_name?partName=${name}`, {

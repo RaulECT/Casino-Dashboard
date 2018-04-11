@@ -29,8 +29,15 @@ class UserTable extends Component {
         return (
           <div className="editable-row-operations">
             <span>
-              <a onClick={() => { this.props.showEditSection() }}>Editar</a>
+              <a onClick={() => { 
+                this.props.showEditSection()  
+                this.props.selectUserToEdit( record )
+              }}>
+                Editar
+              </a>
+
               <Divider type="vertical" />
+              
               <Popconfirm title="¿Desea eliminar este usuario?" onConfirm={() => { /*TODO: UNCOMMENT TO TEST this.props.deleteSingleUser( record.userId )*/ }}> 
                 <a>Eliminar</a>
               </Popconfirm>

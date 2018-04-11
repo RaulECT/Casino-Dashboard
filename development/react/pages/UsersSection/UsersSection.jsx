@@ -28,6 +28,7 @@ class UsersSection extends Component {
       users: [],
       loading: false,
       usersToDelete: [],
+      userToEdit: {},
       searchValue: ''
     }
 
@@ -36,11 +37,12 @@ class UsersSection extends Component {
     this.handleAddUserModal = this.handleAddUserModal.bind( this )
     this.handleEditUserModal = this.handleEditUserModal.bind( this )
     this.searchUserByName = this.searchUserByName.bind( this )
+    this.selectUserToEdit = this.selectUserToEdit.bind( this )
   }
 
   addUsersToDelete( usersSelected ) {
     const elementsToDelete = []
-    const { addUserModal, editUserModal, users, loading, searchValue } = this.state
+    const { addUserModal, editUserModal, users, userToEdit, loading, searchValue } = this.state
 
     usersSelected.map( element => elementsToDelete.push( element.userId ) )
 
@@ -50,6 +52,7 @@ class UsersSection extends Component {
       users,
       loading,
       usersToDelete: elementsToDelete,
+      userToEdit,
       searchValue
     } )
   }
@@ -70,7 +73,7 @@ class UsersSection extends Component {
   }
 
   handleAddUserModal() {
-    const { addUserModal, editUserModal, users, usersToDelete, loading, searchValue } = this.state
+    const { addUserModal, editUserModal, users, usersToDelete, userToEdit, loading, searchValue } = this.state
 
     this.setState( {
       addUserModal: !addUserModal,
@@ -78,31 +81,34 @@ class UsersSection extends Component {
       loading,
       users,
       usersToDelete,
+      userToEdit,
       searchValue
     } )
   }
 
   handleEditUserModal() {
-    const { addUserModal, editUserModal, users, usersToDelete, loading, searchValue } = this.state
+    const { addUserModal, editUserModal, users, usersToDelete, userToEdit, loading, searchValue } = this.state
 
     this.setState( {
       addUserModal,
       editUserModal: !editUserModal,
       users,
       usersToDelete,
+      userToEdit,
       loading,
       searchValue
     } )
   }
 
   searchUserByName( name ) {
-    const { addUserModal, editUserModal, usersToDelete, users } = this.state
+    const { addUserModal, editUserModal, usersToDelete, userToEdit, users } = this.state
 
     this.setState( {
       loading: true,
       addUserModal,
       editUserModal,
       usersToDelete: [],
+      userToEdit,
       users,
       searchValue: name
     } )
@@ -124,6 +130,7 @@ class UsersSection extends Component {
             loading: false,
             addUserModal,
             usersToDelete: [],
+            userToEdit,
             searchValue: name
           } )
         } else {
@@ -135,9 +142,30 @@ class UsersSection extends Component {
       } )
   }
 
+  selectUserToEdit( user ) {
+    const { addUserModal, loading, usersToDelete, users, searchValue } = this.state
+
+    this.setState( {
+      userToEdit: user,
+      addUserModal,
+      editUserModal: true,
+      loading,
+      usersToDelete,
+      users,
+      searchValue
+    } )
+
+  }
+
 
   render() {
-    const { users, loading, usersToDelete, addUserModal, editUserModal } = this.state
+    const { users, loading, usersToDelete, addUserModal, editUserModal, userToEdit } = this.state
+    const editUser = editUserModal ? (
+      <EditUser
+        visible={editUserModal}
+        user={userToEdit}
+        close={this.handleEditUserModal}
+      /> ) : ''
 
     return(
       <div className="users-container">
@@ -155,6 +183,7 @@ class UsersSection extends Component {
           data={users} 
           deleteSingleUser={this.deleteSingleUser}
           showEditSection={this.handleEditUserModal}
+          selectUserToEdit={this.selectUserToEdit}
           selectUsersToDelete={this.addUsersToDelete}  
         />
 
@@ -183,10 +212,7 @@ class UsersSection extends Component {
           close={this.handleAddUserModal}
         />
 
-        <EditUser
-          visible={editUserModal}
-          close={this.handleEditUserModal}
-        />
+        {editUser}
       </div>
     )
   }

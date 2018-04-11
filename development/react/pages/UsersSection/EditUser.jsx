@@ -1,4 +1,5 @@
 import React, {Component} from 'react' 
+import moment from 'moment'
 import {
   Form,
   Modal,
@@ -18,8 +19,40 @@ class EditUser extends Component {
   
   constructor( props ) {
     super( props )
-
     this.dateFormat = "DD/MM/YYYY"    
+  
+    this.setUserValues = this.setUserValues.bind( this )
+  }
+
+  componentDidMount() {
+    this.setUserValues()
+  }
+
+  formatDate( date ) {
+    const fullDate = date.split('T')[0]
+    const dateParts = fullDate.split('-')
+
+    return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
+  }
+
+  getRoles() {
+    
+  }
+
+  setUserValues() {
+    const { setFieldsValue } = this.props.form
+    const { names, firstSurname, secondSurname, username, email, gender, birthday } = this.props.user
+    const date =  this.formatDate( birthday )
+
+    setFieldsValue( {
+      nameEdit: names,
+      firstNameEdit: firstSurname,
+      secondNameEdit: secondSurname,
+      userNameEdit: username,
+      emailEdit: email,
+      birthdayEdit: moment(date, this.dateFormat),
+      genereEdit: gender
+    } )
   }
 
   render() {
@@ -43,7 +76,9 @@ class EditUser extends Component {
             style={ {width: '70%'} }
           >
             {getFieldDecorator( 'nameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input placeholder="Ej. Juan Perez" />
+              <Input 
+                placeholder="Ej. Juan Perez" 
+              />
             )}
           </FormItem>
 
@@ -52,7 +87,9 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'firstNameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input placeholder="Ej. Gonzales" />
+              <Input 
+                placeholder="Ej. Gonzales" 
+              />
             )}
           </FormItem>
 
@@ -61,7 +98,9 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'secondNameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input placeholder="Ej. Gomez" />
+              <Input 
+                placeholder="Ej. Gomez" 
+              />
             )}
           </FormItem>
 
@@ -128,8 +167,8 @@ class EditUser extends Component {
           >
             {getFieldDecorator( 'genereEdit', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
               <RadioGroup>
-                <Radio value={1}>Masculino</Radio>
-                <Radio value={2}>Femenino</Radio>
+                <Radio value={'H'}>Masculino</Radio>
+                <Radio value={'M'}>Femenino</Radio>
               </RadioGroup>
             )}
           </FormItem>
