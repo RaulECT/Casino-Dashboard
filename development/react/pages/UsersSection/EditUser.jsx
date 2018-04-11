@@ -20,17 +20,15 @@ class EditUser extends Component {
   
   constructor( props ) {
     super( props )
-
-    this.state = {
-      roles: []
-    }
     
     this.roles = []
     this.api = new Api()
     this.dateFormat = "DD/MM/YYYY"    
     
     this.setUserValues = this.setUserValues.bind( this )
+    this.loadRoles = this.loadRoles.bind( this )
 
+    this.loadRoles()
   }
 
   componentDidMount() {
@@ -48,7 +46,7 @@ class EditUser extends Component {
 
   setUserValues() {
     const { setFieldsValue } = this.props.form
-    const { names, firstSurname, secondSurname, username, email, gender, birthday } = this.props.user
+    const { names, firstSurname, secondSurname, username, email, gender, birthday, roleId } = this.props.user
     const date =  this.formatDate( birthday )
 
     setFieldsValue( {
@@ -58,7 +56,17 @@ class EditUser extends Component {
       userNameEdit: username,
       emailEdit: email,
       birthdayEdit: moment(date, this.dateFormat),
-      genereEdit: gender
+      genereEdit: gender,
+      roleEdit: roleId
+    } )
+  }
+
+  loadRoles() {
+    const { roles } = this.props
+
+    roles.map( ( element, index ) => {
+      console.log(element)
+      this.roles.push( <Option key={index} value={element.id}>{element.name}</Option> )
     } )
   }
 
@@ -163,7 +171,7 @@ class EditUser extends Component {
           >
             {getFieldDecorator( 'roleEdit', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
               <Select style={{ width: 120 }}>
-                {   }
+                { this.roles.map( element => { return element } ) }
               </Select>
             )}
           </FormItem>
