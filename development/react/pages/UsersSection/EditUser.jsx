@@ -1,5 +1,6 @@
 import React, {Component} from 'react' 
 import moment from 'moment'
+import Api from '../../controllers/Api'
 import {
   Form,
   Modal,
@@ -19,9 +20,17 @@ class EditUser extends Component {
   
   constructor( props ) {
     super( props )
+
+    this.state = {
+      roles: []
+    }
+    
+    this.roles = []
+    this.api = new Api()
     this.dateFormat = "DD/MM/YYYY"    
-  
+    
     this.setUserValues = this.setUserValues.bind( this )
+
   }
 
   componentDidMount() {
@@ -35,9 +44,7 @@ class EditUser extends Component {
     return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
   }
 
-  getRoles() {
-    
-  }
+
 
   setUserValues() {
     const { setFieldsValue } = this.props.form
@@ -156,7 +163,7 @@ class EditUser extends Component {
           >
             {getFieldDecorator( 'roleEdit', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
               <Select style={{ width: 120 }}>
-                <Option value="rol-1">Rol 1</Option>
+                {   }
               </Select>
             )}
           </FormItem>

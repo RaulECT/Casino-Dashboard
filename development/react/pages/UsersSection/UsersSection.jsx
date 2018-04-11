@@ -32,12 +32,18 @@ class UsersSection extends Component {
       searchValue: ''
     }
 
+    this.roles = []
+
     this.addUsersToDelete = this.addUsersToDelete.bind( this )
     this.deleteSingleUser = this.deleteSingleUser.bind( this )
     this.handleAddUserModal = this.handleAddUserModal.bind( this )
     this.handleEditUserModal = this.handleEditUserModal.bind( this )
     this.searchUserByName = this.searchUserByName.bind( this )
     this.selectUserToEdit = this.selectUserToEdit.bind( this )
+  }
+
+  componentWillMount() {
+    this.getRoles()
   }
 
   addUsersToDelete( usersSelected ) {
@@ -69,6 +75,22 @@ class UsersSection extends Component {
       } )
       .catch( err => {
         console.log( err )
+      } )
+  }
+
+  getRoles() {
+    this.api.getRoles()
+      .then( response => {
+        console.log(response)
+        if ( response.status === 200 ) {
+          this.roles = response.data.result.rolesArray
+        } else {
+    
+        }
+      } )
+      .catch( err => {
+        console.log(err)
+
       } )
   }
 
@@ -164,6 +186,7 @@ class UsersSection extends Component {
       <EditUser
         visible={editUserModal}
         user={userToEdit}
+        roles={this.roles}
         close={this.handleEditUserModal}
       /> ) : ''
 
