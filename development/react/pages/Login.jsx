@@ -25,6 +25,7 @@ class Login extends Component {
   componentWillMount() {
     if ( localStorage.isLogin == 'true' ) {
       // TODO: Router redirectt to /dashboard
+      this.props.history.push( '/dashboard/configuraciones_generales' )
     }
   }
 
