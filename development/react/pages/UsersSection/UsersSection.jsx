@@ -210,7 +210,7 @@ class UsersSection extends Component {
         roles={this.roles}
         close={this.handleEditUserModal}
       /> ) : ''
-    console.log(this.roles)
+  
     return(
       <div className="users-container">
 
