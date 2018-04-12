@@ -225,7 +225,6 @@ class UsersSection extends Component {
 
         <UsersTable
           data={users} 
-          roles={this.roles}
           deleteSingleUser={this.deleteSingleUser}
           showEditSection={this.handleEditUserModal}
           selectUserToEdit={this.selectUserToEdit}

@@ -37,3 +37,12 @@
 .edit-user-form:nth-child(2n) {
   margin-right: 30px !important;
 }
+
+.table-operations {
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+
+.table-operations > button {
+  margin-right: 8px;
+}

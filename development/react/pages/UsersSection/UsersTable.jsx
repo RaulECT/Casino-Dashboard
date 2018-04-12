@@ -1,5 +1,6 @@
 import React, {Component} from 'react' 
 import {
+  Button,
   Divider,
   Popconfirm,
   Table
@@ -27,8 +28,17 @@ class UserTable extends Component {
       onChange: (selectedRowKeys, selectedRows) => this.props.selectUsersToDelete( selectedRows )
     }
 
+    this.clearAll = this.clearAll.bind( this )
     this.handleChange = this.handleChange.bind( this )
     this.getColumns = this.getColumns.bind( this )
+    this.setRolSort = this.setRolSort.bind( this )
+  }
+
+  clearAll() {
+    this.setState( {
+      filteredInfo: null,
+      sortedInfo: null
+    } )
   }
 
   handleChange( pagination, filters, sorter ) {
@@ -97,6 +107,18 @@ class UserTable extends Component {
     return columns
   }
 
+  setRolSort() {
+    const { filteredInfo } = this.state
+
+    this.setState( {
+      sortedInfo: {
+        order: 'descend',
+        columnKey: 'roleName'
+      },
+      filteredInfo
+    } )
+  }
+
   sortAlphabetically( a, b ) {
     return (a < b) ? -1 : (a > b) ? 1 : 0
   }
@@ -105,13 +127,21 @@ class UserTable extends Component {
     const columns = this.getColumns()
 
     return(
-      <Table 
-        rowSelection={this.rowSelection} 
-        className="users-table" 
-        dataSource={this.props.data} 
-        columns={columns} 
-        onChange={this.handleChange}
-      />
+      <div style={ {width: '100%'} }>
+        <div className="table-operations">
+          <Button onClick={ this.setRolSort }>Ordenar por rol</Button>
+          <Button onClick={ this.clearAll }>Reestrablecer filtros</Button>
+        </div>
+
+        <Table 
+          rowSelection={this.rowSelection} 
+          className="users-table" 
+          dataSource={this.props.data} 
+          columns={columns} 
+          onChange={this.handleChange}
+        />
+      </div>
+     
     )
   }
 }
