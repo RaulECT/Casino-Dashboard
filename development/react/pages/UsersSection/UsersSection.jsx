@@ -3,7 +3,8 @@ import {
   Form,
   Input,
   Icon,
-  Button
+  Button,
+  Modal
 } from 'antd'
 import Api from '../../controllers/Api'
 import UsersTable from './UsersTable.jsx'
@@ -14,6 +15,7 @@ import '../styles/usersSection.css'
 
 const FormItem = Form.Item
 const Search = Input.Search
+const confirm = Modal.confirm
 
 class UsersSection extends Component {
 
@@ -40,6 +42,7 @@ class UsersSection extends Component {
     this.handleEditUserModal = this.handleEditUserModal.bind( this )
     this.searchUserByName = this.searchUserByName.bind( this )
     this.selectUserToEdit = this.selectUserToEdit.bind( this )
+    this.showDeleteConfirm = this.showDeleteConfirm.bind( this )
   }
 
   componentWillMount() {
@@ -179,9 +182,27 @@ class UsersSection extends Component {
 
   }
 
+  showDeleteConfirm() {
+    confirm( {
+      title: 'Borrar Usuarios',
+      content: `¿Desea borrar estos ${this.state.usersToDelete.length} elementos?`,
+      okText: 'Si',
+      okType: 'danger',
+      cancelText: 'Cancelar',
+      onOk() {
+        console.log('Ok')
+      },
+      onCancel() {
+        console.log('Cancel')
+      }
+    } )
+  }
+
 
   render() {
     const { users, loading, usersToDelete, addUserModal, editUserModal, userToEdit } = this.state
+    const deleteDisabled = usersToDelete.length > 0 ? false : true
+
     const editUser = editUserModal ? (
       <EditUser
         visible={editUserModal}
@@ -189,7 +210,7 @@ class UsersSection extends Component {
         roles={this.roles}
         close={this.handleEditUserModal}
       /> ) : ''
-
+    console.log(this.roles)
     return(
       <div className="users-container">
 
@@ -204,6 +225,7 @@ class UsersSection extends Component {
 
         <UsersTable
           data={users} 
+          roles={this.roles}
           deleteSingleUser={this.deleteSingleUser}
           showEditSection={this.handleEditUserModal}
           selectUserToEdit={this.selectUserToEdit}
@@ -225,6 +247,8 @@ class UsersSection extends Component {
             icon="delete"
             type="danger"
             loading={loading}
+            disabled={deleteDisabled}
+            onClick={this.showDeleteConfirm}
           >
             Eliminar ({`${usersToDelete.length}`}) seleccionados 
           </Button>
