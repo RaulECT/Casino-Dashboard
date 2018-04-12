@@ -74,6 +74,7 @@ class RolesSection extends Component {
     this.addNewRol = this.addNewRol.bind( this )
     this.closeEditRolModal = this.closeEditRolModal.bind( this )
     this.editRol = this.editRol.bind( this )
+    this.formatPermissions = this.formatPermissions.bind( this )
     this.showEditRolModal = this.showEditRolModal.bind( this )
     this.onChangePermissions = this.onChangePermissions.bind( this )
     this.onChangeEditedPermisions = this.onChangeEditedPermisions.bind( this )
@@ -158,8 +159,13 @@ class RolesSection extends Component {
   formatPermissions( permissions ) {
     let permissionsFormated = {}
 
-    permissions.map( value => {
-      permissionsFormated[value] = true
+    this.labelsOptions.map( value => {
+      const permSelcted = permissions.indexOf( value.value ) !== -1
+      if (permSelcted) {
+        permissionsFormated[value.value] = true
+      } else {
+        permissionsFormated[value.value] = false
+      }
     } )
 
     return permissionsFormated
@@ -171,7 +177,9 @@ class RolesSection extends Component {
     const rolePosition = rolesList.findIndex( element => element.key === roleKey.toString() )
 
     for (var key in rolesList[rolePosition].permissions) {
-      if (rolesList[rolePosition].permissions.hasOwnProperty(key)) {
+      const hasPerm = rolesList[rolePosition].permissions[key]
+
+      if (rolesList[rolePosition].permissions.hasOwnProperty(key) && hasPerm) {
           permissions.push( key.toString() )
       }
     }
