@@ -7,6 +7,10 @@ class FingerprintSDKTest {
     this.acquisitionStarted = false
     this.sdk = new Fingerprint.WebApi
 
+    this.onDeviceConnected = this.onDeviceConnected.bind( this )
+    this.onDeviceDisconnected = this.onDeviceDisconnected.bind( this )
+    this.onCommunicationFailed = this.onCommunicationFailed.bind( this )
+
     this.sdk.onDeviceConnected = this.onDeviceConnected( e )
     this.sdk.onDeviceDisconnected = this.onDeviceDisconnected( e )
     this.onCommunicationFailed = this.onCommunicationFailed( e )
@@ -25,7 +29,7 @@ class FingerprintSDKTest {
   }
 
   onSamplesAcquired( e ) {
-    
+
   }
 }
 
