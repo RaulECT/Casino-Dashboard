@@ -8,7 +8,6 @@ import {
 class UserTable extends Component {
   constructor( props ) {
     super( props )
-    console.log(this.props)
 
     this.filters = [
       { text: 'admin', value: 'admin' },
@@ -24,47 +23,8 @@ class UserTable extends Component {
       sortedInfo: null
     }
 
-    this.columns = [ {
-      title: 'Nombre',
-      dataIndex: 'name'
-    }, 
-    {
-      title: 'Rol',
-      dataIndex: 'roleName'
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email'
-    },
-    {
-      title: 'Opciones',
-      dataIndex: 'operation',
-      render: (text, record) => {
-        return (
-          <div className="editable-row-operations">
-            <span>
-              <a onClick={() => { 
-                this.props.showEditSection()  
-                this.props.selectUserToEdit( record )
-              }}>
-                Editar
-              </a>
-
-              <Divider type="vertical" />
-              
-              <Popconfirm title="¿Desea eliminar este usuario?" onConfirm={() => { /*TODO: UNCOMMENT TO TEST this.props.deleteSingleUser( record.userId )*/ }}> 
-                <a>Eliminar</a>
-              </Popconfirm>
-            </span> 
-          </div>
-        )
-      }
-    } ]
     this.rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-        this.props.selectUsersToDelete( selectedRows )
-      }
+      onChange: (selectedRowKeys, selectedRows) => this.props.selectUsersToDelete( selectedRows )
     }
 
     this.handleChange = this.handleChange.bind( this )
@@ -72,7 +32,6 @@ class UserTable extends Component {
   }
 
   handleChange( pagination, filters, sorter ) {
-    console.log('Various parameters', pagination, filters, sorter)
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter,
