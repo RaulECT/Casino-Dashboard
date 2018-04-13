@@ -120,7 +120,13 @@ class Api {
       chips: values
     },
     {
-      headers: { token: this.token},
+      headers: { token: this.token}
+    } )
+  }
+
+  getRoles() {
+    return axios.get( `${this.apiURL}/admin/get_roles`, {
+      headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
       }
@@ -153,6 +159,18 @@ class Api {
     } )
   }
 
+  createRol( rolName, permissions ) {
+    return axios.post( `${this.apiURL}/admin/create_rol`, {
+      name: rolName,
+      permissions: permissions
+    }, {
+      headers: {token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
   updateMembershipValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -161,6 +179,19 @@ class Api {
 
     }, {
       headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  editRol( id, name, permissions ) {
+    return axios.post( `${this.apiURL}/admin/edit_rol`, {
+      id: id,
+      name: name,
+      permissions: permissions
+    }, {
+      headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
       }
