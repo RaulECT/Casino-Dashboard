@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
 import { Layout, 
   Menu, 
   Icon, 
@@ -15,6 +16,8 @@ import { Layout,
   Col } from 'antd'
 import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
+
+import RolesManagment from './RolesManagment.jsx'
 
 import ChipsSection from './Chips/ChipsSection.jsx'
 import AmountsSection from './Amounts/AmountsSection.jsx'
@@ -182,12 +185,13 @@ class Generalconfigurations extends Component {
               <Menu.Item key="6">Horarios</Menu.Item>
             </SubMenu>
 
-            <SubMenu
-              key="sub3"
-              title={<span><Icon type="idcard" /><span>Gestión de Roles</span></span>}
-            >
-              <Menu.Item key="7">Option sub 3</Menu.Item>
-            </SubMenu>
+            
+            <Menu.Item key="7">
+              <Link to="/dashboard/gestion_roles">
+                <Icon type="idcard" />
+                <span>Gestión de Roles</span>
+              </Link>
+            </Menu.Item>
 
             <SubMenu
               key="sub4"
