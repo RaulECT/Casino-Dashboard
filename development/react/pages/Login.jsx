@@ -92,7 +92,7 @@ class Login extends Component {
             xs={{span: 24, offset: 0}}
           >
             <div className="form-section">
-              <h1 className="login-title">Casino Dashboard</h1>
+              <h1 className="login-title">Modulo de Administración</h1>
 
               <Form
                 onSubmit={this.handleLoginSubmit}
@@ -100,17 +100,17 @@ class Login extends Component {
               >
                 <FormItem>
                   {getFieldDecorator('userName', {
-                    rules: [{ required: true, message: 'Please input your Email!' }],
+                    rules: [{ required: true, message: 'Ingrese su e-mail!' }],
                   })(
-                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
                   )}
                 </FormItem>
 
                 <FormItem>
                   {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input your Password!' }],
+                    rules: [{ required: true, message: 'Ingrese su contraseña!' }],
                   })(
-                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
                   )}
                 </FormItem>
 
@@ -119,7 +119,7 @@ class Login extends Component {
 
                 <FormItem>
                   <Button disabled={this.state.isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
-                    Log In
+                    Iniciar Sesión
                   </Button>
                 </FormItem>
               </Form>
