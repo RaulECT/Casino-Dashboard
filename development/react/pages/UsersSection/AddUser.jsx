@@ -22,19 +22,69 @@ class AddUser extends Component {
     this.dateFormat = "DD/MM/YYYY"
     this.roles = []
 
+    this.createUser = this.createUser.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
-
-    
   }
 
   componentWillReceiveProps() {
     this.loadRoles()
   }
 
+  createUser() {
+    this.props.form.validateFields( ( err, values ) => {
+      if ( !err ) {
+
+        const valuesFormated = this.formatValues( values )
+        console.log(valuesFormated);
+        
+        //return false
+        this.props.createUser( valuesFormated )
+          .then( response => {
+            console.log(response);
+            
+          } )
+          .catch( err => {
+            console.log(err);
+            
+          } )
+        
+      }
+    } )
+  }
+
+  formatDate( date ) {
+    const fullDate = date.split('T')[0]
+    const dateParts = fullDate.split('-')
+
+    return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`
+  }
+
+  formatValues( values ) {
+    const { birthday, email, firstName, genere, name, password, role, secondName, userName } = values
+    
+    const birthdayString = this.formatDate( birthday.format() )
+    console.log(birthday.format());
+    
+    const valuesFormated = {
+      username: userName,
+      names: name,
+      firstSurname: firstName,
+      secondSurname: secondName,
+      email: email,
+      password: password,
+      fingerprints: { RINDEX:["/6D/qAB8TklTVF...", "/6D/qAB8TklTVF...", "/6D/qAB8TklTVF...", "/6D/qAB8TklTVF..."], LINDEX:["/6D/qAB4TklTVF...", "/6D/qAB4TklTVF...", "/6D/qAB4TklTVF...", "/6D/qAB4TklTVF..."] },
+      roleId: role,
+      gender: genere,
+      birthday: birthdayString
+    }
+
+    return valuesFormated
+  }
+
   getModalFooter() {
     return [
       <Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar</Button>,
-      <Popconfirm key="1" title="¿Desea crear este usuario?" onConfirm={ () => {}  }>
+      <Popconfirm key="1" title="¿Desea crear este usuario?" onConfirm={ () => { this.createUser() }  }>
         <Button type="primary">Crear usuario</Button>
       </Popconfirm>
     ]
@@ -154,8 +204,8 @@ class AddUser extends Component {
           >
             {getFieldDecorator( 'genere', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
               <RadioGroup>
-                <Radio value={1}>Masculino</Radio>
-                <Radio value={2}>Femenino</Radio>
+                <Radio value={'M'}>Masculino</Radio>
+                <Radio value={'F'}>Femenino</Radio>
               </RadioGroup>
             )}
           </FormItem>

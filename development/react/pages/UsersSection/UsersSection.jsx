@@ -274,6 +274,7 @@ class UsersSection extends Component {
         <AddUser
           visible={addUserModal}
           roles={roles}
+          createUser={this.api.createUser}
           close={this.handleAddUserModal}
         />
 
