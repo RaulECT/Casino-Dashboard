@@ -20,6 +20,15 @@ class AddUser extends Component {
     super( props )
 
     this.dateFormat = "DD/MM/YYYY"
+    this.roles = []
+
+    this.loadRoles = this.loadRoles.bind( this )
+
+    
+  }
+
+  componentWillReceiveProps() {
+    this.loadRoles()
   }
 
   getModalFooter() {
@@ -29,6 +38,12 @@ class AddUser extends Component {
         <Button type="primary">Crear usuario</Button>
       </Popconfirm>
     ]
+  }
+
+  loadRoles() {
+    const { roles } = this.props
+
+    roles.map( ( element, index ) => this.roles.push( <Option key={index} value={element.id}>{element.name}</Option> ) )
   }
 
   render() {
@@ -128,7 +143,7 @@ class AddUser extends Component {
           >
             {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
               <Select style={{ width: 120 }}>
-                <Option value="rol-1">Rol 1</Option>
+                { this.roles.map( element => { return element } ) }
               </Select>
             )}
           </FormItem>

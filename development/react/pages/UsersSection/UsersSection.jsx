@@ -31,7 +31,8 @@ class UsersSection extends Component {
       loading: false,
       usersToDelete: [],
       userToEdit: {},
-      searchValue: ''
+      searchValue: '',
+      roles: []
     }
 
     this.roles = []
@@ -51,7 +52,7 @@ class UsersSection extends Component {
 
   addUsersToDelete( usersSelected ) {
     const elementsToDelete = []
-    const { addUserModal, editUserModal, users, userToEdit, loading, searchValue } = this.state
+    const { addUserModal, editUserModal, users, userToEdit, loading, searchValue, roles } = this.state
 
     usersSelected.map( element => elementsToDelete.push( element.userId ) )
 
@@ -62,7 +63,8 @@ class UsersSection extends Component {
       loading,
       usersToDelete: elementsToDelete,
       userToEdit,
-      searchValue
+      searchValue,
+      roles
     } )
   }
 
@@ -84,9 +86,20 @@ class UsersSection extends Component {
   getRoles() {
     this.api.getRoles()
       .then( response => {
-        console.log(response)
+      
         if ( response.status === 200 ) {
+          const { addUserModal, editUserModal, users, loading, usersToDelete, userToEdit, searchValue } = this.state
           this.roles = response.data.result.rolesArray
+          this.setState( {
+            roles: response.data.result.rolesArray,
+            addUserModal,
+            editUserModal,
+            users,
+            loading,
+            usersToDelete,
+            userToEdit,
+            searchValue
+          } )
         } else {
     
         }
@@ -98,7 +111,7 @@ class UsersSection extends Component {
   }
 
   handleAddUserModal() {
-    const { addUserModal, editUserModal, users, usersToDelete, userToEdit, loading, searchValue } = this.state
+    const { addUserModal, editUserModal, users, usersToDelete, userToEdit, loading, searchValue, roles } = this.state
 
     this.setState( {
       addUserModal: !addUserModal,
@@ -107,12 +120,13 @@ class UsersSection extends Component {
       users,
       usersToDelete,
       userToEdit,
-      searchValue
+      searchValue,
+      roles
     } )
   }
 
   handleEditUserModal() {
-    const { addUserModal, editUserModal, users, usersToDelete, userToEdit, loading, searchValue } = this.state
+    const { addUserModal, editUserModal, users, usersToDelete, userToEdit, loading, searchValue, roles } = this.state
 
     this.setState( {
       addUserModal,
@@ -121,12 +135,13 @@ class UsersSection extends Component {
       usersToDelete,
       userToEdit,
       loading,
-      searchValue
+      searchValue,
+      roles
     } )
   }
 
   searchUserByName( name ) {
-    const { addUserModal, editUserModal, usersToDelete, userToEdit, users } = this.state
+    const { addUserModal, editUserModal, usersToDelete, userToEdit, users, roles } = this.state
 
     this.setState( {
       loading: true,
@@ -135,7 +150,8 @@ class UsersSection extends Component {
       usersToDelete: [],
       userToEdit,
       users,
-      searchValue: name
+      searchValue: name,
+      roles
     } )
 
     this.api.getUserByName( name )
@@ -156,7 +172,8 @@ class UsersSection extends Component {
             addUserModal,
             usersToDelete: [],
             userToEdit,
-            searchValue: name
+            searchValue: name,
+            roles
           } )
         } else {
           // TODO: Handle Error
@@ -168,7 +185,7 @@ class UsersSection extends Component {
   }
 
   selectUserToEdit( user ) {
-    const { addUserModal, loading, usersToDelete, users, searchValue } = this.state
+    const { addUserModal, loading, usersToDelete, users, searchValue, roles } = this.state
 
     this.setState( {
       userToEdit: user,
@@ -177,7 +194,8 @@ class UsersSection extends Component {
       loading,
       usersToDelete,
       users,
-      searchValue
+      searchValue,
+      roles
     } )
 
   }
@@ -200,14 +218,14 @@ class UsersSection extends Component {
 
 
   render() {
-    const { users, loading, usersToDelete, addUserModal, editUserModal, userToEdit } = this.state
+    const { users, loading, usersToDelete, addUserModal, editUserModal, userToEdit, roles } = this.state
     const deleteDisabled = usersToDelete.length > 0 ? false : true
 
     const editUser = editUserModal ? (
       <EditUser
         visible={editUserModal}
         user={userToEdit}
-        roles={this.roles}
+        roles={roles}
         close={this.handleEditUserModal}
       /> ) : ''
   
@@ -255,6 +273,7 @@ class UsersSection extends Component {
 
         <AddUser
           visible={addUserModal}
+          roles={roles}
           close={this.handleAddUserModal}
         />
 
