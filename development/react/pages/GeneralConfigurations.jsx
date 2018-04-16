@@ -207,6 +207,13 @@ class Generalconfigurations extends Component {
               <Menu.Item key="7">Option sub 5</Menu.Item>
             </SubMenu>
 
+            <Menu.Item key="8">
+              <Link to="/dashboard/promociones">
+                <Icon type="idcard" />
+                <span>Promociones</span>
+              </Link>
+            </Menu.Item>
+
             <SubMenu
               key="sub6"
               title={<span><Icon type="area-chart" /><span>Estadisticas</span></span>}

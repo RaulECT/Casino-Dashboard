@@ -17,16 +17,13 @@ import { Layout,
 import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
-import RolesSection from './RolesSection/RolesSection.jsx'
-
 import './styles/configurations.css'
 
 const { Header, Sider, Content } = Layout
 const SubMenu = Menu.SubMenu
 const FormItem = Form.Item
 
-
-class RolesManagment extends Component {
+class PromotionsManagment extends Component {
   constructor( props ) {
     super( props )
     
@@ -66,7 +63,7 @@ class RolesManagment extends Component {
             theme="dark" 
             mode="inline" 
             style={{ padding: '16px 0', width: '100%' }} 
-            defaultSelectedKeys={['7']}
+            defaultSelectedKeys={['8']}
           >
             <Menu.Item key="1">
               <Icon type="dashboard" />
@@ -81,15 +78,17 @@ class RolesManagment extends Component {
             </Menu.Item>
 
             <Menu.Item key="7">
-              <Icon type="idcard" />
-              <span>Gestión de Roles</span>
+              <Link to="/dashboard/gestion_roles">
+                <Icon type="idcard" />
+                <span>Gestión de Roles</span>
+              </Link>
             </Menu.Item>
 
             <SubMenu
               key="sub4"
               title={<span><Icon type="team" /><span>Administración de Usuarios</span></span>}
             >
-              <Menu.Item key="8">Option sub 4</Menu.Item>
+              <Menu.Item key="18">Option sub 4</Menu.Item>
             </SubMenu>
 
             <SubMenu
@@ -100,10 +99,8 @@ class RolesManagment extends Component {
             </SubMenu>
 
             <Menu.Item key="8">
-              <Link to="/dashboard/promociones">
-                <Icon type="idcard" />
-                <span>Promociones</span>
-              </Link>
+              <Icon type="idcard" />
+              <span>Promociones</span>
             </Menu.Item>
 
             <SubMenu
@@ -125,12 +122,12 @@ class RolesManagment extends Component {
           />
 
           <PageHeader
-            path = { ['Gestión de Roles'] }
-            title = "Gestión de Roles"
+            path = { ['Promociones'] }
+            title = "Promociones"
           />
 
           <div className="dashboard-content">
-            {<RolesSection/>}
+          
           </div>
         </Layout>
       </Layout>
@@ -138,4 +135,4 @@ class RolesManagment extends Component {
   }
 }
 
-module.exports = RolesManagment
+module.exports = PromotionsManagment
