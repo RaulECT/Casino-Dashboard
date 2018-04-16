@@ -99,7 +99,7 @@ class PromotionsManagment extends Component {
             </SubMenu>
 
             <Menu.Item key="8">
-              <Icon type="idcard" />
+              <Icon type="star-o" />
               <span>Promociones</span>
             </Menu.Item>
 

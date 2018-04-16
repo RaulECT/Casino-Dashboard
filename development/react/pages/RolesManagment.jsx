@@ -101,7 +101,7 @@ class RolesManagment extends Component {
 
             <Menu.Item key="8">
               <Link to="/dashboard/promociones">
-                <Icon type="idcard" />
+                <Icon type="star-o" />
                 <span>Promociones</span>
               </Link>
             </Menu.Item>
