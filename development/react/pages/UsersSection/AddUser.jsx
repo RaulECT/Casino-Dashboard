@@ -3,9 +3,12 @@ import {
   Form,
   Modal,
   Input,
+  Row,
+  Col,
   DatePicker,
   Select,
   Button,
+  Icon,
   Popconfirm,
   Radio
 } from 'antd'
@@ -20,11 +23,19 @@ class AddUser extends Component {
   constructor( props ) {
     super( props )
 
+    this.state = {
+      hand: { left:{}, right: {} },
+      fingerSelcted: { hand:'', index: -1 },
+      reading: false
+    }
+
     this.test = new FingerprintSDKTest()
 
     this.dateFormat = "DD/MM/YYYY"
     this.onStart = this.onStart.bind( this )
     this.checkFinger = this.checkFinger.bind( this )
+    this.getCheckIcon = this.getCheckIcon.bind( this )
+    this.readFinger = this.readFinger.bind( this )
   }
 
   onStart() {
@@ -39,14 +50,51 @@ class AddUser extends Component {
     
   }
 
+  readFinger( handSelected, index ) {
+    const { hand } = this.state
+    
+    this.setState( {
+      hand,
+      fingerSelcted: { hand:handSelected, index: index },
+      reading: true
+    } )
+
+    this.test.startCapture( res => {
+      console.log(res)
+    
+      if (res.success) {
+        setTimeout( this.checkFinger, 1000 )
+      }
+    } ) 
+  }
+
   checkFinger() {
+    const { hand, fingerSelcted } = this.state
+    const handUpdated = hand
     const data = this.test.getData()
+
     console.log(data);
     
     if ( data.success ) {
       this.test.stopCapture()
       console.log(data)
+      handUpdated[fingerSelcted.hand][fingerSelcted.index] = data.samples
+
+      this.setState( {
+        fingerSelcted,
+        hand: handUpdated,
+        reading: false
+      } )
     }
+  }
+
+  getCheckIcon( handSelected, index ) {
+    const { hand } = this.state
+    const isFingerRead = typeof hand[handSelected][index] !== 'undefined'
+    let icon = null
+
+    isFingerRead ? icon = ( <Icon type="check-circle" /> ) : icon = ''
+    return icon
   }
 
   getModalFooter() {
@@ -61,7 +109,9 @@ class AddUser extends Component {
   render() {
     const { visible, close } = this.props
     const { getFieldDecorator } = this.props.form
-
+    const { reading, hand } = this.state
+    const leftHandFingersScanned = Object.keys( hand.left ).length
+    const rightHandFingersScanned = Object.keys( hand.right ).length
 
     return(
       <Modal
@@ -172,8 +222,52 @@ class AddUser extends Component {
             )}
           </FormItem>
 
-          <Button onClick={this.onStart} type="primary">Crear usuario</Button>
         </Form>
+
+        <Row>
+          <Col span={12}> {`Dedos escaneados de la mano izquieda: ${leftHandFingersScanned} de 4`}</Col>
+          <Col span={12}> {`Dedos escaneados de la mano derecha: ${rightHandFingersScanned} de 4`}</Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 1) } } >Izquierda 1</Button>
+            {this.getCheckIcon( 'left', 1 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 1) } }>Derecha 1</Button>
+            {this.getCheckIcon( 'right', 1 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 2) } }>Izquierda 2</Button>
+            {this.getCheckIcon( 'left', 2 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 2) } }>Derecha 2</Button>
+            {this.getCheckIcon( 'right', 2 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 3) } }>Izquierda 3</Button>
+            {this.getCheckIcon( 'left', 3 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 3) } }>Derecha 3</Button>
+            {this.getCheckIcon( 'right', 3 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 4) } }>Izquierda 4</Button>
+            {this.getCheckIcon( 'left', 4 )}
+          </Col>
+
+          <Col span={12}> 
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 4) } }>Derecha 4</Button>
+            {this.getCheckIcon( 'right', 4 )}
+          </Col>
+        </Row>
       </Modal>
     )
   }
