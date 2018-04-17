@@ -1,4 +1,4 @@
-import React, {Component} from 'react' 
+import React, {Component} from 'react'
 import {
   Form,
   Modal,
@@ -9,6 +9,7 @@ import {
   Popconfirm,
   Radio
 } from 'antd'
+import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -19,7 +20,16 @@ class AddUser extends Component {
   constructor( props ) {
     super( props )
 
+    this.test = new FingerprintSDKTest()
+
     this.dateFormat = "DD/MM/YYYY"
+    this.onStart = this.onStart.bind( this )
+  }
+
+  onStart() {
+
+    this.test.startCapture( res => console.log(res) )  
+    
   }
 
   getModalFooter() {
@@ -34,7 +44,7 @@ class AddUser extends Component {
   render() {
     const { visible, close } = this.props
     const { getFieldDecorator } = this.props.form
-    
+
 
     return(
       <Modal
@@ -47,7 +57,7 @@ class AddUser extends Component {
         footer={ this.getModalFooter() }
       >
         <Form layout="inline">
-          
+
           <FormItem
             label="Nombre(s):"
             className="add-user-form"
@@ -110,7 +120,7 @@ class AddUser extends Component {
             {getFieldDecorator( 'confirmPassword', { rules: [ {required: true, message: 'Ingrese un Valor!'} ] } )(
               <Input />
             )}
-   
+
           </FormItem>
 
           <FormItem
@@ -144,6 +154,8 @@ class AddUser extends Component {
               </RadioGroup>
             )}
           </FormItem>
+
+          <Button onClick={this.onStart} type="primary">Crear usuario</Button>
         </Form>
       </Modal>
     )

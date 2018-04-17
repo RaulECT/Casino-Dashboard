@@ -1,4 +1,4 @@
-import React, {Component} from 'react' 
+import React, {Component} from 'react'
 import {
   Form,
   Input,
@@ -10,6 +10,8 @@ import Api from '../../controllers/Api'
 import UsersTable from './UsersTable.jsx'
 import AddUser from './AddUser.jsx'
 import EditUser from './EditUser.jsx'
+
+
 
 import '../styles/usersSection.css'
 
@@ -23,6 +25,8 @@ class UsersSection extends Component {
     super( props )
 
     this.api = new Api()
+
+    this.test
 
     this.state = {
       addUserModal: false,
@@ -43,10 +47,17 @@ class UsersSection extends Component {
     this.searchUserByName = this.searchUserByName.bind( this )
     this.selectUserToEdit = this.selectUserToEdit.bind( this )
     this.showDeleteConfirm = this.showDeleteConfirm.bind( this )
+
+
   }
 
   componentWillMount() {
     this.getRoles()
+
+  }
+
+  componentDidMount() {
+
   }
 
   addUsersToDelete( usersSelected ) {
@@ -88,7 +99,7 @@ class UsersSection extends Component {
         if ( response.status === 200 ) {
           this.roles = response.data.result.rolesArray
         } else {
-    
+
         }
       } )
       .catch( err => {
@@ -140,12 +151,12 @@ class UsersSection extends Component {
 
     this.api.getUserByName( name )
       .then( response => {
-   
+
         if ( response.status === 200 ) {
-          
+
           let usersArray = response.data.result.usersArray
 
-          usersArray.map( (element, index) => { 
+          usersArray.map( (element, index) => {
             element['key'] = index
            } )
 
@@ -199,6 +210,7 @@ class UsersSection extends Component {
   }
 
 
+
   render() {
     const { users, loading, usersToDelete, addUserModal, editUserModal, userToEdit } = this.state
     const deleteDisabled = usersToDelete.length > 0 ? false : true
@@ -210,7 +222,7 @@ class UsersSection extends Component {
         roles={this.roles}
         close={this.handleEditUserModal}
       /> ) : ''
-  
+
     return(
       <div className="users-container">
 
@@ -224,11 +236,11 @@ class UsersSection extends Component {
         />
 
         <UsersTable
-          data={users} 
+          data={users}
           deleteSingleUser={this.deleteSingleUser}
           showEditSection={this.handleEditUserModal}
           selectUserToEdit={this.selectUserToEdit}
-          selectUsersToDelete={this.addUsersToDelete}  
+          selectUsersToDelete={this.addUsersToDelete}
         />
 
         <div>
@@ -249,7 +261,7 @@ class UsersSection extends Component {
             disabled={deleteDisabled}
             onClick={this.showDeleteConfirm}
           >
-            Eliminar ({`${usersToDelete.length}`}) seleccionados 
+            Eliminar ({`${usersToDelete.length}`}) seleccionados
           </Button>
         </div>
 
