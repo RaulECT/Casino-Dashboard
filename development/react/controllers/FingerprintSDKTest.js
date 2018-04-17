@@ -12,6 +12,7 @@ class FingerprintSDKTest {
     this.startCapture = this.startCapture.bind( this )
     this.stopCapture = this.stopCapture.bind( this )
     this.sampleAcquired = this.sampleAcquired.bind( this )
+    this.getData = this.getData.bind( this )
 
     this.sdk.onDeviceConnected = function( e ) {
       console.log('conected');
@@ -107,9 +108,9 @@ class FingerprintSDKTest {
       var decodedData = JSON.parse(Fingerprint.b64UrlToUtf8(sampleData));
       localStorage.setItem("wsq","data:application/octet-stream;base64," + Fingerprint.b64UrlTo64(decodedData.Data));
 
-      const fingerPrintData = { format: "wsq", samples: Fingerprint.b64UrlTo64(decodedData.Data) }
+      const fingerPrintData = { success: true, format: "wsq", samples: Fingerprint.b64UrlTo64(decodedData.Data) }
       this.fingerData = fingerPrintData
-      console.log(fingerPrintData);
+
       return fingerPrintData
     } else if(this.currentFormat == Fingerprint.SampleFormat.Intermediate){
       // If sample acquired format is Intermediate- perform following call on object recieved
@@ -141,9 +142,6 @@ class FingerprintSDKTest {
       console.log('started');
       //return { success: true, data: "Start Capturing" }
       func( { success: true, data: "Start Capturing" } )
-      return new Promise( (resolve, reject) => {
-        resolve( { success: true, data: "Start Capturing" } )
-      } )
     }, function (error) {
       console.log(error.message);
       //return { success: false, error: error }
@@ -160,7 +158,7 @@ class FingerprintSDKTest {
     var _instance = this;
 
     this.sdk.stopAcquisition().then(function () {
-      this.acquisitionStarted = false;
+      _instance.acquisitionStarted = false;
 
     //Disabling stop once stoped
     //disableEnableStartStop();
@@ -168,6 +166,10 @@ class FingerprintSDKTest {
     }, function (error) {
       console.log(error.message);
     } )
+  }
+
+  getData() {
+    return this.fingerData
   }
 
 

@@ -24,12 +24,29 @@ class AddUser extends Component {
 
     this.dateFormat = "DD/MM/YYYY"
     this.onStart = this.onStart.bind( this )
+    this.checkFinger = this.checkFinger.bind( this )
   }
 
   onStart() {
 
-    this.test.startCapture( res => console.log(res) )  
+    this.test.startCapture( res => {
+      console.log(res)
     
+      if (res.success) {
+        setTimeout( this.checkFinger, 1000 )
+      }
+    } )  
+    
+  }
+
+  checkFinger() {
+    const data = this.test.getData()
+    console.log(data);
+    
+    if ( data.success ) {
+      this.test.stopCapture()
+      console.log(data)
+    }
   }
 
   getModalFooter() {
