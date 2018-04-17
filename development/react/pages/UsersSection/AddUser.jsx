@@ -50,6 +50,26 @@ class AddUser extends Component {
     
   }
 
+  formatFingersData( fingerData ) {
+    let dataFormated = { RINDEX: [], LINDEX:[] }
+    const left = fingerData.left
+    const right = fingerData.right
+
+    for (var key in left) {
+      if (left.hasOwnProperty(key)) {
+          dataFormated.LINDEX.push( left[key] )
+      }
+    }
+
+    for (var key in right) {
+      if (right.hasOwnProperty(key)) {
+          dataFormated.RINDEX.push( right[key] )
+      }
+    }
+
+    console.log( dataFormated )
+  }
+
   readFinger( handSelected, index ) {
     const { hand } = this.state
     
@@ -85,6 +105,8 @@ class AddUser extends Component {
         hand: handUpdated,
         reading: false
       } )
+
+      this.formatFingersData( handUpdated )
     }
   }
 

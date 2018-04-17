@@ -77,6 +77,26 @@ class EditUser extends Component {
     return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
   }
 
+  formatFingersData( fingerData ) {
+    let dataFormated = { RINDEX: [], LINDEX:[] }
+    const left = fingerData.left
+    const right = fingerData.right
+
+    for (var key in left) {
+      if (left.hasOwnProperty(key)) {
+          dataFormated.LINDEX.push( left[key] )
+      }
+    }
+
+    for (var key in right) {
+      if (right.hasOwnProperty(key)) {
+          dataFormated.RINDEX.push( right[key] )
+      }
+    }
+
+    console.log( dataFormated )
+  }
+
   getCheckIcon( handSelected, index ) {
     const { hand } = this.state
     const isFingerRead = typeof hand[handSelected][index] !== 'undefined'
