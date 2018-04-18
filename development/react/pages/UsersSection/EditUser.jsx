@@ -6,6 +6,7 @@ import {
   Modal,
   Input,
   DatePicker,
+  Divider,
   Select,
   Row,
   Col,
@@ -20,6 +21,8 @@ const Option = Select.Option
 const RadioGroup = Radio.Group
 
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
+import leftHandImage from '../images/left.png'
+import rightHandImage from '../images/right.png'
 
 class EditUser extends Component {
   
@@ -165,7 +168,8 @@ class EditUser extends Component {
         onOk={ ()=>{} }
       >
         <Form layout="inline">
-          
+          <Divider orientation="left">Información General</Divider>
+
           <FormItem
             label="Nombre(s):"
             className="edit-user-form"
@@ -270,47 +274,57 @@ class EditUser extends Component {
           </FormItem>
         </Form>
 
+        <Divider orientation="left">Escaneo de Huellas</Divider>
         <Row>
-          <Col span={12}> {`Dedos escaneados de la mano izquieda: ${leftHandFingersScanned} de 4`}</Col>
-          <Col span={12}> {`Dedos escaneados de la mano derecha: ${rightHandFingersScanned} de 4`}</Col>
+          <Col span={12}> <img className="hand-image" src={leftHandImage} alt=""/> </Col>
+
+          <Col span={12}> <img className="hand-image" src={rightHandImage} alt=""/> </Col>
+
+          <Col span={12}>
+            <p>{`Huellas escaneadas del dedo indice izquiedo: ${leftHandFingersScanned} de 4`}</p> 
+          </Col>
+          
+          <Col span={12}> 
+           <p>{`Huellas escaneadas del dedo indice derecho: ${rightHandFingersScanned} de 4`}</p> 
+          </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 1) } } >Izquierda 1</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 1) } } >Escanear 1era huella</Button>
             {this.getCheckIcon( 'left', 1 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 1) } }>Derecha 1</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 1) } }>Escanear 1era huella</Button>
             {this.getCheckIcon( 'right', 1 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 2) } }>Izquierda 2</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 2) } }>Escanear 2da huella</Button>
             {this.getCheckIcon( 'left', 2 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 2) } }>Derecha 2</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 2) } }>Escanear 2da huella</Button>
             {this.getCheckIcon( 'right', 2 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 3) } }>Izquierda 3</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 3) } }>Escanear 3era huella</Button>
             {this.getCheckIcon( 'left', 3 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 3) } }>Derecha 3</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 3) } }>Escanear 3era huella</Button>
             {this.getCheckIcon( 'right', 3 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 4) } }>Izquierda 4</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('left', 4) } }>Escanear 4ta huella</Button>
             {this.getCheckIcon( 'left', 4 )}
           </Col>
 
           <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 4) } }>Derecha 4</Button>
+            <Button disabled={reading} onClick={ () => { this.readFinger('right', 4) } }>Escanear 4ta huella</Button>
             {this.getCheckIcon( 'right', 4 )}
           </Col>
         </Row>
