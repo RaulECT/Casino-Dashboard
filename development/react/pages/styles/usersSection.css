@@ -46,3 +46,15 @@
 .table-operations > button {
   margin-right: 8px;
 }
+
+.hand-image {
+  width: 20% !important;
+  display: block !important;
+  margin: auto !important;
+}
+
+.scann-finger-button {
+  display: block !important;
+  margin: auto !important;
+  margin-bottom: 10px !important;
+}
