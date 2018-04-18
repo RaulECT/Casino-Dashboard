@@ -101,11 +101,11 @@ class FingerprintSDKTest {
       // Get samples from the object - get 0th element of samples and then get Data from it.
       // Returned data is Base 64 encoded, which needs to get decoded to UTF8,
       // after decoding get Data key from it, it returns Base64 encoded wsq image
-      localStorage.setItem("wsq", "");
+
       var samples = JSON.parse(s.samples);
       var sampleData = Fingerprint.b64UrlTo64(samples[0].Data);
       var decodedData = JSON.parse(Fingerprint.b64UrlToUtf8(sampleData));
-      localStorage.setItem("wsq","data:application/octet-stream;base64," + Fingerprint.b64UrlTo64(decodedData.Data));
+      //localStorage.setItem("wsq","data:application/octet-stream;base64," + Fingerprint.b64UrlTo64(decodedData.Data));
 
       const fingerPrintData = { success: true, format: "wsq", samples: Fingerprint.b64UrlTo64(decodedData.Data) }
       this.fingerData = fingerPrintData

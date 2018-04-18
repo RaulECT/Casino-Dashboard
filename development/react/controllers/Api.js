@@ -8,8 +8,8 @@ class Api {
     this.appID = 'A2'
     this.deviceID = 'eyJQcm9jZXNzb3JJZCI6IkJGRUJGQkZGMDAwMzA2QTkiLCJNb3RoZXJCb2FyZElkIjoiQzlOMENKODU3NTkwMzczIn0='
   
-    this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyMzg5MTY3OCwiZXhwIjoxNTIzOTIwNDc4fQ.PbC4ikklZ5VPljRFD303k4yrvqB2e3CZSPSP0V0J2TY'
-  
+    this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyNDA2MjM3NCwiZXhwIjoxNTI0MDkxMTc0fQ.7JDMMLl8Rk1vrqAhLLe-huwvTtaFRJLHNIf7kMb7Jxs'
+    
     this.createUser = this.createUser.bind( this )
   }
 
@@ -33,9 +33,20 @@ class Api {
   }
 
   createUser( userInfo ) {
-    userInfo.appId = this.appID
     
-    return axios.post( `${this.apiURL}/admin/create_user_tmp`, userInfo, {
+    return axios.post( `${this.apiURL}/admin/create_user_tmp`, {
+      appId: this.appID,
+      username: userInfo.username,
+      names: userInfo.names,
+      firstSurname: userInfo.firstSurname,
+      secondSurname: userInfo.secondSurname,
+      email: userInfo.email,
+      password: userInfo.password,
+      fingerprints: userInfo.fingerprints,
+      roleId: userInfo.roleId,
+      gender: userInfo.gender,
+      birthday: userInfo.birthday
+    }, {
       headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500

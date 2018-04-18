@@ -157,6 +157,9 @@ class EditUser extends Component {
   render() {
     const { visible, close } = this.props
     const { getFieldDecorator } = this.props.form
+    const { reading, hand } = this.state
+    const leftHandFingersScanned = Object.keys( hand.left ).length
+    const rightHandFingersScanned = Object.keys( hand.right ).length
 
     return(
       <Modal
