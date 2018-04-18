@@ -8,7 +8,7 @@ class App extends Component {
     return(
       <HashRouter>
         <div>
-          <Route exact path="/clientes" component = {ClientsManagment} />
+          <Route exact path="/dashboard/clientes" component = {ClientsManagment} />
         </div>
       </HashRouter>
     )
