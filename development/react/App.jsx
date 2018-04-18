@@ -1,11 +1,16 @@
 import React, {Component} from 'react'
+import { HashRouter, Route } from 'react-router-dom'
+
+import ClientsManagment from './pages/ClientsManagment.jsx'
 
 class App extends Component {
   render() {
     return(
-      <div>
-        React base project
-      </div>
+      <HashRouter>
+        <div>
+          <Route exact path="/clientes" component = {ClientsManagment} />
+        </div>
+      </HashRouter>
     )
   }
 }
