@@ -27,6 +27,7 @@ class PromotionsTable extends Component {
     this.clearAll = this.clearAll.bind( this )
     this.handleChange = this.handleChange.bind( this )
     this.getColumns = this.getColumns.bind( this )
+    this.setRolSort = this.setRolSort.bind( this )
   }
 
   clearAll() {
@@ -64,13 +65,91 @@ class PromotionsTable extends Component {
       onFilter: ( value, record ) => record.roleName.includes(value),
       sorter: (a, b) => this.sortAlphabetically( a.active, b.active ),
       sortOrder: sortedInfo.columnKey === 'active' && sortedInfo.order
+    },
+    {
+      title: 'Monto máx',
+      key: 'Max',
+      dataIndex: 'valueMax',
+      sorter: (a, b) => a < b,
+      sortOrder: sortedInfo.columnKey === 'Max' && sortedInfo.order
+    },
+    {
+      title: 'Monto min',
+      key: 'Min',
+      dataIndex: 'valueMin',
+      sorter: ( a, b ) => a < b,
+      sortOrder: sortedInfo.columnKey === 'Min' && sortedInfo.order
+    },
+    {
+      title: 'Vigencia',
+      key: 'vigencia',
+      dataIndex: 'timeLimit',
+      sorter: ( a, b ) => a < b,
+      sortOrder: sortedInfo.columnKey === 'vigencia' && sortedInfo.order
+    },
+    {
+      title: 'Opciones',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return (
+          <div className="editable-row-operations">
+            <span>
+              <a onClick={() => { 
+                showEditSection()  
+                selectUserToEdit( record )
+              }}>
+                Editar
+              </a>
+
+              <Divider type="vertical" />
+              
+              <Popconfirm title="¿Desea eliminar este usuario?" onConfirm={() => { /*TODO: UNCOMMENT TO TEST this.props.deleteSingleUser( record.userId )*/ }}> 
+                <a>Eliminar</a>
+              </Popconfirm>
+            </span> 
+          </div>
+        )
+      }
     } ]
 
     return columns
   }
 
+  setRolSort() {
+    const { filteredInfo } = this.state
+
+    this.setState( {
+      sortedInfo: {
+        order: 'descend',
+        columnKey: 'roleName'
+      },
+      filteredInfo
+    } )
+  }
+
   sortAlphabetically( a, b ) {
     return (a < b) ? -1 : (a > b) ? 1 : 0
+  }
+
+  render() {
+    const columns = this.getColumns()
+
+    return(
+      <div style={{ width: '100%' }}>
+        <div className="table-operations">
+          <Button onClick={ ()=>{} }>Ordenar por rol</Button>
+          <Button onClick={ this.clearAll }>Reestrablecer filtros</Button>
+        </div>
+
+        <Table 
+          rowSelection={this.rowSelection} 
+          className="users-table" 
+          dataSource={this.props.data} 
+          columns={columns} 
+          onChange={this.handleChange}
+        />
+      </div>
+    )
   }
 }
 

@@ -16,6 +16,7 @@ import { Layout,
   Col } from 'antd'
 import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
+import PromotionsSection from './PromotionsSection/PromotionsSection.jsx'
 
 import './styles/configurations.css'
 
@@ -127,7 +128,7 @@ class PromotionsManagment extends Component {
           />
 
           <div className="dashboard-content">
-          
+            {<PromotionsSection />}
           </div>
         </Layout>
       </Layout>
