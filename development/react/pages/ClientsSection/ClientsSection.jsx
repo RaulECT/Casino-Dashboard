@@ -7,6 +7,7 @@ import {
   Modal
 } from 'antd'
 import Api from '../../controllers/Api'
+import ClientsTable from './ClientsTable.jsx'
 
 const FormItem = Form.Item
 const Search = Input.Search
@@ -177,12 +178,20 @@ class ClientsSection extends Component {
       return(
         <div className="clients-container">
           <Search
-            placeholder="Buscar por nombre de usuario"
+            placeholder="Buscar por nombre de cliente"
             size="large"
             onSearch={value => this.searchClientByName( value ) }
             onChange={ value => this.searchClientByName( value.target.value ) }
-            style={ {width: '80%'} }
+            style={ {width: '60%'} }
             enterButton
+          />
+
+          <ClientsTable
+            data={clients} 
+            deleteSingleClient={this.deleteSingleClient}
+            showEditSection={this.handleEditClientModal}
+            selectClientToEdit={this.selectClientToEdit}
+            selectClientsToDelete={this.addClientsToDelete}  
           />
 
           <div>
