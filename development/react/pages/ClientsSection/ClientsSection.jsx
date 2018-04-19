@@ -8,6 +8,7 @@ import {
 } from 'antd'
 import Api from '../../controllers/Api'
 import ClientsTable from './ClientsTable.jsx'
+import AddClient from './AddClient.jsx'
 
 const FormItem = Form.Item
 const Search = Input.Search
@@ -215,6 +216,12 @@ class ClientsSection extends Component {
               Eliminar ({`${clientsToDelete.length}`}) seleccionados 
             </Button>
           </div>
+
+          <AddClient
+            visible={addClientModal}
+            close={this.handleAddClientModal}
+          />
+
         </div>
       )
     }
