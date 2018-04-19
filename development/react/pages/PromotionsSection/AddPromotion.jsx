@@ -38,14 +38,19 @@ class AddPromotion extends Component {
   }
 
   createPromotion() {
-
+    this.props.form.validateFields( ( err, values ) => {
+      if ( !err ) {
+        console.log( values );
+        
+      }
+    } )
   }
 
   getModalFooter() {
     return [
       <Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar</Button>,
       <Popconfirm key="1" title="¿Desea crear esta promoción?" onConfirm={ () => { this.createPromotion() }  }>
-        <Button type="primary">Crear promoción</Button>
+        <Button icon="plus" type="primary">Crear promoción</Button>
       </Popconfirm>
     ]
   }

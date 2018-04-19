@@ -98,7 +98,7 @@ class PromotionsSection extends Component {
 
         <div>
           <Button
-            icon="user-add"
+            icon="star-o"
             type="primary"
             style={ {marginRight: '20px'} }
             onClick={this.handleAddPromotionModal}
