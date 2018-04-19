@@ -13,6 +13,7 @@ import {
   Popconfirm,
   Radio
 } from 'antd'
+import Webcam from './Webcam.jsx'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -140,6 +141,8 @@ class AddClient extends Component {
                     >
                         <Button>Tomar foto</Button>
                     </FormItem>
+
+                    <Webcam/>
                 </Form>
             </Modal>
         )
