@@ -116,8 +116,8 @@ class ClientsSection extends Component {
         .then( response => {
      
           if ( response.status === 200 ) {
-            
-            let clientsArray = response.data.result.usersArray
+            //return console.log(response)
+            let clientsArray = response.data.result.customersArray
   
             clientsArray.map( (element, index) => element['key'] = index  )
   
@@ -179,8 +179,8 @@ class ClientsSection extends Component {
           <Search
             placeholder="Buscar por nombre de usuario"
             size="large"
-            onSearch={value => this.searchUserByName( value ) }
-            onChange={ value => this.searchUserByName( value.target.value ) }
+            onSearch={value => this.searchClientByName( value ) }
+            onChange={ value => this.searchClientByName( value.target.value ) }
             style={ {width: '80%'} }
             enterButton
           />

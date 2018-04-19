@@ -15,6 +15,7 @@ import { Layout,
     Button,
     Form,
     Col } from 'antd'
+import ClientsSection from './ClientsSection/ClientsSection.jsx'
 
 import './styles/configurations.css'
 
@@ -122,7 +123,7 @@ class ClientsManagment extends Component{
               />
     
               <div className="dashboard-content">
-    
+                <ClientsSection />
               </div>
             </Layout>
           </Layout>
