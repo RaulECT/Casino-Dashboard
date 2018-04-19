@@ -9,6 +9,7 @@ import {
 
 import Api from '../../controllers/Api'
 import PromotionsTable from './PromotionsTable.jsx'
+import AddPromotion from './AddPromotion.jsx'
 
 import '../styles/promsSection.css'
 
@@ -103,7 +104,7 @@ class PromotionsSection extends Component {
             onClick={this.handleAddPromotionModal}
             loading={loading}
           >
-            Agregar usuario
+            Agregar promoción
           </Button>
 
           <Button
@@ -116,6 +117,11 @@ class PromotionsSection extends Component {
             Eliminar ({`${promotionsToDelete.length}`}) seleccionados 
           </Button>
         </div>
+
+        <AddPromotion 
+          visible={addPromotionModal}
+          close={this.handleAddPromotionModal}
+        />
       </div>
     )
   }

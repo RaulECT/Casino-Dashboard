@@ -2,3 +2,8 @@
   width: 100%;
   margin-top: 30px;
 }
+
+.add-prom-form .ant-form-item-label,
+.add-prom-form .ant-form-item-control-wrapper {
+  display: inline-block;
+}
