@@ -6,14 +6,19 @@ import {
   Button,
   Modal
 } from 'antd'
+import Api from '../../controllers/Api'
 
 const FormItem = Form.Item
 const Search = Input.Search
 const confirm = Modal.confirm
 
+import '../styles/clientsSection.css'
+
 class ClientsSection extends Component {
     constructor( props ) {
         super( props )
+
+        this.api = new Api()
 
         this.state = {
             addClientModal: false,
@@ -26,6 +31,12 @@ class ClientsSection extends Component {
         }
 
         this.addClientsToDelete = this.addClientsToDelete.bind( this )
+        this.deleteSingleClient = this.deleteSingleClient.bind( this )
+        this.handleAddClientModal = this.handleAddClientModal.bind( this )
+        this.handleEditClientModal= this.handleEditClientModal.bind( this )
+        this.searchClientByName = this.searchClientByName.bind( this )
+        this.selectClientToEdit = this.selectClientToEdit.bind( this )
+        this.showDeleteConfirm = this.showDeleteConfirm.bind( this )
     }
 
     addClientsToDelete( clientsSelected ) {
@@ -45,12 +56,12 @@ class ClientsSection extends Component {
         } )
     }
 
-    deleteSingleUser( userId ) {
-        this.api.deleteUser( userId )
+    deleteSingleClient( clientId ) {
+        this.api.deleteClient( clientId )
           .then( response => {
             if ( response.status === 200 ) {
               const { searchValue } = this.state
-              this.searchUserByName( searchValue )
+              this.searchClientByName( searchValue )
             } else {
               // TODO: Handle Error
             }
@@ -58,6 +69,145 @@ class ClientsSection extends Component {
           .catch( err => {
             console.log( err )
           } )
+    }
+
+    handleAddClientModal() {
+      const { addClientModal, editClientModal, clients, clientsToDelete, clientToEdit, loading, searchValue } = this.state
+  
+      this.setState( {
+        addClientModal: !addClientModal,
+        editClientModal,
+        loading,
+        clients,
+        clientsToDelete,
+        clientToEdit,
+        searchValue
+      } )
+    }
+
+    handleEditClientModal() {
+      const { addClientModal, editClientModal, clients, clientsToDelete, clientToEdit, loading, searchValue } = this.state
+  
+      this.setState( {
+        addClientModal,
+        editClientModal: !editClientModal,
+        loading,
+        clients,
+        clientsToDelete,
+        clientToEdit,
+        searchValue
+      } )
+    }
+
+    searchClientByName( name ) {
+      const { addClientModal, editClientModal, clientsToDelete, clientToEdit, clients } = this.state
+  
+      this.setState( {
+        loading: true,
+        addClientModal,
+        editClientModal,
+        clientsToDelete: [],
+        clientToEdit,
+        clients,
+        searchValue: name
+      } )
+  
+      this.api.getClientByName( name )
+        .then( response => {
+     
+          if ( response.status === 200 ) {
+            
+            let clientsArray = response.data.result.usersArray
+  
+            clientsArray.map( (element, index) => element['key'] = index  )
+  
+            this.setState( {
+              clients: clientsArray,
+              editClientModal,
+              loading: false,
+              addClientModal,
+              clientsToDelete: [],
+              clientToEdit,
+              searchValue: name
+            } )
+          } else {
+            // TODO: Handle Error
+          }
+        } )
+        .catch( err => {
+          console.log( err )
+        } )
+    }
+
+    selectClientToEdit( client ) {
+      const { addClientModal, loading, clientsToDelete, clients, searchValue } = this.state
+  
+      this.setState( {
+        clientToEdit: client,
+        addClientModal,
+        editClientModal: true,
+        loading,
+        clientsToDelete,
+        clients,
+        searchValue
+      } )
+  
+    }
+    
+    showDeleteConfirm() {
+      confirm( {
+        title: 'Borrar Clientes',
+        content: `¿Desea borrar estos ${this.state.clientsToDelete.length} elementos?`,
+        okText: 'Si',
+        okType: 'danger',
+        cancelText: 'Cancelar',
+        onOk() {
+          console.log('Ok')
+        },
+        onCancel() {
+          console.log('Cancel')
+        }
+      } )
+    }
+
+    render() {
+      const { clients, loading, clientsToDelete, addClientModal, editClientModal, clientToEdit } = this.state
+      const deleteDisabled = clientsToDelete.length > 0 ? false : true
+
+      return(
+        <div className="clients-container">
+          <Search
+            placeholder="Buscar por nombre de usuario"
+            size="large"
+            onSearch={value => this.searchUserByName( value ) }
+            onChange={ value => this.searchUserByName( value.target.value ) }
+            style={ {width: '80%'} }
+            enterButton
+          />
+
+          <div>
+            <Button
+              icon="user-add"
+              type="primary"
+              style={ {marginRight: '20px'} }
+              onClick={this.handleAddClientModal}
+              loading={loading}
+            >
+              Agregar cliente
+            </Button>
+
+            <Button
+              icon="delete"
+              type="danger"
+              loading={loading}
+              disabled={deleteDisabled}
+              onClick={this.showDeleteConfirm}
+            >
+              Eliminar ({`${clientsToDelete.length}`}) seleccionados 
+            </Button>
+          </div>
+        </div>
+      )
     }
 }
 
