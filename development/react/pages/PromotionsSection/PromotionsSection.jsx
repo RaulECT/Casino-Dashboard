@@ -17,13 +17,31 @@ class PromotionsSection extends Component {
     super( props )
 
     this.state = {
+      addPromotionModal: false,
+      editPromotionModal: false,
+      loading: false,
+      promotionsToDelete: [],
+      promotionToEdit: {},
       proms: []
     }
 
     this.api = new Api()
+
+    this.handleAddPromotionModal = this.handleAddPromotionModal.bind( this )
   }
 
   componentWillMount() {
+    const { addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit } = this.state
+
+    this.setState( {
+      addPromotionModal,
+      editPromotionModal,
+      promotionsToDelete,
+      promotionToEdit,
+      proms: [],
+      loading: true
+    } )
+
     this.api.getProms()
       .then( response => {
         if (response.status === 200) {
@@ -38,7 +56,12 @@ class PromotionsSection extends Component {
           }  )
 
           this.setState( {
-            proms
+            loading: false,
+            addPromotionModal,
+            editPromotionModal,
+            promotionsToDelete,
+            promotionToEdit,
+            proms,
           } )
         }
         
@@ -48,14 +71,51 @@ class PromotionsSection extends Component {
       } )
   }
 
+  handleAddPromotionModal() {
+    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, loading } = this.state
+
+    this.setState( {
+      addPromotionModal: !addPromotionModal,
+      editPromotionModal,
+      promotionsToDelete,
+      promotionToEdit,
+      loading,
+      proms
+    } )
+  }
+
   render() {
-    const { proms } = this.state
+    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, loading } = this.state
+    const deleteDisabled = promotionsToDelete.length > 0 ? false : true
 
     return(
+      
       <div>
         <PromotionsTable 
           data={proms}
         />
+
+        <div>
+          <Button
+            icon="user-add"
+            type="primary"
+            style={ {marginRight: '20px'} }
+            onClick={this.handleAddPromotionModal}
+            loading={loading}
+          >
+            Agregar usuario
+          </Button>
+
+          <Button
+            icon="delete"
+            type="danger"
+            loading={loading}
+            disabled={deleteDisabled}
+            onClick={this.showDeleteConfirm}
+          >
+            Eliminar ({`${promotionsToDelete.length}`}) seleccionados 
+          </Button>
+        </div>
       </div>
     )
   }
