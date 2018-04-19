@@ -38,6 +38,8 @@ class PromotionsTable extends Component {
   }
 
   handleChange( pagination, filters, sorter ) {
+    console.log(sorter);
+    
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter,
@@ -55,14 +57,12 @@ class PromotionsTable extends Component {
       key: 'Name',
       dataIndex: 'name',
       sorter: (a, b) => this.sortAlphabetically( a.name, b.name ),
-      sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order
+      sortOrder: sortedInfo.columnKey === 'Name' && sortedInfo.order
     }, 
     {
-      tile: 'Activa',
+      title: 'Activa',
       key: 'active',
       dataIndex: 'active',
-      filteredValue: filteredInfo.active,
-      onFilter: ( value, record ) => record.roleName.includes(value),
       sorter: (a, b) => this.sortAlphabetically( a.active, b.active ),
       sortOrder: sortedInfo.columnKey === 'active' && sortedInfo.order
     },
@@ -70,14 +70,14 @@ class PromotionsTable extends Component {
       title: 'Monto máx',
       key: 'Max',
       dataIndex: 'valueMax',
-      sorter: (a, b) => a < b,
+      sorter: (a, b) => a.valueMax < b.valueMax,
       sortOrder: sortedInfo.columnKey === 'Max' && sortedInfo.order
     },
     {
       title: 'Monto min',
       key: 'Min',
       dataIndex: 'valueMin',
-      sorter: ( a, b ) => a < b,
+      sorter: ( a, b ) => a.valueMin < b.valueMin,
       sortOrder: sortedInfo.columnKey === 'Min' && sortedInfo.order
     },
     {
@@ -143,7 +143,7 @@ class PromotionsTable extends Component {
 
         <Table 
           rowSelection={this.rowSelection} 
-          className="users-table" 
+          className="proms-table" 
           dataSource={this.props.data} 
           columns={columns} 
           onChange={this.handleChange}
