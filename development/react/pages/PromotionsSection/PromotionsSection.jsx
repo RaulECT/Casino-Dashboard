@@ -31,12 +31,26 @@ class PromotionsSection extends Component {
     this.api = new Api()
 
     this.createPromotion = this.createPromotion.bind( this )
+    this.deactivePromotion = this.deactivePromotion.bind( this )
     this.loadPromotions = this.loadPromotions.bind( this )
     this.handleAddPromotionModal = this.handleAddPromotionModal.bind( this )
   }
 
   componentWillMount() {
     this.loadPromotions()
+  }
+
+  deactivePromotion( promotion ) {
+    console.log( promotion );
+    this.api.deactivePromo( promotion )
+      .then( response => {
+        console.log( response );
+        
+      } )
+      .catch( err => {
+        console.log( err );
+        
+      } )
   }
 
   createPromotion( data ) {
@@ -74,7 +88,7 @@ class PromotionsSection extends Component {
       editPromotionModal,
       promotionsToDelete,
       promotionToEdit,
-      success,
+      success: false,
       proms: [],
       loading: true
     } )
@@ -83,7 +97,7 @@ class PromotionsSection extends Component {
       .then( response => {
         if (response.status === 200) {
           let proms = response.data.result.promosArray
-
+          
           proms.map( ( element, index ) => {
             element['key'] = index
             element.valueMax = element.valueMax / 100
@@ -96,7 +110,7 @@ class PromotionsSection extends Component {
             loading: false,
             addPromotionModal,
             editPromotionModal,
-            success,
+            success: false,
             promotionsToDelete,
             promotionToEdit,
             proms,
@@ -139,6 +153,7 @@ class PromotionsSection extends Component {
       <div>
         <PromotionsTable 
           data={proms}
+          deactivePromotion={this.deactivePromotion}
         />
 
         <div>

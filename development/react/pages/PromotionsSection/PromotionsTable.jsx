@@ -103,8 +103,8 @@ class PromotionsTable extends Component {
 
               <Divider type="vertical" />
               
-              <Popconfirm title="¿Desea eliminar este usuario?" onConfirm={() => { /*TODO: UNCOMMENT TO TEST this.props.deleteSingleUser( record.userId )*/ }}> 
-                <a>Eliminar</a>
+              <Popconfirm title="¿Desea desactivar esta promoción?" onConfirm={() => { this.props.deactivePromotion( record.id ) }}> 
+                <a>Desactivar</a>
               </Popconfirm>
             </span> 
           </div>

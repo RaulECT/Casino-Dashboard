@@ -259,6 +259,19 @@ class Api {
     } )
   }
 
+  deactivePromo( promoId ) {
+    return axios.post( `${this.apiURL}/admin/edit_promo`, {
+      appId: this.appID,
+      promoId: promoId,
+      active: false
+    }, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
 }
 
 module.exports = Api
