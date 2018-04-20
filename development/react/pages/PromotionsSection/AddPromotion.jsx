@@ -40,10 +40,21 @@ class AddPromotion extends Component {
   createPromotion() {
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
-        console.log( values );
         
+        values.timeLimit = this.formatDate( values.timeLimit.format() )
+        console.log( values );
+
+        this.props.createPromotion( values )
+
       }
     } )
+  }
+
+  formatDate( date ) {
+    const fullDate = date.split('T')[0]
+    const dateParts = fullDate.split('-')
+
+    return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`
   }
 
   getModalFooter() {

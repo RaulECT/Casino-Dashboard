@@ -13,6 +13,7 @@ class Api {
     this.config = {}
     this.getConfiguration()
     
+    this.createPromo = this.createPromo.bind( this )
   }
 
    getConfiguration() {
@@ -230,6 +231,27 @@ class Api {
 
   getProms() {
     return axios.post( `${this.apiURL}/admin/get_promos`,{}, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  createPromo( data ) {
+    const { amount, description, name, timeLimit, type, valueMax, valueMin } = data
+
+    return axios.post( `${this.apiURL}/admin/create_promo`, {
+      appId: this.appID,
+      amount,
+      description,
+      name,
+      timeLimit,
+      type,
+      valueMax,
+      valueMin,
+      customers: []
+    }, {
       headers: { token: this.token },
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500

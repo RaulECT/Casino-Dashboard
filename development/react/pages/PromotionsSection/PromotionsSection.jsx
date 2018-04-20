@@ -4,7 +4,8 @@ import {
   Input,
   Icon,
   Button,
-  Modal
+  Modal,
+  notification
 } from 'antd'
 
 import Api from '../../controllers/Api'
@@ -21,6 +22,7 @@ class PromotionsSection extends Component {
       addPromotionModal: false,
       editPromotionModal: false,
       loading: false,
+      success: false,
       promotionsToDelete: [],
       promotionToEdit: {},
       proms: []
@@ -28,17 +30,51 @@ class PromotionsSection extends Component {
 
     this.api = new Api()
 
+    this.createPromotion = this.createPromotion.bind( this )
+    this.loadPromotions = this.loadPromotions.bind( this )
     this.handleAddPromotionModal = this.handleAddPromotionModal.bind( this )
   }
 
   componentWillMount() {
-    const { addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit } = this.state
+    this.loadPromotions()
+  }
+
+  createPromotion( data ) {
+    const { addPromotionModal, editPromotionModal, success, promotionsToDelete, promotionToEdit, proms, loading } = this.state
+
+    this.api.createPromo( data )
+      .then( response => {
+        if ( response.status === 200 ) {
+          this.setState( {
+            addPromotionModal,
+            editPromotionModal,
+            promotionsToDelete,
+            promotionToEdit,
+            proms,
+            loading,
+            success: true
+          } )
+
+          this.openNotificationWithIcon( 'Se ha creado con éxito la promoción.', 'Crear promoión' )
+          this.loadPromotions()
+        } else {
+          
+        }
+      } )
+      .catch( err => {
+
+      } )
+  }
+
+  loadPromotions() {
+    const { addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, success } = this.state
 
     this.setState( {
       addPromotionModal,
       editPromotionModal,
       promotionsToDelete,
       promotionToEdit,
+      success,
       proms: [],
       loading: true
     } )
@@ -60,6 +96,7 @@ class PromotionsSection extends Component {
             loading: false,
             addPromotionModal,
             editPromotionModal,
+            success,
             promotionsToDelete,
             promotionToEdit,
             proms,
@@ -73,20 +110,28 @@ class PromotionsSection extends Component {
   }
 
   handleAddPromotionModal() {
-    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, loading } = this.state
+    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, loading, success } = this.state
 
     this.setState( {
       addPromotionModal: !addPromotionModal,
       editPromotionModal,
       promotionsToDelete,
       promotionToEdit,
+      success,
       loading,
       proms
     } )
   }
 
+  openNotificationWithIcon( message, description ) {
+    notification['success']( {
+      message: message,
+      description: description
+    } )
+  }
+
   render() {
-    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, loading } = this.state
+    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, success, loading } = this.state
     const deleteDisabled = promotionsToDelete.length > 0 ? false : true
 
     return(
@@ -121,6 +166,7 @@ class PromotionsSection extends Component {
         <AddPromotion 
           visible={addPromotionModal}
           close={this.handleAddPromotionModal}
+          createPromotion={this.createPromotion}
         />
       </div>
     )
