@@ -11,6 +11,7 @@ import {
 import Api from '../../controllers/Api'
 import PromotionsTable from './PromotionsTable.jsx'
 import AddPromotion from './AddPromotion.jsx'
+import EditPromotion from './EditPromotion.jsx'
 
 import '../styles/promsSection.css'
 
@@ -34,6 +35,8 @@ class PromotionsSection extends Component {
     this.deactivePromotion = this.deactivePromotion.bind( this )
     this.loadPromotions = this.loadPromotions.bind( this )
     this.handleAddPromotionModal = this.handleAddPromotionModal.bind( this )
+    this.handleEditPromotionModal = this.handleEditPromotionModal.bind( this )
+    this.selectPromToEdit = this.selectPromToEdit.bind( this )
   }
 
   componentWillMount() {
@@ -137,6 +140,20 @@ class PromotionsSection extends Component {
     } )
   }
 
+  handleEditPromotionModal() {
+    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, loading, success } = this.state
+
+    this.setState( {
+      addPromotionModal,
+      editPromotionModal: !editPromotionModal,
+      promotionsToDelete,
+      promotionToEdit,
+      success,
+      loading,
+      proms
+    } )
+  }
+
   openNotificationWithIcon( message, description ) {
     notification['success']( {
       message: message,
@@ -144,9 +161,32 @@ class PromotionsSection extends Component {
     } )
   }
 
+  selectPromToEdit( promSelcted ) {
+    console.log(promSelcted);
+    
+    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, loading, success } = this.state
+
+    this.setState( {
+      promotionToEdit: promSelcted,
+      proms,
+      addPromotionModal,
+      editPromotionModal: true,
+      promotionsToDelete,
+      loading,
+      success
+    } )
+  }
+
   render() {
-    const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, success, loading } = this.state
+    const { proms, addPromotionModal, editPromotionModal, promotionToEdit, promotionsToDelete, success, loading } = this.state
     const deleteDisabled = promotionsToDelete.length > 0 ? false : true
+    const editPromotion = editPromotionModal ? (
+      <EditPromotion
+        visible={editPromotionModal}
+        close={this.handleEditPromotionModal}
+        prom={promotionToEdit}
+      />
+    ) : ''
 
     return(
       
@@ -154,6 +194,8 @@ class PromotionsSection extends Component {
         <PromotionsTable 
           data={proms}
           deactivePromotion={this.deactivePromotion}
+          selectPromToEdit={this.selectPromToEdit}
+          showEditSection={this.handleEditPromotionModal}
         />
 
         <div>
@@ -183,6 +225,8 @@ class PromotionsSection extends Component {
           close={this.handleAddPromotionModal}
           createPromotion={this.createPromotion}
         />
+
+        {editPromotion}
       </div>
     )
   }

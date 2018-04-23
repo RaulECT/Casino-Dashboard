@@ -48,6 +48,7 @@ class PromotionsTable extends Component {
 
   getColumns() {
     let { filteredInfo, sortedInfo } = this.state
+    const { showEditSection, selectPromToEdit } = this.props
 
     sortedInfo = sortedInfo || {}
     filteredInfo = filteredInfo || {}
@@ -95,8 +96,8 @@ class PromotionsTable extends Component {
           <div className="editable-row-operations">
             <span>
               <a onClick={() => { 
-                showEditSection()  
-                selectUserToEdit( record )
+                //showEditSection()  
+                selectPromToEdit( record )
               }}>
                 Editar
               </a>
