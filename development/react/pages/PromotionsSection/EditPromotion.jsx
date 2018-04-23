@@ -45,14 +45,18 @@ class EditPromotion extends Component {
   editPromotion() {
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
-        console.log(values);
+        values.promoId = this.props.prom.id
+        values.timeLimit = this.formatDate(values.timeLimit.format().split('T')[0]) 
+        values.valueMax = values.valueMax * 100
+        values.valueMin = values.valueMin * 100
         
+        this.props.editPromo( values )
       }
     } )
   }
 
   formatDate( date ) {
-    return date.replace( '-', '/' )
+    return date.replace( /-/g , '/' )
   }
 
   getModalFooter() {

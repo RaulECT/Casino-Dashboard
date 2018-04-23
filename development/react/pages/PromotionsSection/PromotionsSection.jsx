@@ -33,6 +33,7 @@ class PromotionsSection extends Component {
 
     this.createPromotion = this.createPromotion.bind( this )
     this.deactivePromotion = this.deactivePromotion.bind( this )
+    this.editPromotion = this.editPromotion.bind( this )
     this.loadPromotions = this.loadPromotions.bind( this )
     this.handleAddPromotionModal = this.handleAddPromotionModal.bind( this )
     this.handleEditPromotionModal = this.handleEditPromotionModal.bind( this )
@@ -79,8 +80,35 @@ class PromotionsSection extends Component {
         }
       } )
       .catch( err => {
-
+        console.log( err );
+        
       } )
+  }
+
+  editPromotion( data ) {
+    const { addPromotionModal, editPromotionModal, success, promotionsToDelete, promotionToEdit, proms, loading } = this.state
+    console.log(data);
+    
+    this.api.editPromo( data )
+      .then( response => {
+        console.log(response);
+        
+        if( response.status === 200 ) {
+
+          this.setState( {
+            addPromotionModal,
+            editPromotionModal: false,
+            success: true,
+            promotionsToDelete,
+            promotionToEdit: {},
+            proms,
+            loading
+          } )
+
+          this.openNotificationWithIcon( 'Se ha actualizado con éxito la promoción.', 'Editar promoión' )
+          this.loadPromotions()
+        }
+      } ) 
   }
 
   loadPromotions() {
@@ -154,7 +182,7 @@ class PromotionsSection extends Component {
     } )
   }
 
-  openNotificationWithIcon( message, description ) {
+  openNotificationWithIcon( description, message ) {
     notification['success']( {
       message: message,
       description: description
@@ -183,6 +211,7 @@ class PromotionsSection extends Component {
     const editPromotion = editPromotionModal ? (
       <EditPromotion
         visible={editPromotionModal}
+        editPromo={this.editPromotion}
         close={this.handleEditPromotionModal}
         prom={promotionToEdit}
       />

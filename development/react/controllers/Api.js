@@ -14,6 +14,7 @@ class Api {
     this.getConfiguration()
     
     this.createPromo = this.createPromo.bind( this )
+    this.editPromo = this.editPromo.bind( this )
   }
 
    getConfiguration() {
@@ -264,6 +265,27 @@ class Api {
       appId: this.appID,
       promoId: promoId,
       active: false
+    }, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  editPromo( promo ) {
+    const { amount, description, name, promoId, timeLimit, type, valueMax, valueMin } = promo
+
+    return axios.post( `${this.apiURL}/admin/edit_promo`,{
+      appId: this.appID,
+      amount: amount,
+      description: description,
+      name: name,
+      promoId: promoId,
+      timeLimit: timeLimit,
+      type: type,
+      valueMax: valueMax,
+      valueMin: valueMin
     }, {
       headers: { token: this.token },
       validateStatus: function (status) {
