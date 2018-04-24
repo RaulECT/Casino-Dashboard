@@ -37,6 +37,14 @@ class PromotionsManagment extends Component {
     this.toggle = this.toggle.bind( this )
   }
 
+  componentWillMount() {
+    const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
+
+    if ( isNotLogged ) {
+      this.props.history.push( '/' )
+    } 
+  }
+
   toggle() {
     this.setState( {
       collapsed: !this.state.collapsed,

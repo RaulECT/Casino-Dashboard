@@ -7,6 +7,7 @@ import {
   Modal,
   notification
 } from 'antd'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 import Api from '../../controllers/Api'
 import PromotionsTable from './PromotionsTable.jsx'
@@ -30,6 +31,7 @@ class PromotionsSection extends Component {
     }
 
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
 
     this.createPromotion = this.createPromotion.bind( this )
     this.deactivePromotion = this.deactivePromotion.bind( this )
@@ -146,6 +148,9 @@ class PromotionsSection extends Component {
             promotionToEdit,
             proms,
           } )
+        } else {
+          console.log(response);
+          this.errorManagment.resolveError( response.data )
         }
         
       } )

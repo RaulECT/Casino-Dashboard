@@ -5,7 +5,8 @@ class ErrorManagment {
 
   constructor(  ) {
     this.errorDictionary = {
-      "InvalidToken": this.handleInvalidToken
+      "InvalidToken": this.handleInvalidToken,
+      "TokenNotProvided": this.handleInvalidToken
     }
 
     this.handleInvalidToken = this.handleInvalidToken.bind( this )
