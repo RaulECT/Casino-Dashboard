@@ -5,6 +5,7 @@ import Login from './pages/Login.jsx'
 import GeneralConfigurations from './pages/GeneralConfigurations.jsx'
 import RolesManagment from './pages/RolesManagment.jsx'
 import PromotionsManagment from './pages/PromotionsManagment.jsx'
+import ClientsManagment from './pages/ClientsManagment.jsx'
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <Route exact path = "/dashboard/configuraciones_generales" component = {GeneralConfigurations} />
           <Route exact path="/dashboard/gestion_roles" component = {RolesManagment} />
           <Route exact path="/dashboard/promociones" component = {PromotionsManagment} />
+          <Route exact path="/dashboard/clientes" component = {ClientsManagment} />
         </div>
       </HashRouter>
     )
