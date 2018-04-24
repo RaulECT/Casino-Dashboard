@@ -200,12 +200,13 @@ class Generalconfigurations extends Component {
               <Menu.Item key="7">Option sub 4</Menu.Item>
             </SubMenu>
 
-            <SubMenu
-              key="sub5"
-              title={<span><Icon type="table" /><span>Administración de Clientes</span></span>}
-            >
-              <Menu.Item key="7">Option sub 5</Menu.Item>
-            </SubMenu>
+
+            <Menu.Item key="9">
+              <Link to="/dashboard/clientes">
+                <Icon type="table" />
+                <span>Administración de Clientes</span>
+              </Link>     
+            </Menu.Item>
 
             <Menu.Item key="8">
               <Link to="/dashboard/promociones">

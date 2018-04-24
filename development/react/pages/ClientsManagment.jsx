@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
 import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 import { Layout, 
@@ -70,21 +71,18 @@ class ClientsManagment extends Component{
                   <span>Dashboard</span>
                 </Menu.Item>
     
-                <SubMenu
-                  key="sub2"
-                  title={<span><Icon type="setting" /><span>Configuración General</span></span>}
-                >
-                
-                  <Menu.Item key="2">Fichas</Menu.Item>
-                  <Menu.Item key="3">Montos rápidos</Menu.Item>
-                  <Menu.Item key="4">Tipo de cambio</Menu.Item>
-                  <Menu.Item key="5">Precio de Membresía</Menu.Item>
-                  <Menu.Item key="6">Horarios</Menu.Item>
-                </SubMenu>
+                <Menu.Item key="2">
+                  <Link to="/dashboard/configuraciones_generales">
+                    <Icon type="setting" />
+                    <span>Configuración General</span>
+                  </Link>
+                </Menu.Item>
     
                 <Menu.Item key="7">
-                  <Icon type="idcard" />
-                  <span>Gestión de Roles</span>
+                  <Link to="/dashboard/gestion_roles">
+                    <Icon type="idcard" />
+                    <span>Gestión de Roles</span>
+                  </Link>
                 </Menu.Item>
     
                 <SubMenu
@@ -97,6 +95,13 @@ class ClientsManagment extends Component{
                 <Menu.Item key="9">
                   <Icon type="table" />
                   <span>Administración de Clientes</span>
+                </Menu.Item>
+
+                <Menu.Item key="8">
+                  <Link to="/dashboard/promociones">
+                    <Icon type="star-o" />
+                    <span>Promociones</span>
+                  </Link>
                 </Menu.Item>
     
                 <SubMenu
