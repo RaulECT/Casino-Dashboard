@@ -25,6 +25,8 @@ class AddClient extends Component {
 
         this.state = {
             photo: null,
+            identicationPhoto: null,
+            photoType: '',
             isPhotoTaken: false,
             isWebcamShowing: false
         }
@@ -37,6 +39,19 @@ class AddClient extends Component {
         this.getWebcamSection = this.getWebcamSection.bind( this )
         this.handleWebcamSection = this.handleWebcamSection.bind( this )
         this.takePhoto = this.takePhoto.bind( this )
+        this.takeIdentificationPhoto = this.takeIdentificationPhoto.bind( this )
+        this.selectClientPhoto = this.selectClientPhoto.bind( this )
+        this.selectIdentificationPhoto = this.selectIdentificationPhoto.bind( this )
+    }
+
+    componentWillUnmount() {
+        this.setState( {
+            photoType: '',
+            identicationPhoto: null,
+            photo: null,
+            isPhotoTaken: false,
+            isWebcamShowing: false
+        } )
     }
 
     createClient() {
@@ -70,15 +85,6 @@ class AddClient extends Component {
         ]
     }
 
-    getClientWebCam() {
-        return(
-            <Webcam 
-                close={ this.handleWebcamSection }
-                take={ this.takePhoto }
-            />
-        )
-    }
-
     getForm() {
         const { getFieldDecorator } = this.props.form
         const { photo, isPhotoTaken } = this.state
@@ -89,7 +95,7 @@ class AddClient extends Component {
                 <FormItem style={ { display: 'block' } } >
                     <div className="photo-section">
                         {clientImg}
-                        <Button onClick={this.handleWebcamSection} icon="picture"> Tomar foto </Button> 
+                        <Button onClick={this.selectClientPhoto} icon="picture"> Tomar foto </Button> 
                     </div>
                 </FormItem>
                     
@@ -177,31 +183,79 @@ class AddClient extends Component {
     }
 
     getWebcamSection() {
+        const { photoType } = this.state
+
+        const func = photoType == 'client_face' ? this.takePhoto : this.takeIdentificationPhoto
         return(
             <Webcam 
                 close={ this.handleWebcamSection }
-                take={ this.takePhoto }
+                take={ func }
             />
         )
     }
 
     handleWebcamSection() {
-        const { photo, isPhotoTaken, isWebcamShowing } = this.state
+        const { photo, photoType, identicationPhoto, isPhotoTaken, isWebcamShowing } = this.state
 
         this.setState( {
             isWebcamShowing: !isWebcamShowing,
+            identicationPhoto,
             photo,
+            photoType,
             isPhotoTaken
         } )
     }
 
+    selectClientPhoto() {
+        const { photo, photoType, identicationPhoto, isPhotoTaken, isWebcamShowing } = this.state
+
+        this.setState( {
+            photoType: 'client_face',
+            photo,
+            isPhotoTaken,
+            identicationPhoto,
+            isWebcamShowing: true
+        } )
+
+        //this.handleWebcamSection()
+    }
+
+    selectIdentificationPhoto() {
+        const { photo, photoType, identicationPhoto, isPhotoTaken, isWebcamShowing } = this.state
+
+        this.setState( {
+            photoType: 'client_identification',
+            photo,
+            identicationPhoto,
+            isPhotoTaken,
+            isWebcamShowing: true
+        } )
+
+        //this.handleWebcamSection()
+    }
+
     takePhoto( photo ) {
-        const { isPhotoTaken, isWebcamShowing } = this.state
+        const { photoType, identicationPhoto, isPhotoTaken, isWebcamShowing } = this.state
 
         this.setState( {
             isWebcamShowing: false,
             isPhotoTaken: true,
-            photo: photo
+            photo: photo,
+            photoType,
+            identicationPhoto
+        } )
+    }
+
+    takeIdentificationPhoto( photoId ) {
+        const { photoType, photo, isPhotoTaken, isWebcamShowing } = this.state
+
+        this.setState( {
+            identicationPhoto: photoId,
+            isWebcamShowing: false,
+            isPhotoTaken,
+            photo,
+            photoType,
+            
         } )
     }
 
