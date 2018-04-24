@@ -138,7 +138,6 @@ class PromotionsTable extends Component {
     return(
       <div style={{ width: '100%' }}>
         <div className="table-operations">
-          <Button onClick={ ()=>{} }>Ordenar por rol</Button>
           <Button onClick={ this.clearAll }>Reestrablecer filtros</Button>
         </div>
 
