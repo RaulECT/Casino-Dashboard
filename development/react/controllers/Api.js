@@ -275,7 +275,7 @@ class Api {
 
   editPromo( promo ) {
     const { amount, description, name, promoId, timeLimit, type, valueMax, valueMin } = promo
-
+    
     return axios.post( `${this.apiURL}/admin/edit_promo`,{
       appId: this.appID,
       amount: amount,

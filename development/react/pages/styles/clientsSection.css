@@ -23,12 +23,35 @@
 display: inline-block;
 }
 
-.add-client-form:nth-child(1) .ant-form-item-control-wrapper,
-.edit-user-form:nth-child(1) .ant-form-item-control-wrapper{
+.add-client-form:nth-child(2) .ant-form-item-control-wrapper,
+.edit-user-form:nth-child(2) .ant-form-item-control-wrapper{
 width: 70%;
 }
 
 .add-client-form:nth-child(2n),
 .edit-user-form:nth-child(2n) {
 margin-right: 30px !important;
+}
+
+.photo-section {
+  display: flex;
+  align-items: center;
+}
+
+.photo-section > button {
+  margin-left: 10px;
+}
+
+.photo-client {
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px !important;
+}
+
+.photo-client > i {
+  font-size: 60px;
 }

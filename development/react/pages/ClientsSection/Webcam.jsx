@@ -9,7 +9,8 @@ class Webcam extends Component {
         super( props )
 
         this.state = {
-            constraints: { audio: false, video: { width: 400, height: 300 } }
+            constraints: { audio: false, video: { width: 400, height: 300 } },
+            stream: null,
         }
 
         this.handleStartClick = this.handleStartClick.bind(this)
@@ -18,7 +19,7 @@ class Webcam extends Component {
     }
 
     componentDidMount() {
-        const { constraints } = this.state
+        const { constraints, stream } = this.state
         const getUserMedia = (params) => (
             new Promise((successCallback, errorCallback) => {
               navigator.webkitGetUserMedia.call(navigator, params, successCallback, errorCallback)
@@ -27,11 +28,17 @@ class Webcam extends Component {
 
         getUserMedia(constraints)
             .then((stream) => {
+                this.setState( {
+                    stream: stream,
+                    constraints
+                } )
+
                 const video = document.querySelector('video')
                 const vendorURL = window.URL || window.webkitURL
 
                 video.src = vendorURL.createObjectURL(stream)
                 video.play()
+           
             })
             .catch((err) => {
                 console.log(err)
@@ -61,7 +68,7 @@ class Webcam extends Component {
         const canvas = document.querySelector('canvas');
         const context = canvas.getContext('2d');
         const video = document.querySelector('video');
-        //const photo = document.getElementById('photo');
+
         const { width, height } = this.state.constraints.video;
 
         canvas.width = width;
@@ -69,13 +76,14 @@ class Webcam extends Component {
         context.drawImage(video, 0, 0, width, height);
 
         const data = canvas.toDataURL('image/png');
-        //console.log(data);
-        //console.log( data.split(',')[1] );
+        this.state.stream.getTracks()[0].stop()
+        this.props.take( data )
         
-        //photo.setAttribute('src', data)
     }
 
     render() {
+        const { close } = this.props
+
         return (
             <div className="capture">
                 <div className="camera">
@@ -93,7 +101,12 @@ class Webcam extends Component {
                         Tomar Foto
                     </Button>
 
-                    <Button icon="close">Cancelar</Button>
+                    <Button 
+                        icon="close"
+                        onClick={ ()=> close() }
+                    > 
+                        Cancelar
+                    </Button>
                 </div>
 
                 <canvas id="canvas" hidden></canvas>            
