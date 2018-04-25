@@ -16,7 +16,7 @@ import { Layout,
   Col } from 'antd'
 import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
-
+import TillRecord from './Records/TillRecord.jsx'
 
 import './styles/configurations.css'
 
@@ -143,7 +143,7 @@ class Records extends Component {
           />
 
           <div className="dashboard-content">
-
+            {<TillRecord/>}
           </div>
         </Layout>
       </Layout>
