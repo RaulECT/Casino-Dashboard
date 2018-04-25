@@ -116,8 +116,15 @@ class PromotionsManagment extends Component {
               key="sub6"
               title={<span><Icon type="area-chart" /><span>Estadisticas</span></span>}
             >
-              <Menu.Item key="10">Option sub 6</Menu.Item>
+              <Menu.Item key="100">Option sub 6</Menu.Item>
             </SubMenu>
+
+            <Menu.Item key="10">
+              <Link to="/dashboard/historial">
+                <Icon type="profile" />
+                <span>Historial</span>
+              </Link>
+            </Menu.Item>
 
           </Menu>
 

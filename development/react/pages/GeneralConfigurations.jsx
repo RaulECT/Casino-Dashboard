@@ -222,6 +222,13 @@ class Generalconfigurations extends Component {
               <Menu.Item key="7">Option sub 6</Menu.Item>
             </SubMenu>
 
+            <Menu.Item key="10">
+              <Link to="/dashboard/historial">
+                <Icon type="profile" />
+                <span>Historial</span>
+              </Link>
+            </Menu.Item>
+
           </Menu>
 
         </Sider>
