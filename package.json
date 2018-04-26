@@ -19,6 +19,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "chart.js": "^2.7.2",
     "css-loader": "^0.28.10",
     "image-webpack-loader": "^4.2.0",
     "moment": "^2.21.0",

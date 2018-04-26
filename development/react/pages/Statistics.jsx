@@ -17,7 +17,10 @@ import { Layout,
 import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
+import GraphicsSection from './Stadistics/GraphicsSection.jsx'
+
 import './styles/configurations.css'
+import './styles/graphicsSection.css'
 
 const { Header, Sider, Content } = Layout
 const SubMenu = Menu.SubMenu
@@ -78,16 +81,16 @@ class Stadistics extends Component {
   }
 
   findComponent() {
-    let component = ( <div></div> )
+    let component = ( <GraphicsSection /> )
     const { actualPanel } = this.state
 
     switch ( actualPanel ) {
-      case 'Config':
+      case 'Configurar envió automático':
         component = ( <div></div> )
         break;
 
       case 'Estadisticas':
-        component = ( <div></div> )
+        component = ( <GraphicsSection /> )
         break;
     
       default:

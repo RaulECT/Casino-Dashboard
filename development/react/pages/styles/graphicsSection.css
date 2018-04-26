@@ -1,0 +1,5 @@
+.graphics-options > div,
+.graphics-options > span,
+.graphics-options > button {
+  margin-right: 15px;
+}
