@@ -17,33 +17,24 @@ import { Layout,
 import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
-import RolesManagment from './RolesManagment.jsx'
-
-import ChipsSection from './Chips/ChipsSection.jsx'
-import AmountsSection from './Amounts/AmountsSection.jsx'
-import ExchangeSection from './ExchangeRate/ExchangeSection.jsx'
-import MembershipSection from './Membreship/MembershipSection.jsx'
-import SchedulesSection from './Schedules/SchedulesSection.jsx'
-
 import './styles/configurations.css'
-
 
 const { Header, Sider, Content } = Layout
 const SubMenu = Menu.SubMenu
 const FormItem = Form.Item
 
-class Generalconfigurations extends Component {
+class Stadistics extends Component {
   constructor( props ) {
     super( props )
     
-
     this.state = {
       collapsed: false,
       isMobile: false,
-      actualPanel: 'Fichas'
+      actualPanel: 'Gráficas'
     }
 
     this.changePanel = this.changePanel.bind( this )
+    this.findComponent = this.findComponent.bind( this )
     this.toggle = this.toggle.bind( this )
   }
 
@@ -56,77 +47,49 @@ class Generalconfigurations extends Component {
   }
 
   changePanel( panel ) {
+    const { collapsed, isMobile } = this.state
+
     switch ( panel.key ) {
-      case '2':
+      case '17':
         this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Fichas'
+          actualPanel: 'Gráficas',
+          collapsed,
+          isMobile
         } )
         break;
 
-      case '3':
+      case '18':
         this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Montos rápidos'
-        } )
-        break;
-
-      case '4':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Tipo de cambio'
-        } )
-        break;
-
-      case '5':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Precio de Membresía'
-        } )
-        break;
-        
-      case '6':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Horarios'
+          actualPanel: 'Configurar envió automático',
+          collapsed,
+          isMobile
         } )
         break;
     
       default:
+        this.setState( {
+          actualPanel: 'Gráficas',
+          collapsed,
+          isMobile
+        } )
         break;
     }
-    
+
   }
 
   findComponent() {
-    let component = (<ChipsSection/>)
+    let component = ( <div></div> )
+    const { actualPanel } = this.state
 
-    switch ( this.state.actualPanel ) {
-      case 'Fichas':
-        component = (<ChipsSection/>)
+    switch ( actualPanel ) {
+      case 'Config':
+        component = ( <div></div> )
         break;
 
-      case 'Montos rápidos':
-        component = (<AmountsSection/>)
-        break
-      
-      case 'Tipo de cambio':
-        component = (<ExchangeSection/>)
-        break
-
-      case 'Precio de Membresía':
-        component = (<MembershipSection/>)
-        break
-
-      case 'Horarios':
-        component = (<SchedulesSection/>)
-        break
-
+      case 'Estadisticas':
+        component = ( <div></div> )
+        break;
+    
       default:
         break;
     }
@@ -164,8 +127,8 @@ class Generalconfigurations extends Component {
             theme="dark" 
             mode="inline" 
             style={{ padding: '16px 0', width: '100%' }} 
-            defaultSelectedKeys={['2']}
-            defaultOpenKeys={['sub2']}
+            defaultSelectedKeys={['17']}
+            defaultOpenKeys={['sub6']}
             onSelect = { this.changePanel }
           >
             <Menu.Item key="1">
@@ -173,17 +136,12 @@ class Generalconfigurations extends Component {
               <span>Dashboard</span>
             </Menu.Item>
 
-            <SubMenu
-              key="sub2"
-              title={<span><Icon type="setting" /><span>Configuración General</span></span>}
-            >
-            
-              <Menu.Item key="2">Fichas</Menu.Item>
-              <Menu.Item key="3">Montos rápidos</Menu.Item>
-              <Menu.Item key="4">Tipo de cambio</Menu.Item>
-              <Menu.Item key="5">Precio de Membresía</Menu.Item>
-              <Menu.Item key="6">Horarios</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="2">
+              <Link to="/dashboard/configuraciones_generales">
+                <Icon type="setting" />
+                <span>Configuración General</span>
+              </Link>
+            </Menu.Item>
 
             
             <Menu.Item key="7">
@@ -215,12 +173,13 @@ class Generalconfigurations extends Component {
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="11">
-              <Link to="/dashboard/estadisticas">
-                <Icon type="area-chart" />
-                <span>Estadisticas</span>
-              </Link>
-            </Menu.Item>
+            <SubMenu
+              key="sub6"
+              title={<span><Icon type="area-chart" /><span>Estadisticas</span></span>}
+            >
+              <Menu.Item key="17">Gráficas</Menu.Item>
+              <Menu.Item key="18">Configurar envió automático</Menu.Item>
+            </SubMenu>
 
             <Menu.Item key="10">
               <Link to="/dashboard/historial">
@@ -241,7 +200,7 @@ class Generalconfigurations extends Component {
           />
 
           <PageHeader
-            path = { ['Configuración General', this.state.actualPanel] }
+            path = { ['Estadisticas', this.state.actualPanel] }
             title = {this.state.actualPanel}
           />
 
@@ -252,8 +211,7 @@ class Generalconfigurations extends Component {
       </Layout>
     )
   }
+
 }
 
-
-
-module.exports = Generalconfigurations
+module.exports = Stadistics

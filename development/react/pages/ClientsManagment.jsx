@@ -104,12 +104,12 @@ class ClientsManagment extends Component{
                   </Link>
                 </Menu.Item>
     
-                <SubMenu
-                  key="sub6"
-                  title={<span><Icon type="area-chart" /><span>Estadisticas</span></span>}
-                >
-                  <Menu.Item key="100">Option sub 6</Menu.Item>
-                </SubMenu>
+                <Menu.Item key="11">
+                  <Link to="/dashboard/estadisticas">
+                    <Icon type="area-chart" />
+                    <span>Estadisticas</span>
+                  </Link>
+                </Menu.Item>
 
                 <Menu.Item key="10">
                   <Link to="/dashboard/historial">
