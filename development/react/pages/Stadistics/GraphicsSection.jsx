@@ -25,12 +25,14 @@ class GraphicsSection extends Component {
     this.graphicsManagment = new GraphicsManagment()
 
     this.generateTesData = this.generateTesData.bind( this )
+    this.printBarGraphic = this.printBarGraphic.bind( this )
     this.printLineGraphic = this.printLineGraphic.bind( this )
     this.printPieGraphic = this.printPieGraphic.bind( this )
     
     this.graphics = {
       custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', chart: this.printLineGraphic },
-      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', chart: this.printPieGraphic }
+      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', chart: this.printPieGraphic },
+      barTest: { route: this.generateTesData, text: 'Peridas por fecha', chart: this.printBarGraphic }
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -92,6 +94,30 @@ class GraphicsSection extends Component {
 
   makeGraphic() {
     this.getData()
+  }
+
+  printBarGraphic( labels, data ) {
+    const { graphSlected, startDate, endDate } = this.state
+    this.cleanCanvas()
+
+    const ctx = document.getElementById("myChart");
+    const configuration = this.graphicsManagment.configBarGraphic( {
+      data,
+      dataLabels: labels,
+      chartLabel: 'Perdidas',
+      xLabel: 'Fechas',
+      yLabel: 'Perdidas',
+      title: `Perdidas registradas de ${startDate} a ${endDate}`,
+      type: 'bar'
+    } )
+    var myChart = new Chart(ctx, configuration)
+
+    this.setState( {
+      graphic: myChart,
+      graphSlected,
+      startDate,
+      endDate
+    } )
   }
 
   printLineGraphic( labels, data ) {
@@ -178,6 +204,7 @@ class GraphicsSection extends Component {
           >
             <Option value="custumersByDate">Registro de clientes</Option>
             <Option value="pieTest">Ingresos generales</Option>
+            <Option value="barTest">Peridas generales</Option>
           </Select>
 
           <RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />

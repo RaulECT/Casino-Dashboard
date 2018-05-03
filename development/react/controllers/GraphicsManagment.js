@@ -2,6 +2,45 @@ import Chart from 'chart.js'
 
 class GraphicsManagment {
 
+  configBarGraphic( config ) {
+    const { data, dataLabels, chartLabel, xLabel, yLabel, title, type } = config
+
+    return {
+      type: type,
+      data: {
+        labels: dataLabels,
+        datasets: [
+          {
+            label: chartLabel,
+            //backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: data
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: yLabel
+              }
+          }],
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: xLabel
+            }
+          }]
+        },
+        title: {
+          display: true,
+          text: title
+        }
+      }
+    }
+  }
   
   configLineGraphic( config ) {
     const { data, dataLabels, chartLabel, xLabel, yLabel, title } = config
