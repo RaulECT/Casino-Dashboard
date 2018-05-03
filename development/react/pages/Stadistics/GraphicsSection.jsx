@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Chart from 'chart.js'
+import jsPDF from 'jspdf'
 import { 
   DatePicker,
   Select,
@@ -14,6 +15,7 @@ class GraphicsSection extends Component {
     super( props )
 
     this.state = {
+      graphic: null,
       graphSlected: '',
       startDate: null,
       endDate: null
@@ -22,14 +24,33 @@ class GraphicsSection extends Component {
     this.generateTesData = this.generateTesData.bind( this )
 
     this.graphics = {
-      custumersByDate: { route: this.generateTesData }
+      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha' }
     }
 
     this.dateFormat = "YYYY/MM/DD"
 
+    this.getData = this.getData.bind( this )
+    this.generatePDF = this.generatePDF.bind(this)
     this.handleRangePicker = this.handleRangePicker.bind( this )
     this.handleGraphicsOptions = this.handleGraphicsOptions.bind( this )
     this.makeGraphic = this.makeGraphic.bind( this )
+    this.printLineGraphic = this.printLineGraphic.bind( this )
+  }
+
+  generatePDF() {
+    const { graphic, graphSlected, startDate, endDate } = this.state
+    const title = this.graphics[graphSlected].text
+    const fileName = `${graphSlected}-${startDate}-to-${endDate}`
+
+    const doc = new jsPDF( {
+      orientation: 'landscape'
+    } )
+
+    doc.text(title, 10, 10)
+    const img = graphic.toBase64Image()
+   
+    doc.addImage( img, 'png', 10, 20, 260, 180 )
+    doc.save(`${fileName}.pdf`)
   }
 
   generateTesData() {
@@ -62,6 +83,8 @@ class GraphicsSection extends Component {
   }
 
   printLineGraphic( labels, data ) {
+    const { graphSlected, startDate, endDate } = this.state
+
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
       type: 'line',
@@ -99,14 +122,22 @@ class GraphicsSection extends Component {
         }
       }
     })
+
+    this.setState( {
+      graphic: myChart,
+      graphSlected,
+      startDate,
+      endDate
+    } )
   }
 
   handleGraphicsOptions( value ) {
-    const { startDate, endDate } = this.state
+    const { graphic, startDate, endDate } = this.state
     console.log( `selected: ${value}` )
 
     this.setState( {
       graphSlected: value,
+      graphic,
       startDate,
       endDate
     } )
@@ -115,16 +146,21 @@ class GraphicsSection extends Component {
 
   handleRangePicker( date, dateString ) {
     //console.log(date, dateString)
-    const { graphSlected } = this.state
+    const { graphic, graphSlected } = this.state
 
     this.setState( {
       startDate: dateString[0],
       endDate: dateString[1],
-      graphSlected
+      graphSlected,
+      graphic
     } )
   }
 
   render() {
+    const { graphic, graphSlected, startDate, endDate } = this.state
+    const generatePDFDisabled = graphic ? false : true
+    const generateGraphDisabled = ( graphSlected && startDate && endDate ) ? false : true
+
     return(
       <div>
         <div className="graphics-options">
@@ -142,12 +178,15 @@ class GraphicsSection extends Component {
             type="primary" 
             icon="line-chart"
             onClick={this.makeGraphic}
+            disabled={generateGraphDisabled}
           >
             Generar gráfica
           </Button>
 
           <Button
             icon="download"
+            onClick={this.generatePDF}
+            disabled={generatePDFDisabled}
           >
             Descargar gráfica
           </Button>
