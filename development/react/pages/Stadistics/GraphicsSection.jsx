@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Chart from 'chart.js'
 import jsPDF from 'jspdf'
+import GraphicsManagment from '../../controllers/GraphicsManagment'
 import { 
   DatePicker,
   Select,
@@ -21,10 +22,15 @@ class GraphicsSection extends Component {
       endDate: null
     }
 
-    this.generateTesData = this.generateTesData.bind( this )
+    this.graphicsManagment = new GraphicsManagment()
 
+    this.generateTesData = this.generateTesData.bind( this )
+    this.printLineGraphic = this.printLineGraphic.bind( this )
+    this.printPieGraphic = this.printPieGraphic.bind( this )
+    
     this.graphics = {
-      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha' }
+      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', chart: this.printLineGraphic },
+      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', chart: this.printPieGraphic }
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -34,7 +40,12 @@ class GraphicsSection extends Component {
     this.handleRangePicker = this.handleRangePicker.bind( this )
     this.handleGraphicsOptions = this.handleGraphicsOptions.bind( this )
     this.makeGraphic = this.makeGraphic.bind( this )
-    this.printLineGraphic = this.printLineGraphic.bind( this )
+ 
+  }
+
+  cleanCanvas() {
+    document.getElementById("chartContainer").innerHTML = '&nbsp;';
+    document.getElementById("chartContainer").innerHTML = '<canvas id="myChart" width="400" height="400"></canvas>'
   }
 
   generatePDF() {
@@ -73,7 +84,8 @@ class GraphicsSection extends Component {
     const { graphSlected } = this.state
     
     const { data, labels } = this.graphics[graphSlected].route()
-    this.printLineGraphic( labels, data )
+    this.graphics[graphSlected].chart( labels, data )
+    //this.printLineGraphic( labels, data )
     //console.log(   );
     
   }
@@ -84,44 +96,39 @@ class GraphicsSection extends Component {
 
   printLineGraphic( labels, data ) {
     const { graphSlected, startDate, endDate } = this.state
+    this.cleanCanvas()
 
-    var ctx = document.getElementById("myChart");
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{ 
-            data: data,
-            label: "Usuarios nuevos",
-            borderColor: "#3e95cd",
-            fill: false
-          }
-        ]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'No. de usuarios'
-              }
-          }],
-          xAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Fechas'
-            }
-          }]
-      },
-        title: {
-          display: true,
-          fontSize: 16,
-          text: 'Usuarios registrados de 23/02/2017 a 23/02/2017'
-        }
-      }
-    })
+    const ctx = document.getElementById("myChart");
+    const configuration = this.graphicsManagment.configLineGraphic( {
+      data,
+      dataLabels: labels,
+      chartLabel: 'Clientes nuevos',
+      xLabel: 'Fechas',
+      yAxes: 'No. de usuarios',
+      title: `Usuarios registrados de ${startDate} a ${endDate}`
+    } )
+    var myChart = new Chart(ctx, configuration)
+
+    this.setState( {
+      graphic: myChart,
+      graphSlected,
+      startDate,
+      endDate
+    } )
+  }
+
+  printPieGraphic( labels, data ) {
+    const { graphSlected, startDate, endDate } = this.state
+    this.cleanCanvas()
+
+    const ctx = document.getElementById("myChart");
+    const configuration = this.graphicsManagment.configPieGraphic( {
+      data,
+      dataLabels: labels,
+      chartLabel: 'Ingresos generales',
+      title: `Ingresos registrados de ${startDate} a ${endDate}`
+    } )
+    var myChart = new Chart(ctx, configuration)
 
     this.setState( {
       graphic: myChart,
@@ -170,6 +177,7 @@ class GraphicsSection extends Component {
             placeholder="Seleccione una gráfica"
           >
             <Option value="custumersByDate">Registro de clientes</Option>
+            <Option value="pieTest">Ingresos generales</Option>
           </Select>
 
           <RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />
@@ -191,8 +199,11 @@ class GraphicsSection extends Component {
             Descargar gráfica
           </Button>
         </div>
-
-        <canvas id="myChart" width="400" height="400"></canvas>
+        
+         <div id="chartContainer">
+           <canvas id="myChart" width="400" height="400"></canvas>
+         </div>
+        
       </div>
     )
   }
