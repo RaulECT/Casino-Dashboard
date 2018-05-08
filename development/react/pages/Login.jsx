@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd'
+import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
 import Api from '../controllers/Api'
 
 import './styles/login.css'
@@ -52,6 +52,8 @@ class Login extends Component {
           } )
           .catch( error => {
             this.handleLoadingSpin()
+            console.log( `Ha ocurrido un error interno. ${error}` );
+            this.showErrorNotification( `Ha ocurrido un error interno. Favor de volver a intentarlo. ${error}` )
             //TODO: Implement errors handling
           } )
       } 
@@ -71,6 +73,13 @@ class Login extends Component {
       wrongCredentials: this.state.wrongCredentials,
       errorMessage: this.state.errorMessage,
       isShowingSpin: !this.state.isShowingSpin
+    } )
+  }
+
+  showErrorNotification( description ) {
+    notification['error']({
+      message: 'Error interno',
+      description
     } )
   }
 
