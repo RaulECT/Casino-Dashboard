@@ -18,6 +18,7 @@ import GlobalHeader from './GloablHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
 import GraphicsSection from './Stadistics/GraphicsSection.jsx'
+import AutomaticDelivery from './Stadistics/AutomaticDelivery.jsx'
 
 import './styles/configurations.css'
 import './styles/graphicsSection.css'
@@ -86,7 +87,7 @@ class Stadistics extends Component {
 
     switch ( actualPanel ) {
       case 'Configurar envió automático':
-        component = ( <div></div> )
+        component = ( <AutomaticDelivery /> )
         break;
 
       case 'Estadisticas':
