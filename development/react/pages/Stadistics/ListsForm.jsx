@@ -6,6 +6,7 @@ import {
   Form,
   Icon,
   Input,
+  List,
   Modal,
   Popconfirm,
   Select,
@@ -36,6 +37,7 @@ class ListsForm extends Component {
     this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this ) 
     this.showEmailInput = this.showEmailInput.bind( this )
     this.saveInputRef = this.saveInputRef.bind( this )
+    this.getStatsList = this.getStatsList.bind( this )
   }
 
   addStat() {
@@ -135,6 +137,33 @@ class ListsForm extends Component {
     )
   }
 
+  getStatsList() {
+    const { stats } = this.state
+
+    return(
+      <List 
+        itemLayout="horizontal"
+        dataSource={stats}
+        renderItem={item => (
+          <List.Item actions={[<a>Eliminar</a>]}>
+            <List.Item.Meta
+              title={item.statName}
+              description={ 
+                <div>
+                  {`Tipo de estadistica: ${item.statType}`}<br/>
+                  {`Tipo de gráfica: ${item.statGraph}`}<br/>
+                  {`Fecha y Hora de inicio: ${item.startDate} - ${item.startTime}`}<br/>
+                  {`Fecha y Hora de fin: ${item.endDate} - ${item.endTime}`}<br/>
+                </div>
+              }
+            />
+    
+          </List.Item>
+        )}
+      />
+    )
+  }
+
   getModalFooter() {
     const { close, confirm, type } = this.props
     const okText = type === 'add' ? 'Crear lista' : 'Editar lista'
@@ -226,6 +255,9 @@ class ListsForm extends Component {
             </FormItem>
             
           </div>
+          
+          { this.getStatsList() }
+
         </Form>
 
       </Modal>
