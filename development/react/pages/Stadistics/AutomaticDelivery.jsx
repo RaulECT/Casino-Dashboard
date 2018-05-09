@@ -4,6 +4,8 @@ import {
 } from 'antd'
 import ListsForm from './ListsForm.jsx'
 
+import '../styles/statsSection.css'
+
 class AutomaticDelivery extends Component {
 
   constructor( props ) {

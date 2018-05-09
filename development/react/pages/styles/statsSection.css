@@ -1,0 +1,15 @@
+.stats-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.stats-form .ant-form-item {
+  display: flex;
+  flex-grow: 0;
+  margin-right: 10px;
+}
+
+.stats-form .ant-form-item-control-wrapper {
+  flex: 1;
+}
