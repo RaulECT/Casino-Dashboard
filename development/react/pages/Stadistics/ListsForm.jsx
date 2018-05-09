@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {
+  Card,
   DatePicker,
   Divider,
   Button,
@@ -32,6 +33,7 @@ class ListsForm extends Component {
     }
 
     this.addStat = this.addStat.bind( this )
+    this.deleteStat = this.deleteStat.bind( this )
     this.handleCloseTag = this.handleCloseTag.bind( this )
     this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
     this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this ) 
@@ -59,6 +61,12 @@ class ListsForm extends Component {
         
       }
     } )
+  }
+
+  deleteStat( statName ) {
+    const stats = this.state.stats.filter( stat => stat.statName !== statName )
+    console.log( stats );
+    this.setState( {stats} )
   }
 
   handleCloseTag( removedEmail ) {
@@ -142,22 +150,15 @@ class ListsForm extends Component {
 
     return(
       <List 
-        itemLayout="horizontal"
+        grid={{ column: 2 }}
         dataSource={stats}
         renderItem={item => (
-          <List.Item actions={[<a>Eliminar</a>]}>
-            <List.Item.Meta
-              title={item.statName}
-              description={ 
-                <div>
-                  {`Tipo de estadistica: ${item.statType}`}<br/>
-                  {`Tipo de gráfica: ${item.statGraph}`}<br/>
-                  {`Fecha y Hora de inicio: ${item.startDate} - ${item.startTime}`}<br/>
-                  {`Fecha y Hora de fin: ${item.endDate} - ${item.endTime}`}<br/>
-                </div>
-              }
-            />
-    
+          <List.Item >
+            <Card title={`Estadistica: ${item.statName}`}>
+              {`Tipo de estadistica: ${item.statType}`}<br/>
+              {`Tipo de gráfica: ${item.statGraph}`}<br/>
+              <Button onClick={ () => { this.deleteStat( item.statName ) }  } style={ {marginTop: 10} } type="danger" icon="delete">Eliminar Estadistica</Button>
+            </Card>    
           </List.Item>
         )}
       />
