@@ -199,7 +199,7 @@ class ListsForm extends Component {
 
     validateFields( ['subject'], {}, ( err, values ) => {
       if ( !err && emails.length > 0 && stats.length > 0 ) {
-        confirm( emails, stats )
+        confirm( emails, stats, values.subject )
       } else {
         message.error( 'No se han llenado todos los campos.', 5 )
       }

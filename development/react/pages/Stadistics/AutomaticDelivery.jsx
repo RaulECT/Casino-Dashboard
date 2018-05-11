@@ -12,17 +12,21 @@ class AutomaticDelivery extends Component {
     super( props )
 
     this.state = {
-      createListModal: false
+      createListModal: false,
+      lists: []
     }
 
     this.createList = this.createList.bind( this )
     this.handleCreateListModal = this.handleCreateListModal.bind( this )
   }
 
-  createList( emails, stats ) {
-    console.log(emails);
-    console.log(stats);
-    
+  createList( emails, stats, subject ) {
+    let { lists } = this.state
+
+    this.setState( {
+      lists: lists.concat( { emails, stats, subject } ),
+      createListModal: false
+    } )
   }
 
   handleCreateListModal() {
