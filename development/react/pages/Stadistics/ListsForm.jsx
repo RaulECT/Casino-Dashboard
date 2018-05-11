@@ -35,6 +35,7 @@ class ListsForm extends Component {
     }
 
     this.addStat = this.addStat.bind( this )
+    this.cleanStatsFields = this.cleanStatsFields.bind( this )
     this.deleteStat = this.deleteStat.bind( this )
     this.handleCloseTag = this.handleCloseTag.bind( this )
     this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
@@ -46,9 +47,10 @@ class ListsForm extends Component {
 
   addStat() {
     const {validateFields} = this.props.form
+    const fields = ['statName', 'statType', 'statGraph', 'statDate']
     let { stats } = this.state
 
-    validateFields( (err, values) => {
+    validateFields( fields, {}, (err, values) => {
       if ( !err ) {
         const { statDate } = values
         const fisrtDate = statDate[0].format().split('T')
@@ -59,9 +61,18 @@ class ListsForm extends Component {
         values['endDate'] = secondDate[0]
         values['endTime'] = secondDate[1]
 
-        this.setState( { stats: stats.concat( values ) } )
+        this.setState( { stats: stats.concat( values ) }, this.cleanStatsFields() )
         
       }
+    } )
+  }
+
+  cleanStatsFields() {
+    const { setFieldsValue } = this.props.form
+
+    setFieldsValue( {
+      statName: '',
+      statDate: ''
     } )
   }
 
@@ -196,6 +207,7 @@ class ListsForm extends Component {
         <Form>
           <FormItem
             label="Asunto del correo:"
+            className="subject-field"
           >
             { getFieldDecorator( 'subject', { rules: [{required: true, message: 'Ingrese un valor!'}] } )(
                <Input placeholder="" style={ {width: 500} } />
@@ -212,7 +224,7 @@ class ListsForm extends Component {
               label="Nombre:"
             >
               { getFieldDecorator( 'statName', { rules: [ {required: true, message: 'Ingrese un valor'} ] } )(
-                <Input placeholder="Nombre de la estadistica"/>
+                <Input placeholder="Nombre de la estadistica" style={{width: 200}}/>
               ) }
             </FormItem>
 
@@ -221,9 +233,9 @@ class ListsForm extends Component {
             >
               { getFieldDecorator( 'statType', { rules: [ {required: true, message: 'Seleccione un valor'} ] } )(
                 <Select style={{ width: 120 }} placeholder="Selecciones una estadistica">
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                  <Option value="opt-1">Opt-1</Option>
+                  <Option value="opt-2">Opt-2</Option>
+                  <Option value="opt-3">Opt-3</Option>
                 </Select>
               ) }
             </FormItem>
@@ -233,9 +245,9 @@ class ListsForm extends Component {
             >
               { getFieldDecorator( 'statGraph', { rules: [ {required: true, message: 'Seleccione un valor'} ] } )(
                 <Select style={{ width: 120 }} placeholder="Selecciones una gráfica">
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                  <Option value="opt-1">Opt-1</Option>
+                  <Option value="opt-2">Opt-2</Option>
+                  <Option value="opt-3">Opt-3</Option>
                 </Select>
               ) }
             </FormItem>
