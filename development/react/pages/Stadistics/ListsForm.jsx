@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {
   Card,
+  Collapse,
   DatePicker,
   Divider,
   Button,
@@ -18,6 +19,7 @@ import {
 const { RangePicker } = DatePicker
 const FormItem = Form.Item
 const Option = Select.Option
+const Panel = Collapse.Panel
 
 class ListsForm extends Component {
 
@@ -146,22 +148,21 @@ class ListsForm extends Component {
   }
 
   getStatsList() {
+
     const { stats } = this.state
 
     return(
-      <List 
-        grid={{ column: 2 }}
-        dataSource={stats}
-        renderItem={item => (
-          <List.Item >
-            <Card title={`Estadistica: ${item.statName}`}>
+      <Collapse bordered={false}>
+        { stats.map( (item, index) => {
+          return(
+            <Panel header={`Estadistica: ${item.statName}`} key={index}>
               {`Tipo de estadistica: ${item.statType}`}<br/>
               {`Tipo de gráfica: ${item.statGraph}`}<br/>
               <Button onClick={ () => { this.deleteStat( item.statName ) }  } style={ {marginTop: 10} } type="danger" icon="delete">Eliminar Estadistica</Button>
-            </Card>    
-          </List.Item>
-        )}
-      />
+            </Panel>
+          )
+        } ) }
+      </Collapse>
     )
   }
 
