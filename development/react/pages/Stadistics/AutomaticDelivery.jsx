@@ -19,8 +19,10 @@ class AutomaticDelivery extends Component {
     this.handleCreateListModal = this.handleCreateListModal.bind( this )
   }
 
-  createList() {
-
+  createList( emails, stats ) {
+    console.log(emails);
+    console.log(stats);
+    
   }
 
   handleCreateListModal() {

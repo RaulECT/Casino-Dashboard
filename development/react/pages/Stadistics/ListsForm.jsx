@@ -9,6 +9,7 @@ import {
   Icon,
   Input,
   List,
+  message,
   Modal,
   Popconfirm,
   Select,
@@ -43,6 +44,7 @@ class ListsForm extends Component {
     this.showEmailInput = this.showEmailInput.bind( this )
     this.saveInputRef = this.saveInputRef.bind( this )
     this.getStatsList = this.getStatsList.bind( this )
+    this.submitList = this.submitList.bind( this )
   }
 
   addStat() {
@@ -184,10 +186,25 @@ class ListsForm extends Component {
 
     return [
       <Button key="2" onClick={ ()=>{ close() } }>Cancelar</Button>,
-      <Popconfirm key="1" title={title} onConfirm={ ()=>{ confirm() } }>
+      <Popconfirm key="1" title={title} onConfirm={ ()=>{ this.submitList() } }>
         <Button type="primary"> {okText} </Button>
       </Popconfirm>
     ]
+  }
+
+  submitList() {
+    const { emails, stats } = this.state
+    const {confirm} = this.props
+    const { validateFields } = this.props.form
+
+    validateFields( ['subject'], {}, ( err, values ) => {
+      if ( !err && emails.length > 0 && stats.length > 0 ) {
+        confirm( emails, stats )
+      } else {
+        message.error( 'No se han llenado todos los campos.', 5 )
+      }
+    } )
+    
   }
 
   render() {
