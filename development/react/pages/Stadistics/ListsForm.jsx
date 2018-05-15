@@ -47,6 +47,16 @@ class ListsForm extends Component {
     this.submitList = this.submitList.bind( this )
   }
 
+  componentDidMount() {
+   
+    if ( this.props.list ) {
+      const { emails, stats, subject } = this.props.list
+
+      this.props.form.setFieldsValue( {subject} )
+      this.setState( { emails, stats } )
+    }
+  }
+
   addStat() {
     const {validateFields} = this.props.form
     const fields = ['statName', 'statType', 'statGraph', 'statDate']

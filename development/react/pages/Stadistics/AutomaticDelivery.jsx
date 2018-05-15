@@ -3,6 +3,7 @@ import {
   Button
 } from 'antd'
 import ListsForm from './ListsForm.jsx'
+import ListsTable from './ListsTable.jsx'
 
 import '../styles/statsSection.css'
 
@@ -17,6 +18,7 @@ class AutomaticDelivery extends Component {
     }
 
     this.createList = this.createList.bind( this )
+    this.editList = this.editList.bind( this )
     this.handleCreateListModal = this.handleCreateListModal.bind( this )
   }
 
@@ -29,6 +31,15 @@ class AutomaticDelivery extends Component {
     } )
   }
 
+  editList( list, newInfo ) {
+    let { lists } = this.state
+    
+    const idx = lists.map( e => { return e.subject }).indexOf( list )
+    lists[idx] = newInfo
+
+    this.setState( { lists } )
+  }
+
   handleCreateListModal() {
     const { createListModal } = this.state
 
@@ -36,10 +47,15 @@ class AutomaticDelivery extends Component {
   }
 
   render() {
-    const { createListModal } = this.state
+    const { createListModal, lists } = this.state
 
     return(
       <div>
+        <ListsTable 
+          data={lists}
+          edit={this.editList}
+        />
+
         <Button
           type="primary"
           icon="push"
