@@ -19,7 +19,7 @@ class ListsTable extends Component {
     }
 
     this.rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => console.log( selectedRows )
+      onChange: (selectedRowKeys, selectedRows) => this.props.selectList( selectedRows )
     }
 
     this.handleEditModal = this.handleEditModal.bind( this )

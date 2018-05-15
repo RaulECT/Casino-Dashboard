@@ -14,12 +14,22 @@ class AutomaticDelivery extends Component {
 
     this.state = {
       createListModal: false,
+      listsToDelete: [],
       lists: []
     }
 
+    this.addListToDelete = this.addListToDelete.bind( this )
     this.createList = this.createList.bind( this )
     this.editList = this.editList.bind( this )
     this.handleCreateListModal = this.handleCreateListModal.bind( this )
+  }
+
+  addListToDelete( elementesSelected ) {
+    let listsToDelete = []
+
+    elementesSelected.map( element => listsToDelete.push( element.subject ) )
+
+    this.setState( { listsToDelete } )
   }
 
   createList( emails, stats, subject ) {
@@ -47,13 +57,14 @@ class AutomaticDelivery extends Component {
   }
 
   render() {
-    const { createListModal, lists } = this.state
+    const { createListModal, lists, listsToDelete } = this.state
 
     return(
       <div>
         <ListsTable 
           data={lists}
           edit={this.editList}
+          selectList={this.addListToDelete}
         />
 
         <Button
@@ -68,7 +79,7 @@ class AutomaticDelivery extends Component {
           type="danger"
           icon="delete"
         >
-          Eliminar (0) seleccionadas
+          Eliminar ({listsToDelete.length}) seleccionadas
         </Button>
 
         <ListsForm
