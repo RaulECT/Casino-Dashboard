@@ -45,6 +45,7 @@ class ListsForm extends Component {
     this.saveInputRef = this.saveInputRef.bind( this )
     this.getStatsList = this.getStatsList.bind( this )
     this.submitList = this.submitList.bind( this )
+    this.resetFields = this.resetFields.bind( this )
   }
 
   componentDidMount() {
@@ -90,13 +91,11 @@ class ListsForm extends Component {
 
   deleteStat( statName ) {
     const stats = this.state.stats.filter( stat => stat.statName !== statName )
-    console.log( stats );
     this.setState( {stats} )
   }
 
   handleCloseTag( removedEmail ) {
     const emails = this.state.emails.filter( email => email !== removedEmail )
-    console.log( emails );
     this.setState( {emails} )
   }
 
@@ -210,11 +209,31 @@ class ListsForm extends Component {
     validateFields( ['subject'], {}, ( err, values ) => {
       if ( !err && emails.length > 0 && stats.length > 0 ) {
         confirm( emails, stats, values.subject )
+        this.resetFields()
       } else {
         message.error( 'No se han llenado todos los campos.', 5 )
       }
     } )
     
+  }
+
+  resetFields() {
+    const { setFieldsValue } = this.props.form
+
+    setFieldsValue( {
+      subject: '',
+      statName: '',
+      statDate: '',
+      statType: '',
+      statGraph: ''
+    } )
+
+    this.setState( {
+      emails: [],
+      emailInputVisible: false,
+      emailInputValue: '',
+      stats: []
+    } )
   }
 
   render() {
