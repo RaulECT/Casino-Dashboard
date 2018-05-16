@@ -1,9 +1,12 @@
 import React,{Component} from 'react'
 import {
-  Button
+  Button,
+  Modal
 } from 'antd'
 import ListsForm from './ListsForm.jsx'
 import ListsTable from './ListsTable.jsx'
+
+const confirm = Modal.confirm
 
 import '../styles/statsSection.css'
 
@@ -20,8 +23,10 @@ class AutomaticDelivery extends Component {
 
     this.addListToDelete = this.addListToDelete.bind( this )
     this.createList = this.createList.bind( this )
+    this.deleteLists = this.deleteLists.bind( this )
     this.editList = this.editList.bind( this )
     this.handleCreateListModal = this.handleCreateListModal.bind( this )
+    this.showDeleteConfirm = this.showDeleteConfirm.bind( this )
   }
 
   addListToDelete( elementesSelected ) {
@@ -41,6 +46,14 @@ class AutomaticDelivery extends Component {
     } )
   }
 
+  deleteLists() {
+    let { lists, listsToDelete } = this.state
+
+    const listsUpdated = lists.filter( list => listsToDelete.indexOf( list.subject ) === -1 )   
+
+    this.setState( { lists: listsUpdated } )
+  }
+
   editList( list, newInfo ) {
     let { lists } = this.state
     
@@ -56,8 +69,25 @@ class AutomaticDelivery extends Component {
     this.setState( { createListModal: !createListModal } )
   }
 
+  showDeleteConfirm() {
+    let { lists, listsToDelete } = this.state
+    const _this = this
+
+    confirm( {
+      title: 'Borrar lista(s) seleccionadas',
+      content: '¿Desea borrar estos elementos?',
+      onOk() {
+        _this.deleteLists()
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    } )
+  }
+
   render() {
     const { createListModal, lists, listsToDelete } = this.state
+    const deleteDisabled = listsToDelete.length > 0 ? false : true
 
     return(
       <div>
@@ -78,6 +108,8 @@ class AutomaticDelivery extends Component {
         <Button
           type="danger"
           icon="delete"
+          disabled={deleteDisabled}
+          onClick={this.showDeleteConfirm}
         >
           Eliminar ({listsToDelete.length}) seleccionadas
         </Button>
