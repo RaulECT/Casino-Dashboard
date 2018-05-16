@@ -97,22 +97,26 @@ class AutomaticDelivery extends Component {
           selectList={this.addListToDelete}
         />
 
-        <Button
-          type="primary"
-          icon="push"
-          onClick={this.handleCreateListModal}
-        >
-          Crear nueva lista
-        </Button>
+        <div className="button-group">
+          <Button
+            type="primary"
+            icon="push"
+            onClick={this.handleCreateListModal}
+          >
+            Crear nueva lista
+          </Button>
         
-        <Button
-          type="danger"
-          icon="delete"
-          disabled={deleteDisabled}
-          onClick={this.showDeleteConfirm}
-        >
-          Eliminar ({listsToDelete.length}) seleccionadas
-        </Button>
+          <Button
+            type="danger"
+            icon="delete"
+            disabled={deleteDisabled}
+            onClick={this.showDeleteConfirm}
+          >
+            Eliminar ({listsToDelete.length}) seleccionadas
+          </Button>
+        </div>
+
+
 
         <ListsForm
           visible={createListModal}

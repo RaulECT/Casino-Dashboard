@@ -18,3 +18,8 @@
 .subject-field .ant-form-item-control-wrapper {
   display: inline-block !important;
 }
+
+.button-group > button {
+  margin-left: 10px !important;
+  margin-top: 10px;
+}

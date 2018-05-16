@@ -106,13 +106,15 @@ class ListsForm extends Component {
   handleEmailInputConfirm() {
     const state = this.state
     const inputValue = state.emailInputValue
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     let emails = state.emails
 
-    if ( inputValue && emails.indexOf( inputValue ) === -1 ) {
+    if ( inputValue && emails.indexOf( inputValue ) === -1 && re.test( inputValue ) ) {
       emails = emails.concat( inputValue )
+    } else {
+      message.error( 'Correo repetido o no cumple con el formato de un correo electronico.', 5 )
     }
 
-    console.log( emails );
     this.setState( {
       emails,
       emailInputVisible: false,
@@ -149,7 +151,7 @@ class ListsForm extends Component {
             ref={ (input) => { this.input = input } }
             type="text"
             size="small"
-            style={ {width: 78} }
+            style={ {width: 85} }
             value={emailInputValue}
             onChange={this.handelEmailInputChange}
             onBlur={this.handleEmailInputConfirm}
