@@ -7,7 +7,8 @@ import {
   Col,
   Button,
   Alert,
-  Modal
+  Modal,
+  notification
 } from 'antd'
 import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
@@ -132,6 +133,13 @@ class ChipsSection extends Component {
     } )
   }
 
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
   updateChipsValues() {
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -167,7 +175,7 @@ class ChipsSection extends Component {
     const { getFieldDecorator } = this.props.form
     const { setFieldsValue } = this.props.form
     const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    const successMessage = this.state.successOperation ? (<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    this.state.successOperation ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
 
     const loadingSpin = this.state.loading ? (
       <Icon 
@@ -178,7 +186,6 @@ class ChipsSection extends Component {
     return(
       <Form onSubmit={this.handleSubmit}>
         {changeMessage}
-        {successMessage}
         {loadingSpin}
 
         <Row style={{marginTop: '40px', marginBottom: '70px'}}>

@@ -10,7 +10,8 @@ import {
   Popconfirm,
   Modal,
   Form,
-  InputNumber
+  InputNumber,
+  notification
 } from 'antd'
 import Api from '../../controllers/Api'
 
@@ -197,6 +198,13 @@ class RolesSection extends Component {
     } )
   }
 
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
   onChangePermissions( checkedValues ) {
 
     let perm = {}
@@ -268,7 +276,7 @@ class RolesSection extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
     const addRoleModal = (
       <Modal
         visible={this.state.addModal}
@@ -350,7 +358,6 @@ class RolesSection extends Component {
 
     return(
       <div className="roles-container">
-        {successMessage}
         {loadingSpin}
         
 

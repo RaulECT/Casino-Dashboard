@@ -86,6 +86,13 @@ class ExchangeSection extends Component {
     } )
   }
 
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
   saveExchangeValues() {
     this.props.form.validateFields( (err, values) => {
       if ( !err ) {
@@ -119,7 +126,7 @@ class ExchangeSection extends Component {
   render() {
     const { getFieldDecorator } = this.props.form
     const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
     const loadingSpin = this.state.loading ? (
       <Icon 
         type="loading" 
@@ -129,7 +136,6 @@ class ExchangeSection extends Component {
     return(
       <div className="exchange-section">
         {changeMessage}
-        {successMessage}
         {loadingSpin}
 
         <Row>

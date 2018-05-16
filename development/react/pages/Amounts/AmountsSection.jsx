@@ -9,7 +9,8 @@ import {
   Popconfirm,
   Modal,
   Form,
-  InputNumber
+  InputNumber,
+  notification
 } from 'antd'
 import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
@@ -354,11 +355,18 @@ class AmountsSection extends Component {
         console.log( err )
       } )
   }
+
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
   
   render() {
     const { getFieldDecorator } = this.props.form
     const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    const successMessage = this.state.success ? (<Alert style={{width: 'max-content'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
 
 
     const changesModal = (
@@ -418,7 +426,6 @@ class AmountsSection extends Component {
     return(
       <div className="amounts-container">
         {changeMessage}
-        {successMessage}
         {loadingSpin}
 
         <h4>Porfavor, asigne los valores deseados</h4>

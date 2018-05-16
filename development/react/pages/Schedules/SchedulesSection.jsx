@@ -6,7 +6,8 @@ import {
   TimePicker,
   InputNumber,
   Modal,
-  Button
+  Button,
+  notification
 } from 'antd'
 import moment from 'moment'
 import Api from '../../controllers/Api'
@@ -72,6 +73,13 @@ class SchedulesSection extends Component {
     
   }
 
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
   saveScheduleValues() {
     this.props.form.validateFields( (err, values) => {
       if ( !err ) {
@@ -110,7 +118,7 @@ class SchedulesSection extends Component {
     const style = {width: '120%'}
     const {getFieldDecorator} =  this.props.form
     const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    const successMessage = this.state.success ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han guardado los cambios con éxito." type="success" showIcon />) : ''
+    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
     const loadingSpin = this.state.loading ? (
       <Icon 
         type="loading" 
@@ -121,7 +129,6 @@ class SchedulesSection extends Component {
       <div>
         <Form layout="inline">
           {changeMessage}
-          {successMessage}
           {loadingSpin}
 
           <FormItem
