@@ -228,7 +228,7 @@ class GraphicsSection extends Component {
         </div>
         
          <div id="chartContainer">
-           <canvas id="myChart" width="400" height="400"></canvas>
+           <canvas id="myChart" width="200" height="200"></canvas>
          </div>
         
       </div>

@@ -8,7 +8,8 @@ import {
   InputNumber,
   Input,
   Form,
-  Modal
+  Modal,
+  notification
 } from 'antd'
 import ExchangeOption from './ExchangeOption.jsx'
 import Api from '../../controllers/Api'

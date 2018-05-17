@@ -14,6 +14,7 @@ import {
   notification
 } from 'antd'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 
 import '../styles/rolesSection.css'
 
@@ -37,6 +38,7 @@ class RolesSection extends Component {
     this.newRolPermissions = {}
     this.rolSelected = {}
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
 
     this.labelsOptions = [
       { label:'Reponer membresia.', value:'editCardId' },
@@ -267,10 +269,14 @@ class RolesSection extends Component {
           } ) 
         } else {
           // TODO: Handle Error
+          console.log(response);
+          this.errorManagment.resolveError( response.data )
         }
       } )
       .catch( err => {
         console.log( err )
+        console.log('esta wea ya fallo');
+        
       } )
   }
 

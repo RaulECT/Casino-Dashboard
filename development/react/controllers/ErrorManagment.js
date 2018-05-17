@@ -4,21 +4,31 @@ import { Button, notification } from 'antd'
 
 class ErrorManagment {
 
-  constructor(  ) {
+  constructor() {
+
+    this.resolveError = this.resolveError.bind( this )
+    this.handleAditionalProperties = this.handleAditionalProperties.bind( this )
+    this.handleInvalidToken = this.handleInvalidToken.bind( this )
+    this.handleRequestFaildes = this.handleRequestFaildes.bind( this )
+    this.openErrorNotification = this.openErrorNotification.bind( this )
+
     this.errorDictionary = {
       "InvalidToken": this.handleInvalidToken,
-      "TokenNotProvided": this.handleInvalidToken
+      "TokenNotProvided": this.handleInvalidToken,
+      "Request failed with status code 401": this.handleRequestFaildes,
+      "additionalProperties": this.handleAditionalProperties
     }
-
-    this.handleInvalidToken = this.handleInvalidToken.bind( this )
-    this.openErrorNotification = this.openErrorNotification.bind( this )
   }
 
   resolveError( error ) {
     console.log(error)
-
+    
     const functionError = this.errorDictionary[error.error]
     functionError()
+  }
+
+  handleAditionalProperties() {
+    this.openErrorNotification( 'Error en la petición', 'Verifique que se cumplan todos los campos necesarios para realizar esta operación.' )
   }
 
   handleInvalidToken() {
@@ -26,9 +36,13 @@ class ErrorManagment {
     this.openErrorNotification( 'Sesión vencida', 'La sesión ha expirado, la apliación se va a reedirigir a la venta de inicio de sesión para iniciar una nueva sesión.' )
 
     setTimeout( () => {
-       localStorage.clear()
+      localStorage.clear()
       location.reload()
     }, 5000 ) 
+  }
+
+  handleRequestFaildes() {
+    this.openErrorNotification( 'Error en la petición', 'La petición ha fallado, favor de verificar los campos. En caso de reeincidencia, cerrar la sesión actual e iniciar una nueva sesión.' )
   }
 
   openErrorNotification( title, description ) {

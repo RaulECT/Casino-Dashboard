@@ -51,7 +51,12 @@ class PromotionsSection extends Component {
     this.api.deactivePromo( promotion )
       .then( response => {
         console.log( response );
-        
+        if ( response.status === 200 ) {
+          this.openNotificationWithIcon( 'Se ha desactivado con éxito la promoción.', 'Desactivar promoión' )
+          this.loadPromotions()
+        } else {
+          this.errorManagment.resolveError( response.data )
+        }
       } )
       .catch( err => {
         console.log( err );

@@ -148,6 +148,7 @@ class ChipsSection extends Component {
         this.api.updateChipsValues( chips )
           .then( response => {
             this.handleModal()
+            console.log(response);
             
             if ( response.status === 200 ) {
               this.setState( {
@@ -163,8 +164,10 @@ class ChipsSection extends Component {
             
           } )
           .catch( err => {
-            //this.handleModal()
+            this.handleModal()
+            //this.openNotification('error', 'Error', err.message)
             console.log( err )
+            this.errorManagment.resolveError( {error: err.message} )
           } )
       }
     })

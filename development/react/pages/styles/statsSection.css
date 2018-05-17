@@ -10,6 +10,15 @@
   margin-right: 10px;
 }
 
+#chartContainer {
+  margin-top: 10px;
+}
+
+#chartContainer > .chartjs-render-monitor {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .stats-form .ant-form-item-control-wrapper {
   flex: 1;
 }
