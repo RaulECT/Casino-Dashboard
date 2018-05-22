@@ -1,11 +1,12 @@
 class FingerprintSDKTest {
-  constructor() {
+  constructor( errM ) {
     this.operationToRestart = null
     this.acquisitionStarted = false
     this.currentFormat = Fingerprint.SampleFormat.Compressed
     this.deviceId = 'A7429977-B0D4-9640-9AF7-CC792A5989BD'
     this.fingerData = {}
     this.sdk = new Fingerprint.WebApi
+    this.errorManagment = errM
 
     this.onReading = this.onReading.bind( this )
     this.startCapture = this.startCapture.bind( this )
@@ -143,6 +144,7 @@ class FingerprintSDKTest {
       func( { success: true, data: "Start Capturing" } )
     }, function (error) {
       console.log(error.message);
+      _instance.errorManagment(error.message)
       //return { success: false, error: error }
       return new Promise( (resolve, reject) => {
         reject( { success: false, error: error } )

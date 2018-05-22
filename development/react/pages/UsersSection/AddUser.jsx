@@ -11,7 +11,8 @@ import {
   Button,
   Icon,
   Popconfirm,
-  Radio
+  Radio,
+  notification
 } from 'antd'
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
 import leftHandImage from '../images/left.png'
@@ -32,7 +33,8 @@ class AddUser extends Component {
       reading: false
     }
 
-    this.test = new FingerprintSDKTest()
+    this.handleFingerprintErr = this.handleFingerprintErr.bind(this)
+    this.test = new FingerprintSDKTest( this.handleFingerprintErr )
     this.dateFormat = "DD/MM/YYYY"
     this.roles = []
 
@@ -176,6 +178,15 @@ class AddUser extends Component {
     ]
   }
 
+  handleFingerprintErr( err ) {
+    console.log(err)
+    this.setState({reading: false})
+    notification['warning']({
+      message: 'Error en el lector de huellas',
+      description: 'Verifique que se tiene conetado el lector de huellas.'
+    })
+  }
+
   loadRoles() {
     const { roles } = this.props
 
@@ -194,6 +205,7 @@ class AddUser extends Component {
         title="Agregar usuario"
         visible={visible}
         width={800}
+        style={{top: 20}}
         onCancel={close}
         okText="Crear rol"
         onOk={ ()=>{} }
