@@ -8,6 +8,7 @@ import PromotionsManagment from './pages/PromotionsManagment.jsx'
 import ClientsManagment from './pages/ClientsManagment.jsx'
 import Records from './pages/Records.jsx'
 import Stadistics from './pages/Statistics.jsx'
+import UsersManagment from './pages/UsersManagment.jsx'
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
           <Route exact path="/dashboard/clientes" component = {ClientsManagment} />
           <Route exact path="/dashboard/historial" component = {Records} />
           <Route exact path="/dashboard/estadisticas" component = {Stadistics} />
+          <Route exact path="/dashboard/administracion_usuarios" component={UsersManagment}/>
         </div>
       </HashRouter>
     )

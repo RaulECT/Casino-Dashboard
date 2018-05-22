@@ -14,7 +14,8 @@ class Api {
     this.getConfiguration()
     
     this.createPromo = this.createPromo.bind( this )
-    this.editPromo = this.editPromo.bind( this )
+    this.editPromo = this.editPromo.bind( this )  
+    this.createUser = this.createUser.bind( this )
   }
 
    getConfiguration() {
@@ -161,11 +162,20 @@ class Api {
     } )
   }
 
-  createRol( rolName, permissions ) {
+  createRol( rolName, permissions) {
     return axios.post( `${this.apiURL}/admin/create_rol`, {
       name: rolName,
       permissions: permissions
     }, {
+      headers: {token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  getUserByName( name ) {
+    return axios.get( `${this.apiURL}/admin/users_by_name?partName=${name}`, {
       headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
@@ -188,11 +198,22 @@ class Api {
   }
 
   editRol( id, name, permissions ) {
-    return axios.post( `${this.apiURL}/admin/edit_rol`, {
-      id: id,
-      name: name,
-      permissions: permissions
-    }, {
+   return axios.post( `${this.apiURL}/admin/edit_rol`, {
+    id: id,
+    name: name,
+    permissions: permissions
+   }, {
+    headers: {token: this.token},
+    validateStatus: function (status) {
+      return status < 500; // Reject only if the status code is greater than or equal to 500
+    }
+   } ) 
+  }
+
+  createUser( userInfo ) {
+    userInfo.appId = this.appID
+
+    return axios.post( `${this.apiURL}/admin/create_user_tmp`, userInfo, {
       headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
@@ -295,8 +316,19 @@ class Api {
   }
 
   getClientByName( name ) {
-
     return axios.get( `${this.apiURL}/reception/customers_by_name?partName=${name}&sliceSize=10&sliceNumber=1`, {
+      headers: {token: this.token},
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
+  deleteUser( userId ) {
+    return axios.post( `${this.apiURL}/admin/deactive_user`, {
+      appId: this.appID,
+      userId: userId
+    }, {
       headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
@@ -312,7 +344,7 @@ class Api {
       }
     } )
   }
-
+  
   getNumberCustomersByRangeDate( startDate, endDate ) {
     return axios.post( `${this.apiURL}/admin/number_customers_by_day`, {
       startDate: startDate,

@@ -1,0 +1,60 @@
+.users-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 16px 0px 16px 0px;
+}
+
+.users-container h4 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.users-table {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.add-user-form,
+.edit-user-form {
+  margin-bottom: 15px !important;
+}
+
+.add-user-form .ant-form-item-label,
+.add-user-form .ant-form-item-control-wrapper,
+.edit-user-form .ant-form-item-label,
+.edit-user-form .ant-form-item-control-wrapper{
+  display: inline-block;
+}
+
+.add-user-form:nth-child(1) .ant-form-item-control-wrapper,
+.edit-user-form:nth-child(1) .ant-form-item-control-wrapper{
+  width: 70%;
+}
+
+.add-user-form:nth-child(2n),
+.edit-user-form:nth-child(2n) {
+  margin-right: 30px !important;
+}
+
+.table-operations {
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+
+.table-operations > button {
+  margin-right: 8px;
+}
+
+.hand-image {
+  width: 20% !important;
+  display: block !important;
+  margin: auto !important;
+}
+
+.scann-finger-button {
+  display: block !important;
+  margin: auto !important;
+  margin-bottom: 10px !important;
+}
