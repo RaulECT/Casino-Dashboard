@@ -53,12 +53,7 @@ class ChipsSection extends Component {
           item[ element.color ] = element.value
           this.props.form.setFieldsValue( item )
           
-          this.setState( {
-            loading: false,
-            valueChange: this.state.valueChange,
-            successOperation: this.state.successOperation,
-            isModalVisible: this.state.isModalVisible
-          } )
+          this.setState( {loading: false} )
         } )
       } )
       .catch( err => {
@@ -114,22 +109,23 @@ class ChipsSection extends Component {
   }
 
   handleValueChange( newValue ) {
-    if ( !this.state.valueChange ) {
+    const {valueChange} = this.state
+
+    if ( valueChange ) {
       this.setState( {
         loading: false,
-        valueChange: !this.state.valueChange,
-        successOperation: false,
-        isModalVisible: this.state.isModalVisible
+        valueChange: !valueChange,
+        successOperation: false
       } )
     }
   }
 
   handleModal() {
+    const {isModalVisible} = this.state
+
     this.setState( {
       loading: false,
-      valueChange: this.state.valueChange,
-      successOperation: this.state.successOperation,
-      isModalVisible: !this.state.isModalVisible
+      isModalVisible: !isModalVisible
     } )
   }
 
@@ -145,10 +141,10 @@ class ChipsSection extends Component {
       if (!err) {
         
         const chips = this.formatChipsData( values )
+
         this.api.updateChipsValues( chips )
           .then( response => {
             this.handleModal()
-            console.log(response);
             
             if ( response.status === 200 ) {
               this.setState( {
@@ -175,12 +171,12 @@ class ChipsSection extends Component {
 
   render() {
  
-    const { getFieldDecorator } = this.props.form
-    const { setFieldsValue } = this.props.form
+    const { getFieldDecorator, setFieldsValue } = this.props.form
+    const { loading, valueChange, isModalVisible } = this.state
     const changeMessage = this.state.valueChange ? (<Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
     this.state.successOperation ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
 
-    const loadingSpin = this.state.loading ? (
+    const loadingSpin = loading ? (
       <Icon 
         type="loading" 
         style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
@@ -197,7 +193,7 @@ class ChipsSection extends Component {
               img={aquaChip}
               valueChange={this.handleValueChange}
               chip = "aqua"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -207,7 +203,7 @@ class ChipsSection extends Component {
               img={blackChip}
               valueChange={this.handleValueChange}
               chip = "black"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -217,7 +213,7 @@ class ChipsSection extends Component {
               img={blueChip}
               valueChange={this.handleValueChange}
               chip = "blue"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -227,7 +223,7 @@ class ChipsSection extends Component {
               img={greenChip}
               valueChange={this.handleValueChange}
               chip = "green"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -237,7 +233,7 @@ class ChipsSection extends Component {
               img={orangeChip}
               valueChange={this.handleValueChange}
               chip = "orange"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -249,7 +245,7 @@ class ChipsSection extends Component {
               img={pinkChip}
               valueChange={this.handleValueChange}
               chip = "pink"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -259,7 +255,7 @@ class ChipsSection extends Component {
               img={purpleChip}
               valueChange={this.handleValueChange}
               chip = "purple"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -269,7 +265,7 @@ class ChipsSection extends Component {
               img={redChip}
               valueChange={this.handleValueChange}
               chip = "red"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
@@ -279,20 +275,20 @@ class ChipsSection extends Component {
               img={grayChip}
               valueChange={this.handleValueChange}
               chip = "white"
-              avaible = {this.state.loading}
+              avaible = {loading}
               fieldDecorator = {getFieldDecorator}
             />         
           </Col>
         </Row>
 
         <FormItem style={{textAlign: 'center'}}>
-          <Button disabled={!this.state.valueChange} size="large" type="primary" htmlType="submit" icon="save">
+          <Button disabled={!valueChange} size="large" type="primary" htmlType="submit" icon="save">
             Guardar Cambios
           </Button>
 
           <Modal
             title="Actualizar Fichas"
-            visible={this.state.isModalVisible}
+            visible={isModalVisible}
             onOk={this.updateChipsValues}
             onCancel={this.handleModal}
           >
