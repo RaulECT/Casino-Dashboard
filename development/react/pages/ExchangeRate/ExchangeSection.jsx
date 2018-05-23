@@ -1,3 +1,6 @@
+/**
+ * Componenete que representa a la sección de tipos de cambio.
+ */
 import React, {Component} from 'react'
 import {
   Alert,
@@ -21,6 +24,11 @@ import dolarImg from '../images/dolares.png'
 import '../styles/exchangeSection.css'
 
 class ExchangeSection extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -42,6 +50,9 @@ class ExchangeSection extends Component {
     this.saveExchangeValues = this.saveExchangeValues.bind( this )
   }
 
+  /**
+   * Obtiene los valores actules de tipo de cambio guardados en la API.
+   */
   componentWillMount() {
     this.api.getExchangeValues()
       .then( response => {
@@ -59,6 +70,9 @@ class ExchangeSection extends Component {
       } )
   }
 
+  /**
+   * Escucha cuando hay cambios de valores en los campos de texto.
+   */
   handleInputChanges() {
     this.setState( {
       loading: false,
@@ -67,6 +81,9 @@ class ExchangeSection extends Component {
     } )
   }
 
+  /**
+   * Maneja la presencia del modal de confirmación 
+   */
   handleSaveModal() {
     const {saveModal} = this.state
 
@@ -76,6 +93,12 @@ class ExchangeSection extends Component {
     } )
   }
 
+  /**
+   * Muestra un mensaje de notificación al usuario.
+   * @param {string} type Tipo de mensaje que se quiere mostrar.
+   * @param {message} message Título del mensaje que se mostrara al usuario.
+   * @param {description} description Descripción del mensaje que mostrara al usuario.
+   */
   openNotification( type, message, description ) {
     notification[type]({
       message,
@@ -83,6 +106,9 @@ class ExchangeSection extends Component {
     } )
   }
 
+  /**
+   * Guarda los cambios realizados por el usuario en la API.
+   */
   saveExchangeValues() {
     this.props.form.validateFields( (err, values) => {
       if ( !err ) {
@@ -110,6 +136,10 @@ class ExchangeSection extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const { getFieldDecorator } = this.props.form
     const {change, success, loading, saveModal} = this.state

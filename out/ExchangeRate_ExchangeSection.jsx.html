@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ExchangeRate/ExchangeSection.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ExchangeRate/ExchangeSection.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componenete que representa a la sección de tipos de cambio.
+ */
+import React, {Component} from 'react'
+import {
+  Alert,
+  Row,
+  Icon,
+  Button,
+  Col, 
+  InputNumber,
+  Input,
+  Form,
+  Modal,
+  notification
+} from 'antd'
+import ExchangeOption from './ExchangeOption.jsx'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+
+import blackChip from '../images/ficha_negra.png'
+import dolarImg from '../images/dolares.png'
+
+import '../styles/exchangeSection.css'
+
+class ExchangeSection extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      loading: true,
+      success: false,
+      change: false,
+      exchangeValue: 0.0,
+      valueChange: 0,
+      saveModal: false,
+      revertModal: false
+    }
+
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+
+    this.handleInputChanges = this.handleInputChanges.bind( this )
+    this.handleSaveModal = this.handleSaveModal.bind( this )
+    this.saveExchangeValues = this.saveExchangeValues.bind( this )
+  }
+
+  /**
+   * Obtiene los valores actules de tipo de cambio guardados en la API.
+   */
+  componentWillMount() {
+    this.api.getExchangeValues()
+      .then( response => {
+        this.props.form.setFieldsValue( {exchangeValue: response.exchangeRate} )
+        this.props.form.setFieldsValue( {chipValue: (response.valueUnitChip/100)} )
+
+        this.setState( {
+          loading: false,
+          exchangeValue: response.exchangeRate,
+          valueChange: response.valueUnitChip/100,
+        } )
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
+  }
+
+  /**
+   * Escucha cuando hay cambios de valores en los campos de texto.
+   */
+  handleInputChanges() {
+    this.setState( {
+      loading: false,
+      success: false,
+      change: true
+    } )
+  }
+
+  /**
+   * Maneja la presencia del modal de confirmación 
+   */
+  handleSaveModal() {
+    const {saveModal} = this.state
+
+    this.setState( {
+      loading: false,
+      saveModal: !saveModal
+    } )
+  }
+
+  /**
+   * Muestra un mensaje de notificación al usuario.
+   * @param {string} type Tipo de mensaje que se quiere mostrar.
+   * @param {message} message Título del mensaje que se mostrara al usuario.
+   * @param {description} description Descripción del mensaje que mostrara al usuario.
+   */
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
+  /**
+   * Guarda los cambios realizados por el usuario en la API.
+   */
+  saveExchangeValues() {
+    this.props.form.validateFields( (err, values) => {
+      if ( !err ) {
+
+        this.api.updateExchangeValues( values )
+          .then( response => {
+            this.handleSaveModal()
+
+            if ( response.status === 200 ) {
+              this.setState( {
+                loading: false,
+                success: true,
+                change: false,
+                saveModal: false
+              } )
+            } else {
+              // TODO: Error Managment
+              this.errorManagment.resolveError( response.data )
+            }
+          } )
+          .catch( err => {
+            console.log(err)
+          } )
+      }
+    } )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+    const { getFieldDecorator } = this.props.form
+    const {change, success, loading, saveModal} = this.state
+    const changeMessage = change ? (&lt;Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
+    const loadingSpin = loading ? (
+      &lt;Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
+    return(
+      &lt;div className="exchange-section">
+        {changeMessage}
+        {loadingSpin}
+
+        &lt;Row>
+          &lt;Form>
+            &lt;Col span={12}>
+              &lt;ExchangeOption
+                option="Valor del Dolar"
+                image={dolarImg}
+                imageClass="dollar-img"
+                input="number"
+                avaible={loading}
+                fieldDecorator={getFieldDecorator}
+                reference="exchangeValue"
+                change={this.handleInputChanges}
+              />
+            &lt;/Col>
+
+            &lt;Col span={12}>
+              &lt;ExchangeOption
+                option="Valor de Ficha"
+                image={blackChip}
+                imageClass="chip-img"
+                input="number"
+                avaible={loading}
+                fieldDecorator={getFieldDecorator}
+                reference="chipValue"
+                change={this.handleInputChanges}
+              />
+            &lt;/Col>
+
+            
+          &lt;/Form>
+        &lt;/Row>
+
+        &lt;Row>
+          &lt;Col offset={10}>
+            &lt;Button 
+              style={ {marginTop: '40px'} } 
+              size="large" 
+              type="primary" 
+              icon="save"
+              onClick={this.handleSaveModal}
+              disabled={!change}
+            >
+              Guardar Cambios
+            &lt;/Button>
+
+            
+          &lt;/Col>
+        &lt;/Row>
+
+        &lt;Modal
+          title="Actualizar Valores"
+          visible={saveModal}
+          onOk={this.saveExchangeValues}
+          onCancel={this.handleSaveModal}
+        >
+          &lt;p>¿Desea actualizar los valores del tipo de cambio?&lt;/p>
+              
+        &lt;/Modal>
+      &lt;/div>
+    )
+  }
+}
+
+const WrappedExchangeForm = Form.create()(ExchangeSection);
+module.exports = WrappedExchangeForm</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="Generalconfigurations.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations_.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 15:17:12 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
