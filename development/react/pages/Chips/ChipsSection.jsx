@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la sección de configuración de fichas
+ */
 import React, {Component} from 'react'
 import ChipItem from './ChipItem.jsx'
 import {
@@ -26,6 +29,11 @@ import grayChip from './../images/ficha_blanca.png'
 const FormItem = Form.Item
 
 class ChipsSection extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -45,6 +53,9 @@ class ChipsSection extends Component {
     this.updateChipsValues = this.updateChipsValues.bind( this )
   }
 
+  /**
+   * Función que se ejecutan antes de randerizar la vista, obtiene los valores de las fichas de la API.
+   */
   componentWillMount() {
     this.api.getChips()
       .then( response => {
@@ -62,6 +73,10 @@ class ChipsSection extends Component {
 
   }
 
+  /**
+   * Se formatea la información recivida de la API para mostrala al usuario.
+   * @param {object} values Valores de las fichas guardadas en el servidor
+   */
   formatChipsData( values ) {
     return [
       {
@@ -108,6 +123,10 @@ class ChipsSection extends Component {
     this.handleModal()
   }
 
+  /**
+   * Función que maneja el evento submit de los inputs de las fichas.
+   * @param {object} newValue Información del evento submit de los forms de fichas.
+   */
   handleValueChange( newValue ) {
     const {valueChange} = this.state
 
@@ -120,6 +139,9 @@ class ChipsSection extends Component {
     }
   }
 
+  /**
+   * Maneja la presencia del modal de confirmación de cambios.
+   */
   handleModal() {
     const {isModalVisible} = this.state
 
@@ -129,6 +151,12 @@ class ChipsSection extends Component {
     } )
   }
 
+  /**
+   * Muestra una notificación al usuario
+   * @param {string} type Tipo de mensaje que se quiere mostrar.
+   * @param {string} message Título del mensaje a mostrar. 
+   * @param {string} description Descripción del mensaje a mostrar.
+   */
   openNotification( type, message, description ) {
     notification[type]({
       message,
@@ -136,6 +164,10 @@ class ChipsSection extends Component {
     } )
   }
 
+  /**
+   * Actualiza a la API los nuevos valores ingresados por usuario,
+   * valida los campos, y luego se los envia a la API.
+   */
   updateChipsValues() {
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -169,6 +201,10 @@ class ChipsSection extends Component {
     })
   }
 
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
   render() {
  
     const { getFieldDecorator, setFieldsValue } = this.props.form

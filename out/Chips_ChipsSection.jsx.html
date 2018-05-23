@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Chips/ChipsSection.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Chips/ChipsSection.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de configuración de fichas
+ */
+import React, {Component} from 'react'
+import ChipItem from './ChipItem.jsx'
+import {
+  Icon,
+  Form,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Modal,
+  notification
+} from 'antd'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+
+import aquaChip from './../images/ficha_aqua.png'
+import blackChip from './../images/ficha_negra.png'
+import blueChip from './../images/ficha_azul.png'
+import greenChip from './../images/ficha_verde.png'
+import orangeChip from './../images/ficha_naranja.png'
+import pinkChip from './../images/ficha_rosa.png'
+import purpleChip from './../images/ficha_morada.png'
+import redChip from './../images/ficha_roja.png'
+import grayChip from './../images/ficha_blanca.png'
+
+const FormItem = Form.Item
+
+class ChipsSection extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      loading: true,
+      valueChange: false,
+      successOperation : false,
+      isModalVisible: false
+    }
+
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+    this.formatChipsData = this.formatChipsData.bind( this )
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleValueChange = this.handleValueChange.bind( this )
+    this.handleModal = this.handleModal.bind( this )
+    this.updateChipsValues = this.updateChipsValues.bind( this )
+  }
+
+  /**
+   * Función que se ejecutan antes de randerizar la vista, obtiene los valores de las fichas de la API.
+   */
+  componentWillMount() {
+    this.api.getChips()
+      .then( response => {
+        response.map( element => {
+          var item = {}
+          item[ element.color ] = element.value
+          this.props.form.setFieldsValue( item )
+          
+          this.setState( {loading: false} )
+        } )
+      } )
+      .catch( err => {
+        console.log(err)
+      } )
+
+  }
+
+  /**
+   * Se formatea la información recivida de la API para mostrala al usuario.
+   * @param {object} values Valores de las fichas guardadas en el servidor
+   */
+  formatChipsData( values ) {
+    return [
+      {
+        "color":  "aqua" ,
+        "value": values.aqua
+      },
+      {
+        "color":  "black" ,
+        "value": values.black
+      },
+      {
+        "color":  "blue" ,
+        "value": values.blue
+      },
+      {
+        "color":  "green" ,
+        "value": values.green
+      },
+      {
+        "color":  "orange" ,
+        "value": values.orange
+      },
+      {
+        "color":  "pink" ,
+        "value": values.pink
+      },
+      {
+        "color":  "purple" ,
+        "value": values.purple
+      } ,
+      {
+        "color":  "red" ,
+        "value": values.red
+      },
+      {
+        "color":  "white" ,
+        "value": values.white
+      }
+    ]
+  }
+
+  handleSubmit( event ) {
+    event.preventDefault()
+    this.handleModal()
+  }
+
+  /**
+   * Función que maneja el evento submit de los inputs de las fichas.
+   * @param {object} newValue Información del evento submit de los forms de fichas.
+   */
+  handleValueChange( newValue ) {
+    const {valueChange} = this.state
+
+    if ( valueChange ) {
+      this.setState( {
+        loading: false,
+        valueChange: !valueChange,
+        successOperation: false
+      } )
+    }
+  }
+
+  /**
+   * Maneja la presencia del modal de confirmación de cambios.
+   */
+  handleModal() {
+    const {isModalVisible} = this.state
+
+    this.setState( {
+      loading: false,
+      isModalVisible: !isModalVisible
+    } )
+  }
+
+  /**
+   * Muestra una notificación al usuario
+   * @param {string} type Tipo de mensaje que se quiere mostrar.
+   * @param {string} message Título del mensaje a mostrar. 
+   * @param {string} description Descripción del mensaje a mostrar.
+   */
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
+  /**
+   * Actualiza a la API los nuevos valores ingresados por usuario,
+   * valida los campos, y luego se los envia a la API.
+   */
+  updateChipsValues() {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        
+        const chips = this.formatChipsData( values )
+
+        this.api.updateChipsValues( chips )
+          .then( response => {
+            this.handleModal()
+            
+            if ( response.status === 200 ) {
+              this.setState( {
+                loading: false,
+                valueChange: false,
+                successOperation: true,
+                isModalVisible: false
+              } )  
+            } else {
+              //TODO: Error managment
+              this.errorManagment.resolveError( response.data )
+            }
+            
+          } )
+          .catch( err => {
+            this.handleModal()
+            //this.openNotification('error', 'Error', err.message)
+            console.log( err )
+            this.errorManagment.resolveError( {error: err.message} )
+          } )
+      }
+    })
+  }
+
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+ 
+    const { getFieldDecorator, setFieldsValue } = this.props.form
+    const { loading, valueChange, isModalVisible } = this.state
+    const changeMessage = this.state.valueChange ? (&lt;Alert style={{width: 'max-content'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    this.state.successOperation ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
+
+    const loadingSpin = loading ? (
+      &lt;Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
+    return(
+      &lt;Form onSubmit={this.handleSubmit}>
+        {changeMessage}
+        {loadingSpin}
+
+        &lt;Row style={{marginTop: '40px', marginBottom: '70px'}}>
+          &lt;Col span={4}>
+            &lt;ChipItem 
+              img={aquaChip}
+              valueChange={this.handleValueChange}
+              chip = "aqua"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={4} offset={1}>
+            &lt;ChipItem 
+              img={blackChip}
+              valueChange={this.handleValueChange}
+              chip = "black"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={4} offset={1}>
+            &lt;ChipItem 
+              img={blueChip}
+              valueChange={this.handleValueChange}
+              chip = "blue"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={4} offset={1}>
+            &lt;ChipItem 
+              img={greenChip}
+              valueChange={this.handleValueChange}
+              chip = "green"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={4} offset={1}>
+            &lt;ChipItem 
+              img={orangeChip}
+              valueChange={this.handleValueChange}
+              chip = "orange"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+        &lt;/Row>
+
+        &lt;Row style={{marginBottom: '60px'}}>
+          &lt;Col span={6}>
+            &lt;ChipItem 
+              img={pinkChip}
+              valueChange={this.handleValueChange}
+              chip = "pink"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={6}>
+            &lt;ChipItem 
+              img={purpleChip}
+              valueChange={this.handleValueChange}
+              chip = "purple"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={6}>
+            &lt;ChipItem 
+              img={redChip}
+              valueChange={this.handleValueChange}
+              chip = "red"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+
+          &lt;Col span={6}>
+            &lt;ChipItem 
+              img={grayChip}
+              valueChange={this.handleValueChange}
+              chip = "white"
+              avaible = {loading}
+              fieldDecorator = {getFieldDecorator}
+            />         
+          &lt;/Col>
+        &lt;/Row>
+
+        &lt;FormItem style={{textAlign: 'center'}}>
+          &lt;Button disabled={!valueChange} size="large" type="primary" htmlType="submit" icon="save">
+            Guardar Cambios
+          &lt;/Button>
+
+          &lt;Modal
+            title="Actualizar Fichas"
+            visible={isModalVisible}
+            onOk={this.updateChipsValues}
+            onCancel={this.handleModal}
+          >
+            &lt;p>¿Desea actualizar los valores de las fichas?&lt;/p>
+              
+          &lt;/Modal>
+        &lt;/FormItem>
+      &lt;/Form>
+    )
+  }
+}
+
+const WrappedChipsForm = Form.create()(ChipsSection);
+module.exports = WrappedChipsForm
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 13:41:40 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
