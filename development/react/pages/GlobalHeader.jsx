@@ -30,6 +30,8 @@ class GlobalHeader extends Component {
 
   render() {
     let user = localStorage.user
+    const {collapsed, toggle} = this.props
+    const {isLogOutModalShowing} = this.state
     user = user || 'usuario'
     const hoverMenu = (
       <Menu className="user-menu" selectedKeys={[]} onClick={this.showLogOutModal}>
@@ -42,8 +44,8 @@ class GlobalHeader extends Component {
       <Header className="dashboard-header">
         <Icon
           className="trigger"
-          type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={this.props.toggle}
+          type={collapsed ? 'menu-unfold' : 'menu-fold'}
+          onClick={toggle}
         />
 
         <div className="header-right-menu">
@@ -56,7 +58,7 @@ class GlobalHeader extends Component {
 
           <Modal
             title="Cerrar Sesión"
-            visible={this.state.isLogOutModalShowing}
+            visible={isLogOutModalShowing}
             onOk={this.logOut}
             onCancel={this.showLogOutModal}
           >
