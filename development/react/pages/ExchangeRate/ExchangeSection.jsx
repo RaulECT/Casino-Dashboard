@@ -50,12 +50,8 @@ class ExchangeSection extends Component {
 
         this.setState( {
           loading: false,
-          success: this.state.success,
-          change: this.state.change,
           exchangeValue: response.exchangeRate,
           valueChange: response.valueUnitChip/100,
-          saveModal: this.state.saveModal,
-          revertModal: this.state.revertModal
         } )
       } )
       .catch( err => {
@@ -67,11 +63,7 @@ class ExchangeSection extends Component {
     this.setState( {
       loading: false,
       success: false,
-      change: true,
-      exchangeValue: this.state.exchangeValue,
-      valueChange: this.state.valueChange,
-      saveModal: this.state.saveModal,
-      revertModal: this.state.revertModal
+      change: true
     } )
   }
 
@@ -80,11 +72,7 @@ class ExchangeSection extends Component {
 
     this.setState( {
       loading: false,
-      success: this.state.success,
-      change: this.state.change,
-      exchangeValue: this.state.exchangeValue,
-      valueChange: this.state.valueChange,
-      saveModal: !this.state.saveModal
+      saveModal: !saveModal
     } )
   }
 
@@ -124,9 +112,10 @@ class ExchangeSection extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const changeMessage = this.state.change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
-    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
-    const loadingSpin = this.state.loading ? (
+    const {change, success, loading, saveModal} = this.state
+    const changeMessage = change ? (<Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
+    const loadingSpin = loading ? (
       <Icon 
         type="loading" 
         style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
@@ -145,7 +134,7 @@ class ExchangeSection extends Component {
                 image={dolarImg}
                 imageClass="dollar-img"
                 input="number"
-                avaible={this.state.loading}
+                avaible={loading}
                 fieldDecorator={getFieldDecorator}
                 reference="exchangeValue"
                 change={this.handleInputChanges}
@@ -158,7 +147,7 @@ class ExchangeSection extends Component {
                 image={blackChip}
                 imageClass="chip-img"
                 input="number"
-                avaible={this.state.loading}
+                avaible={loading}
                 fieldDecorator={getFieldDecorator}
                 reference="chipValue"
                 change={this.handleInputChanges}
@@ -177,7 +166,7 @@ class ExchangeSection extends Component {
               type="primary" 
               icon="save"
               onClick={this.handleSaveModal}
-              disabled={!this.state.change}
+              disabled={!change}
             >
               Guardar Cambios
             </Button>
@@ -188,7 +177,7 @@ class ExchangeSection extends Component {
 
         <Modal
           title="Actualizar Valores"
-          visible={this.state.saveModal}
+          visible={saveModal}
           onOk={this.saveExchangeValues}
           onCancel={this.handleSaveModal}
         >
