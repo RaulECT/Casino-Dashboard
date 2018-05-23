@@ -1,7 +1,7 @@
 /**
  * Componente que representa a la sección de manejo de promociones.
  * @namespace PromotionsManagment
- * @extends PromotionsManagment
+ * @extends Component
  */
 
 import React, {Component} from 'react'
