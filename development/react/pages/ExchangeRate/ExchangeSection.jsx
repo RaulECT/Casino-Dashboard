@@ -76,14 +76,15 @@ class ExchangeSection extends Component {
   }
 
   handleSaveModal() {
+    const {saveModal} = this.state
+
     this.setState( {
       loading: false,
       success: this.state.success,
       change: this.state.change,
       exchangeValue: this.state.exchangeValue,
       valueChange: this.state.valueChange,
-      saveModal: !this.state.saveModal,
-      revertModal: this.state.revertModal
+      saveModal: !this.state.saveModal
     } )
   }
 
@@ -107,10 +108,7 @@ class ExchangeSection extends Component {
                 loading: false,
                 success: true,
                 change: false,
-                exchangeValue: this.state.exchangeValue,
-                valueChange: this.state.valueChange,
-                saveModal: false,
-                revertModal: this.state.revertModal
+                saveModal: false
               } )
             } else {
               // TODO: Error Managment

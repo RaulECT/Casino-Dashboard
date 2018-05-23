@@ -130,7 +130,7 @@ class ChipsSection extends Component {
   handleValueChange( newValue ) {
     const {valueChange} = this.state
 
-    if ( valueChange ) {
+    if ( !valueChange ) {
       this.setState( {
         loading: false,
         valueChange: !valueChange,
