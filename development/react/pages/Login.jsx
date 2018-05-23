@@ -1,4 +1,8 @@
-
+/**
+ * Componente que representa al Login para entrear al Dashboard.
+ * @namespace Login
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
 import Api from '../controllers/Api'
@@ -8,6 +12,11 @@ import './styles/login.css'
 const FormItem = Form.Item
 
 class Login extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -23,6 +32,9 @@ class Login extends Component {
     this.redirectToDashboard = this.redirectToDashboard.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentWillMount() {
     if ( localStorage.isLogin == 'true' ) {
       // TODO: Router redirectt to /dashboard
@@ -30,6 +42,10 @@ class Login extends Component {
     }
   }
 
+  /**
+   * Función que maneja ek evento submit del formulario de inicio se sesión.
+   * @param {object} event Evento lanzado por el formulario de inicio de sesión.
+   */
   handleLoginSubmit( event ) {
     event.preventDefault()
 
@@ -58,6 +74,10 @@ class Login extends Component {
     } )
   }
 
+  /**
+   * Redirige al usuario a la vista principal del Dashboard.
+   * @param {object} data Información complementaria del usuario propocionada por el servidor.
+   */
   redirectToDashboard( data ) {
     localStorage.setItem( 'token', data.result.token )
     localStorage.setItem( 'isLogin', 'true' )
@@ -66,10 +86,17 @@ class Login extends Component {
     this.props.history.push( '/dashboard/configuraciones_generales' )
   }
 
+  /**
+   * Maneja la presencia del icono spin.
+   */
   handleLoadingSpin() {
     this.setState( { isShowingSpin: !this.state.isShowingSpin } )
   }
 
+  /**
+   * Muestra una notificación al usuario en caso de algún error.
+   * @param {string} description Descripción del error ocurrido. 
+   */
   showErrorNotification( description ) {
     notification['error']({
       message: 'Error interno',
@@ -77,6 +104,10 @@ class Login extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const { getFieldDecorator } = this.props.form;
     const {wrongCredentials, errorMessage, isShowingSpin} = this.state

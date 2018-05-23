@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa al Login para entrear al Dashboard.
+ * @namespace Login
+ * @extends Component
+ */
+import React, {Component} from 'react'
+import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
+import Api from '../controllers/Api'
+
+import './styles/login.css'
+
+const FormItem = Form.Item
+
+class Login extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      wrongCredentials: false,
+      errorMessage: '',
+      isShowingSpin: false
+    }
+
+    this.api = new Api()
+    this.handleLoginSubmit = this.handleLoginSubmit.bind( this )
+    this.handleLoadingSpin = this.handleLoadingSpin.bind( this )
+    this.redirectToDashboard = this.redirectToDashboard.bind( this )
+  }
+
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
+  componentWillMount() {
+    if ( localStorage.isLogin == 'true' ) {
+      // TODO: Router redirectt to /dashboard
+      this.props.history.push( '/dashboard/configuraciones_generales' )
+    }
+  }
+
+  /**
+   * Función que maneja ek evento submit del formulario de inicio se sesión.
+   * @param {object} event Evento lanzado por el formulario de inicio de sesión.
+   */
+  handleLoginSubmit( event ) {
+    event.preventDefault()
+
+    this.props.form.validateFields( ( error, values ) => {
+      if ( !error ) {
+        this.handleLoadingSpin()
+
+        this.api.passwordLogin( values.userName, values.password )
+          .then( response => {
+            this.handleLoadingSpin()
+            if ( response.data.success ) {
+              localStorage.setItem( 'user', values.userName )
+              this.redirectToDashboard( response.data )
+            } else {
+              this.setState( {
+                wrongCredentials: true,
+                errorMessage: response.data.message.charAt(0).toUpperCase() + response.data.message.slice(1), // Convert first letter to uppercase
+              } )
+            }
+          } )
+          .catch( error => {
+            this.handleLoadingSpin()
+            this.showErrorNotification( `Ha ocurrido un error interno. Favor de volver a intentarlo. ${error}` )
+          } )
+      } 
+    } )
+  }
+
+  /**
+   * Redirige al usuario a la vista principal del Dashboard.
+   * @param {object} data Información complementaria del usuario propocionada por el servidor.
+   */
+  redirectToDashboard( data ) {
+    localStorage.setItem( 'token', data.result.token )
+    localStorage.setItem( 'isLogin', 'true' )
+    
+    // TODO: Router Redirect to /dashboard
+    this.props.history.push( '/dashboard/configuraciones_generales' )
+  }
+
+  /**
+   * Maneja la presencia del icono spin.
+   */
+  handleLoadingSpin() {
+    this.setState( { isShowingSpin: !this.state.isShowingSpin } )
+  }
+
+  /**
+   * Muestra una notificación al usuario en caso de algún error.
+   * @param {string} description Descripción del error ocurrido. 
+   */
+  showErrorNotification( description ) {
+    notification['error']({
+      message: 'Error interno',
+      description
+    } )
+  }
+
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    const {wrongCredentials, errorMessage, isShowingSpin} = this.state
+    const errorMsg = wrongCredentials ? &lt;Alert style={ { textAlign: 'left' } } message={errorMessage} type="error" showIcon />: ''
+    const loadinSpin = isShowingSpin ? 
+      (&lt;div className="loading-section">
+        &lt;Icon className="loading-icon" type="loading" />
+      &lt;/div> ) : ''
+
+    return(
+      &lt;div className="login-background">
+
+        &lt;Row>
+          &lt;Col 
+            span={12} 
+            offset={6} 
+            xs={{span: 24, offset: 0}}
+          >
+            &lt;div className="form-section">
+              &lt;h1 className="login-title">Modulo de Administración&lt;/h1>
+
+              &lt;Form
+                onSubmit={this.handleLoginSubmit}
+                className="login-form"
+              >
+                &lt;FormItem>
+                  {getFieldDecorator('userName', {
+                    rules: [{ required: true, message: 'Ingrese su e-mail!' }],
+                  })(
+                    &lt;Input disabled={isShowingSpin} size="large" prefix={&lt;Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
+                  )}
+                &lt;/FormItem>
+
+                &lt;FormItem>
+                  {getFieldDecorator('password', {
+                    rules: [{ required: true, message: 'Ingrese su contraseña!' }],
+                  })(
+                    &lt;Input disabled={isShowingSpin} size="large" prefix={&lt;Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
+                  )}
+                &lt;/FormItem>
+
+                { errorMsg }
+                { loadinSpin }
+
+                &lt;FormItem>
+                  &lt;Button disabled={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
+                    Iniciar Sesión
+                  &lt;/Button>
+                &lt;/FormItem>
+              &lt;/Form>
+            &lt;/div>
+          &lt;/Col>
+        &lt;/Row>
+
+      &lt;/div>
+    )
+  }
+}
+
+const WrappedNormalLoginForm = Form.create()(Login);
+module.exports = WrappedNormalLoginForm</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Login.html">Login</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 11:36:38 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
