@@ -36,7 +36,6 @@ class Generalconfigurations extends Component {
   constructor( props ) {
     super( props )
     
-
     this.state = {
       collapsed: false,
       isMobile: false,
@@ -58,43 +57,23 @@ class Generalconfigurations extends Component {
   changePanel( panel ) {
     switch ( panel.key ) {
       case '2':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Fichas'
-        } )
+        this.setState( { actualPanel: 'Fichas' } )
         break;
 
       case '3':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Montos rápidos'
-        } )
+        this.setState( { actualPanel: 'Montos rápidos' } )
         break;
 
       case '4':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Tipo de cambio'
-        } )
+        this.setState( { actualPanel: 'Tipo de cambio' } )
         break;
 
       case '5':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Precio de Membresía'
-        } )
+        this.setState( { actualPanel: 'Precio de Membresía' } )
         break;
         
       case '6':
-        this.setState( {
-          collapsed: this.state.collapsed,
-          isMobile: this.state.isMobile,
-          actualPanel: 'Horarios'
-        } )
+        this.setState( { actualPanel: 'Horarios' } )
         break;
     
       default:
@@ -135,11 +114,7 @@ class Generalconfigurations extends Component {
   }
 
   toggle() {
-    this.setState( {
-      collapsed: !this.state.collapsed,
-      isMobile: this.state.isMobile,
-      actualPanel: this.state.actualPanel
-    } )
+    this.setState( { collapsed: !this.state.collapsed } )
   }
 
   render() {
