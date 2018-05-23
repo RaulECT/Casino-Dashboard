@@ -85,12 +85,12 @@ class ClientsManagment extends Component{
                   </Link>
                 </Menu.Item>
     
-                <SubMenu
-                  key="sub4"
-                  title={<span><Icon type="team" /><span>Administración de Usuarios</span></span>}
-                >
-                  <Menu.Item key="8">Option sub 4</Menu.Item>
-                </SubMenu>
+                <Menu.Item key="4">
+                  <Link to="/dashboard/administracion_usuarios">
+                    <Icon type="team" />
+                    <span>Administración de Usuarios</span>
+                  </Link>
+                </Menu.Item>
 
                 <Menu.Item key="9">
                   <Icon type="table" />

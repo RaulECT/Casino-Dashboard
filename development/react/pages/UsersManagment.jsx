@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
 import { Layout, 
   Menu, 
   Icon, 
@@ -63,48 +64,59 @@ class UsersManagment extends Component {
             theme="dark" 
             mode="inline" 
             style={{ padding: '16px 0', width: '100%' }} 
-            defaultSelectedKeys={['8']}
+            defaultSelectedKeys={['18']}
           >
             <Menu.Item key="1">
               <Icon type="dashboard" />
               <span>Dashboard</span>
             </Menu.Item>
 
-            <SubMenu
-              key="sub2"
-              title={<span><Icon type="setting" /><span>Configuración General</span></span>}
-            >
-            
-              <Menu.Item key="2">Fichas</Menu.Item>
-              <Menu.Item key="3">Montos rápidos</Menu.Item>
-              <Menu.Item key="4">Tipo de cambio</Menu.Item>
-              <Menu.Item key="5">Precio de Membresía</Menu.Item>
-              <Menu.Item key="6">Horarios</Menu.Item>
-            </SubMenu>
-
-            <Menu.Item key="7">
-              <Icon type="idcard" />
-              <span>Gestión de Roles</span>
+            <Menu.Item key="2">
+              <Link to="/dashboard/configuraciones_generales">
+                <Icon type="setting" />
+                <span>Configuración General</span>
+              </Link>
             </Menu.Item>
 
-            <Menu.Item key="8">
+            <Menu.Item key="7">
+              <Link to="/dashboard/gestion_roles">
+                <Icon type="idcard" />
+                <span>Gestión de Roles</span>
+              </Link>
+            </Menu.Item>
+
+            <Menu.Item key="18">
               <Icon type="team" />
               <span>Administración de Usuarios</span>
             </Menu.Item>
 
-            <SubMenu
-              key="sub5"
-              title={<span><Icon type="table" /><span>Administración de Clientes</span></span>}
-            >
-              <Menu.Item key="9">Option sub 5</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="9">
+              <Link to="/dashboard/clientes">
+                <Icon type="table" />
+                <span>Administración de Clientes</span>
+              </Link>     
+            </Menu.Item>
 
-            <SubMenu
-              key="sub6"
-              title={<span><Icon type="area-chart" /><span>Estadisticas</span></span>}
-            >
-              <Menu.Item key="10">Option sub 6</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="8">
+              <Link to="/dashboard/promociones">
+                <Icon type="star-o" />
+                <span>Promociones</span>
+              </Link>
+            </Menu.Item>
+
+            <Menu.Item key="11">
+              <Link to="/dashboard/estadisticas">
+                <Icon type="area-chart" />
+                <span>Estadisticas</span>
+              </Link>
+            </Menu.Item>
+
+            <Menu.Item key="10">
+              <Link to="/dashboard/historial">
+                <Icon type="profile" />
+                <span>Historial</span>
+              </Link>
+            </Menu.Item>
 
           </Menu>
 
