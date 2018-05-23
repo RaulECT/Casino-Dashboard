@@ -1,3 +1,9 @@
+/**
+ * Componente que representa a la sección de configuraciones generales.
+ * @namespace GeneralConfigurations
+ * @extends Component
+ */
+
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, 
@@ -33,6 +39,11 @@ const SubMenu = Menu.SubMenu
 const FormItem = Form.Item
 
 class Generalconfigurations extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */ 
   constructor( props ) {
     super( props )
     
@@ -46,6 +57,9 @@ class Generalconfigurations extends Component {
     this.toggle = this.toggle.bind( this )
   }
 
+  /**
+   *Función que se ejecuta antes de randerizar la vista. 
+   */
   componentWillMount() {
     const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
 
@@ -54,6 +68,10 @@ class Generalconfigurations extends Component {
     } 
   }
 
+  /**
+   * Cambiar el panel que se esta mostrando al usuario
+   * @param {String} panel 
+   */
   changePanel( panel ) {
     switch ( panel.key ) {
       case '2':
@@ -82,6 +100,10 @@ class Generalconfigurations extends Component {
     
   }
 
+  /**
+   * Busca el componente asociado al panel que el usario quiere ver en pantalla.
+   * @returns {Component} Componente de la vista seleccionada por el usuario
+   */
   findComponent() {
     let component = (<ChipsSection/>)
 
@@ -113,12 +135,18 @@ class Generalconfigurations extends Component {
     return component
   }
 
+  /**
+   * Minimiza la menu lateral.
+   */
   toggle() {
     this.setState( { collapsed: !this.state.collapsed } )
   }
 
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componnete
+   */
   render() {
-
     const component = this.findComponent()
 
     return(

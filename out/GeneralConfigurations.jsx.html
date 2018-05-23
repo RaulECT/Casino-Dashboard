@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: GeneralConfigurations.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: GeneralConfigurations.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de configuraciones generales.
+ * @namespace GeneralConfigurations
+ * @extends Component
+ */
+
+import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
+import { Layout, 
+  Menu, 
+  Icon, 
+  Avatar, 
+  Divider, 
+  Select, 
+  Modal, 
+  Tooltip, 
+  Dropdown, 
+  InputNumber,
+  Row, 
+  Button,
+  Form,
+  Col } from 'antd'
+import GlobalHeader from './GlobalHeader.jsx'
+import PageHeader from './PageHeader.jsx'
+
+import RolesManagment from './RolesManagment.jsx'
+
+import ChipsSection from './Chips/ChipsSection.jsx'
+import AmountsSection from './Amounts/AmountsSection.jsx'
+import ExchangeSection from './ExchangeRate/ExchangeSection.jsx'
+import MembershipSection from './Membreship/MembershipSection.jsx'
+import SchedulesSection from './Schedules/SchedulesSection.jsx'
+
+import './styles/configurations.css'
+
+
+const { Header, Sider, Content } = Layout
+const SubMenu = Menu.SubMenu
+const FormItem = Form.Item
+
+class Generalconfigurations extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */ 
+  constructor( props ) {
+    super( props )
+    
+    this.state = {
+      collapsed: false,
+      isMobile: false,
+      actualPanel: 'Fichas'
+    }
+
+    this.changePanel = this.changePanel.bind( this )
+    this.toggle = this.toggle.bind( this )
+  }
+
+  /**
+   *Función que se ejecuta antes de randerizar la vista. 
+   */
+  componentWillMount() {
+    const isNotLogged = !(localStorage.isLogin === 'true' &amp;&amp; localStorage.token)
+
+    if ( isNotLogged ) {
+      this.props.history.push( '/' )
+    } 
+  }
+
+  /**
+   * Cambiar el panel que se esta mostrando al usuario
+   * @param {String} panel 
+   */
+  changePanel( panel ) {
+    switch ( panel.key ) {
+      case '2':
+        this.setState( { actualPanel: 'Fichas' } )
+        break;
+
+      case '3':
+        this.setState( { actualPanel: 'Montos rápidos' } )
+        break;
+
+      case '4':
+        this.setState( { actualPanel: 'Tipo de cambio' } )
+        break;
+
+      case '5':
+        this.setState( { actualPanel: 'Precio de Membresía' } )
+        break;
+        
+      case '6':
+        this.setState( { actualPanel: 'Horarios' } )
+        break;
+    
+      default:
+        break;
+    }
+    
+  }
+
+  /**
+   * Busca el componente asociado al panel que el usario quiere ver en pantalla.
+   * @returns {Component} Componente de la vista seleccionada por el usuario
+   */
+  findComponent() {
+    let component = (&lt;ChipsSection/>)
+
+    switch ( this.state.actualPanel ) {
+      case 'Fichas':
+        component = (&lt;ChipsSection/>)
+        break;
+
+      case 'Montos rápidos':
+        component = (&lt;AmountsSection/>)
+        break
+      
+      case 'Tipo de cambio':
+        component = (&lt;ExchangeSection/>)
+        break
+
+      case 'Precio de Membresía':
+        component = (&lt;MembershipSection/>)
+        break
+
+      case 'Horarios':
+        component = (&lt;SchedulesSection/>)
+        break
+
+      default:
+        break;
+    }
+
+    return component
+  }
+
+  /**
+   * Minimiza la menu lateral.
+   */
+  toggle() {
+    this.setState( { collapsed: !this.state.collapsed } )
+  }
+
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componnete
+   */
+  render() {
+    const component = this.findComponent()
+
+    return(
+      &lt;Layout className="dashboard-layout">
+        &lt;Sider
+          trigger = {null}
+          breakpoint = "lg"
+          width = {256}
+          collapsible collapsed={ this.state.collapsed }
+          className = { this.state.collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
+        >
+
+          &lt;div className="logo">
+            &lt;h1>Dashboard&lt;/h1>
+          &lt;/div>
+
+          &lt;Menu
+            theme="dark" 
+            mode="inline" 
+            style={{ padding: '16px 0', width: '100%' }} 
+            defaultSelectedKeys={['2']}
+            defaultOpenKeys={['sub2']}
+            onSelect = { this.changePanel }
+          >
+            &lt;Menu.Item key="1">
+              &lt;Icon type="dashboard" />
+              &lt;span>Dashboard&lt;/span>
+            &lt;/Menu.Item>
+
+            &lt;SubMenu
+              key="sub2"
+              title={&lt;span>&lt;Icon type="setting" />&lt;span>Configuración General&lt;/span>&lt;/span>}
+            >
+            
+              &lt;Menu.Item key="2">Fichas&lt;/Menu.Item>
+              &lt;Menu.Item key="3">Montos rápidos&lt;/Menu.Item>
+              &lt;Menu.Item key="4">Tipo de cambio&lt;/Menu.Item>
+              &lt;Menu.Item key="5">Precio de Membresía&lt;/Menu.Item>
+              &lt;Menu.Item key="6">Horarios&lt;/Menu.Item>
+            &lt;/SubMenu>
+
+            
+            &lt;Menu.Item key="7">
+              &lt;Link to="/dashboard/gestion_roles">
+                &lt;Icon type="idcard" />
+                &lt;span>Gestión de Roles&lt;/span>
+              &lt;/Link>
+            &lt;/Menu.Item>
+
+            &lt;Menu.Item key="4">
+              &lt;Link to="/dashboard/administracion_usuarios">
+                &lt;Icon type="team" />
+                &lt;span>Administración de Usuarios&lt;/span>
+              &lt;/Link>
+            &lt;/Menu.Item>
+
+            &lt;Menu.Item key="9">
+              &lt;Link to="/dashboard/clientes">
+                &lt;Icon type="table" />
+                &lt;span>Administración de Clientes&lt;/span>
+              &lt;/Link>     
+            &lt;/Menu.Item>
+
+            &lt;Menu.Item key="8">
+              &lt;Link to="/dashboard/promociones">
+                &lt;Icon type="star-o" />
+                &lt;span>Promociones&lt;/span>
+              &lt;/Link>
+            &lt;/Menu.Item>
+
+            &lt;Menu.Item key="11">
+              &lt;Link to="/dashboard/estadisticas">
+                &lt;Icon type="area-chart" />
+                &lt;span>Estadisticas&lt;/span>
+              &lt;/Link>
+            &lt;/Menu.Item>
+
+            &lt;Menu.Item key="10">
+              &lt;Link to="/dashboard/historial">
+                &lt;Icon type="profile" />
+                &lt;span>Historial&lt;/span>
+              &lt;/Link>
+            &lt;/Menu.Item>
+
+          &lt;/Menu>
+
+        &lt;/Sider>
+
+        &lt;Layout>
+          &lt;GlobalHeader 
+            toggle = {this.toggle} 
+            collapsed = {this.state.collapsed} 
+            history={this.props.history}
+          />
+
+          &lt;PageHeader
+            path = { ['Configuración General', this.state.actualPanel] }
+            title = {this.state.actualPanel}
+          />
+
+          &lt;div className="dashboard-content">
+            {component}
+          &lt;/div>
+        &lt;/Layout>
+      &lt;/Layout>
+    )
+  }
+}
+
+
+
+module.exports = Generalconfigurations</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 11:18:50 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
