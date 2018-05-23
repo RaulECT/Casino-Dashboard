@@ -29,6 +29,8 @@ class GlobalHeader extends Component {
   }
 
   render() {
+    let user = localStorage.user
+    user = user || 'usuario'
     const hoverMenu = (
       <Menu className="user-menu" selectedKeys={[]} onClick={this.showLogOutModal}>
         <Menu.Divider />
@@ -48,7 +50,7 @@ class GlobalHeader extends Component {
           <Dropdown overlay={hoverMenu}>
             <span className="action account">
               <Avatar size="small" className="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
-              <span className="name">Usuario</span>
+              <span className="name">{user}</span>
             </span>
           </Dropdown>
 

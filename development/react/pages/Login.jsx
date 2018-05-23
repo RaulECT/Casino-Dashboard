@@ -38,9 +38,9 @@ class Login extends Component {
 
         this.api.passwordLogin( values.userName, values.password )
           .then( response => {
-            //console.log( response.data )
             this.handleLoadingSpin()
             if ( response.data.success ) {
+              localStorage.setItem( 'user', values.userName )
               this.redirectToDashboard( response.data )
             } else {
               this.setState( {
@@ -52,9 +52,7 @@ class Login extends Component {
           } )
           .catch( error => {
             this.handleLoadingSpin()
-            console.log( `Ha ocurrido un error interno. ${error}` );
             this.showErrorNotification( `Ha ocurrido un error interno. Favor de volver a intentarlo. ${error}` )
-            //TODO: Implement errors handling
           } )
       } 
     } )

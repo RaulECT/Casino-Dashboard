@@ -14,7 +14,7 @@ import { Layout,
   Button,
   Form,
   Col } from 'antd'
-import GlobalHeader from './GloablHeader.jsx'
+import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
 
 import RolesManagment from './RolesManagment.jsx'
