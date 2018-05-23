@@ -1,8 +1,18 @@
+/**
+ * Componente ue representa al Header de los paneles.
+ * @namespace PageHeader
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import { Breadcrumb } from 'antd';
 import './styles/pageHeader.css'
 
 class PageHeader extends Component {
+
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     return(
       <div className="page-header">
