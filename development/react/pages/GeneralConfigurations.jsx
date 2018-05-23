@@ -144,7 +144,7 @@ class Generalconfigurations extends Component {
 
   /**
    * Randeriza la vista del componente.
-   * @returns {string} HTML markup del componnete
+   * @returns {string} HTML markup del componente.
    */
   render() {
     const component = this.findComponent()

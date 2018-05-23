@@ -31,6 +31,11 @@ const SubMenu = Menu.SubMenu
 const FormItem = Form.Item
 
 class Stadistics extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
     
@@ -45,6 +50,9 @@ class Stadistics extends Component {
     this.toggle = this.toggle.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista.
+   */
   componentWillMount() {
     const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
 
@@ -53,6 +61,10 @@ class Stadistics extends Component {
     }
   }
 
+  /**
+   * Cambia el panel que se esta mostrando al usuario.
+   * @param {object} panel Panel que el usuario quiere ver
+   */
   changePanel( panel ) {
 
     switch ( panel.key ) {
@@ -70,6 +82,10 @@ class Stadistics extends Component {
     }
   }
 
+  /**
+   * Bueca el componente asociado al panel que el usario quiere ver.
+   * @returns {Component} Componente de la vista seleccionada.
+   */
   findComponent() {
     let component = ( <GraphicsSection /> )
     const { actualPanel } = this.state
@@ -90,10 +106,17 @@ class Stadistics extends Component {
     return component
   }
 
+  /**
+   * Minimiza el menu lateral.
+   */
   toggle() {
     this.setState( { collapsed: !this.state.collapsed } )
   }
 
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const {collapsed, actualPanel} = this.state
     const component = this.findComponent()
