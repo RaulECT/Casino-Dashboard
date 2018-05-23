@@ -1,3 +1,6 @@
+/**
+ * Componete que representa a la sección de estadisticas.
+ */
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, 
@@ -51,34 +54,20 @@ class Stadistics extends Component {
   }
 
   changePanel( panel ) {
-    const { collapsed, isMobile } = this.state
 
     switch ( panel.key ) {
       case '17':
-        this.setState( {
-          actualPanel: 'Gráficas',
-          collapsed,
-          isMobile
-        } )
+        this.setState( { actualPanel: 'Gráficas' } )
         break;
 
       case '18':
-        this.setState( {
-          actualPanel: 'Configurar envió automático',
-          collapsed,
-          isMobile
-        } )
+        this.setState( { actualPanel: 'Configurar envió automático' } )
         break;
     
       default:
-        this.setState( {
-          actualPanel: 'Gráficas',
-          collapsed,
-          isMobile
-        } )
+        this.setState( { actualPanel: 'Gráficas' } )
         break;
     }
-
   }
 
   findComponent() {
@@ -102,15 +91,11 @@ class Stadistics extends Component {
   }
 
   toggle() {
-    this.setState( {
-      collapsed: !this.state.collapsed,
-      isMobile: this.state.isMobile,
-      actualPanel: this.state.actualPanel
-    } )
+    this.setState( { collapsed: !this.state.collapsed } )
   }
 
   render() {
-
+    const {collapsed, actualPanel} = this.state
     const component = this.findComponent()
 
     return(
@@ -119,8 +104,8 @@ class Stadistics extends Component {
           trigger = {null}
           breakpoint = "lg"
           width = {256}
-          collapsible collapsed={ this.state.collapsed }
-          className = { this.state.collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
+          collapsible collapsed={ collapsed }
+          className = { collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
         >
 
           <div className="logo">
@@ -198,13 +183,13 @@ class Stadistics extends Component {
         <Layout>
           <GlobalHeader 
             toggle = {this.toggle} 
-            collapsed = {this.state.collapsed} 
+            collapsed = {collapsed} 
             history={this.props.history}
           />
 
           <PageHeader
-            path = { ['Estadisticas', this.state.actualPanel] }
-            title = {this.state.actualPanel}
+            path = { ['Estadisticas', actualPanel] }
+            title = {actualPanel}
           />
 
           <div className="dashboard-content">
