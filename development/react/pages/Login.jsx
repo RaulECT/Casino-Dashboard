@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react'
 import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
 import Api from '../controllers/Api'
@@ -46,7 +47,6 @@ class Login extends Component {
               this.setState( {
                 wrongCredentials: true,
                 errorMessage: response.data.message.charAt(0).toUpperCase() + response.data.message.slice(1), // Convert first letter to uppercase
-                isShowingSpin: this.state.isShowingSpin
               } )
             }
           } )
@@ -67,11 +67,7 @@ class Login extends Component {
   }
 
   handleLoadingSpin() {
-    this.setState( {
-      wrongCredentials: this.state.wrongCredentials,
-      errorMessage: this.state.errorMessage,
-      isShowingSpin: !this.state.isShowingSpin
-    } )
+    this.setState( { isShowingSpin: !this.state.isShowingSpin } )
   }
 
   showErrorNotification( description ) {
@@ -83,8 +79,9 @@ class Login extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const errorMsg = this.state.wrongCredentials ? <Alert style={ { textAlign: 'left' } } message={this.state.errorMessage} type="error" showIcon />: ''
-    const loadinSpin = this.state.isShowingSpin ? 
+    const {wrongCredentials, errorMessage, isShowingSpin} = this.state
+    const errorMsg = wrongCredentials ? <Alert style={ { textAlign: 'left' } } message={errorMessage} type="error" showIcon />: ''
+    const loadinSpin = isShowingSpin ? 
       (<div className="loading-section">
         <Icon className="loading-icon" type="loading" />
       </div> ) : ''
@@ -109,7 +106,7 @@ class Login extends Component {
                   {getFieldDecorator('userName', {
                     rules: [{ required: true, message: 'Ingrese su e-mail!' }],
                   })(
-                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
+                    <Input disabled={isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
                   )}
                 </FormItem>
 
@@ -117,7 +114,7 @@ class Login extends Component {
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: 'Ingrese su contraseña!' }],
                   })(
-                    <Input disabled={this.state.isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
+                    <Input disabled={isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
                   )}
                 </FormItem>
 
@@ -125,7 +122,7 @@ class Login extends Component {
                 { loadinSpin }
 
                 <FormItem>
-                  <Button disabled={this.state.isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
+                  <Button disabled={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
                     Iniciar Sesión
                   </Button>
                 </FormItem>
