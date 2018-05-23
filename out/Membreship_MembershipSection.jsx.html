@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Membreship/MembershipSection.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Membreship/MembershipSection.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que represente la sección de precios de membresias.
+ * @namespace MembershipSection
+ * @extends Component
+ */
+import React, {Component} from 'react'
+import {
+  Icon,
+  Alert,
+  Form,
+  Input,
+  Modal,
+  Button,
+  notification
+} from 'antd'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+
+const FormItem = Form.Item
+
+class MembershipSection extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super(props)
+
+    this.state = {
+      loading: true,
+      success: false,
+      change: false,
+      membershipPayment: 0.0,
+      cardReposition: 0.0,
+      saveChangesModal: false
+    }
+
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+
+    this.handleInputsChange = this.handleInputsChange.bind( this )
+    this.handleSaveModal = this.handleSaveModal.bind( this )
+    this.saveMemebershipValues = this.saveMemebershipValues.bind( this )
+  }
+
+  /**
+   * Función que carga desde la API los datos de membrsía guardados. 
+   */
+  componentWillMount() {
+    this.api.getMembershipValues()
+      .then( response => {
+        console.log(response)
+        this.setState( {
+          loading: false,
+          membershipPayment: Number(response.membershipPayment/100),
+          cardReposition: Number(response.cardReposition/100)
+        } )
+
+        this.props.form.setFieldsValue( { membershipPayment: Number(this.state.membershipPayment ) } )
+        this.props.form.setFieldsValue( { cardReposition: Number(this.state.cardReposition ) } )
+      } )
+      .catch( err => {
+        console.log(err)
+      } )
+  }
+
+  /**
+   * Función que se encarga de la presencia del modal de confirmación de cambios.
+   */
+  handleSaveModal() {
+    const {saveChangesModal} = this.state
+
+    this.setState( {
+      loading: false,
+      saveChangesModal: !saveChangesModal
+    } )
+  }
+
+  /**
+   * Función que detecta los cambios en los campos de texto.
+   */
+  handleInputsChange() {
+    this.setState( {
+      loading: false,
+      success: false,
+      change: true,
+    } )
+  }
+
+  /**
+   * Muestra un mensaje al usuario.
+   * @param {string} type Tipo de mensaje que se le mostrara al usuario. 
+   * @param {string} message Mensaje que se le mostrara al usuario. 
+   * @param {*} description Decripción del mensaje.
+   */
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
+  /**
+   * Guarda los cambios realizados a los precios de membresía en la API.
+   */
+  saveMemebershipValues() {
+    this.props.form.validateFields( (err, values) => {
+      if ( !err ) {
+        values.membershipPayment = Number( values.membershipPayment )
+        this.api.updateMembershipValues( values )
+          .then( response => {
+            this.handleSaveModal()
+
+            if ( response.status === 200 ) {
+
+              this.setState( {
+                loading: false,
+                success: true,
+                change: false,
+                saveChangesModal: false
+              } )
+            } else {
+              // TODO: Error managment
+              this.errorManagment.resolveError( response.data )
+            }
+          } )
+          .catch( err => {
+            this.handleSaveModal()
+
+            console.log(err)
+          } )
+      }
+    } )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+    const {loading, change, saveChangesModal, success} = this.state
+
+    const {getFieldDecorator} =  this.props.form
+    const changeMessage = change ? (&lt;Alert style={{width: 'max-content', marginBottom: '30px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
+    const loadingSpin = loading ? (
+      &lt;Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
+    return(
+      &lt;Form layout="inline">
+        {changeMessage}
+        {loadingSpin}
+
+        &lt;FormItem
+          label="Costo de Membresia:"
+        >
+          {getFieldDecorator( 'membershipPayment', {
+            rules: [
+              { required: true, message: 'Ingrese un valor!' }]
+          } )(
+            &lt;Input disabled={loading} onChange={this.handleInputsChange} addonBefore="$" />
+          )}
+          
+        &lt;/FormItem>
+
+        &lt;FormItem
+          label="Reposición de Tarjeta:"
+        >
+          {getFieldDecorator( 'cardReposition', {
+            rules: [
+              { required: true, message: 'Ingrese un valor!' }]
+          } )(
+            &lt;Input disabled={loading} onChange={this.handleInputsChange} addonBefore="$" />
+          )}
+          
+        &lt;/FormItem>
+
+        &lt;FormItem>
+          &lt;Button 
+            disabled={!change}
+            icon="save"
+            type="primary" 
+            onClick={this.handleSaveModal}
+          >
+            Guardar Cambios
+          &lt;/Button>
+
+          &lt;Modal
+            title="Actualizar Valores"
+            visible={saveChangesModal}
+            onOk={this.saveMemebershipValues}
+            onCancel={this.handleSaveModal}
+          >
+            &lt;p>¿Desea actualizar los valores?&lt;/p>
+              
+          &lt;/Modal>
+        &lt;/FormItem>
+      &lt;/Form>
+    )
+  }
+}
+
+const WrappedMembershipForm = Form.create()(MembershipSection)
+module.exports = WrappedMembershipForm</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 15:35:26 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
