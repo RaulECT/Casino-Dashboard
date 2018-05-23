@@ -45,9 +45,9 @@ class Stadistics extends Component {
   componentWillMount() {
     const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
 
-    /*if ( isNotLogged ) {
+    if ( isNotLogged ) {
       this.props.history.push( '/' )
-    } */
+    }
   }
 
   changePanel( panel ) {
