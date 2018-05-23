@@ -1,3 +1,9 @@
+/**
+ * Componente que representa a la sección de manejo de promociones.
+ * @namespace Record
+ * @extends Component
+ */
+
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, 
@@ -25,10 +31,14 @@ const SubMenu = Menu.SubMenu
 const FormItem = Form.Item
 
 class Records extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
     
-
     this.state = {
       collapsed: false,
       isMobile: false
@@ -37,6 +47,9 @@ class Records extends Component {
     this.toggle = this.toggle.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista.
+   */
   componentWillMount() {
     const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
 
@@ -45,6 +58,9 @@ class Records extends Component {
     } 
   }
 
+  /**
+   * Minimiza el menu lateral.
+   */
   toggle() {
     this.setState( {
       collapsed: !this.state.collapsed,
@@ -53,6 +69,10 @@ class Records extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     return(
       <Layout className="dashboard-layout">

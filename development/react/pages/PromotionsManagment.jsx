@@ -1,3 +1,9 @@
+/**
+ * Componente que representa a la sección de manejo de promociones.
+ * @namespace PromotionsManagment
+ * @extends PromotionsManagment
+ */
+
 import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, 
@@ -25,10 +31,14 @@ const SubMenu = Menu.SubMenu
 const FormItem = Form.Item
 
 class PromotionsManagment extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
     
-
     this.state = {
       collapsed: false,
       isMobile: false
@@ -37,6 +47,9 @@ class PromotionsManagment extends Component {
     this.toggle = this.toggle.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista.
+   */
   componentWillMount() {
     const isNotLogged = !(localStorage.isLogin === 'true' && localStorage.token)
 
@@ -45,23 +58,28 @@ class PromotionsManagment extends Component {
     } 
   }
 
+  /**
+   * Minimiza el menu lateral.
+   */
   toggle() {
-    this.setState( {
-      collapsed: !this.state.collapsed,
-      isMobile: this.state.isMobile,
-      actualPanel: this.state.actualPanel
-    } )
+    this.setState( { collapsed: !this.state.collapsed } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente.
+   */
   render() {
+    const {collapsed} = this.state
+
     return(
       <Layout className="dashboard-layout">
         <Sider
           trigger = {null}
           breakpoint = "lg"
           width = {256}
-          collapsible collapsed={ this.state.collapsed }
-          className = { this.state.collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
+          collapsible collapsed={ collapsed }
+          className = { collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
         >
 
           <div className="logo">
@@ -133,7 +151,7 @@ class PromotionsManagment extends Component {
         <Layout>
           <GlobalHeader 
             toggle = {this.toggle} 
-            collapsed = {this.state.collapsed} 
+            collapsed = {this.collapsed} 
             history={this.props.history}
           />
 
