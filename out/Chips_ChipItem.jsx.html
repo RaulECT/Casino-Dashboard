@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: GeneralConfigurations</title>
+    <title>JSDoc: Source: Chips/ChipItem.jsx</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,110 +17,59 @@
 
 <div id="main">
 
-    <h1 class="page-title">Namespace: GeneralConfigurations</h1>
+    <h1 class="page-title">Source: Chips/ChipItem.jsx</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>GeneralConfigurations</h2>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a cada una de las fichas en el panel de ocnfiguración de fichas.
+ */
+import React, {Component} from 'react'
+import {Form, InputNumber} from 'antd'
+
+const FormItem = Form.Item
+
+class ChipItem extends Component {
+
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+    const {img, chip, valueChange, avaible} = this.props
+
+    return(
+      &lt;div className="chip-container">
+        &lt;img className="chip-image" src={img} alt=""/>
+        &lt;FormItem
+          label="Valor"
+          className="chip-form"
+        >
+          {this.props.fieldDecorator(chip, {
+            rules: [{ required: true, message: 'Ingrese un valor!' }],
+          })(
+            &lt;InputNumber 
+              className="chip-input" 
+              min={1} 
+              onChange={valueChange}
+              disabled={avaible}
+            />
+          )}
         
-    
-</header>
+        &lt;/FormItem>
+      &lt;/div>
+    )
+  }
+}
 
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">Componente que representa a la sección de configuraciones generales.</div>
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="GeneralConfigurations.jsx.html">GeneralConfigurations.jsx</a>, <a href="GeneralConfigurations.jsx.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>Component</li>
-    </ul>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+module.exports = ChipItem</code></pre>
+        </article>
+    </section>
 
 
 
