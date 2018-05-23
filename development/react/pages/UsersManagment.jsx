@@ -46,22 +46,20 @@ class UsersManagment extends Component {
   }
 
   toggle() {
-    this.setState( {
-      collapsed: !this.state.collapsed,
-      isMobile: this.state.isMobile,
-      actualPanel: this.state.actualPanel
-    } )
+    this.setState( { collapsed: !this.state.collapsed } )
   }
 
   render() {
+    const {collapsed} = this.state
+
     return(
       <Layout className="dashboard-layout">
         <Sider
           trigger = {null}
           breakpoint = "lg"
           width = {256}
-          collapsible collapsed={ this.state.collapsed }
-          className = { this.state.collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
+          collapsible collapsed={ collapsed }
+          className = { collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
         >
 
           <div className="logo">
@@ -133,7 +131,7 @@ class UsersManagment extends Component {
         <Layout>
           <GlobalHeader 
             toggle = {this.toggle} 
-            collapsed = {this.state.collapsed} 
+            collapsed = {collapsed} 
             history={this.props.history}
           />
 
