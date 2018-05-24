@@ -152,10 +152,9 @@ class AddUser extends Component {
   }
 
   readFinger( handSelected, index ) {
-    const { hand } = this.state
-    
+    console.log(handSelected, index);
+ 
     this.setState( {
-      hand,
       fingerSelcted: { hand:handSelected, index: index },
       reading: true
     } )
@@ -325,44 +324,45 @@ class AddUser extends Component {
            <p>{`Huellas escaneadas del dedo indice derecho: ${rightHandFingersScanned} de 4`}</p> 
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('left', 1)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('left', 1) } } >Escanear 1era huella</Button>
-            {this.getCheckIcon( 'left', 1 )}
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('right', 1)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('right', 1) } }>Escanear 1era huella</Button>
-            {this.getCheckIcon( 'right', 1 )}
+            
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('left', 2)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('left', 2) } }>Escanear 2da huella</Button>
-            {this.getCheckIcon( 'left', 2 )}
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('right', 2)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('right', 2) } }>Escanear 2da huella</Button>
-            {this.getCheckIcon( 'right', 2 )}
           </Col>
 
-          <Col span={12}> 
-            <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('left', 3) } }>Escanear 3era huella</Button>
-            {this.getCheckIcon( 'left', 3 )}
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('left', 3)}
+            <Button className="scann-finger-button" disabled={reading} onClick={ () => {this.readFinger('left', 3)  } }>Escanear 3era huella</Button>
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('right', 3)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('right', 3) } }>Escanear 3era huella</Button>
-            {this.getCheckIcon( 'right', 3 )}
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('left', 4)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('left', 4) } }>Escanear 4ta huella</Button>
-            {this.getCheckIcon( 'left', 4 )}
           </Col>
 
-          <Col span={12}> 
+          <Col span={12} className="scann-container"> 
+            {this.getCheckIcon('right', 4)}
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('right', 4) } }>Escanear 4ta huella</Button>
-            {this.getCheckIcon( 'right', 4 )}
           </Col>
         </Row>
       </Modal>

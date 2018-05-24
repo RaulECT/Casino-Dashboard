@@ -54,7 +54,12 @@
 }
 
 .scann-finger-button {
+  margin-left: 10px;
   display: block !important;
-  margin: auto !important;
   margin-bottom: 10px !important;
+}
+
+.scann-container {
+  display: flex !important;
+  align-items: center;
 }
