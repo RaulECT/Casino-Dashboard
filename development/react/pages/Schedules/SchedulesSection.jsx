@@ -170,7 +170,7 @@ class SchedulesSection extends Component {
 
           <FormItem
             label="Repartir rota cada (min):"
-            style={ {marginRight: '40px', marginTop: '40px'} }
+            style={ {marginRight: '100px', marginTop: '40px'} }
           >
             {getFieldDecorator( 'intervalMinutesSchedules', {
               rules: [
