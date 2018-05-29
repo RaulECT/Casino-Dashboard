@@ -213,7 +213,7 @@ class Api {
   createUser( userInfo ) {
     userInfo.appId = this.appID
 
-    return axios.post( `${this.apiURL}/admin/create_user_tmp`, userInfo, {
+    return axios.post( `${this.apiURL}/admin/create_user`, userInfo, {
       headers: {token: this.token},
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500

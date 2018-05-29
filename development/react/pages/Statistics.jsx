@@ -170,12 +170,12 @@ class Stadistics extends Component {
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="9">
+            {/*<Menu.Item key="9">
               <Link to="/dashboard/clientes">
                 <Icon type="table" />
                 <span>Administración de Clientes</span>
               </Link>     
-            </Menu.Item>
+            </Menu.Item>*/}
 
             <Menu.Item key="8">
               <Link to="/dashboard/promociones">

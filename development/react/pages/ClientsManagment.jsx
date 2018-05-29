@@ -100,10 +100,10 @@ class ClientsManagment extends Component{
                   </Link>
                 </Menu.Item>
 
-                <Menu.Item key="9">
+                {/*<Menu.Item key="9">
                   <Icon type="table" />
                   <span>Administración de Clientes</span>
-                </Menu.Item>
+                </Menu.Item>*/}
 
                 <Menu.Item key="8">
                   <Link to="/dashboard/promociones">
