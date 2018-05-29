@@ -9,6 +9,7 @@ class ErrorManagment {
     this.resolveError = this.resolveError.bind( this )
     this.handleAditionalProperties = this.handleAditionalProperties.bind( this )
     this.handleInvalidToken = this.handleInvalidToken.bind( this )
+    this.handleErrorPattern= this.handleErrorPattern.bind( this )
     this.handleRequestFaildes = this.handleRequestFaildes.bind( this )
     this.openErrorNotification = this.openErrorNotification.bind( this )
 
@@ -16,7 +17,8 @@ class ErrorManagment {
       "InvalidToken": this.handleInvalidToken,
       "TokenNotProvided": this.handleInvalidToken,
       "Request failed with status code 401": this.handleRequestFaildes,
-      "additionalProperties": this.handleAditionalProperties
+      "additionalProperties": this.handleAditionalProperties,
+      "pattern": this.handleErrorPattern
     }
   }
 
@@ -43,6 +45,10 @@ class ErrorManagment {
 
   handleRequestFaildes() {
     this.openErrorNotification( 'Error en la petición', 'La petición ha fallado, favor de verificar los campos. En caso de reeincidencia, cerrar la sesión actual e iniciar una nueva sesión.' )
+  }
+
+  handleErrorPattern() {
+    this.openErrorNotification( 'Error en el formato', 'Verifique que el formato de los valores sea el correcto.' )
   }
 
   openErrorNotification( title, description ) {

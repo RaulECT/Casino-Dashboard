@@ -88,9 +88,11 @@ class SchedulesSection extends Component {
 
         values.beginWorkingDay = beginWorkingDay
         values.endWorkingDay = endWorkingDay
-
+        
         this.api.setScheduleValues( values )
           .then( response => {
+            console.log(response);
+            
             this.handleSaveModal()
             
             if ( response.status === 200 ) {
@@ -106,7 +108,7 @@ class SchedulesSection extends Component {
             }
           } )
           .catch( err => {
-            this.handleSaveModal()
+            //this.handleSaveModal()
             console.log(err)
           } )
       }
