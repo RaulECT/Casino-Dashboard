@@ -14,6 +14,7 @@ import {
   Radio,
   notification
 } from 'antd'
+import Api from '../../controllers/Api'
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
 import leftHandImage from '../images/left.png'
 import rightHandImage from '../images/right.png'
@@ -30,13 +31,15 @@ class AddUser extends Component {
     this.state = {
       hand: { left:{}, right: {} },
       fingerSelcted: { hand:'', index: -1 },
-      reading: false
+      reading: false,
+      roles: []
     }
 
     this.handleFingerprintErr = this.handleFingerprintErr.bind(this)
     this.test = new FingerprintSDKTest( this.handleFingerprintErr )
     this.dateFormat = "DD/MM/YYYY"
     this.roles = []
+    this.api = new Api()
 
     this.createUser = this.createUser.bind( this )
     this.checkFinger = this.checkFinger.bind( this )
@@ -47,6 +50,20 @@ class AddUser extends Component {
 
   componentWillReceiveProps() {
     //this.loadRoles()
+  }
+
+  componentWillMount() {
+    this.api.getRoles()
+      .then( response => {
+        console.log(response);
+        let roles = []
+        const { rolesArray } = response.data.result
+
+        rolesArray.map( (element => roles.push( { id: element.id, name: element.name } ) ) )
+        
+        this.setState( {roles} )
+
+      } )
   }
 
   createUser() {
@@ -208,9 +225,12 @@ class AddUser extends Component {
   }
 
   loadRoles() {
-    const { roles } = this.props
+    const { roles } = this.state
+    let options = []
 
-    roles.map( ( element, index ) => this.roles.push( <Option key={index} value={element.id}>{element.name}</Option> ) )
+    roles.map( ( element, index ) => options.push( (<Option key={index} value={element.id}>{element.name}</Option>) ) )
+    
+    return options
   }
 
   render() {
@@ -313,11 +333,7 @@ class AddUser extends Component {
           >
             {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
               <Select style={{ width: 120 }}>
-                <Option value="cashier">Cashier</Option>
-                <Option value="dealer">Dealer</Option>
-                <Option value="admin">Admin</Option>
-                <Option value="pitboss">Pitboss</Option>
-                <Option value="hostess">Hostess</Option>
+                { this.loadRoles() }
               </Select>
             )}
           </FormItem>

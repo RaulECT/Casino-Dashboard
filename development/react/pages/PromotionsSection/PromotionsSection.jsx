@@ -71,7 +71,7 @@ class PromotionsSection extends Component {
       .then( response => {
         if ( response.status === 200 ) {
           this.setState( {
-            addPromotionModal,
+            addPromotionModal: false,
             editPromotionModal,
             promotionsToDelete,
             promotionToEdit,
@@ -135,7 +135,7 @@ class PromotionsSection extends Component {
       .then( response => {
         if (response.status === 200) {
           let proms = response.data.result.promosArray
-          
+          console.log(proms)
           proms.map( ( element, index ) => {
             element['key'] = index
             element.valueMax = element.valueMax / 100

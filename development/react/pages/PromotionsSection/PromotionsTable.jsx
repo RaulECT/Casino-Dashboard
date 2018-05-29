@@ -71,14 +71,14 @@ class PromotionsTable extends Component {
       title: 'Monto máx',
       key: 'Max',
       dataIndex: 'valueMax',
-      sorter: (a, b) => a.valueMax < b.valueMax,
+      sorter: (a, b) => {return a.valueMax - b.valueMax},
       sortOrder: sortedInfo.columnKey === 'Max' && sortedInfo.order
     },
     {
       title: 'Monto min',
       key: 'Min',
       dataIndex: 'valueMin',
-      sorter: ( a, b ) => a.valueMin < b.valueMin,
+      sorter: ( a, b ) => a.valueMin - b.valueMin,
       sortOrder: sortedInfo.columnKey === 'Min' && sortedInfo.order
     },
     {
