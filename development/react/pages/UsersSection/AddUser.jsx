@@ -46,7 +46,7 @@ class AddUser extends Component {
   }
 
   componentWillReceiveProps() {
-    this.loadRoles()
+    //this.loadRoles()
   }
 
   createUser() {
@@ -313,7 +313,11 @@ class AddUser extends Component {
           >
             {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
               <Select style={{ width: 120 }}>
-                { this.roles.map( element => { return element } ) }
+                <Option value="cashier">Cashier</Option>
+                <Option value="dealer">Dealer</Option>
+                <Option value="admin">Admin</Option>
+                <Option value="pitboss">Pitboss</Option>
+                <Option value="hostess">Hostess</Option>
               </Select>
             )}
           </FormItem>
