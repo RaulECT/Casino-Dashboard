@@ -7,6 +7,7 @@ import {
   Select,
   Button
 } from 'antd'
+import Api from '../../controllers/Api'
 
 const Option = Select.Option
 const { RangePicker } = DatePicker
@@ -23,6 +24,7 @@ class GraphicsSection extends Component {
     }
 
     this.graphicsManagment = new GraphicsManagment()
+    this.api = new Api()
 
     this.generateTesData = this.generateTesData.bind( this )
     this.printBarGraphic = this.printBarGraphic.bind( this )
@@ -32,12 +34,14 @@ class GraphicsSection extends Component {
     this.graphics = {
       custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', chart: this.printLineGraphic },
       pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', chart: this.printPieGraphic },
-      barTest: { route: this.generateTesData, text: 'Peridas por fecha', chart: this.printBarGraphic }
+      barTest: { route: this.generateTesData, text: 'Peridas por fecha', chart: this.printBarGraphic },
+      clientsByDay: { text: 'Usuarios registrados por fecha', chart: this.printLineGraphic }
     }
 
     this.dateFormat = "YYYY/MM/DD"
 
     this.getData = this.getData.bind( this )
+    this.getCalendar = this.getCalendar.bind(this)
     this.generatePDF = this.generatePDF.bind(this)
     this.handleRangePicker = this.handleRangePicker.bind( this )
     this.handleGraphicsOptions = this.handleGraphicsOptions.bind( this )
@@ -48,6 +52,20 @@ class GraphicsSection extends Component {
   cleanCanvas() {
     document.getElementById("chartContainer").innerHTML = '&nbsp;';
     document.getElementById("chartContainer").innerHTML = '<canvas id="myChart" width="400" height="400"></canvas>'
+  }
+
+  formatData( data ) {
+    let labels = []
+    let info = []
+
+    data.map( element => {
+      for(var k in element) {
+        labels.push(k)
+        info.push( element[k] )
+      }
+    } )
+
+    return { data: info, labels }
   }
 
   generatePDF() {
@@ -83,13 +101,51 @@ class GraphicsSection extends Component {
   }
 
   getData() {
-    const { graphSlected } = this.state
+    const { graphSlected, startDate, endDate } = this.state
+
+    switch (graphSlected) {
+      case 'clientsByDay':
+        this.api.getNumberCustomersByDay( startDate, endDate )
+          .then( response => {
+            console.log(response);
+            if (response.status === 200) {
+              const { data, labels } = this.formatData( response.data.result.customersByDay )
+              this.graphics[graphSlected].chart( labels, data )
+            }
+          } )
+        break;
     
-    const { data, labels } = this.graphics[graphSlected].route()
-    this.graphics[graphSlected].chart( labels, data )
+      default:
+        const { data, labels } = this.graphics[graphSlected].route()
+        this.graphics[graphSlected].chart( labels, data )
+        break;
+    }
+    
+
     //this.printLineGraphic( labels, data )
     //console.log(   );
     
+  }
+
+  getCalendar() {
+    const {graphSlected} = this.state
+    let calendar = null
+
+    switch ( graphSlected ) {
+      case 'clientsByDay':
+        calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
+        break;
+
+      case 'opt1':
+        calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+        break;
+    
+      default:
+        calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
+        break;
+    }
+
+    return calendar
   }
 
   makeGraphic() {
@@ -180,10 +236,20 @@ class GraphicsSection extends Component {
   handleRangePicker( date, dateString ) {
     //console.log(date, dateString)
     const { graphic, graphSlected } = this.state
+    let startDate = ''
+    let endDate = ''
+
+    if ( Array.isArray(dateString) ) {
+      startDate = dateString[0]
+      endDate = dateString[1]
+    } else {
+      startDate = dateString
+      endDate = dateString
+    }
 
     this.setState( {
-      startDate: dateString[0],
-      endDate: dateString[1],
+      startDate,
+      endDate,
       graphSlected,
       graphic
     } )
@@ -192,6 +258,7 @@ class GraphicsSection extends Component {
   render() {
     const { graphic, graphSlected, startDate, endDate } = this.state
     const generatePDFDisabled = graphic ? false : true
+    const calendar = this.getCalendar()
     const generateGraphDisabled = ( graphSlected && startDate && endDate ) ? false : true
 
     return(
@@ -205,9 +272,10 @@ class GraphicsSection extends Component {
             <Option value="custumersByDate">Registro de clientes</Option>
             <Option value="pieTest">Ingresos generales</Option>
             <Option value="barTest">Peridas generales</Option>
+            <option value="clientsByDay">Número de clientes por día</option>
           </Select>
 
-          <RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />
+          {calendar}
 
           <Button 
             type="primary" 

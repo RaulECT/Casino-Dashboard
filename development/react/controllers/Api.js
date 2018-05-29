@@ -357,6 +357,18 @@ class Api {
     } )
   }
 
+  getNumberCustomersByDay(startDate, endDate) {
+    return axios.post( `${this.apiURL}/admin/number_customers_by_day`, {
+      startDate,
+      endDate
+    }, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
 }
 
 module.exports = Api
