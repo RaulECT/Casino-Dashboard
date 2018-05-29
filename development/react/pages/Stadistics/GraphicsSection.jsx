@@ -33,10 +33,10 @@ class GraphicsSection extends Component {
     this.printPieGraphic = this.printPieGraphic.bind( this )
     
     this.graphics = {
-      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', chart: this.printLineGraphic },
-      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', chart: this.printPieGraphic },
-      barTest: { route: this.generateTesData, text: 'Peridas por fecha', chart: this.printBarGraphic },
-      clientsByDay: { text: 'Usuarios registrados por fecha', chart: this.printLineGraphic }
+      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', },
+      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', },
+      barTest: { route: this.generateTesData, text: 'Peridas por fecha', },
+      clientsByDay: { text: 'Usuarios registrados por fecha', }
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -113,7 +113,6 @@ class GraphicsSection extends Component {
             console.log(response);
             if (response.status === 200) {
               const { data, labels } = this.formatData( response.data.result.customersByDay )
-              //this.graphics[graphSlected].chart( labels, data )
               this.printChart( labels, data )
             }
           } )
@@ -121,14 +120,9 @@ class GraphicsSection extends Component {
     
       default:
         const { data, labels } = this.graphics[graphSlected].route()
-        //this.graphics[graphSlected].chart( labels, data )
         this.printChart( labels, data )
         break;
     }
-    
-
-    //this.printLineGraphic( labels, data )
-    //console.log(   );
     
   }
 
