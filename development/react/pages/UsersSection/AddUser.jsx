@@ -77,7 +77,11 @@ class AddUser extends Component {
         this.props.createUser( valuesFormated )
           .then( response => {
             console.log(response);
-            
+            if ( response.status === 200 ) {
+              
+            } else {
+              
+            }
           } )
           .catch( err => {
             console.log(err);

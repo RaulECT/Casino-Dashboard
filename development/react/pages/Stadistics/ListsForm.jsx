@@ -13,6 +13,7 @@ import {
   Modal,
   Popconfirm,
   Select,
+  Switch,
   Tag,
   Tooltip
 } from 'antd'
@@ -32,7 +33,8 @@ class ListsForm extends Component {
       emails: [],
       emailInputVisible: false,
       emailInputValue: '',
-      stats: []
+      stats: [],
+      isRecurrent: false
     }
 
     this.addStat = this.addStat.bind( this )
@@ -41,6 +43,7 @@ class ListsForm extends Component {
     this.handleCloseTag = this.handleCloseTag.bind( this )
     this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
     this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this ) 
+    this.handleRecurrent = this.handleRecurrent.bind( this )
     this.showEmailInput = this.showEmailInput.bind( this )
     this.saveInputRef = this.saveInputRef.bind( this )
     this.getStatsList = this.getStatsList.bind( this )
@@ -101,6 +104,10 @@ class ListsForm extends Component {
 
   handelEmailInputChange( e ) {
     this.setState( { emailInputValue: e.target.value } )
+  }
+
+  handleRecurrent( value ) {
+    this.setState( {isRecurrent: value} )
   }
 
   handleEmailInputConfirm() {
@@ -310,6 +317,12 @@ class ListsForm extends Component {
                   placeholder={['Start Time', 'End Time']}
                 />
               ) }
+            </FormItem>
+
+            <FormItem
+              label="Envio recurrente"
+            >
+              <Switch onChange={this.handleRecurrent} />
             </FormItem>
             
             <FormItem>
