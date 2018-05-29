@@ -147,7 +147,7 @@ class RolesSection extends Component {
                 updateModal: this.state.updateModal,
                 roles: this.state.roles,
                 editRolPermisions: this.state.editRolPermisions
-              } )
+              }, this.loadRoles() )
             } else {
               // TODO: Error managment
             }
@@ -261,7 +261,7 @@ class RolesSection extends Component {
 
           this.setState( {
             loading: false,
-            success: this.state.success,
+            success: false,
             addModal: this.state.addModal,
             updateModal: this.state.updateModal,
             roles: roles,
