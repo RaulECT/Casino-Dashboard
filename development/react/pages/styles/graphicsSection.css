@@ -3,3 +3,12 @@
 .graphics-options > button {
   margin-right: 15px;
 }
+
+.buttons-group {
+  display: block;
+}
+
+.buttons-group > button {
+  margin-top: 10px;
+  margin-right: 15px;
+}

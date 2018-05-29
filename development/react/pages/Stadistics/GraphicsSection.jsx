@@ -19,6 +19,7 @@ class GraphicsSection extends Component {
     this.state = {
       graphic: null,
       graphSlected: '',
+      graphType: '',
       startDate: null,
       endDate: null
     }
@@ -43,9 +44,11 @@ class GraphicsSection extends Component {
     this.getData = this.getData.bind( this )
     this.getCalendar = this.getCalendar.bind(this)
     this.generatePDF = this.generatePDF.bind(this)
+    this.handleChartType = this.handleChartType.bind(this)
     this.handleRangePicker = this.handleRangePicker.bind( this )
     this.handleGraphicsOptions = this.handleGraphicsOptions.bind( this )
     this.makeGraphic = this.makeGraphic.bind( this )
+    this.printChart = this.printChart.bind( this )
  
   }
 
@@ -110,14 +113,16 @@ class GraphicsSection extends Component {
             console.log(response);
             if (response.status === 200) {
               const { data, labels } = this.formatData( response.data.result.customersByDay )
-              this.graphics[graphSlected].chart( labels, data )
+              //this.graphics[graphSlected].chart( labels, data )
+              this.printChart( labels, data )
             }
           } )
         break;
     
       default:
         const { data, labels } = this.graphics[graphSlected].route()
-        this.graphics[graphSlected].chart( labels, data )
+        //this.graphics[graphSlected].chart( labels, data )
+        this.printChart( labels, data )
         break;
     }
     
@@ -174,6 +179,28 @@ class GraphicsSection extends Component {
       startDate,
       endDate
     } )
+  }
+
+  printChart( labels, data ) {
+    const { graphType } = this.state
+
+    switch ( graphType ) {
+      case 'barGraph':
+        this.printBarGraphic( labels, data )
+        break;
+
+      case 'pieGraph':
+        this.printPieGraphic( labels, data )
+        break;
+
+      case 'lineGraph':
+        this.printLineGraphic( labels, data )
+        break;
+    
+      default:
+        this.printBarGraphic( labels, data )
+        break;
+    }
   }
 
   printLineGraphic( labels, data ) {
@@ -233,6 +260,10 @@ class GraphicsSection extends Component {
     
   }
 
+  handleChartType( value ) {
+    this.setState( { graphType: value } )
+  }
+
   handleRangePicker( date, dateString ) {
     //console.log(date, dateString)
     const { graphic, graphSlected } = this.state
@@ -256,10 +287,10 @@ class GraphicsSection extends Component {
   }
 
   render() {
-    const { graphic, graphSlected, startDate, endDate } = this.state
+    const { graphic, graphSlected, graphType, startDate, endDate } = this.state
     const generatePDFDisabled = graphic ? false : true
     const calendar = this.getCalendar()
-    const generateGraphDisabled = ( graphSlected && startDate && endDate ) ? false : true
+    const generateGraphDisabled = ( graphSlected && graphType && startDate && endDate ) ? false : true
 
     return(
       <div>
@@ -267,7 +298,7 @@ class GraphicsSection extends Component {
           <Select 
             style={{ width: 240 }} 
             onChange={ this.handleGraphicsOptions }
-            placeholder="Seleccione una gráfica"
+            placeholder="Seleccione una estadistica"
           >
             <Option value="custumersByDate">Registro de clientes</Option>
             <Option value="pieTest">Ingresos generales</Option>
@@ -275,24 +306,39 @@ class GraphicsSection extends Component {
             <option value="clientsByDay">Número de clientes por día</option>
           </Select>
 
+          <Select
+            style={{ width: 240 }}
+            onChange={this.handleChartType}
+            placeholder="Seleccione el tipo de gráfica"
+          >
+            <Option value="barGraph">Gráfica de barras</Option>
+            <Option value="pieGraph">Gráfica de pastel</Option>
+            <Option value="lineGraph">Gráfica de lineal</Option>
+          </Select>
+
           {calendar}
 
-          <Button 
-            type="primary" 
-            icon="line-chart"
-            onClick={this.makeGraphic}
-            disabled={generateGraphDisabled}
-          >
-            Generar gráfica
-          </Button>
+          <div className="buttons-group">
+            <Button 
+              type="primary" 
+              icon="line-chart"
+              onClick={this.makeGraphic}
+              style={{ marginLeft: 12 }}
+              disabled={generateGraphDisabled}
+            >
+              Generar gráfica
+            </Button>
 
-          <Button
-            icon="download"
-            onClick={this.generatePDF}
-            disabled={generatePDFDisabled}
-          >
-            Descargar gráfica
-          </Button>
+            <Button
+              icon="download"
+              onClick={this.generatePDF}
+              disabled={generatePDFDisabled}
+            >
+              Descargar gráfica
+            </Button> 
+          </div>
+
+          
         </div>
         
          <div id="chartContainer">
