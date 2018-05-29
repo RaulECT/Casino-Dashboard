@@ -122,9 +122,27 @@ class AddUser extends Component {
 
   formatValues( values ) {
     const { birthday, email, firstName, genere, name, password, role, secondName, userName } = values
-    
+    const {hand} = this.state
+    const lIndex = [] 
+    const rIndex = []
     const birthdayString = this.formatDate( birthday.format() )
     console.log(birthday.format());
+    console.log(hand.left);
+
+    for (var key in hand.left) {
+      if (hand.left.hasOwnProperty(key)) {
+          lIndex.push( hand.left[key] )
+      }
+    }
+
+    for (var key in hand.right) {
+      if (hand.right.hasOwnProperty(key)) {
+          rIndex.push( hand.right[key] )
+      }
+    }
+
+    console.log(lIndex, rIndex);
+    
     
     const valuesFormated = {
       username: userName,
@@ -133,7 +151,10 @@ class AddUser extends Component {
       secondSurname: secondName,
       email: email,
       password: password,
-      fingerprints: { RINDEX:["/6D/qAB8TklTVF...", "/6D/qAB8TklTVF...", "/6D/qAB8TklTVF...", "/6D/qAB8TklTVF..."], LINDEX:["/6D/qAB4TklTVF...", "/6D/qAB4TklTVF...", "/6D/qAB4TklTVF...", "/6D/qAB4TklTVF..."] },
+      fingerprints: { 
+        RINDEX: rIndex, 
+        LINDEX: lIndex 
+      },
       roleId: role,
       gender: genere,
       birthday: birthdayString
