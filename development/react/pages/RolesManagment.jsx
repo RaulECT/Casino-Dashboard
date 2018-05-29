@@ -93,10 +93,10 @@ class RolesManagment extends Component {
             style={{ padding: '16px 0', width: '100%' }} 
             defaultSelectedKeys={['7']}
           >
-            <Menu.Item key="1">
+            {/*<Menu.Item key="1">
               <Icon type="dashboard" />
               <span>Dashboard</span>
-            </Menu.Item>
+              </Menu.Item>*/}
 
             <Menu.Item key="2">
               <Link to="/dashboard/configuraciones_generales">
@@ -113,7 +113,7 @@ class RolesManagment extends Component {
             <Menu.Item key="4">
               <Link to="/dashboard/administracion_usuarios">
                 <Icon type="team" />
-                <span>Administración de Usuarios</span>
+                <span>Administración de Empleados</span>
               </Link>
             </Menu.Item>
 

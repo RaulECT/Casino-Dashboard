@@ -143,10 +143,10 @@ class Stadistics extends Component {
             defaultOpenKeys={['sub6']}
             onSelect = { this.changePanel }
           >
-            <Menu.Item key="1">
+            {/*<Menu.Item key="1">
               <Icon type="dashboard" />
               <span>Dashboard</span>
-            </Menu.Item>
+              </Menu.Item>*/}
 
             <Menu.Item key="2">
               <Link to="/dashboard/configuraciones_generales">
@@ -166,7 +166,7 @@ class Stadistics extends Component {
             <Menu.Item key="4">
               <Link to="/dashboard/administracion_usuarios">
                 <Icon type="team" />
-                <span>Administración de Usuarios</span>
+                <span>Administración de Empleados</span>
               </Link>
             </Menu.Item>
 

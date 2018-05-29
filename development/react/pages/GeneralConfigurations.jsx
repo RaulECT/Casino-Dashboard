@@ -171,10 +171,10 @@ class Generalconfigurations extends Component {
             defaultOpenKeys={['sub2']}
             onSelect = { this.changePanel }
           >
-            <Menu.Item key="1">
+            {/*<Menu.Item key="1">
               <Icon type="dashboard" />
               <span>Dashboard</span>
-            </Menu.Item>
+              </Menu.Item>*/}
 
             <SubMenu
               key="sub2"
@@ -199,7 +199,7 @@ class Generalconfigurations extends Component {
             <Menu.Item key="4">
               <Link to="/dashboard/administracion_usuarios">
                 <Icon type="team" />
-                <span>Administración de Usuarios</span>
+                <span>Administración de Empleados</span>
               </Link>
             </Menu.Item>
 
