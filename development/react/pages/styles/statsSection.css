@@ -4,10 +4,15 @@
   flex-wrap: wrap;
 }
 
-.stats-form .ant-form-item {
+.stats-form .ant-form-item,
+.periodicity-section .ant-form-item {
   display: flex;
   flex-grow: 0;
   margin-right: 10px;
+}
+
+.periodicity-section {
+  margin-bottom: -30px;
 }
 
 #chartContainer {

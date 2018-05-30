@@ -37,7 +37,7 @@ class AutomaticDelivery extends Component {
     this.setState( { listsToDelete } )
   }
 
-  createList( emails, stats, subject ) {
+  createList( emails, stats, subject, periodicityConfig = {} ) {
     let { lists } = this.state
 
     this.setState( {

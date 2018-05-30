@@ -15,10 +15,11 @@ import {
   Select,
   Switch,
   Tag,
+  TimePicker,
   Tooltip
 } from 'antd'
 
-const { RangePicker } = DatePicker
+const { RangePicker, WeekPicker } = DatePicker
 const FormItem = Form.Item
 const Option = Select.Option
 const Panel = Collapse.Panel
@@ -34,7 +35,10 @@ class ListsForm extends Component {
       emailInputVisible: false,
       emailInputValue: '',
       stats: [],
-      isRecurrent: false
+      isRecurrent: false,
+      hourSend: null,
+      periodicity: '',
+      rangePickerMode: [ 'date', 'date' ]
     }
 
     this.addStat = this.addStat.bind( this )
@@ -43,10 +47,12 @@ class ListsForm extends Component {
     this.handleCloseTag = this.handleCloseTag.bind( this )
     this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
     this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this ) 
+    this.handlePeriodicityChange = this.handlePeriodicityChange.bind( this )
     this.handleRecurrent = this.handleRecurrent.bind( this )
     this.showEmailInput = this.showEmailInput.bind( this )
     this.saveInputRef = this.saveInputRef.bind( this )
     this.getStatsList = this.getStatsList.bind( this )
+    this.getRangeCalendar = this.getRangeCalendar.bind( this )
     this.submitList = this.submitList.bind( this )
     this.resetFields = this.resetFields.bind( this )
   }
@@ -68,6 +74,8 @@ class ListsForm extends Component {
 
     validateFields( fields, {}, (err, values) => {
       if ( !err ) {
+        console.log(values);
+        
         const { statDate } = values
         const fisrtDate = statDate[0].format().split('T')
         const secondDate = statDate[1].format().split('T')
@@ -210,6 +218,65 @@ class ListsForm extends Component {
     ]
   }
 
+  getRangeCalendar() {
+    const { periodicity, rangePickerMode } = this.state
+
+    if ( periodicity === "everyWeek" ) {
+      return(
+        <div>
+          <FormItem
+            label="Inicio"
+          >
+            <WeekPicker />
+          </FormItem>
+
+          <FormItem
+            label="Fin"
+          >
+            <WeekPicker />
+          </FormItem>
+        </div>   
+      )
+    } else {
+      return(
+        <FormItem
+          label="Rango de fechas:"
+        >
+          <RangePicker 
+            placeholder={['Fecha de Inicio', 'Fecha de Fin']} 
+            mode={rangePickerMode}
+          />
+        </FormItem>
+      )
+
+    }
+  }
+
+  handlePeriodicityChange( value ) {
+    console.log(value);
+    let mode = []
+
+    switch ( value ) {
+      case 'everyDay':
+        mode = ['date', 'date']
+        break;
+
+      case 'everyMonth':
+        mode = ['month', 'month']
+        break;
+    
+      default:
+        mode = ['date', 'date']
+        break;
+    }
+
+    this.setState( {
+      periodicity: value,
+      rangePickerMode:mode
+    } )
+
+  }
+
   submitList() {
     const { emails, stats } = this.state
     const {confirm} = this.props
@@ -248,6 +315,8 @@ class ListsForm extends Component {
   render() {
     const { close, visible, type } = this.props
     const { getFieldDecorator } = this.props.form
+    const {isRecurrent, rangePickerMode} = this.state
+    const periodicityStyle = isRecurrent ? { display: 'inline-flex' } :  { display: 'none' }
     const title = type === 'add' ? 'Crear nueva lista' : 'Editar lista'
 
     return(
@@ -268,6 +337,42 @@ class ListsForm extends Component {
                <Input placeholder="" style={ {width: 500} } />
             ) }
           </FormItem>
+
+          <div className="periodicity-section" style={ {display: 'flex', flexDirection: 'column'} }>
+            <FormItem
+              label="Activar envio recurrente"  
+            >
+              <Switch onChange={this.handleRecurrent} />
+            </FormItem>
+
+            <div style={periodicityStyle}>
+              <FormItem
+                label="Hora de envio:"
+              >
+                {
+                  getFieldDecorator( 'shippingTime' )(
+                    <TimePicker format="HH:mm" />
+                  )
+                }
+              </FormItem>
+
+              <FormItem
+                label="Enviar cada:"
+              >
+                {
+                  getFieldDecorator( 'periodicity' )(
+                    <Select style={{ width: 180 }} onChange={this.handlePeriodicityChange}>
+                      <Option key="everyDay" value="everyDay">Cada día</Option>
+                      <Option key="everyWeek" value="everyWeek">Cada semana</Option>
+                      <Option key="everyMonth" value="everyMonth">Cada mes</Option>
+                    </Select>
+                  )
+                }
+              </FormItem>
+
+              { this.getRangeCalendar() }
+            </div>
+          </div>
 
           <Divider orientation="left">Emails</Divider>
           {this.getEmailsSection()}
@@ -319,11 +424,7 @@ class ListsForm extends Component {
               ) }
             </FormItem>
 
-            <FormItem
-              label="Envio recurrente"
-            >
-              <Switch onChange={this.handleRecurrent} />
-            </FormItem>
+            
             
             <FormItem>
               <Button icon="line-chart" onClick={this.addStat}>Añadir Estadistica</Button>
