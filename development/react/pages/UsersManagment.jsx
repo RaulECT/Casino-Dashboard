@@ -154,8 +154,8 @@ class UsersManagment extends Component {
           />
 
           <PageHeader
-            path = { ['Administración de usuarios'] }
-            title = "Administración de usuarios"
+            path = { ['Administración de empleados'] }
+            title = "Administración de empleados"
           />
 
           <div className="dashboard-content">

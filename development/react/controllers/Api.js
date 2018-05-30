@@ -369,6 +369,17 @@ class Api {
     } )
   }
 
+  editUser( userInfo ) {
+    userInfo.appId = this.appID
+
+    return axios.post( `${this.apiURL}/admin/edit_user`, userInfo, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
 }
 
 module.exports = Api

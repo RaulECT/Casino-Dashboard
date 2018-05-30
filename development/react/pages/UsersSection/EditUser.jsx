@@ -1,6 +1,5 @@
 import React, {Component} from 'react' 
 import moment from 'moment'
-import Api from '../../controllers/Api'
 import {
   Form,
   Modal,
@@ -13,16 +12,17 @@ import {
   Button,
   Icon,
   Popconfirm,
+  notification,
   Radio
 } from 'antd'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+import leftHandImage from '../images/left.png'
+import rightHandImage from '../images/right.png'
 
 const FormItem = Form.Item
 const Option = Select.Option
 const RadioGroup = Radio.Group
-
-import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
-import leftHandImage from '../images/left.png'
-import rightHandImage from '../images/right.png'
 
 class EditUser extends Component {
   
@@ -31,19 +31,12 @@ class EditUser extends Component {
     
     this.roles = []
     this.api = new Api()
-    this.dateFormat = "DD/MM/YYYY"  
+    this.errorManagment = new ErrorManagment()
+    this.dateFormat = "YYYY/MM/DD"  
     
-    this.state = {
-      hand: { left:{}, right: {} },
-      fingerSelcted: { hand:'', index: -1 },
-      reading: false
-    }
-
-    this.test = new FingerprintSDKTest()
-    
-    this.checkFinger = this.checkFinger.bind( this )
-    this.getCheckIcon = this.getCheckIcon.bind( this )
-    this.readFinger = this.readFinger.bind( this )
+    this.editUser = this.editUser.bind(this)
+    this.formatValues = this.formatValues.bind( this )
+    this.getModalFooter = this.getModalFooter.bind( this )
     this.setUserValues = this.setUserValues.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
 
@@ -54,78 +47,71 @@ class EditUser extends Component {
     this.setUserValues()
   }
 
-  checkFinger() {
-    const { hand, fingerSelcted } = this.state
-    const handUpdated = hand
-    const data = this.test.getData()
-
-    console.log(data);
-    
-    if ( data.success ) {
-      this.test.stopCapture()
-      console.log(data)
-      handUpdated[fingerSelcted.hand][fingerSelcted.index] = data.samples
-
-      this.setState( {
-        fingerSelcted,
-        hand: handUpdated,
-        reading: false
-      } )
-    }
+  editUser() {
+    this.props.form.validateFields( ( err, values ) => {
+      if ( !err ) {
+        const valuesFormated = this.formatValues( values )
+        console.log(valuesFormated);
+        
+        this.api.editUser( valuesFormated )
+          .then( response => {
+            console.log(response);
+            if ( response.status === 200 ) {
+              this.openNotification( 'success', 'Operación exitosa', 'Se ha editado con éxito al empleado.' )
+            } else {
+              this.errorManagment.resolveError(response.data)
+            }
+          } )
+          .catch( err => {
+            console.log(err);
+            
+          } )
+      }
+    } )
   }
 
   formatDate( date ) {
     const fullDate = date.split('T')[0]
     const dateParts = fullDate.split('-')
 
-    return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
+    return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`
   }
 
-  formatFingersData( fingerData ) {
-    let dataFormated = { RINDEX: [], LINDEX:[] }
-    const left = fingerData.left
-    const right = fingerData.right
 
-    for (var key in left) {
-      if (left.hasOwnProperty(key)) {
-          dataFormated.LINDEX.push( left[key] )
-      }
+  formatValues( values ) {
+    const { birthday, email, firstName, genere, name, password, role, secondName, userName } = values
+    const birthdayString = this.formatDate( birthday.format() )
+
+    const valuesFormated = {
+      username: userName,
+      userId: this.props.user.userId,
+      names: name,
+      firstSurname: firstName,
+      secondSurname: secondName,
+      email: email,
+      password: password,
+      roleId: role,
+      gender: genere,
+      birthday: birthdayString
     }
 
-    for (var key in right) {
-      if (right.hasOwnProperty(key)) {
-          dataFormated.RINDEX.push( right[key] )
-      }
-    }
-
-    console.log( dataFormated )
+    return valuesFormated
   }
 
-  getCheckIcon( handSelected, index ) {
-    const { hand } = this.state
-    const isFingerRead = typeof hand[handSelected][index] !== 'undefined'
-    let icon = null
-
-    isFingerRead ? icon = ( <Icon type="check-circle" /> ) : icon = ''
-    return icon
+  getModalFooter() {
+    return [
+      <Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar</Button>,
+      <Popconfirm key="1" title="¿Desea editar este usuario?" onConfirm={ () => { this.editUser() }  }>
+        <Button type="primary">Editar usuario</Button>
+      </Popconfirm>
+    ]
   }
 
-  readFinger( handSelected, index ) {
-    const { hand } = this.state
-    
-    this.setState( {
-      hand,
-      fingerSelcted: { hand:handSelected, index: index },
-      reading: true
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
     } )
-
-    this.test.startCapture( res => {
-      console.log(res)
-    
-      if (res.success) {
-        setTimeout( this.checkFinger, 1000 )
-      }
-    } ) 
   }
 
   setUserValues() {
@@ -134,14 +120,14 @@ class EditUser extends Component {
     const date =  this.formatDate( birthday )
 
     setFieldsValue( {
-      nameEdit: names,
-      firstNameEdit: firstSurname,
-      secondNameEdit: secondSurname,
-      userNameEdit: username,
-      emailEdit: email,
-      birthdayEdit: moment(date, this.dateFormat),
-      genereEdit: gender,
-      roleEdit: roleId
+      name: names,
+      firstName: firstSurname,
+      secondName: secondSurname,
+      userName: username,
+      email: email,
+      birthday: moment(date, this.dateFormat),
+      genere: gender,
+      role: roleId
     } )
   }
 
@@ -163,9 +149,11 @@ class EditUser extends Component {
         title="Editar usuario"
         visible={visible}
         width={800}
+        style={{ top: 20 }}
         onCancel={close}
         okText="Editar usuario"
         onOk={ ()=>{} }
+        footer={ this.getModalFooter() }
       >
         <Form layout="inline">
           <Divider orientation="left">Información General</Divider>
@@ -175,7 +163,7 @@ class EditUser extends Component {
             className="edit-user-form"
             style={ {width: '70%'} }
           >
-            {getFieldDecorator( 'nameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            {getFieldDecorator( 'name', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input 
                 placeholder="Ej. Juan Perez" 
               />
@@ -186,7 +174,7 @@ class EditUser extends Component {
             label="Apellido Paterno:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'firstNameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            {getFieldDecorator( 'firstName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input 
                 placeholder="Ej. Gonzales" 
               />
@@ -197,7 +185,7 @@ class EditUser extends Component {
             label="Apellido Materno:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'secondNameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            {getFieldDecorator( 'secondName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input 
                 placeholder="Ej. Gomez" 
               />
@@ -208,7 +196,7 @@ class EditUser extends Component {
             label="Nombre de usuario:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'userNameEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            {getFieldDecorator( 'userName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input />
             )}
           </FormItem>
@@ -217,7 +205,7 @@ class EditUser extends Component {
             label="E-mail:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'emailEdit', { rules: [ { type: 'email', message: 'No es un E-mail correcto!' }, {required: true, message: 'Ingrese un valor!'} ] } )(
+            {getFieldDecorator( 'email', { rules: [ { type: 'email', message: 'No es un E-mail correcto!' }, {required: true, message: 'Ingrese un valor!'} ] } )(
                <Input placeholder="correo@correo.com" />
             )}
           </FormItem>
@@ -226,7 +214,7 @@ class EditUser extends Component {
             label="Contraseña:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'passwordEdit', { rules: [ {required: true, message: 'Ingrese un Valor!'} ]} )(
+            {getFieldDecorator( 'password', { rules: [ {required: true, message: 'Ingrese un Valor!'} ]} )(
               <Input/>
             )}
           </FormItem>
@@ -235,7 +223,7 @@ class EditUser extends Component {
             label="Repetir Contraseña:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'confirmPasswordEdit', { rules: [ {required: true, message: 'Ingrese un Valor!'} ] } )(
+            {getFieldDecorator( 'confirmPassword', { rules: [ {required: true, message: 'Ingrese un Valor!'} ] } )(
               <Input />
             )}
    
@@ -245,8 +233,8 @@ class EditUser extends Component {
             label="Fecha Nacimiento:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'birthdayEdit', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <DatePicker placeholder="dd/mm/yyyy" format={this.dateFormat} />
+            {getFieldDecorator( 'birthday', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+              <DatePicker placeholder="yyyy/mm/dd" format={this.dateFormat} />
             )}
           </FormItem>
 
@@ -254,7 +242,7 @@ class EditUser extends Component {
             label="Rol:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'roleEdit', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
+            {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
               <Select style={{ width: 120 }}>
                 { this.roles.map( element => { return element } ) }
               </Select>
@@ -265,69 +253,15 @@ class EditUser extends Component {
             label="Genero"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'genereEdit', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
+            {getFieldDecorator( 'genere', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
               <RadioGroup>
-                <Radio value={'H'}>Masculino</Radio>
-                <Radio value={'M'}>Femenino</Radio>
+                <Radio value={'M'}>Masculino</Radio>
+                <Radio value={'F'}>Femenino</Radio>
               </RadioGroup>
             )}
           </FormItem>
         </Form>
 
-        <Divider orientation="left">Escaneo de Huellas</Divider>
-        <Row>
-          <Col span={12}> <img className="hand-image" src={leftHandImage} alt=""/> </Col>
-
-          <Col span={12}> <img className="hand-image" src={rightHandImage} alt=""/> </Col>
-
-          <Col span={12}>
-            <p>{`Huellas escaneadas del dedo indice izquiedo: ${leftHandFingersScanned} de 4`}</p> 
-          </Col>
-          
-          <Col span={12}> 
-           <p>{`Huellas escaneadas del dedo indice derecho: ${rightHandFingersScanned} de 4`}</p> 
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 1) } } >Escanear 1era huella</Button>
-            {this.getCheckIcon( 'left', 1 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 1) } }>Escanear 1era huella</Button>
-            {this.getCheckIcon( 'right', 1 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 2) } }>Escanear 2da huella</Button>
-            {this.getCheckIcon( 'left', 2 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 2) } }>Escanear 2da huella</Button>
-            {this.getCheckIcon( 'right', 2 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 3) } }>Escanear 3era huella</Button>
-            {this.getCheckIcon( 'left', 3 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 3) } }>Escanear 3era huella</Button>
-            {this.getCheckIcon( 'right', 3 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('left', 4) } }>Escanear 4ta huella</Button>
-            {this.getCheckIcon( 'left', 4 )}
-          </Col>
-
-          <Col span={12}> 
-            <Button disabled={reading} onClick={ () => { this.readFinger('right', 4) } }>Escanear 4ta huella</Button>
-            {this.getCheckIcon( 'right', 4 )}
-          </Col>
-        </Row>
       </Modal>
     )
   }

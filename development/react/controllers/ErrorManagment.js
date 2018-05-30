@@ -10,6 +10,7 @@ class ErrorManagment {
     this.handleAditionalProperties = this.handleAditionalProperties.bind( this )
     this.handleInvalidToken = this.handleInvalidToken.bind( this )
     this.handleErrorPattern= this.handleErrorPattern.bind( this )
+    this.handleFormatError = this.handleFormatError.bind( this )
     this.handleRequestFaildes = this.handleRequestFaildes.bind( this )
     this.openErrorNotification = this.openErrorNotification.bind( this )
 
@@ -18,7 +19,8 @@ class ErrorManagment {
       "TokenNotProvided": this.handleInvalidToken,
       "Request failed with status code 401": this.handleRequestFaildes,
       "additionalProperties": this.handleAditionalProperties,
-      "pattern": this.handleErrorPattern
+      "pattern": this.handleErrorPattern,
+      "format": this.handleFormatError
     }
   }
 
@@ -49,6 +51,10 @@ class ErrorManagment {
 
   handleErrorPattern() {
     this.openErrorNotification( 'Error en el formato', 'Verifique que el formato de los valores sea el correcto.' )
+  }
+
+  handleFormatError() {
+    this.openErrorNotification( 'Error en el formato de los datos', 'Verique que todos los campos cumplan en el formato establecido.' )
   }
 
   openErrorNotification( title, description ) {

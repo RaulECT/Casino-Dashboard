@@ -78,7 +78,7 @@ class AddUser extends Component {
           .then( response => {
             console.log(response);
             if ( response.status === 200 ) {
-              
+              this.openNotification( 'success', 'Operación exitosa', 'Se ha creado con éxito al nuevo empleado.' )
             } else {
               
             }
@@ -147,8 +147,6 @@ class AddUser extends Component {
     const lIndex = [] 
     const rIndex = []
     const birthdayString = this.formatDate( birthday.format() )
-    console.log(birthday.format());
-    console.log(hand.left);
 
     for (var key in hand.left) {
       if (hand.left.hasOwnProperty(key)) {
@@ -226,6 +224,13 @@ class AddUser extends Component {
       message: 'Error en el lector de huellas',
       description: 'Verifique que se tiene conetado el lector de huellas.'
     })
+  }
+
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
   }
 
   loadRoles() {
