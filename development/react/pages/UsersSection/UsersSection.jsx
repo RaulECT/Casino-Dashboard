@@ -4,6 +4,7 @@ import {
   Input,
   Icon,
   Button,
+  notification,
   Modal
 } from 'antd'
 import Api from '../../controllers/Api'
@@ -71,7 +72,10 @@ class UsersSection extends Component {
   deleteSingleUser( userId ) {
     this.api.deleteUser( userId )
       .then( response => {
+        console.log(response);
+        
         if ( response.status === 200 ) {
+          this.openNotification( 'success', 'Operación exitosa', 'Se ha desactivado con éxito al usuario.' )
           const { searchValue } = this.state
           this.searchUserByName( searchValue )
         } else {
@@ -137,6 +141,13 @@ class UsersSection extends Component {
       loading,
       searchValue,
       roles
+    } )
+  }
+
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
     } )
   }
 
