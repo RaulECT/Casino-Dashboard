@@ -29,6 +29,10 @@ class EditUser extends Component {
   constructor( props ) {
     super( props )
     
+    this.state = {
+      fields: {}
+    }
+
     this.roles = []
     this.api = new Api()
     this.errorManagment = new ErrorManagment()
@@ -37,6 +41,7 @@ class EditUser extends Component {
     this.editUser = this.editUser.bind(this)
     this.formatValues = this.formatValues.bind( this )
     this.getModalFooter = this.getModalFooter.bind( this )
+    this.handleInputChange = this.handleInputChange.bind( this )
     this.setUserValues = this.setUserValues.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
 
@@ -58,6 +63,7 @@ class EditUser extends Component {
             console.log(response);
             if ( response.status === 200 ) {
               this.openNotification( 'success', 'Operación exitosa', 'Se ha editado con éxito al empleado.' )
+              this.props.close()
             } else {
               this.errorManagment.resolveError(response.data)
             }
@@ -79,20 +85,23 @@ class EditUser extends Component {
 
 
   formatValues( values ) {
-    const { birthday, email, firstName, genere, name, password, role, secondName, userName } = values
+    const { birthday, role, } = values
+    const { fields } = this.state
+    const { user } = this.props
     const birthdayString = this.formatDate( birthday.format() )
-
     const valuesFormated = {
-      username: userName,
       userId: this.props.user.userId,
-      names: name,
-      firstSurname: firstName,
-      secondSurname: secondName,
-      email: email,
-      password: password,
-      roleId: role,
-      gender: genere,
-      birthday: birthdayString
+      birthday: birthdayString,
+      roleId: role
+    }
+
+    for (const key in fields) {
+      if (fields.hasOwnProperty(key) && key !== "" ) {
+        if ( fields[key] !== user[key] ) {
+          valuesFormated[key] = fields[key]
+        }
+        
+      }
     }
 
     return valuesFormated
@@ -140,6 +149,13 @@ class EditUser extends Component {
     } )
   }
 
+  handleInputChange( e ) {
+    let { fields } = this.state
+
+    fields[ e.target.name ] = e.target.value
+    this.setState( {fields} )
+  }
+
   render() {
     const { visible, close } = this.props
     const { getFieldDecorator } = this.props.form
@@ -165,7 +181,9 @@ class EditUser extends Component {
           >
             {getFieldDecorator( 'name', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input 
-                placeholder="Ej. Juan Perez" 
+                name="names"
+                placeholder="Ej. Juan Perez"
+                onChange={this.handleInputChange} 
               />
             )}
           </FormItem>
@@ -176,7 +194,9 @@ class EditUser extends Component {
           >
             {getFieldDecorator( 'firstName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input 
-                placeholder="Ej. Gonzales" 
+                name="firstSurname"
+                placeholder="Ej. Gonzales"
+                onChange={this.handleInputChange}  
               />
             )}
           </FormItem>
@@ -187,7 +207,9 @@ class EditUser extends Component {
           >
             {getFieldDecorator( 'secondName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
               <Input 
+                name="secondSurname"
                 placeholder="Ej. Gomez" 
+                onChange={this.handleInputChange} 
               />
             )}
           </FormItem>
@@ -197,7 +219,10 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'userName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input />
+              <Input 
+                onChange={this.handleInputChange}  
+                name="username"
+              />
             )}
           </FormItem>
 
@@ -206,7 +231,12 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'email', { rules: [ { type: 'email', message: 'No es un E-mail correcto!' }, {required: true, message: 'Ingrese un valor!'} ] } )(
-               <Input placeholder="correo@correo.com" />
+               <Input 
+                placeholder="correo@correo.com" 
+                onChange={this.handleInputChange}  
+                name="email"
+              />
+               
             )}
           </FormItem>
 
@@ -214,8 +244,11 @@ class EditUser extends Component {
             label="Contraseña:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'password', { rules: [ {required: true, message: 'Ingrese un Valor!'} ]} )(
-              <Input/>
+            {getFieldDecorator( 'password', { rules: [ {required: false, message: 'Ingrese un Valor!'} ]} )(
+              <Input 
+                onChange={this.handleInputChange} 
+                name="password"
+              />
             )}
           </FormItem>
 
@@ -223,8 +256,8 @@ class EditUser extends Component {
             label="Repetir Contraseña:"
             className="edit-user-form"
           >
-            {getFieldDecorator( 'confirmPassword', { rules: [ {required: true, message: 'Ingrese un Valor!'} ] } )(
-              <Input />
+            {getFieldDecorator( 'confirmPassword', { rules: [ {required: false, message: 'Ingrese un Valor!'} ] } )(
+              <Input onChange={this.handleInputChange}  />
             )}
    
           </FormItem>
@@ -234,7 +267,7 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'birthday', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <DatePicker placeholder="yyyy/mm/dd" format={this.dateFormat} />
+              <DatePicker  placeholder="yyyy/mm/dd" format={this.dateFormat} />
             )}
           </FormItem>
 
@@ -243,7 +276,7 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
-              <Select style={{ width: 120 }}>
+              <Select style={{ width: 120 }} >
                 { this.roles.map( element => { return element } ) }
               </Select>
             )}
@@ -254,7 +287,7 @@ class EditUser extends Component {
             className="edit-user-form"
           >
             {getFieldDecorator( 'genere', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
-              <RadioGroup>
+              <RadioGroup onChange={this.handleInputChange} name="gender" >
                 <Radio value={'M'}>Masculino</Radio>
                 <Radio value={'F'}>Femenino</Radio>
               </RadioGroup>
