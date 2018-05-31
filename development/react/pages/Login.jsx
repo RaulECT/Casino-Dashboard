@@ -4,11 +4,13 @@
  * @extends Component
  */
 import React, {Component} from 'react'
-import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
+import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification, Tabs } from 'antd'
 import Api from '../controllers/Api'
+import FingerLogin from './Login/FingerLogin.jsx'
 
 import './styles/login.css'
 
+const TabPane = Tabs.TabPane 
 const FormItem = Form.Item
 
 class Login extends Component {
@@ -129,35 +131,45 @@ class Login extends Component {
             <div className="form-section">
               <h1 className="login-title">Modulo de Administración</h1>
 
-              <Form
-                onSubmit={this.handleLoginSubmit}
-                className="login-form"
-              >
-                <FormItem>
-                  {getFieldDecorator('userName', {
-                    rules: [{ required: true, message: 'Ingrese su e-mail!' }],
-                  })(
-                    <Input disabled={isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
-                  )}
-                </FormItem>
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="Password" key="1">
+                  <Form
+                    onSubmit={this.handleLoginSubmit}
+                    className="login-form"
+                  >
+                    <FormItem>
+                      {getFieldDecorator('userName', {
+                        rules: [{ required: true, message: 'Ingrese su e-mail!' }],
+                      })(
+                        <Input disabled={isShowingSpin} size="large" prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
+                      )}
+                    </FormItem>
 
-                <FormItem>
-                  {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Ingrese su contraseña!' }],
-                  })(
-                    <Input disabled={isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
-                  )}
-                </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Ingrese su contraseña!' }],
+                      })(
+                        <Input disabled={isShowingSpin} size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
+                      )}
+                    </FormItem>
 
-                { errorMsg }
-                { loadinSpin }
+                    { errorMsg }
+                    { loadinSpin }
 
-                <FormItem>
-                  <Button disabled={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
-                    Iniciar Sesión
-                  </Button>
-                </FormItem>
-              </Form>
+                    <FormItem>
+                      <Button disabled={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
+                        Iniciar Sesión
+                      </Button>
+                    </FormItem>
+                  </Form>
+                </TabPane>
+                <TabPane tab="Huella" key="2">
+                  <FingerLogin
+                    push={this.props.history.push}
+                  />
+                </TabPane>
+              </Tabs>
+
             </div>
           </Col>
         </Row>

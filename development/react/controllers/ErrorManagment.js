@@ -12,6 +12,7 @@ class ErrorManagment {
     this.handleErrorPattern= this.handleErrorPattern.bind( this )
     this.handleFormatError = this.handleFormatError.bind( this )
     this.handleRequestFaildes = this.handleRequestFaildes.bind( this )
+    this.handleFingerprintNotFound = this.handleFingerprintNotFound.bind( this )
     this.openErrorNotification = this.openErrorNotification.bind( this )
 
     this.errorDictionary = {
@@ -20,7 +21,8 @@ class ErrorManagment {
       "Request failed with status code 401": this.handleRequestFaildes,
       "additionalProperties": this.handleAditionalProperties,
       "pattern": this.handleErrorPattern,
-      "format": this.handleFormatError
+      "format": this.handleFormatError,
+      "FingerprintNotFound": this.handleFingerprintNotFound
     }
   }
 
@@ -55,6 +57,10 @@ class ErrorManagment {
 
   handleFormatError() {
     this.openErrorNotification( 'Error en el formato de los datos', 'Verique que todos los campos cumplan en el formato establecido.' )
+  }
+
+  handleFingerprintNotFound() {
+    this.openErrorNotification( 'No se encotro ningun usuario con esa huella.' )
   }
 
   openErrorNotification( title, description ) {

@@ -251,6 +251,19 @@ class Api {
     } )
   }
 
+  fingerprintLogin( fingerprint ) {
+    return axios.post( `${this.apiURL}/fingerprint_login`, {
+      fingerprint,
+      appType: this.appType,
+      appId: this.appID,
+      deviceId: this.deviceID
+    }, {
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
   getProms() {
     return axios.post( `${this.apiURL}/admin/get_promos`,{}, {
       headers: { token: this.token },
