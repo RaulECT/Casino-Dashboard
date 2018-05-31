@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import EmailListForm from './EmailListForm.jsx'
+import Api from '../../controllers/Api'
 import {
   Card,
   Collapse,
@@ -33,7 +34,10 @@ class ListsForm extends Component {
     super( props )
 
     this.input = null
+    this.api = new Api()
     this.state = {
+      currentStep: 0,
+      listId: '',
       emails: [],
       emailInputVisible: false,
       emailInputValue: '',
@@ -45,13 +49,14 @@ class ListsForm extends Component {
       range: {}
     }
 
-    this.addStat = this.addStat.bind( this )
+    this.creatEmaiList = this.creatEmaiList.bind( this )
+    this.getStepSection = this.getStepSection.bind( this )
+    this.nextStep = this.nextStep.bind( this )
+
+    /*this.addStat = this.addStat.bind( this )
     this.cleanStatsFields = this.cleanStatsFields.bind( this )
     this.deleteStat = this.deleteStat.bind( this )
-    this.handleCloseTag = this.handleCloseTag.bind( this )
     this.handleDateChange = this.handleDateChange.bind( this )
-    this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
-    this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this ) 
     this.handleHourChange = this.handleHourChange.bind( this )
     this.handlePeriodicityChange = this.handlePeriodicityChange.bind( this )
     this.handleRecurrent = this.handleRecurrent.bind( this )
@@ -64,7 +69,7 @@ class ListsForm extends Component {
     this.getStatsList = this.getStatsList.bind( this )
     this.getRangeCalendar = this.getRangeCalendar.bind( this )
     this.submitList = this.submitList.bind( this )
-    this.resetFields = this.resetFields.bind( this )
+    this.resetFields = this.resetFields.bind( this )*/
   }
 
   componentDidMount() {
@@ -75,6 +80,53 @@ class ListsForm extends Component {
       this.props.form.setFieldsValue( {subject} )
       this.setState( { emails, stats } )
     }
+  }
+
+  creatEmaiList( emailList ) {
+    console.log(emailList);
+    this.nextStep()
+
+    return false
+    this.api.creatEmaiList( emailList )
+      .then( response => {
+        console.log( response );
+        
+        if ( response.status === 200 ) {
+          
+        }
+      } )
+      .catch( err => {
+        console.log( err );
+        
+      } )
+  }
+
+  getStepSection() {
+    const { currentStep } = this.state
+    let section = null
+
+    switch ( currentStep ) {
+      case 0:
+        section = (
+          <EmailListForm
+            type="add"
+            onSubmitList={this.creatEmaiList}
+          />)
+        break;
+    
+      default:
+        section = ( <div></div> )
+        break;
+    }
+
+    return section
+  }
+
+  nextStep() {
+    let {currentStep} = this.state
+    currentStep++
+
+    this.setState( { currentStep } )
   }
 
   addStat() {
@@ -115,15 +167,6 @@ class ListsForm extends Component {
     this.setState( {stats} )
   }
 
-  handleCloseTag( removedEmail ) {
-    const emails = this.state.emails.filter( email => email !== removedEmail )
-    this.setState( {emails} )
-  }
-
-  handelEmailInputChange( e ) {
-    this.setState( { emailInputValue: e.target.value } )
-  }
-
   handleRecurrent( value ) {
     this.setState( {isRecurrent: value} )
   }
@@ -156,73 +199,6 @@ class ListsForm extends Component {
     this.setState( { range } )
   }
 
-  handleEmailInputConfirm() {
-    const state = this.state
-    const inputValue = state.emailInputValue
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    let emails = state.emails
-
-    if ( inputValue && emails.indexOf( inputValue ) === -1 && re.test( inputValue ) ) {
-      emails = emails.concat( inputValue )
-    } else {
-      message.error( 'Correo repetido o no cumple con el formato de un correo electronico.', 5 )
-    }
-
-    this.setState( {
-      emails,
-      emailInputVisible: false,
-      emailInputValue: ''
-    } )
-    
-  }
-
-  showEmailInput() {
-    this.setState( { emailInputVisible: true } )
-  }
-
-  saveInputRef(input) {
-    this.input = input
-  }
-
-  getEmailsSection() {
-    const { emails, emailInputValue, emailInputVisible } = this.state
-
-    return (
-      <div>
-        { emails.map( (email, index) => {
-          const tagElement = (
-            <Tag key={email} closable afterClose={ () => { this.handleCloseTag( email ) } }>
-              {email}
-            </Tag>
-          )
-
-          return <Tooltip title={email} key={email}>{tagElement}</Tooltip>
-        } )}
-
-        { emailInputVisible && (
-          <Input 
-            ref={ (input) => { this.input = input } }
-            type="text"
-            size="small"
-            style={ {width: 85} }
-            value={emailInputValue}
-            onChange={this.handelEmailInputChange}
-            onBlur={this.handleEmailInputConfirm}
-            onPressEnter={this.handleEmailInputConfirm}
-          />
-        ) }
-        { !emailInputVisible && (
-          <Tag
-            onClick={this.showEmailInput}
-            style={{ background: '#fff', borderStyle: 'dashed' }}
-          >
-            <Icon type="plus" /> Agregar Email
-          </Tag>
-        )
-        }
-      </div>
-    )
-  }
 
   getStatsList() {
 
@@ -360,9 +336,10 @@ class ListsForm extends Component {
   render() {
     const { close, visible, type } = this.props
     const { getFieldDecorator } = this.props.form
-    const {isRecurrent, rangePickerMode} = this.state
+    const {isRecurrent, rangePickerMode, currentStep} = this.state
     const periodicityStyle = isRecurrent ? { display: 'inline-flex' } :  { display: 'none' }
     const title = type === 'add' ? 'Crear nueva lista' : 'Editar lista'
+    const section = this.getStepSection()
 
     return(
       <Modal
@@ -373,14 +350,14 @@ class ListsForm extends Component {
         onCancel={close}
         footer={ this.getModalFooter() }
       >
-        <Steps current={0}>
+        <Steps current={currentStep}>
           <Step title="Crear Lista de Correo" description="" />
           <Step title="Configurar Lista de Correo" description="" />
           <Step title="Listo!" description="" />
         </Steps>
 
 
-        <EmailListForm />
+        {section}
 
 
 
