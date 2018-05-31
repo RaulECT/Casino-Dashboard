@@ -1,4 +1,5 @@
 import React,{Component} from 'react'
+import EmailListForm from './EmailListForm.jsx'
 import {
   Card,
   Collapse,
@@ -378,7 +379,14 @@ class ListsForm extends Component {
           <Step title="Listo!" description="" />
         </Steps>
 
-        <Form>
+
+        <EmailListForm />
+
+
+
+
+
+        {/*<Form>
           <FormItem
             label="Asunto del correo:"
             className="subject-field"
@@ -484,7 +492,7 @@ class ListsForm extends Component {
           
           { this.getStatsList() }
 
-        </Form>
+        </Form>*/}
 
       </Modal>
     )
