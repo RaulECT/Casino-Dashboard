@@ -13,6 +13,7 @@ import {
   Modal,
   Popconfirm,
   Select,
+  Steps,
   Switch,
   Tag,
   TimePicker,
@@ -20,6 +21,7 @@ import {
 } from 'antd'
 
 const { RangePicker, MonthPicker, WeekPicker } = DatePicker
+const { Step } = Steps
 const FormItem = Form.Item
 const Option = Select.Option
 const Panel = Collapse.Panel
@@ -370,6 +372,12 @@ class ListsForm extends Component {
         onCancel={close}
         footer={ this.getModalFooter() }
       >
+        <Steps current={0}>
+          <Step title="Crear Lista de Correo" description="" />
+          <Step title="Configurar Lista de Correo" description="" />
+          <Step title="Listo!" description="" />
+        </Steps>
+
         <Form>
           <FormItem
             label="Asunto del correo:"
