@@ -19,7 +19,7 @@ import {
   Tooltip
 } from 'antd'
 
-const { RangePicker, WeekPicker } = DatePicker
+const { RangePicker, MonthPicker, WeekPicker } = DatePicker
 const FormItem = Form.Item
 const Option = Select.Option
 const Panel = Collapse.Panel
@@ -38,17 +38,24 @@ class ListsForm extends Component {
       isRecurrent: false,
       hourSend: null,
       periodicity: '',
-      rangePickerMode: [ 'date', 'date' ]
+      rangePickerMode: [ 'month', 'month' ],
+      range: {}
     }
 
     this.addStat = this.addStat.bind( this )
     this.cleanStatsFields = this.cleanStatsFields.bind( this )
     this.deleteStat = this.deleteStat.bind( this )
     this.handleCloseTag = this.handleCloseTag.bind( this )
+    this.handleDateChange = this.handleDateChange.bind( this )
     this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
     this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this ) 
+    this.handleHourChange = this.handleHourChange.bind( this )
     this.handlePeriodicityChange = this.handlePeriodicityChange.bind( this )
     this.handleRecurrent = this.handleRecurrent.bind( this )
+    this.handleStartWeekChange = this.handleStartWeekChange.bind( this )
+    this.handleStartMonthChange = this.handleStartMonthChange.bind( this )
+    this.handleEndMonthChange = this.handleEndMonthChange.bind( this )
+    this.handleEndWeekChange = this.handleEndWeekChange.bind( this )
     this.showEmailInput = this.showEmailInput.bind( this )
     this.saveInputRef = this.saveInputRef.bind( this )
     this.getStatsList = this.getStatsList.bind( this )
@@ -116,6 +123,34 @@ class ListsForm extends Component {
 
   handleRecurrent( value ) {
     this.setState( {isRecurrent: value} )
+  }
+
+  handleStartWeekChange( date, dateString ) {
+    let { range } = this.state
+    range['start'] = dateString
+
+    this.setState( { range } )
+  }
+
+  handleEndWeekChange( date, dateString ) {
+    let { range } = this.state
+    range[ 'end' ] = dateString
+
+    this.setState( { range } )
+  }
+
+  handleStartMonthChange( date, dateString ) {
+    let { range } = this.state
+    range[ 'start' ] = dateString
+
+    this.setState( { range } )
+  }
+
+  handleEndMonthChange( date, dateString ) {
+    let { range } = this.state
+    range[ 'end' ] = dateString
+
+    this.setState( { range } )
   }
 
   handleEmailInputConfirm() {
@@ -223,17 +258,33 @@ class ListsForm extends Component {
 
     if ( periodicity === "everyWeek" ) {
       return(
-        <div>
+        <div style={{ display: 'flex' }}>
           <FormItem
             label="Inicio"
           >
-            <WeekPicker />
+            <WeekPicker onChange={ this.handleStartWeekChange } />
           </FormItem>
 
           <FormItem
             label="Fin"
           >
-            <WeekPicker />
+            <WeekPicker onChange={ this.handleEndWeekChange } />
+          </FormItem>
+        </div>   
+      )
+    } else if( periodicity === "everyMonth" ) {
+      return(
+        <div style={{ display: 'flex' }}>
+          <FormItem
+            label="Inicio"
+          >
+            <MonthPicker onChange={this.handleStartMonthChange} />
+          </FormItem>
+
+          <FormItem
+            label="Fin"
+          >
+            <MonthPicker onChange={this.handleEndMonthChange} />
           </FormItem>
         </div>   
       )
@@ -244,7 +295,7 @@ class ListsForm extends Component {
         >
           <RangePicker 
             placeholder={['Fecha de Inicio', 'Fecha de Fin']} 
-            mode={rangePickerMode}
+            onChange={this.handleDateChange}
           />
         </FormItem>
       )
@@ -252,29 +303,20 @@ class ListsForm extends Component {
     }
   }
 
+  handleDateChange( dates, datesString ) {
+    let { range } = this.state
+    range[ 'start' ] = datesString[0]
+    range[ 'end' ] = datesString[1]
+
+    this.setState( { range } )
+  }
+
   handlePeriodicityChange( value ) {
-    console.log(value);
-    let mode = []
+    this.setState( { periodicity: value, } )
+  }
 
-    switch ( value ) {
-      case 'everyDay':
-        mode = ['date', 'date']
-        break;
-
-      case 'everyMonth':
-        mode = ['month', 'month']
-        break;
-    
-      default:
-        mode = ['date', 'date']
-        break;
-    }
-
-    this.setState( {
-      periodicity: value,
-      rangePickerMode:mode
-    } )
-
+  handleHourChange( date, dateString ) {
+    this.setState( {hourSend: dateString} )
   }
 
   submitList() {
@@ -324,7 +366,7 @@ class ListsForm extends Component {
         title={title}
         visible={visible}
         style={{ top: 20 }}
-        width={900}
+        width={1000}
         onCancel={close}
         footer={ this.getModalFooter() }
       >
@@ -351,7 +393,7 @@ class ListsForm extends Component {
               >
                 {
                   getFieldDecorator( 'shippingTime' )(
-                    <TimePicker format="HH:mm" />
+                    <TimePicker format="HH:mm" onChange={ this.handleHourChange } />
                   )
                 }
               </FormItem>
