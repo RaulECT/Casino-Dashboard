@@ -23,6 +23,22 @@ class Api {
       
   }
 
+  getLogo() {
+    return new Promise( ( resolve, reject ) => {
+      this.getConfiguration()
+      .then( response => {
+        if ( response.data.success ) {
+          resolve( response.data.result.logo )
+        } else {
+          reject( { success: false, message: 'No se pudo completar la operación.' } )
+        }
+      } )
+      .catch( err => {
+        reject( err )
+      } )
+    } )
+  }
+
   getChips() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
