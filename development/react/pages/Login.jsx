@@ -25,7 +25,8 @@ class Login extends Component {
     this.state = {
       wrongCredentials: false,
       errorMessage: '',
-      isShowingSpin: false
+      isShowingSpin: false,
+      logo: ''
     }
 
     this.api = new Api()
@@ -38,6 +39,9 @@ class Login extends Component {
    * Función que se ejecuta antes de randerizar la vista
    */
   componentWillMount() {
+    this.api.getLogo()
+      .then( response => this.setState( {logo: response} ) )
+
     if ( localStorage.isLogin == 'true' ) {
       // TODO: Router redirectt to /dashboard
       this.props.history.push( '/dashboard/configuraciones_generales' )
@@ -112,7 +116,7 @@ class Login extends Component {
    */
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {wrongCredentials, errorMessage, isShowingSpin} = this.state
+    const {logo, wrongCredentials, errorMessage, isShowingSpin} = this.state
     const errorMsg = wrongCredentials ? <Alert style={ { textAlign: 'left' } } message={errorMessage} type="error" showIcon />: ''
     const loadinSpin = isShowingSpin ? 
       (<div className="loading-section">
@@ -129,7 +133,8 @@ class Login extends Component {
             xs={{span: 24, offset: 0}}
           >
             <div className="form-section">
-              <h1 className="login-title">Modulo de Administración</h1>
+              <img style={ { width: '100%' } } src={`data:image/png;base64, ${logo}`} alt="logo"/>
+              {/*<h1 className="login-title">Modulo de Administración</h1>*/}
 
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Password" key="1">
@@ -154,10 +159,9 @@ class Login extends Component {
                     </FormItem>
 
                     { errorMsg }
-                    { loadinSpin }
 
                     <FormItem>
-                      <Button disabled={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
+                      <Button loading={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
                         Iniciar Sesión
                       </Button>
                     </FormItem>

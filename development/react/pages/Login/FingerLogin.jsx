@@ -3,6 +3,7 @@ import {Button} from 'antd'
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
 import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
+import fingerImg from '../images/huella_big.png'
 
 class FingerLogin extends Component {
 
@@ -74,10 +75,14 @@ class FingerLogin extends Component {
 
   render() {
     const {reading} = this.state
-    const buttonText = reading ? 'Iniciando sesión...' : 'Leer huella para iniciar sesión.'
+    const buttonText = reading ? 'Iniciando sesión...' : 'Leer huella para iniciar sesión'
 
     return(
       <div>
+        <div>
+          <img className="finger-img" src={fingerImg} alt="finger"/>
+        </div>
+
         <Button disabled={reading} type="primary" loading={reading} onClick={this.readFinger}>{buttonText}</Button>
       </div>
     )
