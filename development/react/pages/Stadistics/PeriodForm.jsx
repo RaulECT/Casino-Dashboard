@@ -16,10 +16,6 @@ class PeriodForm extends Component {
     super( props )
 
     this.state = {
-      endDate: '',
-      period: '',
-      sendHour: '',
-      startDate: '',
       isActive: false,
     }
 
@@ -83,30 +79,41 @@ class PeriodForm extends Component {
   }
 
   handleDateChange( dates, datesStrings ) {
-    this.setState( { startDate: datesStrings[0], endDate: datesStrings[1] } )
+    const {onStartDateChange, onEndDateChange} = this.props
+
+    onStartDateChange( datesStrings[0] )
+    onEndDateChange( datesStrings[1] )
   }
 
   handleEndDateChange( date, dateString ) {
-    this.setState( { endDate: dateString } )
+    const {onEndDateChange} = this.props 
+
+    onEndDateChange( dateString )
   }
 
   handleHourChange( hour,hourString ) {
-    this.setState( { sendHour: hourString } )
+    const {onTimeChange} = this.props
+
+    onTimeChange( hourString )
   }
 
   handlePeriodChange( period ) {
-    this.setState( {period} )
+    const {onPeriodChange} = this.props
+
+    onPeriodChange( period )
   }
 
   handleStartDateChange( date, dateString ) {
-    
-    this.setState( { startDate: dateString } )
+    const { onStartDateChange } = this.props
+
+    onStartDateChange( dateString )
   }
 
   handleSwitchChange() {
     const {isActive} = this.state
+    const {onRecurrentChange} = this.props
 
-    this.setState( { isActive: !isActive } )
+    this.setState( { isActive: !isActive }, onRecurrentChange( !isActive ) )
   }
 
   render() {
