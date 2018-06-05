@@ -3,7 +3,7 @@ class FingerprintSDKTest {
     this.operationToRestart = null
     this.acquisitionStarted = false
     this.currentFormat = Fingerprint.SampleFormat.Compressed
-    this.deviceId = 'A7429977-B0D4-9640-9AF7-CC792A5989BD'
+    this.deviceId = '' //'A7429977-B0D4-9640-9AF7-CC792A5989BD'
     this.fingerData = {}
     this.sdk = new Fingerprint.WebApi
     this.errorManagment = errM
@@ -27,7 +27,8 @@ class FingerprintSDKTest {
     this.onDeviceDisconnected = this.onDeviceDisconnected.bind( this )
     this.onCommunicationFailed = this.onCommunicationFailed.bind( this )
 
-
+     this.getDeviceList()
+    
   }
 
   onDeviceConnected( e ) {
@@ -71,7 +72,15 @@ class FingerprintSDKTest {
 
 
   getDeviceList() {
-    return this.sdk.enumerateDevices()
+    this.sdk.enumerateDevices()
+      .then( response => {
+        console.log(response);
+        this.deviceId = response[0]
+      } )
+      .catch( err => {
+        console.log(err);
+        
+      } )
   }
 
 

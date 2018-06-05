@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import EmailListForm from './EmailListForm.jsx'
+import ConfigurationForm from './ConfigurationForm.jsx'
 import Api from '../../controllers/Api'
 import {
   Card,
@@ -36,7 +37,7 @@ class ListsForm extends Component {
     this.input = null
     this.api = new Api()
     this.state = {
-      currentStep: 0,
+      currentStep: 1,
       listId: '',
       emails: [],
       emailInputVisible: false,
@@ -115,7 +116,7 @@ class ListsForm extends Component {
         break;
     
       default:
-        section = ( <div></div> )
+        section = ( <ConfigurationForm /> )
         break;
     }
 
@@ -226,9 +227,7 @@ class ListsForm extends Component {
 
     return [
       <Button key="2" onClick={ ()=>{ close() } }>Cancelar</Button>,
-      <Popconfirm key="1" title={title} onConfirm={ ()=>{ this.submitList() } }>
-        <Button type="primary"> {okText} </Button>
-      </Popconfirm>
+
     ]
   }
 
