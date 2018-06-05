@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PeriodForm from './PeriodForm.jsx'
+import ChartForm from './CharForm.jsx'
 import {
   Divider,
   Form,
@@ -16,6 +17,8 @@ class ConfigurationForm extends Component {
         <PeriodForm />  
 
         <Divider orientation="left">Estadistica</Divider>
+
+        <ChartForm />
       </div>
     )
   }
