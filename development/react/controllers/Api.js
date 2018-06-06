@@ -418,6 +418,15 @@ class Api {
     } )
   }
 
+  configEmailList( emailConfig ) {
+    return axios.post( `${this.apiURL}/admin/new_email`, emailConfig, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
 }
 
 module.exports = Api

@@ -38,39 +38,14 @@ class ListsForm extends Component {
     this.api = new Api()
     this.state = {
       currentStep: 1,
-      listId: '',
-      emails: [],
-      emailInputVisible: false,
-      emailInputValue: '',
-      stats: [],
-      isRecurrent: false,
-      hourSend: null,
-      periodicity: '',
-      rangePickerMode: [ 'month', 'month' ],
-      range: {}
+      listId: null,
     }
 
+    this.configEmailList = this.configEmailList.bind( this )
     this.creatEmaiList = this.creatEmaiList.bind( this )
     this.getStepSection = this.getStepSection.bind( this )
     this.nextStep = this.nextStep.bind( this )
 
-    /*this.addStat = this.addStat.bind( this )
-    this.cleanStatsFields = this.cleanStatsFields.bind( this )
-    this.deleteStat = this.deleteStat.bind( this )
-    this.handleDateChange = this.handleDateChange.bind( this )
-    this.handleHourChange = this.handleHourChange.bind( this )
-    this.handlePeriodicityChange = this.handlePeriodicityChange.bind( this )
-    this.handleRecurrent = this.handleRecurrent.bind( this )
-    this.handleStartWeekChange = this.handleStartWeekChange.bind( this )
-    this.handleStartMonthChange = this.handleStartMonthChange.bind( this )
-    this.handleEndMonthChange = this.handleEndMonthChange.bind( this )
-    this.handleEndWeekChange = this.handleEndWeekChange.bind( this )
-    this.showEmailInput = this.showEmailInput.bind( this )
-    this.saveInputRef = this.saveInputRef.bind( this )
-    this.getStatsList = this.getStatsList.bind( this )
-    this.getRangeCalendar = this.getRangeCalendar.bind( this )
-    this.submitList = this.submitList.bind( this )
-    this.resetFields = this.resetFields.bind( this )*/
   }
 
   componentDidMount() {
@@ -84,7 +59,7 @@ class ListsForm extends Component {
   }
 
   creatEmaiList( emailList ) {
-    console.log(emailList);
+    
     this.nextStep()
 
     return false
@@ -93,13 +68,24 @@ class ListsForm extends Component {
         console.log( response );
         
         if ( response.status === 200 ) {
-          
+          const listId = response.result.items[0].id
+
+          this.setState({ listId }, this.nextStep())
         }
       } )
       .catch( err => {
         console.log( err );
         
       } )
+  }
+
+  configEmailList( configList ) {
+    const { listId } = this.state
+
+    configList['emailListId'] = listId
+
+    console.log( configList );
+    
   }
 
   getStepSection() {
@@ -116,7 +102,11 @@ class ListsForm extends Component {
         break;
     
       default:
-        section = ( <ConfigurationForm /> )
+        section = ( 
+          <ConfigurationForm 
+            onConfig={this.configEmailList}
+          /> 
+        )
         break;
     }
 
@@ -130,95 +120,6 @@ class ListsForm extends Component {
     this.setState( { currentStep } )
   }
 
-  addStat() {
-    const {validateFields} = this.props.form
-    const fields = ['statName', 'statType', 'statGraph', 'statDate']
-    let { stats } = this.state
-
-    validateFields( fields, {}, (err, values) => {
-      if ( !err ) {
-        console.log(values);
-        
-        const { statDate } = values
-        const fisrtDate = statDate[0].format().split('T')
-        const secondDate = statDate[1].format().split('T')
-
-        values['startDate'] = fisrtDate[0]
-        values['startTime'] = fisrtDate[1]
-        values['endDate'] = secondDate[0]
-        values['endTime'] = secondDate[1]
-
-        this.setState( { stats: stats.concat( values ) }, this.cleanStatsFields() )
-        
-      }
-    } )
-  }
-
-  cleanStatsFields() {
-    const { setFieldsValue } = this.props.form
-
-    setFieldsValue( {
-      statName: '',
-      statDate: ''
-    } )
-  }
-
-  deleteStat( statName ) {
-    const stats = this.state.stats.filter( stat => stat.statName !== statName )
-    this.setState( {stats} )
-  }
-
-  handleRecurrent( value ) {
-    this.setState( {isRecurrent: value} )
-  }
-
-  handleStartWeekChange( date, dateString ) {
-    let { range } = this.state
-    range['start'] = dateString
-
-    this.setState( { range } )
-  }
-
-  handleEndWeekChange( date, dateString ) {
-    let { range } = this.state
-    range[ 'end' ] = dateString
-
-    this.setState( { range } )
-  }
-
-  handleStartMonthChange( date, dateString ) {
-    let { range } = this.state
-    range[ 'start' ] = dateString
-
-    this.setState( { range } )
-  }
-
-  handleEndMonthChange( date, dateString ) {
-    let { range } = this.state
-    range[ 'end' ] = dateString
-
-    this.setState( { range } )
-  }
-
-
-  getStatsList() {
-
-    const { stats } = this.state
-
-    return(
-      <Collapse bordered={false}>
-        { stats.map( (item, index) => {
-          return(
-            <Panel header={`Estadistica: ${item.statName}`} key={index}>
-              {`Tipo de estadistica: ${item.statType}`}<br/>
-              {`Tipo de gráfica: ${item.statGraph}`}<br/>
-              <Button onClick={ () => { this.deleteStat( item.statName ) }  } style={ {marginTop: 10} } type="danger" icon="delete">Eliminar Estadistica</Button>
-            </Panel>
-          )
-        } ) }
-      </Collapse>
-    )
-  }
 
   getModalFooter() {
     const { close, confirm, type } = this.props
@@ -231,106 +132,6 @@ class ListsForm extends Component {
     ]
   }
 
-  getRangeCalendar() {
-    const { periodicity, rangePickerMode } = this.state
-
-    if ( periodicity === "everyWeek" ) {
-      return(
-        <div style={{ display: 'flex' }}>
-          <FormItem
-            label="Inicio"
-          >
-            <WeekPicker onChange={ this.handleStartWeekChange } />
-          </FormItem>
-
-          <FormItem
-            label="Fin"
-          >
-            <WeekPicker onChange={ this.handleEndWeekChange } />
-          </FormItem>
-        </div>   
-      )
-    } else if( periodicity === "everyMonth" ) {
-      return(
-        <div style={{ display: 'flex' }}>
-          <FormItem
-            label="Inicio"
-          >
-            <MonthPicker onChange={this.handleStartMonthChange} />
-          </FormItem>
-
-          <FormItem
-            label="Fin"
-          >
-            <MonthPicker onChange={this.handleEndMonthChange} />
-          </FormItem>
-        </div>   
-      )
-    } else {
-      return(
-        <FormItem
-          label="Rango de fechas:"
-        >
-          <RangePicker 
-            placeholder={['Fecha de Inicio', 'Fecha de Fin']} 
-            onChange={this.handleDateChange}
-          />
-        </FormItem>
-      )
-
-    }
-  }
-
-  handleDateChange( dates, datesString ) {
-    let { range } = this.state
-    range[ 'start' ] = datesString[0]
-    range[ 'end' ] = datesString[1]
-
-    this.setState( { range } )
-  }
-
-  handlePeriodicityChange( value ) {
-    this.setState( { periodicity: value, } )
-  }
-
-  handleHourChange( date, dateString ) {
-    this.setState( {hourSend: dateString} )
-  }
-
-  submitList() {
-    const { emails, stats } = this.state
-    const {confirm} = this.props
-    const { validateFields } = this.props.form
-
-    validateFields( ['subject'], {}, ( err, values ) => {
-      if ( !err && emails.length > 0 && stats.length > 0 ) {
-        confirm( emails, stats, values.subject )
-        this.resetFields()
-      } else {
-        message.error( 'No se han llenado todos los campos.', 5 )
-      }
-    } )
-    
-  }
-
-  resetFields() {
-    const { setFieldsValue } = this.props.form
-
-    setFieldsValue( {
-      subject: '',
-      statName: '',
-      statDate: '',
-      statType: '',
-      statGraph: ''
-    } )
-
-    this.setState( {
-      emails: [],
-      emailInputVisible: false,
-      emailInputValue: '',
-      stats: []
-    } )
-  }
 
   render() {
     const { close, visible, type } = this.props
@@ -358,117 +159,6 @@ class ListsForm extends Component {
 
         {section}
 
-
-
-
-
-        {/*<Form>
-          <FormItem
-            label="Asunto del correo:"
-            className="subject-field"
-          >
-            { getFieldDecorator( 'subject', { rules: [{required: true, message: 'Ingrese un valor!'}] } )(
-               <Input placeholder="" style={ {width: 500} } />
-            ) }
-          </FormItem>
-
-          <div className="periodicity-section" style={ {display: 'flex', flexDirection: 'column'} }>
-            <FormItem
-              label="Activar envio recurrente"  
-            >
-              <Switch onChange={this.handleRecurrent} />
-            </FormItem>
-
-            <div style={periodicityStyle}>
-              <FormItem
-                label="Hora de envio:"
-              >
-                {
-                  getFieldDecorator( 'shippingTime' )(
-                    <TimePicker format="HH:mm" onChange={ this.handleHourChange } />
-                  )
-                }
-              </FormItem>
-
-              <FormItem
-                label="Enviar cada:"
-              >
-                {
-                  getFieldDecorator( 'periodicity' )(
-                    <Select style={{ width: 180 }} onChange={this.handlePeriodicityChange}>
-                      <Option key="everyDay" value="everyDay">Cada día</Option>
-                      <Option key="everyWeek" value="everyWeek">Cada semana</Option>
-                      <Option key="everyMonth" value="everyMonth">Cada mes</Option>
-                    </Select>
-                  )
-                }
-              </FormItem>
-
-              { this.getRangeCalendar() }
-            </div>
-          </div>
-
-          <Divider orientation="left">Emails</Divider>
-          {this.getEmailsSection()}
-
-          <Divider orientation="left">Estadisticas</Divider>
-
-          <div className="stats-form">
-            <FormItem
-              label="Nombre:"
-            >
-              { getFieldDecorator( 'statName', { rules: [ {required: true, message: 'Ingrese un valor'} ] } )(
-                <Input placeholder="Nombre de la estadistica" style={{width: 200}}/>
-              ) }
-            </FormItem>
-
-            <FormItem
-              label="Tipo de estadistica:"
-            >
-              { getFieldDecorator( 'statType', { rules: [ {required: true, message: 'Seleccione un valor'} ] } )(
-                <Select style={{ width: 120 }} placeholder="Selecciones una estadistica">
-                  <Option value="opt-1">Opt-1</Option>
-                  <Option value="opt-2">Opt-2</Option>
-                  <Option value="opt-3">Opt-3</Option>
-                </Select>
-              ) }
-            </FormItem>
-
-            <FormItem
-              label="Tipo de gráfica:"
-            >
-              { getFieldDecorator( 'statGraph', { rules: [ {required: true, message: 'Seleccione un valor'} ] } )(
-                <Select style={{ width: 120 }} placeholder="Selecciones una gráfica">
-                  <Option value="opt-1">Opt-1</Option>
-                  <Option value="opt-2">Opt-2</Option>
-                  <Option value="opt-3">Opt-3</Option>
-                </Select>
-              ) }
-            </FormItem>
-
-            <FormItem
-              label="Rango de fechas:"
-            >
-              { getFieldDecorator( 'statDate', { rules: [ {required: true, message: 'Seleccione un valor'} ] } )(
-                <RangePicker
-                  showTime={{ format: 'HH:mm' }}
-                  format="YYYY-MM-DD HH:mm"
-                  placeholder={['Start Time', 'End Time']}
-                />
-              ) }
-            </FormItem>
-
-            
-            
-            <FormItem>
-              <Button icon="line-chart" onClick={this.addStat}>Añadir Estadistica</Button>
-            </FormItem>
-            
-          </div>
-          
-          { this.getStatsList() }
-
-        </Form>*/}
 
       </Modal>
     )

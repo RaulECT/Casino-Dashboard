@@ -49,6 +49,7 @@ class ConfigurationForm extends Component {
   }
 
   configEmailList() {
+    const {onConfig} = this.props
     const { charType, isRecurrent, reportType, startDate, endDate, period, subject, time } = this.state
     const areCorrectFields = this.validateFields()
     
@@ -69,6 +70,7 @@ class ConfigurationForm extends Component {
       }
 
       console.log( config );
+      onConfig( config )
       
     } else{
       this.showErrorMessage( 'Verifique que todos los campos esten llenos.' )
