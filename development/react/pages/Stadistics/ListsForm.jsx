@@ -38,8 +38,8 @@ class ListsForm extends Component {
     this.input = null
     this.api = new Api()
     this.state = {
-      currentStep: 2,
-      listId: null,
+      currentStep: 1,
+      listId: "d990c1f4-60e9-45cf-ad96-ffdc70914853",
     }
 
     this.configEmailList = this.configEmailList.bind( this )
@@ -61,15 +61,15 @@ class ListsForm extends Component {
 
   creatEmaiList( emailList ) {
     
-    this.nextStep()
+    //this.nextStep()
 
-    return false
-    this.api.creatEmaiList( emailList )
+    //return false
+    this.api.createEmailList( emailList )
       .then( response => {
         console.log( response );
         
         if ( response.status === 200 ) {
-          const listId = response.result.items[0].id
+          const listId = response.data.result.items[0].id
 
           this.setState({ listId }, this.nextStep())
         }
@@ -86,7 +86,18 @@ class ListsForm extends Component {
     configList['emailListId'] = listId
 
     console.log( configList );
-    
+    this.api.configEmailList( configList )
+      .then( response => {
+        console.log( response );
+        
+        if ( response.status === 200 ) {
+          this.nextStep()
+        }
+      } )
+      .catch( err => {
+        console.log( response );
+        
+      } )
   }
 
   getStepSection() {

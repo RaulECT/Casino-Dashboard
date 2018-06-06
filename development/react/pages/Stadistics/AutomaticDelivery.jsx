@@ -5,6 +5,7 @@ import {
 } from 'antd'
 import ListsForm from './ListsForm.jsx'
 import ListsTable from './ListsTable.jsx'
+import Api from '../../controllers/Api'
 
 const confirm = Modal.confirm
 
@@ -20,6 +21,8 @@ class AutomaticDelivery extends Component {
       listsToDelete: [],
       lists: []
     }
+
+    this.api = new Api()
 
     this.addListToDelete = this.addListToDelete.bind( this )
     this.createList = this.createList.bind( this )
@@ -61,6 +64,10 @@ class AutomaticDelivery extends Component {
     lists[idx] = newInfo
 
     this.setState( { lists } )
+  }
+
+  getEmailLists() {
+
   }
 
   handleCreateListModal() {

@@ -409,6 +409,18 @@ class Api {
     } )
   }
 
+  getEmailsList() {
+    return axios.post( `${this.apiURL}/admin/get_email_list`, {
+      pageNumber: 1,
+      pageSize: 10
+    }, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
   createEmailList( emailList ) {
     return axios.post( `${this.apiURL}/admin/create_email_list`, emailList, {
       headers: { token: this.token },

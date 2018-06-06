@@ -44,7 +44,7 @@ class ListsTable extends Component {
   }
 
   getColumns() {
-    return [ {
+    /*return [ {
       title: 'Asunto',
       key: 'subject',
       dataIndex: 'subject'
@@ -64,6 +64,20 @@ class ListsTable extends Component {
         const tags = this.createStatsTags( record.stats )
         return(tags)
       }
+    }, {
+      title: 'Operaciones',
+      key: 'operations',
+      render: ( text, record ) => {
+        return(
+          <a onClick={ ()=>{ this.selectElementToEdit( record ) } }>Editar</a>
+        )
+      }
+    } ] */
+
+    return [ {
+      title: 'Nombre',
+      key: 'name',
+      dataIndex: 'name'
     }, {
       title: 'Operaciones',
       key: 'operations',
