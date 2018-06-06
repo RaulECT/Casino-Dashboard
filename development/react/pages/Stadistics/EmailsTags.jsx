@@ -73,7 +73,7 @@ class EmailsTags extends Component {
             ref={ (input) => { this.input = input } }
             type="text"
             size="small"
-            style={ {width: 85} }
+            style={ {width: 220} }
             value={emailInputValue}
             onChange={this.handelEmailInputChange}
             onBlur={this.handleEmailInputConfirm}
