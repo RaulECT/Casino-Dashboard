@@ -4,6 +4,15 @@ import {
 } from 'antd'
 
 class FinishMessage extends Component {
+  componentDidMount() {
+    const { onClose, onReset } = this.props
+
+    setTimeout( () => {
+      onClose()
+      onReset()
+    }, 500 )
+  }
+
   render() {
     return(
       <div className="message-section">

@@ -154,6 +154,7 @@ class AutomaticDelivery extends Component {
           type="add"
           confirm={this.createList}
           close={this.handleCreateListModal}
+          updateLists={this.getEmailLists}
         />
       </div>
      

@@ -39,14 +39,14 @@ class ListsForm extends Component {
     this.api = new Api()
     this.state = {
       currentStep: 0,
-      listId: "d990c1f4-60e9-45cf-ad96-ffdc70914853",
+      listId: null,
     }
 
     this.configEmailList = this.configEmailList.bind( this )
     this.creatEmaiList = this.creatEmaiList.bind( this )
     this.getStepSection = this.getStepSection.bind( this )
     this.nextStep = this.nextStep.bind( this )
-
+    this.reset = this.reset.bind( this )
   }
 
   componentDidMount() {
@@ -82,6 +82,7 @@ class ListsForm extends Component {
 
   configEmailList( configList ) {
     const { listId } = this.state
+    const { updateLists } = this.props
 
     configList['emailListId'] = listId
 
@@ -91,6 +92,7 @@ class ListsForm extends Component {
         console.log( response );
         
         if ( response.status === 200 ) {
+          updateLists()
           this.nextStep()
         }
       } )
@@ -102,6 +104,7 @@ class ListsForm extends Component {
 
   getStepSection() {
     const { currentStep } = this.state
+    const { close } = this.props
     let section = null
 
     switch ( currentStep ) {
@@ -123,7 +126,10 @@ class ListsForm extends Component {
       
       case 2: 
         section = (
-          <FinishMessage />
+          <FinishMessage
+            onClose={close}
+            onReset={this.reset}
+          />
         )
         break;
 
@@ -156,6 +162,10 @@ class ListsForm extends Component {
       <Button key="2" onClick={ ()=>{ close() } }>Cancelar</Button>,
 
     ]
+  }
+
+  reset() {
+    this.setState( { currentStep: 0 } )
   }
 
 
