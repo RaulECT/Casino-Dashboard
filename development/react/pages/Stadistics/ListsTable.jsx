@@ -79,6 +79,10 @@ class ListsTable extends Component {
       key: 'name',
       dataIndex: 'name'
     }, {
+      title: 'Fecha de creación',
+      key: 'createdDate',
+      dataIndex: 'createdDate'
+    },{
       title: 'Operaciones',
       key: 'operations',
       render: ( text, record ) => {

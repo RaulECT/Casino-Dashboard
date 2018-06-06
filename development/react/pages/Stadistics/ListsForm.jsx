@@ -38,7 +38,7 @@ class ListsForm extends Component {
     this.input = null
     this.api = new Api()
     this.state = {
-      currentStep: 1,
+      currentStep: 0,
       listId: "d990c1f4-60e9-45cf-ad96-ffdc70914853",
     }
 

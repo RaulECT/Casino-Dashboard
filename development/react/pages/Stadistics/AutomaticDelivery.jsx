@@ -28,8 +28,13 @@ class AutomaticDelivery extends Component {
     this.createList = this.createList.bind( this )
     this.deleteLists = this.deleteLists.bind( this )
     this.editList = this.editList.bind( this )
+    this.getEmailLists = this.getEmailLists.bind( this )
     this.handleCreateListModal = this.handleCreateListModal.bind( this )
     this.showDeleteConfirm = this.showDeleteConfirm.bind( this )
+  }
+
+  componentWillMount() {
+    this.getEmailLists()
   }
 
   addListToDelete( elementesSelected ) {
@@ -67,7 +72,26 @@ class AutomaticDelivery extends Component {
   }
 
   getEmailLists() {
+    this.api.getEmailsList()
+      .then( response => {
+        console.log( response );
+        if ( response.status === 200 ) {
+          const {items} = response.data.result
 
+          items.map( ( element => {
+            element['key'] = element.id
+
+            const date = new Date( element['createdOn'] )
+            element['createdDate'] = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+          } ) )
+
+          this.setState( { lists: items } )
+        }
+      } )
+      .catch( err => {
+        console.log( err );
+        
+      } )
   }
 
   handleCreateListModal() {
