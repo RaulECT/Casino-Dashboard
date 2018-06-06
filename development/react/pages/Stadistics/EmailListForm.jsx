@@ -23,6 +23,14 @@ class EmailListForm extends Component {
     this.updateEmails = this.updateEmails.bind( this )
   }
 
+  componentDidMount() {
+    const { list } = this.props
+    if (list) {
+      console.log( list )
+    }
+    
+  }
+
   submitList() {
     const {validateFields} = this.props.form
     const {emails} = this.state

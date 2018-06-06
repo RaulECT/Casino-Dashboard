@@ -52,10 +52,8 @@ class ListsForm extends Component {
   componentDidMount() {
    
     if ( this.props.list ) {
-      const { emails, stats, subject } = this.props.list
-
-      this.props.form.setFieldsValue( {subject} )
-      this.setState( { emails, stats } )
+      console.log(this.props.list);
+      
     }
   }
 
@@ -104,7 +102,7 @@ class ListsForm extends Component {
 
   getStepSection() {
     const { currentStep } = this.state
-    const { close } = this.props
+    const { close, list } = this.props
     let section = null
 
     switch ( currentStep ) {
@@ -113,6 +111,7 @@ class ListsForm extends Component {
           <EmailListForm
             type="add"
             onSubmitList={this.creatEmaiList}
+            list={list}
           />)
         break;
 
