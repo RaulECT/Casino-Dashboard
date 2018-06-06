@@ -20,9 +20,11 @@ class ConfigurationForm extends Component {
       reportType: null,
       startDate: null,
       period: null,
+      subject: null,
       time: null,
     }
 
+    this.configEmailList = this.configEmailList.bind( this )
     this.handleChartTypeChange = this.handleChartTypeChange.bind( this )
     this.handlePeriodChange = this.handlePeriodChange.bind( this )
     this.handleReportTypeChange = this.handleReportTypeChange.bind( this )
@@ -30,6 +32,8 @@ class ConfigurationForm extends Component {
     this.handleEndDateChange = this.handleEndDateChange.bind( this )
     this.handleTimeChange = this.handleTimeChange.bind( this )
     this.handleRecurrentChange = this.handleRecurrentChange.bind( this )
+    this.handleSubjectChange = this.handleSubjectChange.bind( this )
+    this.validateFields = this.validateFields.bind( this )
   }
 
   componentWillMount() {
@@ -45,9 +49,41 @@ class ConfigurationForm extends Component {
   }
 
   configEmailList() {
-    const { charType, isRecurrent, reportType, startDate, endDate, period, time } = this.state
+    const { charType, isRecurrent, reportType, startDate, endDate, period, subject, time } = this.state
+    const areCorrectFields = this.validateFields()
+    
+    if ( areCorrectFields ) {
+      let config = {
+        startDate,
+        reportType,
+        subject,
+        period: "once",
+        graphicType: charType,
+        time: this.getCurrentHour()
+      }
 
+      if ( isRecurrent ) {
+        config['endDate'] = endDate
+        config['period'] = period
+        config['time'] = time
+      }
 
+      console.log( config );
+      
+    } else{
+      this.showErrorMessage( 'Verifique que todos los campos esten llenos.' )
+    }
+  }
+
+  getCurrentHour() {
+    const date = new Date()
+    let hour = `${date.getHours()}`
+    let minutes = `${date.getMinutes()}`
+
+    hour = hour.length === 1 ? `0${hour}` : hour
+    minutes = minutes.length === 1 ? `0${minutes}` : minutes
+
+    return `${hour}:${minutes}`
   }
 
   handleChartTypeChange( charType ) {
@@ -74,18 +110,29 @@ class ConfigurationForm extends Component {
     this.setState( { isRecurrent } )
   }
 
+  handleSubjectChange( subject ) {
+    this.setState( { subject: subject.target.value } )
+  }
+
   handleTimeChange( time ) {
     this.setState( { time } )
   }
 
-  showErrorMessage( message ) {
-    message.error( message )
+  showErrorMessage( msg ) {
+    message.error( msg )
   }
 
   validateFields() {
-    const { charType, isRecurrent, reportType, startDate, endDate, period, time } = this.state
+    const { charType, isRecurrent, reportType, startDate, endDate, period, subject, time } = this.state
+    let correctFields = false
 
-    
+    if ( isRecurrent ) {
+      correctFields = charType && reportType && startDate && endDate && period && time && subject
+    } else{
+      correctFields = charType && reportType && subject
+    }
+
+    return correctFields
   }
 
   render(){
@@ -104,9 +151,10 @@ class ConfigurationForm extends Component {
         <ChartForm
           onChartChange={this.handleChartTypeChange}
           onReportChange={this.handleReportTypeChange}
+          onSubjectChange={this.handleSubjectChange}
         />
 
-        <Popconfirm key="1" title="¿Desea configurar esta lista de correo?" onConfirm={ ()=>{} }>
+        <Popconfirm key="1" title="¿Desea configurar esta lista de correo?" onConfirm={ ()=>{ this.configEmailList() } }>
           <Button 
             type="primary"
             style={ {marginTop: 20} }
