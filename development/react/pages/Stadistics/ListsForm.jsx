@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import EmailListForm from './EmailListForm.jsx'
 import ConfigurationForm from './ConfigurationForm.jsx'
+import FinishMessage from './FinishMessage.jsx'
 import Api from '../../controllers/Api'
 import {
   Card,
@@ -37,7 +38,7 @@ class ListsForm extends Component {
     this.input = null
     this.api = new Api()
     this.state = {
-      currentStep: 1,
+      currentStep: 2,
       listId: null,
     }
 
@@ -100,7 +101,21 @@ class ListsForm extends Component {
             onSubmitList={this.creatEmaiList}
           />)
         break;
-    
+
+      case 1:
+        section = ( 
+          <ConfigurationForm 
+            onConfig={this.configEmailList}
+          /> 
+        )
+        break;
+      
+      case 2: 
+        section = (
+          <FinishMessage />
+        )
+        break;
+
       default:
         section = ( 
           <ConfigurationForm 
