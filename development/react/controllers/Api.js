@@ -398,6 +398,61 @@ class Api {
     } )
   }
 
+  getScoresByDate() {
+    // TODO: REPLACE WITH API
+   return {
+     data: {
+      "result": {
+        "items": [
+            {
+                "tableId": "M1",
+                "scores": [
+                    {
+                        "amount": 9702500,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 3,
+                        "tableId": "M1",
+                        "time": "17:00"
+                    },
+                    {
+                        "amount": 10002500,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 4,
+                        "tableId": "M1",
+                        "time": "18:00"
+                    }
+                ]
+            },
+            {
+                "tableId": "M2",
+                "scores": [
+                    {
+                        "amount": 9205000,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 5,
+                        "tableId": "M2",
+                        "time": "17:00"
+                    },
+                    {
+                        "amount": 9000000,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 2,
+                        "tableId": "M2",
+                        "time": "18:00"
+                    }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    } 
+  }
+
   editUser( userInfo ) {
     userInfo.appId = this.appID
 

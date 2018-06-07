@@ -36,7 +36,8 @@ class GraphicsSection extends Component {
       custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', },
       pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', },
       barTest: { route: this.generateTesData, text: 'Peridas por fecha', },
-      clientsByDay: { text: 'Usuarios registrados por fecha', }
+      clientsByDay: { text: 'Usuarios registrados por fecha', },
+      scoresByDate: { text: 'Ganacias por fecha' },
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -116,6 +117,10 @@ class GraphicsSection extends Component {
               this.printChart( labels, data )
             }
           } )
+        break;
+
+      case 'scoresByDate':
+        
         break;
     
       default:
@@ -297,7 +302,8 @@ class GraphicsSection extends Component {
             <Option value="custumersByDate">Registro de clientes</Option>
             <Option value="pieTest">Ingresos generales</Option>
             <Option value="barTest">Peridas generales</Option>
-            <option value="clientsByDay">Número de clientes por día</option>
+            <Option value="clientsByDay">Número de clientes por día</Option>
+            <Option value="scoresByDate">Ganancias por Fecha</Option>
           </Select>
 
           <Select
