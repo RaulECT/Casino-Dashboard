@@ -35,11 +35,13 @@ class ScoresByDate {
        data[ this.labels.indexOf(score.time) ] = score.amount / 100 
       } )
 
+      const color = this.getRandomColor()
       let dataset = {
         data,
         label: table.tableId,
         fill: true,
-        borderColor: this.getRandomColor()
+        borderColor: color,
+        backgroundColor: color
       }
 
       datasets.push( dataset )    
