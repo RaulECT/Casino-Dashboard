@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Chart from 'chart.js'
 import jsPDF from 'jspdf'
 import GraphicsManagment from '../../controllers/GraphicsManagment'
+import ScoresByDate from '../../controllers/ScoresByDate'
 import { 
   DatePicker,
   Select,
@@ -25,6 +26,7 @@ class GraphicsSection extends Component {
     }
 
     this.graphicsManagment = new GraphicsManagment()
+    this.scoresByDate = new ScoresByDate()
     this.api = new Api()
 
     this.generateTesData = this.generateTesData.bind( this )
@@ -120,7 +122,13 @@ class GraphicsSection extends Component {
         break;
 
       case 'scoresByDate':
-        
+        this.api.getScoresByDate()
+          .then( response => {
+            console.log( response );
+             const lables = this.scoresByDate.getLables( response.data.result.items )
+             const data = this.scoresByDate.getDatasets( response.data.result.items )
+             this.printChart( lables, data, true )
+          } )
         break;
     
       default:
@@ -138,6 +146,10 @@ class GraphicsSection extends Component {
     switch ( graphSlected ) {
       case 'clientsByDay':
         calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
+        break;
+
+      case 'scoresByDate':
+        calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
         break;
 
       case 'opt1':
@@ -180,7 +192,7 @@ class GraphicsSection extends Component {
     } )
   }
 
-  printChart( labels, data ) {
+  printChart( labels, data, isMultiLine = false ) {
     const { graphType } = this.state
 
     switch ( graphType ) {
@@ -193,7 +205,7 @@ class GraphicsSection extends Component {
         break;
 
       case 'lineGraph':
-        this.printLineGraphic( labels, data )
+        this.printLineGraphic( labels, data, isMultiLine )
         break;
     
       default:
@@ -202,7 +214,7 @@ class GraphicsSection extends Component {
     }
   }
 
-  printLineGraphic( labels, data ) {
+  printLineGraphic( labels, data, isMultiLine = false ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
 
@@ -214,7 +226,7 @@ class GraphicsSection extends Component {
       xLabel: 'Fechas',
       yAxes: 'No. de usuarios',
       title: `Usuarios registrados de ${startDate} a ${endDate}`
-    } )
+    }, isMultiLine )
     var myChart = new Chart(ctx, configuration)
 
     this.setState( {

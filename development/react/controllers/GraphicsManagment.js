@@ -42,10 +42,12 @@ class GraphicsManagment {
     }
   }
   
-  configLineGraphic( config ) {
+  configLineGraphic( config, isMultiLine = false ) {
+    console.log(config);
+    
     const { data, dataLabels, chartLabel, xLabel, yLabel, title } = config
 
-    return {
+    let configuration = {
       type: 'line',
       data: {
         labels: dataLabels,
@@ -81,6 +83,26 @@ class GraphicsManagment {
         }
       }
     }
+
+    if ( isMultiLine ) {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: data
+      }
+    } else {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: [{ 
+            data: data,
+            label: chartLabel,
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      }
+    }
+
+    return configuration
 
   }
 
