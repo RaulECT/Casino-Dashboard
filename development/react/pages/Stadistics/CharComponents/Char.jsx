@@ -10,6 +10,10 @@ class Char extends Component {
     this.graphicsManagment = new GraphicsManagment()
   }
 
+  componentWillMount() {
+    this.printChar()
+  }
+
   configBarChar( props ) {
     const { xLabel, yLabel } = this.props
     let barConfiguration = props
