@@ -33,6 +33,7 @@ class GraphicsSection extends Component {
     this.printBarGraphic = this.printBarGraphic.bind( this )
     this.printLineGraphic = this.printLineGraphic.bind( this )
     this.printPieGraphic = this.printPieGraphic.bind( this )
+    this.printPolarGraphic = this.printPolarGraphic.bind( this )
     
     this.graphics = {
       custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', },
@@ -124,7 +125,7 @@ class GraphicsSection extends Component {
       case 'scoresByDate':
         this.api.getScoresByDate()
           .then( response => {
-            console.log( response );
+
              const lables = this.scoresByDate.getLables( response.data.result.items )
              const data = this.scoresByDate.getDatasets( response.data.result.items )
              this.printChart( lables, data, true )
@@ -194,7 +195,7 @@ class GraphicsSection extends Component {
 
   printChart( labels, data, isMultiLine = false ) {
     const { graphType } = this.state
-
+   
     switch ( graphType ) {
       case 'barGraph':
         this.printBarGraphic( labels, data )
@@ -207,8 +208,13 @@ class GraphicsSection extends Component {
       case 'lineGraph':
         this.printLineGraphic( labels, data, isMultiLine )
         break;
+
+      case 'y':
+        this.printPolarGraphic( labels, data )
+        break;
     
       default:
+        console.log('holi')
         this.printBarGraphic( labels, data )
         break;
     }
@@ -235,6 +241,18 @@ class GraphicsSection extends Component {
       startDate,
       endDate
     } )
+  }
+
+  printPolarGraphic( labels, data ) {
+    const { graphSlected, startDate, endDate } = this.state
+    this.cleanCanvas()
+    
+    const ctx = document.getElementById("myChart");
+    const configuration = this.graphicsManagment.configPolarGraphic()
+
+    var myChart = new Chart(ctx, configuration)
+
+    this.setState( { graphic: myChart } )
   }
 
   printPieGraphic( labels, data ) {
@@ -326,6 +344,7 @@ class GraphicsSection extends Component {
             <Option value="barGraph">Gráfica de barras</Option>
             <Option value="pieGraph">Gráfica de pastel</Option>
             <Option value="lineGraph">Gráfica de lineal</Option>
+            <Option value="y">Gráfica Polar*</Option>
           </Select>
 
           {calendar}

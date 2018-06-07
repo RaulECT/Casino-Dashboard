@@ -38,13 +38,12 @@ class ScoresByDate {
       let dataset = {
         data,
         label: table.tableId,
-        fill: false,
+        fill: true,
         borderColor: this.getRandomColor()
       }
 
       datasets.push( dataset )    
     } )
-    console.log(datasets);
     
     return datasets
   }

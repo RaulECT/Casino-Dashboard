@@ -55,7 +55,7 @@ class GraphicsManagment {
             data: data,
             label: chartLabel,
             borderColor: "#3e95cd",
-            fill: false
+            fill: 'origin'
           }
         ]
       },
@@ -127,6 +127,31 @@ class GraphicsManagment {
       }
     }
 
+  }
+
+  configPolarGraphic() {
+    
+    let config = {
+      type: 'polarArea',
+      data: {
+        labels: ["M1", "M2"],
+        datasets: [
+          {
+            label: "Ganancias por fecha",
+            backgroundColor: ["#3e95cd", "#8e5ea2"],
+            data: [107050,182050]
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+    }
+
+    return config
   }
   
 }
