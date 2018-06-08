@@ -14,7 +14,9 @@ class ScoresByDate {
     data.map( table => {
       generalLabels.push( table.tableId )
       table.scores.map( score => {
-        labels.push( score.time )
+        if ( labels.indexOf( score.time ) === -1 ) {
+          labels.push( score.time )
+        }
       } )
     } )
 
