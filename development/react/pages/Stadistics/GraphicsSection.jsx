@@ -128,7 +128,7 @@ class GraphicsSection extends Component {
       case 'scoresByDate':
         this.api.getScoresByDate()
           .then( response => {
-            const multiple = isMultiLine && graphType === 'lineGraph'
+            const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
             console.log(multiple )
              const lables = this.scoresByDate.getLables( response.data.result.items )
              const data = this.scoresByDate.getDatasets( response.data.result.items )
@@ -161,7 +161,7 @@ class GraphicsSection extends Component {
         break;
 
       case 'scoresByDate':
-        if ( graphType === 'lineGraph' ) {
+        if ( graphType === 'lineGraph' || graphType === 'barGraph' ) {
           calendar = (
             <div style={ {display: 'inline-flex', alignItems: 'center'} }>
               <DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />
@@ -192,7 +192,7 @@ class GraphicsSection extends Component {
     this.getData()
   }
 
-  printBarGraphic( labels, data, xLabel, yLabel, title ) {
+  printBarGraphic( labels, data, xLabel, yLabel, title, isMultiLine = false ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
 
@@ -205,7 +205,7 @@ class GraphicsSection extends Component {
       yLabel: yLabel,
       title: title,
       type: 'bar'
-    } )
+    }, isMultiLine )
     var myChart = new Chart(ctx, configuration)
 
     this.setState( {
@@ -221,7 +221,7 @@ class GraphicsSection extends Component {
    
     switch ( graphType ) {
       case 'barGraph':
-        this.printBarGraphic( labels, data, xLabel, yLabel, title )
+        this.printBarGraphic( labels, data, xLabel, yLabel, title, isMultiLine )
         break;
 
       case 'pieGraph':
@@ -278,7 +278,7 @@ class GraphicsSection extends Component {
     this.setState( { graphic: myChart } )
   }
 
-  printPieGraphic( labels, data, title ) {
+  printPieGraphic( labels, data, xLabel, yLabel, title, ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
 

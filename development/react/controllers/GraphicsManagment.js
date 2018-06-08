@@ -2,7 +2,7 @@ import Chart from 'chart.js'
 
 class GraphicsManagment {
 
-  configBarGraphic( config ) {
+  configBarGraphic( config, isMultiLine = false ) {
     const { data, dataLabels, chartLabel, xLabel, yLabel, title, type } = config
     const colors = []
 
@@ -10,7 +10,7 @@ class GraphicsManagment {
       colors.push( this.getRandomColor().slice( 0, 7 ) )
     }
 
-    return {
+    const configuration = {
       type: type,
       data: {
         labels: dataLabels,
@@ -23,7 +23,7 @@ class GraphicsManagment {
         ]
       },
       options: {
-        legend: {display: false},
+        legend: {display: true},
         scales: {
           yAxes: [{
               display: true,
@@ -46,6 +46,26 @@ class GraphicsManagment {
         }
       }
     }
+
+    if ( isMultiLine ) {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: data,
+      }
+    } else {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: [
+          {
+            label: chartLabel,
+            backgroundColor: colors,
+            data: data
+          }
+        ]
+      }
+    }
+
+    return configuration
   }
   
   configLineGraphic( config, isMultiLine = false ) {
