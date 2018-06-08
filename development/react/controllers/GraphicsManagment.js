@@ -4,6 +4,11 @@ class GraphicsManagment {
 
   configBarGraphic( config ) {
     const { data, dataLabels, chartLabel, xLabel, yLabel, title, type } = config
+    const colors = []
+
+    for (let index = 0; index < dataLabels.length; index++) {
+      colors.push( this.getRandomColor().slice( 0, 7 ) )
+    }
 
     return {
       type: type,
@@ -12,7 +17,7 @@ class GraphicsManagment {
         datasets: [
           {
             label: chartLabel,
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            backgroundColor: colors,
             data: data
           }
         ]
@@ -94,7 +99,8 @@ class GraphicsManagment {
             data: data,
             label: chartLabel,
             borderColor: "#3e95cd",
-            fill: false
+            fill: 'origin',
+            backgroundColor: "#3e95cd8f"
           }
         ]
       }
@@ -106,6 +112,11 @@ class GraphicsManagment {
 
   configPieGraphic( config ) {
     const { data, dataLabels, chartLabel, title } = config
+    const colors = []
+
+    for (let index = 0; index < dataLabels.length; index++) {
+      colors.push( this.getRandomColor().slice( 0, 7 ) )
+    }
 
     return {
       type: 'pie',
@@ -113,7 +124,7 @@ class GraphicsManagment {
         labels: dataLabels,
         datasets: [{
           label: chartLabel,
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          backgroundColor: colors,
           data: data
         }]
       },
@@ -150,6 +161,15 @@ class GraphicsManagment {
     }
 
     return config
+  }
+
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return `${color}8f`;
   }
   
 }
