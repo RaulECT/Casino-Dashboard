@@ -47,13 +47,14 @@ class ScoresByDate {
        data[ this.labels.indexOf(score.time) ] = score.amount / 100 
       } )
 
-      const color = this.getRandomColor()
+      const color = `${this.getRandomColor()}8f`
       let dataset = {
         data,
         label: table.tableId,
         fill: true,
         borderColor: color,
-        backgroundColor: color
+        backgroundColor: color,
+        pointRadius:4,
       }
 
       datasets.push( dataset )    
@@ -82,12 +83,12 @@ class ScoresByDate {
   }
 
   getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
+    var letters = '0123456789ABCDEF'
+    var color = '#'
     for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+      color += letters[Math.floor(Math.random() * 16)]
     }
-    return `${color}8f`;
+    return color
   }
 }
 

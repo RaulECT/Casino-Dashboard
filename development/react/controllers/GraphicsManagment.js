@@ -85,6 +85,7 @@ class GraphicsManagment {
         ]
       },
       options: {
+        legend: {display: isMultiLine},
         scales: {
           yAxes: [{
               display: true,
