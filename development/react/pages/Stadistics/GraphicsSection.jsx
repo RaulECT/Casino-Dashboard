@@ -371,7 +371,6 @@ class GraphicsSection extends Component {
             <Option value="barGraph">Gráfica de barras</Option>
             <Option value="pieGraph">Gráfica de pastel</Option>
             <Option value="lineGraph">Gráfica de lineal</Option>
-            <Option value="y">Gráfica Polar*</Option>
           </Select>
 
           {calendar}
