@@ -487,6 +487,51 @@ class Api {
                         "time": "20:00"
                       }
               ]
+            },
+            {
+              "tableId": "M3",
+              "scores": [
+                  {
+                    "amount": 102500,
+                    "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                    "gameName": "Black Jack",
+                    "players": 4,
+                    "tableId": "M2",
+                    "time": "15:00"
+                  },
+                  {
+                      "amount": 7205000,
+                      "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                      "gameName": "Black Jack",
+                      "players": 5,
+                      "tableId": "M2",
+                      "time": "16:00"
+                  },
+                  {
+                    "amount": 8605000,
+                    "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                    "gameName": "Black Jack",
+                    "players": 5,
+                    "tableId": "M2",
+                    "time": "17:00"
+                  },
+                  {
+                      "amount": 4000000,
+                      "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                      "gameName": "Black Jack",
+                      "players": 2,
+                      "tableId": "M2",
+                      "time": "19:00"
+                  },
+                  {
+                    "amount": 4605000,
+                    "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                    "gameName": "Black Jack",
+                    "players": 5,
+                    "tableId": "M2",
+                    "time": "20:00"
+                  }
+              ]
             }
           ]
         }

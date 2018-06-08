@@ -38,9 +38,9 @@ class GraphicsSection extends Component {
     this.printPolarGraphic = this.printPolarGraphic.bind( this )
     
     this.graphics = {
-      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', },
-      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', },
-      barTest: { route: this.generateTesData, text: 'Peridas por fecha', },
+      custumersByDate: { route: this.generateTesData, text: 'Usuarios registrados por fecha', xLabel: 'Fecha', yLabel: 'Cantidad de usuarios', },
+      pieTest: { route: this.generateTesData, text: 'Ingresos por fecha', xLabel: 'Fecha', yLabel: 'Ingresos (en pesos)', },
+      barTest: { route: this.generateTesData, text: 'Peridas por fecha', xLabel: 'Fecha', yLabel: 'Ingresos (en pesos)', },
       clientsByDay: { text: 'Usuarios registrados por fecha', },
       scoresByDate: { text: 'Ganacias por fecha' },
     }
@@ -120,7 +120,7 @@ class GraphicsSection extends Component {
             console.log(response);
             if (response.status === 200) {
               const { data, labels } = this.formatData( response.data.result.customersByDay )
-              this.printChart( labels, data )
+              this.printChart( labels, data,  )
             }
           } )
         break;
@@ -134,9 +134,9 @@ class GraphicsSection extends Component {
              const data = this.scoresByDate.getDatasets( response.data.result.items )
              
              if ( multiple ) {
-               this.printChart( lables.labels, data.datasets, true )
+               this.printChart( lables.labels, data.datasets, 'Horas', 'Ganancias (en pesos)', 'Ganancias por fecha',  true )
              } else{
-              this.printChart( lables.generalLabels, data.totalByTable )
+              this.printChart( lables.generalLabels, data.totalByTable, 'Mesas', 'Ganancias (en pesos)', 'Ganancias por fecha' )
              }
 
              
@@ -145,7 +145,7 @@ class GraphicsSection extends Component {
     
       default:
         const { data, labels } = this.graphics[graphSlected].route()
-        this.printChart( labels, data )
+        this.printChart( labels, data, this.graphics[graphSlected].xLabel,this.graphics[graphSlected].yLabel, this.graphics[graphSlected].text )
         break;
     }
     
@@ -192,7 +192,7 @@ class GraphicsSection extends Component {
     this.getData()
   }
 
-  printBarGraphic( labels, data ) {
+  printBarGraphic( labels, data, xLabel, yLabel, title ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
 
@@ -200,10 +200,10 @@ class GraphicsSection extends Component {
     const configuration = this.graphicsManagment.configBarGraphic( {
       data,
       dataLabels: labels,
-      chartLabel: 'Perdidas',
-      xLabel: 'Fechas',
-      yLabel: 'Perdidas',
-      title: `Perdidas registradas de ${startDate} a ${endDate}`,
+      chartLabel: title,
+      xLabel: xLabel,
+      yLabel: yLabel,
+      title: title,
       type: 'bar'
     } )
     var myChart = new Chart(ctx, configuration)
@@ -216,24 +216,24 @@ class GraphicsSection extends Component {
     } )
   }
 
-  printChart( labels, data, isMultiLine = false ) {
+  printChart( labels, data, xLabel, yLabel, title, isMultiLine = false ) {
     const { graphType } = this.state
    
     switch ( graphType ) {
       case 'barGraph':
-        this.printBarGraphic( labels, data )
+        this.printBarGraphic( labels, data, xLabel, yLabel, title )
         break;
 
       case 'pieGraph':
-        this.printPieGraphic( labels, data )
+        this.printPieGraphic( labels, data, xLabel, yLabel, title )
         break;
 
       case 'lineGraph':
-        this.printLineGraphic( labels, data, isMultiLine )
+        this.printLineGraphic( labels, data, xLabel, yLabel, title, isMultiLine )
         break;
 
       case 'y':
-        this.printPolarGraphic( labels, data )
+        this.printPolarGraphic( labels, xLabel, yLabel, title, data )
         break;
     
       default:
@@ -243,7 +243,7 @@ class GraphicsSection extends Component {
     }
   }
 
-  printLineGraphic( labels, data, isMultiLine = false ) {
+  printLineGraphic( labels, data, xLabel, yLabel, title, isMultiLine = false ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
 
@@ -251,10 +251,10 @@ class GraphicsSection extends Component {
     const configuration = this.graphicsManagment.configLineGraphic( {
       data,
       dataLabels: labels,
-      chartLabel: 'Clientes nuevos',
-      xLabel: 'Fechas',
-      yAxes: 'No. de usuarios',
-      title: `Usuarios registrados de ${startDate} a ${endDate}`
+      chartLabel: title,
+      xLabel: xLabel,
+      yLabel: yLabel,
+      title: title
     }, isMultiLine )
     var myChart = new Chart(ctx, configuration)
 
@@ -278,7 +278,7 @@ class GraphicsSection extends Component {
     this.setState( { graphic: myChart } )
   }
 
-  printPieGraphic( labels, data ) {
+  printPieGraphic( labels, data, title ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
 
@@ -286,8 +286,8 @@ class GraphicsSection extends Component {
     const configuration = this.graphicsManagment.configPieGraphic( {
       data,
       dataLabels: labels,
-      chartLabel: 'Ingresos generales',
-      title: `Ingresos registrados de ${startDate} a ${endDate}`
+      chartLabel: title,
+      title: title
     } )
     var myChart = new Chart(ctx, configuration)
 
