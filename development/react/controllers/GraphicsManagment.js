@@ -23,7 +23,7 @@ class GraphicsManagment {
         ]
       },
       options: {
-        legend: {display: true},
+        legend: {display: isMultiLine},
         scales: {
           yAxes: [{
               display: true,
