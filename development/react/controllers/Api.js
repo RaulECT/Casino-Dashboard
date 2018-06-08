@@ -410,6 +410,14 @@ class Api {
                   "tableId": "M1",
                   "scores": [
                       {
+                          "amount": 4706500,
+                          "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                          "gameName": "Black Jack",
+                          "players": 3,
+                          "tableId": "M1",
+                          "time": "16:00"
+                      },
+                      {
                           "amount": 9702500,
                           "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
                           "gameName": "Black Jack",
@@ -418,25 +426,49 @@ class Api {
                           "time": "17:00"
                       },
                       {
-                          "amount": 10002500,
+                          "amount": 1002500,
                           "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
                           "gameName": "Black Jack",
                           "players": 4,
                           "tableId": "M1",
                           "time": "18:00"
-                      }
+                      },
+                      {
+                        "amount": 9865465,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 4,
+                        "tableId": "M1",
+                        "time": "19:00"
+                    }
                   ]
               },
               {
                   "tableId": "M2",
                   "scores": [
                       {
-                          "amount": 9205000,
+                        "amount": 1002500,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 4,
+                        "tableId": "M2",
+                        "time": "15:00"
+                      },
+                      {
+                          "amount": 4205000,
                           "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
                           "gameName": "Black Jack",
                           "players": 5,
                           "tableId": "M2",
                           "time": "16:00"
+                      },
+                      {
+                        "amount": 4605000,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 5,
+                        "tableId": "M2",
+                        "time": "17:00"
                       },
                       {
                           "amount": 9000000,
@@ -445,7 +477,15 @@ class Api {
                           "players": 2,
                           "tableId": "M2",
                           "time": "19:00"
-                }
+                      },
+                      {
+                        "amount": 8605000,
+                        "gameId": "770206db-4420-5c34-a438-25bddffaf5ca",
+                        "gameName": "Black Jack",
+                        "players": 5,
+                        "tableId": "M2",
+                        "time": "20:00"
+                      }
               ]
             }
           ]

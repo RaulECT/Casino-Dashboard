@@ -2,13 +2,17 @@ class ScoresByDate {
 
   constructor() {
     this.labels = []
+    this.generalLabels = []
+    this.totalByTable = []
   }
 
   getLables( data ) {
     let labels = []
+    let generalLabels = []
     console.log( data );
     
     data.map( table => {
+      generalLabels.push( table.tableId )
       table.scores.map( score => {
         labels.push( score.time )
       } )
@@ -16,16 +20,22 @@ class ScoresByDate {
 
     labels.sort(this.compare)
     console.log(labels);
+    console.log( generalLabels );
+    
+    this.generalLabels = generalLabels
     this.labels = labels
 
-    return labels
+    return { labels, generalLabels }
   }
 
   getDatasets( data ) {
     let datasets = []
+    let totalByTable = []
 
     data.map( table => {
-      console.log( table );
+      const tableTotal = this.getTotalByTable( table.scores )
+      totalByTable.push( tableTotal )
+      
       let data = []
       for (let index = 0; index < this.labels.length; index++) {
         data[index] = 0
@@ -47,7 +57,17 @@ class ScoresByDate {
       datasets.push( dataset )    
     } )
     
-    return datasets
+    console.log( totalByTable );
+    
+    return { datasets, totalByTable }
+  }
+
+  getTotalByTable( table ) {
+    let total = 0
+    
+    table.map( score => total += ( score.amount / 100) )
+
+    return total
   }
 
    compare(a,b) {
@@ -65,7 +85,7 @@ class ScoresByDate {
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
-    return color;
+    return `${color}8f`;
   }
 }
 

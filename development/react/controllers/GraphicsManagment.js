@@ -12,7 +12,7 @@ class GraphicsManagment {
         datasets: [
           {
             label: chartLabel,
-            //backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
             data: data
           }
         ]
@@ -43,8 +43,6 @@ class GraphicsManagment {
   }
   
   configLineGraphic( config, isMultiLine = false ) {
-    console.log(config);
-    
     const { data, dataLabels, chartLabel, xLabel, yLabel, title } = config
 
     let configuration = {

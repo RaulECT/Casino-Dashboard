@@ -6,7 +6,8 @@ import ScoresByDate from '../../controllers/ScoresByDate'
 import { 
   DatePicker,
   Select,
-  Button
+  Button,
+  Switch
 } from 'antd'
 import Api from '../../controllers/Api'
 
@@ -22,7 +23,8 @@ class GraphicsSection extends Component {
       graphSlected: '',
       graphType: '',
       startDate: null,
-      endDate: null
+      endDate: null,
+      isMultiLine: false
     }
 
     this.graphicsManagment = new GraphicsManagment()
@@ -49,6 +51,7 @@ class GraphicsSection extends Component {
     this.getCalendar = this.getCalendar.bind(this)
     this.generatePDF = this.generatePDF.bind(this)
     this.handleChartType = this.handleChartType.bind(this)
+    this.handleMultiLineChange = this.handleMultiLineChange.bind( this )
     this.handleRangePicker = this.handleRangePicker.bind( this )
     this.handleGraphicsOptions = this.handleGraphicsOptions.bind( this )
     this.makeGraphic = this.makeGraphic.bind( this )
@@ -108,7 +111,7 @@ class GraphicsSection extends Component {
   }
 
   getData() {
-    const { graphSlected, startDate, endDate } = this.state
+    const { graphSlected, startDate, endDate, graphType, isMultiLine } = this.state
 
     switch (graphSlected) {
       case 'clientsByDay':
@@ -125,10 +128,18 @@ class GraphicsSection extends Component {
       case 'scoresByDate':
         this.api.getScoresByDate()
           .then( response => {
-
+            const multiple = isMultiLine && graphType === 'lineGraph'
+            console.log(multiple )
              const lables = this.scoresByDate.getLables( response.data.result.items )
              const data = this.scoresByDate.getDatasets( response.data.result.items )
-             this.printChart( lables, data, true )
+             
+             if ( multiple ) {
+               this.printChart( lables.labels, data.datasets, true )
+             } else{
+              this.printChart( lables.generalLabels, data.totalByTable )
+             }
+
+             
           } )
         break;
     
@@ -141,7 +152,7 @@ class GraphicsSection extends Component {
   }
 
   getCalendar() {
-    const {graphSlected} = this.state
+    const {graphSlected, graphType} = this.state
     let calendar = null
 
     switch ( graphSlected ) {
@@ -150,7 +161,19 @@ class GraphicsSection extends Component {
         break;
 
       case 'scoresByDate':
-        calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+        if ( graphType === 'lineGraph' ) {
+          calendar = (
+            <div style={ {display: 'inline-flex', alignItems: 'center'} }>
+              <DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />
+              <div style={ { marginLeft: 15 } }>
+                <span>Ver por mesa: </span>
+                <Switch onChange={this.handleMultiLineChange} />
+              </div>
+            </div>
+          )
+        } else {
+          calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+        }   
         break;
 
       case 'opt1':
@@ -291,6 +314,10 @@ class GraphicsSection extends Component {
 
   handleChartType( value ) {
     this.setState( { graphType: value } )
+  }
+
+  handleMultiLineChange( value ) {
+    this.setState( { isMultiLine: value } )
   }
 
   handleRangePicker( date, dateString ) {
