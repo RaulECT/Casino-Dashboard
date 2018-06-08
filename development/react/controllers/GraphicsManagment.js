@@ -23,6 +23,7 @@ class GraphicsManagment {
         ]
       },
       options: {
+        legend: {display: false},
         scales: {
           yAxes: [{
               display: true,
@@ -58,6 +59,7 @@ class GraphicsManagment {
             data: data,
             label: chartLabel,
             borderColor: "#3e95cd",
+            pointRadius: 14,
             fill: 'origin'
           }
         ]
@@ -90,7 +92,7 @@ class GraphicsManagment {
     if ( isMultiLine ) {
       configuration['data'] = {
         labels: dataLabels,
-        datasets: data
+        datasets: data,
       }
     } else {
       configuration['data'] = {
