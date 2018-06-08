@@ -359,7 +359,7 @@ class GraphicsSection extends Component {
             <Option value="custumersByDate">Registro de clientes</Option>
             <Option value="pieTest">Ingresos generales</Option>
             <Option value="barTest">Peridas generales</Option>
-            <Option value="clientsByDay">Número de clientes por día</Option>
+            {/*<Option value="clientsByDay">Número de clientes por día</Option>*/}
             <Option value="scoresByDate">Ganancias por Fecha</Option>
           </Select>
 
