@@ -136,10 +136,10 @@ class GraphicsSection extends Component {
              const lables = this.scoresByDate.getLables( response.data.result.items )
              const data = this.scoresByDate.getDatasets( response.data.result.items )
              
-             if ( !multiple ) {
-               this.printChart( lables.labels, data.datasets, 'Horas', 'Ganancias (en pesos)', 'Ganancias por fecha',  true )
+             if ( multiple ) {
+               this.printChart( lables.labels, data.datasets, 'Horas', 'Ganancias (en pesos)', `Ganancias de la fecha ${startDate}`,  true )
              } else{
-              this.printChart( lables.generalLabels, data.totalByTable, 'Mesas', 'Ganancias (en pesos)', 'Ganancias por fecha' )
+              this.printChart( lables.generalLabels, data.totalByTable, 'Mesas', 'Ganancias (en pesos)', `Ganancias de la fecha ${startDate}` )
              }
 
              
@@ -155,7 +155,7 @@ class GraphicsSection extends Component {
             console.log(labels, data);
             
 
-            if ( !multiple ) {
+            if ( multiple ) {
               this.printChart( labels.labels , data.datasets, 'Fechas', 'Ganancias (en pesos)', `Ganancias de ${startDate} a ${endDate}`, true)
             } else {
               this.printChart( labels.generalLabels, data.dataTotal, 'Mesas', 'Ganancias (en pesos)', `Ganancias de ${startDate} a ${endDate}`)
@@ -209,7 +209,7 @@ class GraphicsSection extends Component {
             </div>
           )
         } else {
-          calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+          calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
         } 
         break;
 
