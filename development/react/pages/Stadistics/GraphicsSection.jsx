@@ -3,6 +3,7 @@ import Chart from 'chart.js'
 import jsPDF from 'jspdf'
 import GraphicsManagment from '../../controllers/GraphicsManagment'
 import ScoresByDate from '../../controllers/ScoresByDate'
+import ScoresByDateRange from '../../controllers/ScoresByDateRange'
 import { 
   DatePicker,
   Select,
@@ -29,6 +30,7 @@ class GraphicsSection extends Component {
 
     this.graphicsManagment = new GraphicsManagment()
     this.scoresByDate = new ScoresByDate()
+    this.scoresByRange = new ScoresByDateRange()
     this.api = new Api()
 
     this.generateTesData = this.generateTesData.bind( this )
@@ -43,6 +45,7 @@ class GraphicsSection extends Component {
       barTest: { route: this.generateTesData, text: 'Peridas por fecha', xLabel: 'Fecha', yLabel: 'Ingresos (en pesos)', },
       clientsByDay: { text: 'Usuarios registrados por fecha', },
       scoresByDate: { text: 'Ganacias por fecha' },
+      scoresByDates: { text: 'Ganancias por rango de fechas' },
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -129,17 +132,33 @@ class GraphicsSection extends Component {
         this.api.getScoresByDate()
           .then( response => {
             const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
-            console.log(multiple )
+
              const lables = this.scoresByDate.getLables( response.data.result.items )
              const data = this.scoresByDate.getDatasets( response.data.result.items )
              
-             if ( multiple ) {
+             if ( !multiple ) {
                this.printChart( lables.labels, data.datasets, 'Horas', 'Ganancias (en pesos)', 'Ganancias por fecha',  true )
              } else{
               this.printChart( lables.generalLabels, data.totalByTable, 'Mesas', 'Ganancias (en pesos)', 'Ganancias por fecha' )
              }
 
              
+          } )
+        break;
+
+      case 'scoresByDates':
+        this.api.getScoresByDates()
+          .then( response => {
+            const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
+            const labels = this.scoresByRange.getLabels( response.data.result.items )
+            const data = this.scoresByRange.getDatasets( response.data.result.items )
+
+            if ( !multiple ) {
+              this.printChart( labels.labels , data.datasets, 'Fechas', 'Ganancias (en pesos)', 'Ganancias por rango de fechas', true)
+            } else {
+              this.printChart( labels.generalLabels, data.dataTotal, 'Mesas', 'Ganancias (en pesos)', 'Ganancias por rango de fecha')
+            }
+            
           } )
         break;
     
@@ -174,6 +193,22 @@ class GraphicsSection extends Component {
         } else {
           calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
         }   
+        break;
+
+      case 'scoresByDates':
+        if ( graphType === 'lineGraph' || graphType === 'barGraph' ) {
+          calendar = (
+            <div style={ {display: 'inline-flex', alignItems: 'center'} }>
+              <DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />
+              <div style={ { marginLeft: 15 } }>
+                <span>Ver por mesa: </span>
+                <Switch onChange={this.handleMultiLineChange} />
+              </div>
+            </div>
+          )
+        } else {
+          calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+        } 
         break;
 
       case 'opt1':
@@ -361,6 +396,7 @@ class GraphicsSection extends Component {
             <Option value="barTest">Peridas generales</Option>
             {/*<Option value="clientsByDay">Número de clientes por día</Option>*/}
             <Option value="scoresByDate">Ganancias por Fecha</Option>
+            <Option value="scoresByDates">Ganancias por rango de fechas</Option>
           </Select>
 
           <Select

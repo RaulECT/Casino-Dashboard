@@ -1,4 +1,5 @@
 import axios from 'axios'
+import res from './test_data'
 
 class Api {
 
@@ -395,6 +396,13 @@ class Api {
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
       }
+    } )
+  }
+
+  getScoresByDates() {
+    // TODO: REPLACE WITH API
+    return new Promise( ( resolve, reject ) => {
+      resolve( res )
     } )
   }
 

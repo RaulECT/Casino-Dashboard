@@ -21,8 +21,6 @@ class ScoresByDate {
     } )
 
     labels.sort(this.compare)
-    console.log(labels);
-    console.log( generalLabels );
     
     this.generalLabels = generalLabels
     this.labels = labels
