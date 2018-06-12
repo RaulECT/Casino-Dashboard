@@ -68,8 +68,69 @@ class ScoresByDateRange {
 
       datasets.push( dataset )
     } )
+    const tablesDatasets = this.getTotalDataSet( data )
+    const totalDataset = this.getDatasetsByDate( data )
     
+    datasets = []
+    datasets = datasets.concat( totalDataset )
+    datasets = datasets.concat( tablesDatasets )
+
     return { datasets, dataTotal: amountByTable }
+  }
+
+  getTotalDataSet( data ) {
+    let totalByDates = []
+    const color = `${this.getRandomColor()}8f`
+    
+    data.map( element => {
+
+      let total = 0
+      element.tables.map( table => total += (table.win/100) )
+      totalByDates.push( total )
+    } )
+
+    const dataset = {
+      data: totalByDates,
+      label: 'Total por fecha',
+      fill: false,
+      borderColor: color,
+      backgroundColor: color,
+      pointRadius: 4,
+    }
+    console.log( dataset );
+    return dataset
+  }
+
+  getDatasetsByDate( data ) {
+    let datasets = []
+    console.log( data,this.generalLabels );
+    
+    this.generalLabels.map( label => {
+
+      let tableData = []
+      data.map( element => {
+        element.tables.map( table => {
+          if ( table.tableName === label ) {
+            tableData.push( table.win )
+          }
+        } )
+      } )
+
+      const color = `${this.getRandomColor()}8f`
+      const dataset = {
+        data: tableData,
+        label: label,
+        fill: false,
+        borderColor: color,
+        backgroundColor: color,
+        pointRadius: 4,
+      }
+      datasets.push( dataset )
+      
+    } )
+
+    console.log( datasets );
+    return datasets
   }
 
   getRandomColor() {
