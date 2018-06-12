@@ -58,7 +58,7 @@ class ScoresByDate {
       datasets.push( dataset )    
     } )
     
-    console.log( totalByTable );
+    totalByTable.push(0)
     
     return { datasets, totalByTable }
   }

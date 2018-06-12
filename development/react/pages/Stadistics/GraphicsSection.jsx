@@ -152,11 +152,13 @@ class GraphicsSection extends Component {
             const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
             const labels = this.scoresByRange.getLabels( response.data.result.items )
             const data = this.scoresByRange.getDatasets( response.data.result.items )
+            console.log(labels, data);
+            
 
             if ( !multiple ) {
-              this.printChart( labels.labels , data.datasets, 'Fechas', 'Ganancias (en pesos)', 'Ganancias por rango de fechas', true)
+              this.printChart( labels.labels , data.datasets, 'Fechas', 'Ganancias (en pesos)', `Ganancias de ${startDate} a ${endDate}`, true)
             } else {
-              this.printChart( labels.generalLabels, data.dataTotal, 'Mesas', 'Ganancias (en pesos)', 'Ganancias por rango de fecha')
+              this.printChart( labels.generalLabels, data.dataTotal, 'Mesas', 'Ganancias (en pesos)', `Ganancias de ${startDate} a ${endDate}`)
             }
             
           } )
@@ -199,7 +201,7 @@ class GraphicsSection extends Component {
         if ( graphType === 'lineGraph' || graphType === 'barGraph' ) {
           calendar = (
             <div style={ {display: 'inline-flex', alignItems: 'center'} }>
-              <DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />
+              <RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />
               <div style={ { marginLeft: 15 } }>
                 <span>Ver por mesa: </span>
                 <Switch onChange={this.handleMultiLineChange} />

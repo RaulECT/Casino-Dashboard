@@ -37,7 +37,10 @@ class GraphicsManagment {
             scaleLabel: {
               display: true,
               labelString: xLabel
-            }
+            },
+            ticks: {
+              beginAtZero: true
+            },
           }]
         },
         title: {
@@ -99,7 +102,9 @@ class GraphicsManagment {
             scaleLabel: {
               display: true,
               labelString: xLabel
-            }
+            },ticks: {
+              beginAtZero: true
+            },
           }]
       },
         title: {

@@ -31,6 +31,11 @@ class ScoresByDateRange {
   getDatasets( data ) {
     let datasets = []
     let dataTotal = []
+    let amountByTable = []
+
+    for (let index = 0; index < this.generalLabels.length +1; index++) {
+      amountByTable[index] = 0
+    }
 
     data.map( element => {
       let total = 0
@@ -42,6 +47,8 @@ class ScoresByDateRange {
       }
       
       element.tables.map( table => {
+        let amount = amountByTable[ this.generalLabels.indexOf( table.tableName ) ]
+        amountByTable[ this.generalLabels.indexOf( table.tableName ) ] = amount + ( table.win / 100 )
         total += table.win / 100
         win = table.win
       } )
@@ -62,7 +69,7 @@ class ScoresByDateRange {
       datasets.push( dataset )
     } )
     
-    return { datasets, dataTotal }
+    return { datasets, dataTotal: amountByTable }
   }
 
   getRandomColor() {
