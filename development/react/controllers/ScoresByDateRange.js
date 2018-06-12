@@ -111,7 +111,7 @@ class ScoresByDateRange {
       data.map( element => {
         element.tables.map( table => {
           if ( table.tableName === label ) {
-            tableData.push( table.win )
+            tableData.push( (table.win/100) )
           }
         } )
       } )
