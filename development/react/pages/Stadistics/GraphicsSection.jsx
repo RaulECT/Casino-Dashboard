@@ -4,6 +4,7 @@ import jsPDF from 'jspdf'
 import GraphicsManagment from '../../controllers/GraphicsManagment'
 import ScoresByDate from '../../controllers/ScoresByDate'
 import ScoresByDateRange from '../../controllers/ScoresByDateRange'
+import TillCashByDate from '../../controllers/TillCashByDate'
 import { 
   DatePicker,
   Select,
@@ -31,6 +32,7 @@ class GraphicsSection extends Component {
     this.graphicsManagment = new GraphicsManagment()
     this.scoresByDate = new ScoresByDate()
     this.scoresByRange = new ScoresByDateRange()
+    this.tillCashByDate = new TillCashByDate()
     this.api = new Api()
 
     this.generateTesData = this.generateTesData.bind( this )
@@ -46,6 +48,7 @@ class GraphicsSection extends Component {
       clientsByDay: { text: 'Usuarios registrados por fecha', },
       scoresByDate: { text: 'Ganacias por fecha' },
       scoresByDates: { text: 'Ganancias por rango de fechas' },
+      tillLog: { text: 'Corte de caja por fecha' },
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -163,6 +166,16 @@ class GraphicsSection extends Component {
             
           } )
         break;
+
+      case 'tillLog':
+        this.api.getTillCash()
+          .then( response => {
+            const labels = this.tillCashByDate.getLabels( response.data.result.items )
+            const data = this.tillCashByDate.getData( response.data.result.items )
+            console.log(data)
+            this.printChart( labels, data, 'Horas', 'Ganancias (en pesos)', `Corte de caja del ${startDate}` )
+          } )
+        break;
     
       default:
         const { data, labels } = this.graphics[graphSlected].route()
@@ -211,6 +224,10 @@ class GraphicsSection extends Component {
         } else {
           calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
         } 
+        break;
+
+      case 'tillLog':
+        calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
         break;
 
       case 'opt1':
@@ -399,6 +416,7 @@ class GraphicsSection extends Component {
             {/*<Option value="clientsByDay">Número de clientes por día</Option>*/}
             <Option value="scoresByDate">Ganancias por Fecha</Option>
             <Option value="scoresByDates">Ganancias por rango de fechas</Option>
+            <Option value="tillLog">Corte de caja por fecha</Option>
           </Select>
 
           <Select

@@ -30,7 +30,10 @@ class GraphicsManagment {
               scaleLabel: {
                 display: true,
                 labelString: yLabel
-              }
+              },
+              ticks: {
+                beginAtZero: true
+              },
           }],
           xAxes: [{
             display: true,
@@ -96,15 +99,16 @@ class GraphicsManagment {
               scaleLabel: {
                 display: true,
                 labelString: yLabel
-              }
+              },
+              ticks: {
+                beginAtZero: true
+              },
           }],
           xAxes: [{
             display: true,
             scaleLabel: {
               display: true,
               labelString: xLabel
-            },ticks: {
-              beginAtZero: true
             },
           }]
       },
@@ -129,7 +133,10 @@ class GraphicsManagment {
             label: chartLabel,
             borderColor: "#3e95cd",
             fill: 'origin',
-            backgroundColor: "#3e95cd8f"
+            backgroundColor: "#3e95cd8f",
+            pointRadius: 7,
+            pointHoverRadius: 10,
+            pointBackgroundColor: "#3e95cd"
           }
         ]
       }

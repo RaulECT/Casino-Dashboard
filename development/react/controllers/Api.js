@@ -1,5 +1,6 @@
 import axios from 'axios'
 import res from './test_data'
+import res_till from './till_fake'
 
 class Api {
 
@@ -403,6 +404,13 @@ class Api {
     // TODO: REPLACE WITH API
     return new Promise( ( resolve, reject ) => {
       resolve( res )
+    } )
+  }
+
+  getTillCash() {
+    // TODO: REPLACE WITH API
+    return new Promise( ( resolve, reject ) => {
+      resolve( res_till )
     } )
   }
 
