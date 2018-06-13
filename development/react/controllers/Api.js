@@ -1,6 +1,7 @@
 import axios from 'axios'
 import res from './test_data'
 import res_till from './till_fake'
+import res_till_range from './till_range_fake'
 
 class Api {
 
@@ -412,6 +413,13 @@ class Api {
     return new Promise( ( resolve, reject ) => {
       resolve( res_till )
     } )
+  }
+
+  getTillCashByRange() {
+    // TODO: REPLACE WITH API
+    return new Promise( ( resolve, reject ) => {
+      resolve( res_till_range )
+    })
   }
 
   getScoresByDate() {

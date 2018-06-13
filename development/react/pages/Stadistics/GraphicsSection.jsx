@@ -5,6 +5,7 @@ import GraphicsManagment from '../../controllers/GraphicsManagment'
 import ScoresByDate from '../../controllers/ScoresByDate'
 import ScoresByDateRange from '../../controllers/ScoresByDateRange'
 import TillCashByDate from '../../controllers/TillCashByDate'
+import TillCashByRange from '../../controllers/TillCashByRange'
 import { 
   DatePicker,
   Select,
@@ -33,6 +34,7 @@ class GraphicsSection extends Component {
     this.scoresByDate = new ScoresByDate()
     this.scoresByRange = new ScoresByDateRange()
     this.tillCashByDate = new TillCashByDate()
+    this.tillCashByRange = new TillCashByRange()
     this.api = new Api()
 
     this.generateTesData = this.generateTesData.bind( this )
@@ -49,6 +51,7 @@ class GraphicsSection extends Component {
       scoresByDate: { text: 'Ganacias por fecha' },
       scoresByDates: { text: 'Ganancias por rango de fechas' },
       tillLog: { text: 'Corte de caja por fecha' },
+      tillRange: { text: 'Corte de caja por rango de fechas' },
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -172,8 +175,18 @@ class GraphicsSection extends Component {
           .then( response => {
             const labels = this.tillCashByDate.getLabels( response.data.result.items )
             const data = this.tillCashByDate.getData( response.data.result.items )
-            console.log(data)
+            
             this.printChart( labels, data, 'Horas', 'Ganancias (en pesos)', `Corte de caja del ${startDate}` )
+          } )
+        break;
+
+      case 'tillRange':
+        this.api.getTillCashByRange()
+          .then( response => {
+            const labels = this.tillCashByRange.getLabels( response.data.result.items )
+            const data = this.tillCashByRange.getData( response.data.result.items )
+
+            this.printChart( labels, data, 'Fechas', 'Ganancias (en pesos)', `Corte de caja del ${startDate} al ${endDate}` )
           } )
         break;
     
@@ -228,6 +241,10 @@ class GraphicsSection extends Component {
 
       case 'tillLog':
         calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+        break;
+
+      case 'tillRange':
+        calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
         break;
 
       case 'opt1':
@@ -417,6 +434,7 @@ class GraphicsSection extends Component {
             <Option value="scoresByDate">Ganancias por Fecha</Option>
             <Option value="scoresByDates">Ganancias por rango de fechas</Option>
             <Option value="tillLog">Corte de caja por fecha</Option>
+            <Option value="tillRange">Corte de caja por rango de fechas</Option>
           </Select>
 
           <Select
