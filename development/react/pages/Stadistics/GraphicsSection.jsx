@@ -70,7 +70,7 @@ class GraphicsSection extends Component {
 
   cleanCanvas() {
     document.getElementById("chartContainer").innerHTML = '&nbsp;';
-    document.getElementById("chartContainer").innerHTML = '<canvas id="myChart" width="400" height="400"></canvas>'
+    document.getElementById("chartContainer").innerHTML = '<canvas id="myChart"></canvas>'
   }
 
   formatData( data ) {
@@ -472,9 +472,9 @@ class GraphicsSection extends Component {
           
         </div>
         
-         <div id="chartContainer">
-           <canvas id="myChart" width="200" height="200"></canvas>
-         </div>
+        <div id="chartContainer" className="container chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
         
       </div>
     )
