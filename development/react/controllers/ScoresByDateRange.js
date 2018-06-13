@@ -55,7 +55,7 @@ class ScoresByDateRange {
 
   getTotalDataSet( data ) {
     let totalByDates = []
-    const color = `${this.getRandomColor()}8f`
+    const color = `${this.getRandomColor()}`
     
     data.map( element => {
 
@@ -70,7 +70,8 @@ class ScoresByDateRange {
       fill: false,
       borderColor: color,
       backgroundColor: color,
-      pointRadius: 4,
+      pointRadius: 9,
+		  pointHoverRadius: 12,
     }
     console.log( dataset );
     return dataset
@@ -78,7 +79,15 @@ class ScoresByDateRange {
 
   getDatasetsByDate( data ) {
     let datasets = []
-    console.log( data,this.generalLabels );
+    const pointsStyles = ['circle',
+      'triangle',
+      'rect',
+      'rectRounded',
+      'rectRot',
+      'cross',
+      'crossRot',
+      'star',
+     ]
     
     this.generalLabels.map( label => {
 
@@ -91,14 +100,17 @@ class ScoresByDateRange {
         } )
       } )
 
-      const color = `${this.getRandomColor()}8f`
+      const color = `${this.getRandomColor()}`
       const dataset = {
         data: tableData,
         label: label,
         fill: false,
         borderColor: color,
         backgroundColor: color,
-        pointRadius: 4,
+        borderDash: [5, 5],
+        pointStyle: pointsStyles[ Math.floor(Math.random() * 8) ],
+        pointRadius: 9,
+				pointHoverRadius: 12,
       }
       datasets.push( dataset )
       

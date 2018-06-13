@@ -88,6 +88,7 @@ class GraphicsManagment {
         ]
       },
       options: {
+        responsive: true,
         legend: {display: isMultiLine},
         scales: {
           yAxes: [{
