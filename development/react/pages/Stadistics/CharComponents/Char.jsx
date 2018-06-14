@@ -14,9 +14,14 @@ class Char extends Component {
     this.printChar()
   }
 
-  configBarChar( props ) {
+  cleanCanvas() {
+    document.getElementById("chartContainer").innerHTML = '&nbsp;';
+    document.getElementById("chartContainer").innerHTML = '<canvas id="myChart"></canvas>'
+  }
+
+  configBarChar( config ) {
     const { xLabel, yLabel } = this.props
-    let barConfiguration = props
+    let barConfiguration = config
     
     barConfiguration[ 'xLabel' ] = xLabel
     barConfiguration[ 'yLabel' ] = yLabel
@@ -25,9 +30,9 @@ class Char extends Component {
     return barConfiguration
   }
 
-  configLineChar( props ) {
+  configLineChar( config ) {
     const { xLabel, yLabel } = this.props
-    let lineConfiguration = props
+    let lineConfiguration = config
     
     lineConfiguration[ 'xLabel' ] = xLabel
     lineConfiguration[ 'yLabel' ] = yLabel
@@ -42,8 +47,9 @@ class Char extends Component {
       data,
       dataLabels,
       chartLabel,
-      title
+      title,
     }
+    this.cleanCanvas()
 
     switch ( charType ) {
       case 'barGraph':
@@ -72,8 +78,8 @@ class Char extends Component {
 
   render() {
     return(
-      <div id="chartContainer">
-        <canvas id="myChart" width="200" height="200"></canvas>
+      <div id="chartContainer" className="container chart-container">
+        <canvas id="myChart"></canvas>
       </div>
     )
   }

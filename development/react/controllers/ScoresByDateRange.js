@@ -67,9 +67,9 @@ class ScoresByDateRange {
     const dataset = {
       data: totalByDates,
       label: 'Total por fecha',
-      fill: false,
+      fill: true,
       borderColor: color,
-      backgroundColor: color,
+      backgroundColor: `${color}14`,
       pointRadius: 9,
 		  pointHoverRadius: 12,
     }

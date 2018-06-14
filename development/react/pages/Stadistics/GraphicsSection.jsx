@@ -6,6 +6,11 @@ import ScoresByDate from '../../controllers/ScoresByDate'
 import ScoresByDateRange from '../../controllers/ScoresByDateRange'
 import TillCashByDate from '../../controllers/TillCashByDate'
 import TillCashByRange from '../../controllers/TillCashByRange'
+
+// TODO: TEST COMPONENTS REFACTORIZED
+import ChartForm from './CharComponents/ChartForm.jsx'
+import ChartSection from './CharComponents/Char.jsx'
+
 import { 
   DatePicker,
   Select,
@@ -29,6 +34,33 @@ class GraphicsSection extends Component {
       endDate: null,
       isMultiLine: false
     }
+
+    this.stats = [
+      {
+        val: 'scoresByDate',
+        name: 'Ganancias por Fecha',
+        calendar: 'MULTI_DATE',
+        charts: [ 'bar', 'pie', 'line', ],
+      },
+      {
+        val: 'scoresByDates',
+        name: 'Ganancias por rango de fechas',
+        calendar: 'MULTI_RANGE',
+        charts: [ 'bar', 'pie', 'line' ],
+      },
+      {
+        val: 'tillLog',
+        name: 'Corte de caja por fecha',
+        calendar: 'DATE',
+        charts: [ 'bar', 'line' ],
+      },
+      {
+        val: 'tillRange',
+        name: 'Corte de caja por rango de fechas',
+        calendar: 'RANGE',
+        charts: [ 'bar', 'line' ],
+      },
+    ]
 
     this.graphicsManagment = new GraphicsManagment()
     this.scoresByDate = new ScoresByDate()
@@ -427,10 +459,6 @@ class GraphicsSection extends Component {
             onChange={ this.handleGraphicsOptions }
             placeholder="Seleccione una estadistica"
           >
-            <Option value="custumersByDate">Registro de clientes</Option>
-            <Option value="pieTest">Ingresos generales</Option>
-            <Option value="barTest">Peridas generales</Option>
-            {/*<Option value="clientsByDay">Número de clientes por día</Option>*/}
             <Option value="scoresByDate">Ganancias por Fecha</Option>
             <Option value="scoresByDates">Ganancias por rango de fechas</Option>
             <Option value="tillLog">Corte de caja por fecha</Option>
