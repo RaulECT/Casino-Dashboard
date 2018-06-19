@@ -1,5 +1,6 @@
 class FingerprintSDKTest {
   constructor( errM ) {
+    
     this.operationToRestart = null
     this.acquisitionStarted = false
     this.currentFormat = Fingerprint.SampleFormat.Compressed
