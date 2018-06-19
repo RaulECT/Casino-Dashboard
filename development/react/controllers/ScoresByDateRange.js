@@ -55,7 +55,7 @@ class ScoresByDateRange {
 
   getTotalDataSet( data ) {
     let totalByDates = []
-    const color = `${this.getRandomColor()}`
+    const { rgb, rgba } = this.getRandomRGBColor()
     
     data.map( element => {
 
@@ -68,8 +68,8 @@ class ScoresByDateRange {
       data: totalByDates,
       label: 'Total por fecha',
       fill: true,
-      borderColor: color,
-      backgroundColor: `${color}14`,
+      borderColor: rgb,
+      backgroundColor: rgba,
       pointRadius: 9,
 		  pointHoverRadius: 12,
     }
@@ -127,6 +127,18 @@ class ScoresByDateRange {
       color += letters[Math.floor(Math.random() * 16)]
     }
     return color
+  }
+
+  getRandomRGBColor() {
+    const red = Math.floor(Math.random() * 255)
+    const green = Math.floor(Math.random() * 255)
+    const blue = Math.floor(Math.random() * 255 )
+    const alpha = .15
+
+    const rgb = `rgb(${red}, ${green}, ${blue})`
+    const rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`
+
+    return { rgb, rgba }
   }
 }
 
