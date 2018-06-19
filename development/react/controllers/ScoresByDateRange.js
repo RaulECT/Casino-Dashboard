@@ -71,7 +71,8 @@ class ScoresByDateRange {
       borderColor: rgb,
       backgroundColor: rgba,
       pointRadius: 9,
-		  pointHoverRadius: 12,
+      pointHoverRadius: 12,
+      pointBackgroundColor: rgb,
     }
     console.log( dataset );
     return dataset

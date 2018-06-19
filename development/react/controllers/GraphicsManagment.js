@@ -5,9 +5,12 @@ class GraphicsManagment {
   configBarGraphic( config, isMultiLine = false ) {
     const { data, dataLabels, chartLabel, xLabel, yLabel, title, type } = config
     const colors = []
+    const bordersColors = []
 
     for (let index = 0; index < dataLabels.length; index++) {
-      colors.push( this.getRandomColor().slice( 0, 7 ) )
+      const { rgb, rgba } = this.getRandomRGBColor()
+      colors.push( rgb )
+      bordersColors.push( rgba )
     }
 
     const configuration = {
@@ -18,7 +21,8 @@ class GraphicsManagment {
           {
             label: chartLabel,
             backgroundColor: colors,
-            data: data
+            borderColor: bordersColors,
+            data: data,
           }
         ]
       },
@@ -126,17 +130,19 @@ class GraphicsManagment {
         datasets: data,
       }
     } else {
+      const { rgb, rgba } = this.getRandomRGBColor()
+
       configuration['data'] = {
         labels: dataLabels,
         datasets: [{ 
             data: data,
             label: chartLabel,
-            borderColor: "#3e95cd",
+            borderColor: rgb,
             fill: 'origin',
-            backgroundColor: "#3e95cd8f",
+            backgroundColor: rgba,
             pointRadius: 7,
             pointHoverRadius: 10,
-            pointBackgroundColor: "#3e95cd"
+            pointBackgroundColor: rgb,
           }
         ]
       }
@@ -206,6 +212,18 @@ class GraphicsManagment {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return `${color}8f`;
+  }
+
+  getRandomRGBColor() {
+    const red = Math.floor(Math.random() * 255)
+    const green = Math.floor(Math.random() * 255)
+    const blue = Math.floor(Math.random() * 255 )
+    const alpha = .15
+
+    const rgb = `rgb(${red}, ${green}, ${blue})`
+    const rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`
+
+    return { rgb, rgba }
   }
   
 }
