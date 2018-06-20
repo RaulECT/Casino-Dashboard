@@ -152,6 +152,9 @@ class GraphicsManagment {
         }]
       },
       options: {
+        pieceLabel: {
+          render: 'value' //show values
+        },
         title: {
           display: true,
           text: title
