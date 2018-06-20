@@ -605,6 +605,20 @@ class Api {
     } )
   }
 
+  echoAPI() {
+    return axios.get( `${this.apiURL}/echo/` )
+  }
+
+  startMachine( appConfig ) {
+    console.log(appConfig)
+    return axios.post( `${this.apiURL}/start_machine`, appConfig, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
 }
 
 module.exports = Api
