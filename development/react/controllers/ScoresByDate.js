@@ -21,8 +21,6 @@ class ScoresByDate {
     } )
 
     labels.sort(this.compare)
-    console.log(labels);
-    console.log( generalLabels );
     
     this.generalLabels = generalLabels
     this.labels = labels
@@ -47,20 +45,21 @@ class ScoresByDate {
        data[ this.labels.indexOf(score.time) ] = score.amount / 100 
       } )
 
-      const color = `${this.getRandomColor()}8f`
+      const { rgb, rgba } = this.getRandomRGBColor()
       let dataset = {
         data,
         label: table.tableId,
         fill: true,
-        borderColor: color,
-        backgroundColor: color,
+        borderColor: rgb,
+        backgroundColor: rgba,
         pointRadius:4,
+        pointBackgroundColor: rgb,
       }
 
       datasets.push( dataset )    
     } )
     
-    console.log( totalByTable );
+    totalByTable.push(0)
     
     return { datasets, totalByTable }
   }
@@ -82,13 +81,16 @@ class ScoresByDate {
     return 0;
   }
 
-  getRandomColor() {
-    var letters = '0123456789ABCDEF'
-    var color = '#'
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)]
-    }
-    return color
+  getRandomRGBColor() {
+    const red = Math.floor(Math.random() * 255)
+    const green = Math.floor(Math.random() * 255)
+    const blue = Math.floor(Math.random() * 255 )
+    const alpha = .15
+
+    const rgb = `rgb(${red}, ${green}, ${blue})`
+    const rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`
+
+    return { rgb, rgba }
   }
 }
 

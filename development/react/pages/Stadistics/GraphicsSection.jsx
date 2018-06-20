@@ -3,6 +3,14 @@ import Chart from 'chart.js'
 import jsPDF from 'jspdf'
 import GraphicsManagment from '../../controllers/GraphicsManagment'
 import ScoresByDate from '../../controllers/ScoresByDate'
+import ScoresByDateRange from '../../controllers/ScoresByDateRange'
+import TillCashByDate from '../../controllers/TillCashByDate'
+import TillCashByRange from '../../controllers/TillCashByRange'
+
+// TODO: TEST COMPONENTS REFACTORIZED
+import ChartForm from './CharComponents/ChartForm.jsx'
+import ChartSection from './CharComponents/Char.jsx'
+
 import { 
   DatePicker,
   Select,
@@ -27,8 +35,38 @@ class GraphicsSection extends Component {
       isMultiLine: false
     }
 
+    this.stats = [
+      {
+        val: 'scoresByDate',
+        name: 'Ganancias por Fecha',
+        calendar: 'MULTI_DATE',
+        charts: [ 'bar', 'pie', 'line', ],
+      },
+      {
+        val: 'scoresByDates',
+        name: 'Ganancias por rango de fechas',
+        calendar: 'MULTI_RANGE',
+        charts: [ 'bar', 'pie', 'line' ],
+      },
+      {
+        val: 'tillLog',
+        name: 'Corte de caja por fecha',
+        calendar: 'DATE',
+        charts: [ 'bar', 'line' ],
+      },
+      {
+        val: 'tillRange',
+        name: 'Corte de caja por rango de fechas',
+        calendar: 'RANGE',
+        charts: [ 'bar', 'line' ],
+      },
+    ]
+
     this.graphicsManagment = new GraphicsManagment()
     this.scoresByDate = new ScoresByDate()
+    this.scoresByRange = new ScoresByDateRange()
+    this.tillCashByDate = new TillCashByDate()
+    this.tillCashByRange = new TillCashByRange()
     this.api = new Api()
 
     this.generateTesData = this.generateTesData.bind( this )
@@ -43,6 +81,9 @@ class GraphicsSection extends Component {
       barTest: { route: this.generateTesData, text: 'Peridas por fecha', xLabel: 'Fecha', yLabel: 'Ingresos (en pesos)', },
       clientsByDay: { text: 'Usuarios registrados por fecha', },
       scoresByDate: { text: 'Ganacias por fecha' },
+      scoresByDates: { text: 'Ganancias por rango de fechas' },
+      tillLog: { text: 'Corte de caja por fecha' },
+      tillRange: { text: 'Corte de caja por rango de fechas' },
     }
 
     this.dateFormat = "YYYY/MM/DD"
@@ -61,7 +102,7 @@ class GraphicsSection extends Component {
 
   cleanCanvas() {
     document.getElementById("chartContainer").innerHTML = '&nbsp;';
-    document.getElementById("chartContainer").innerHTML = '<canvas id="myChart" width="400" height="400"></canvas>'
+    document.getElementById("chartContainer").innerHTML = '<canvas id="myChart"></canvas>'
   }
 
   formatData( data ) {
@@ -129,17 +170,55 @@ class GraphicsSection extends Component {
         this.api.getScoresByDate()
           .then( response => {
             const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
-            console.log(multiple )
+
              const lables = this.scoresByDate.getLables( response.data.result.items )
              const data = this.scoresByDate.getDatasets( response.data.result.items )
              
              if ( multiple ) {
-               this.printChart( lables.labels, data.datasets, 'Horas', 'Ganancias (en pesos)', 'Ganancias por fecha',  true )
+               this.printChart( lables.labels, data.datasets, 'Horas', 'Ganancias (en pesos)', `Ganancias de la fecha ${startDate}`,  true )
              } else{
-              this.printChart( lables.generalLabels, data.totalByTable, 'Mesas', 'Ganancias (en pesos)', 'Ganancias por fecha' )
+              this.printChart( lables.generalLabels, data.totalByTable, 'Mesas', 'Ganancias (en pesos)', `Ganancias de la fecha ${startDate}` )
              }
 
              
+          } )
+        break;
+
+      case 'scoresByDates':
+        this.api.getScoresByDates()
+          .then( response => {
+            const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
+            const labels = this.scoresByRange.getLabels( response.data.result.items )
+            const data = this.scoresByRange.getDatasets( response.data.result.items )
+            console.log(labels, data);
+            
+
+            if ( multiple ) {
+              this.printChart( labels.labels , data.datasets, 'Fechas', 'Ganancias (en pesos)', `Ganancias de ${startDate} a ${endDate}`, true)
+            } else {
+              this.printChart( labels.generalLabels, data.dataTotal, 'Mesas', 'Ganancias (en pesos)', `Ganancias de ${startDate} a ${endDate}`)
+            }
+            
+          } )
+        break;
+
+      case 'tillLog':
+        this.api.getTillCash()
+          .then( response => {
+            const labels = this.tillCashByDate.getLabels( response.data.result.items )
+            const data = this.tillCashByDate.getData( response.data.result.items )
+            
+            this.printChart( labels, data, 'Horas', 'Ganancias (en pesos)', `Corte de caja del ${startDate}` )
+          } )
+        break;
+
+      case 'tillRange':
+        this.api.getTillCashByRange()
+          .then( response => {
+            const labels = this.tillCashByRange.getLabels( response.data.result.items )
+            const data = this.tillCashByRange.getData( response.data.result.items )
+
+            this.printChart( labels, data, 'Fechas', 'Ganancias (en pesos)', `Corte de caja del ${startDate} al ${endDate}` )
           } )
         break;
     
@@ -174,6 +253,30 @@ class GraphicsSection extends Component {
         } else {
           calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
         }   
+        break;
+
+      case 'scoresByDates':
+        if ( graphType === 'lineGraph' || graphType === 'barGraph' ) {
+          calendar = (
+            <div style={ {display: 'inline-flex', alignItems: 'center'} }>
+              <RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />
+              <div style={ { marginLeft: 15 } }>
+                <span>Ver por mesa: </span>
+                <Switch onChange={this.handleMultiLineChange} />
+              </div>
+            </div>
+          )
+        } else {
+          calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
+        } 
+        break;
+
+      case 'tillLog':
+        calendar = (<DatePicker format={this.dateFormat} onChange={this.handleRangePicker} />)
+        break;
+
+      case 'tillRange':
+        calendar = (<RangePicker onChange={this.handleRangePicker} format={ this.dateFormat } />)
         break;
 
       case 'opt1':
@@ -356,11 +459,10 @@ class GraphicsSection extends Component {
             onChange={ this.handleGraphicsOptions }
             placeholder="Seleccione una estadistica"
           >
-            <Option value="custumersByDate">Registro de clientes</Option>
-            <Option value="pieTest">Ingresos generales</Option>
-            <Option value="barTest">Peridas generales</Option>
-            {/*<Option value="clientsByDay">Número de clientes por día</Option>*/}
             <Option value="scoresByDate">Ganancias por Fecha</Option>
+            <Option value="scoresByDates">Ganancias por rango de fechas</Option>
+            <Option value="tillLog">Corte de caja por fecha</Option>
+            <Option value="tillRange">Corte de caja por rango de fechas</Option>
           </Select>
 
           <Select
@@ -398,9 +500,9 @@ class GraphicsSection extends Component {
           
         </div>
         
-         <div id="chartContainer">
-           <canvas id="myChart" width="200" height="200"></canvas>
-         </div>
+        <div id="chartContainer" className="container chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
         
       </div>
     )

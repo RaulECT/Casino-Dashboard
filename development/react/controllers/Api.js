@@ -1,4 +1,7 @@
 import axios from 'axios'
+import res from './test_data'
+import res_till from './till_fake'
+import res_till_range from './till_range_fake'
 
 class Api {
 
@@ -396,6 +399,27 @@ class Api {
         return status < 500; // Reject only if the status code is greater than or equal to 500
       }
     } )
+  }
+
+  getScoresByDates() {
+    // TODO: REPLACE WITH API
+    return new Promise( ( resolve, reject ) => {
+      resolve( res )
+    } )
+  }
+
+  getTillCash() {
+    // TODO: REPLACE WITH API
+    return new Promise( ( resolve, reject ) => {
+      resolve( res_till )
+    } )
+  }
+
+  getTillCashByRange() {
+    // TODO: REPLACE WITH API
+    return new Promise( ( resolve, reject ) => {
+      resolve( res_till_range )
+    })
   }
 
   getScoresByDate() {

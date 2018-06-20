@@ -1,5 +1,8 @@
+import { notification } from 'antd'
+
 class FingerprintSDKTest {
   constructor( errM ) {
+    
     this.operationToRestart = null
     this.acquisitionStarted = false
     this.currentFormat = Fingerprint.SampleFormat.Compressed
@@ -79,7 +82,10 @@ class FingerprintSDKTest {
       } )
       .catch( err => {
         console.log(err);
-        
+        notification['warning']( {
+          message: 'No se ha conectado el lector de huellas',
+          description: 'No se ha detectado ningún lector de huellas, algunas funcionalidades no estaran disponibles sin el lector, favor de connectar un lector de huellas.'
+        } )
       } )
   }
 

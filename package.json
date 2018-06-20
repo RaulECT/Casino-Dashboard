@@ -22,6 +22,7 @@
     "binascii": "0.0.2",
     "chart.js": "^2.7.2",
     "css-loader": "^0.28.10",
+    "electron": "^2.0.2",
     "image-webpack-loader": "^4.2.0",
     "jspdf": "^1.3.5",
     "moment": "^2.21.0",

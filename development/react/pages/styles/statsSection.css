@@ -52,3 +52,14 @@
 .message-section > p {
   margin-top: 10px !important;
 }
+
+.chart-container {
+  width: 100%;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
