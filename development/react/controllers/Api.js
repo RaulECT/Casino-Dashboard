@@ -1,4 +1,5 @@
 import axios from 'axios'
+import fs from 'fs'
 import res from './test_data'
 import res_till from './till_fake'
 import res_till_range from './till_range_fake'
@@ -7,18 +8,27 @@ class Api {
 
   constructor() {
     this.apiURL = 'http://springlabsdevs.online/casinos/api'
-    this.appType = 'adminModule'
-    this.appID = 'A0'
-    this.deviceID = 'eyJQcm9jZXNzb3JJZCI6IkJGRUJGQkZGMDAwMzA2QTkiLCJNb3RoZXJCb2FyZElkIjoiQzlOMENKODU3NTkwMzczIn0='
+    this.appType = '' //'adminModule'
+    this.appID = '' //'A0'
+    this.deviceID = '' //'eyJQcm9jZXNzb3JJZCI6IkJGRUJGQkZGMDAwMzA2QTkiLCJNb3RoZXJCb2FyZElkIjoiQzlOMENKODU3NTkwMzczIn0='
   
     //this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluMSIsIm5hbWUiOiJhZG1pbjEgYWRtaW4xIGFkbWluMSIsInBlcm1pc3Npb25zIjp7ImFkbWluTW9kdWxlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJCYWxhbmNlIjp0cnVlLCJjb25zdWx0Q3VzdG9tZXJzIjp0cnVlLCJjcmVhdGVDdXN0b21lcnMiOnRydWUsImVkaXRDYXJkSWQiOnRydWUsImVkaXRDdXN0b21lcnMiOnRydWUsInBpdGJvc3NNb2R1bGUiOnRydWUsInJlY2VwdGlvbiI6dHJ1ZSwidGFibGVHYW1lIjp0cnVlLCJ0aWxsIjp0cnVlfSwiYXBwSWQiOiJBMiIsImlhdCI6MTUyMTkyNDUzNCwiZXhwIjoxNTIxOTUzMzM0fQ.WZ3qkm-6tMepxWsuKnfE4nt_wkFiFDD9f5mXgElKACI'
     this.token = localStorage.token ? localStorage.token : ''
-    this.config = {}
-    this.getConfiguration()
+    this.readConfigFile()
     
     this.createPromo = this.createPromo.bind( this )
     this.editPromo = this.editPromo.bind( this )  
     this.createUser = this.createUser.bind( this )
+  }
+
+  readConfigFile() {
+    const text = fs.readFileSync( 'config.txt', 'utf8');
+    const config = JSON.parse( text )
+    const { appType, deviceId, appId, } = config
+ 
+    this.appType = appType
+    this.appID = appId[0]
+    this.deviceID = deviceId
   }
 
    getConfiguration() {

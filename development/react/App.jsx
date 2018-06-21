@@ -18,7 +18,7 @@ class App extends Component {
     super( props )
 
     this.state = {
-      configExists: false
+      configExists: true
     }
 
     this.confirmConfigurationFile = this.confirmConfigurationFile.bind( this )
@@ -30,13 +30,10 @@ class App extends Component {
 
   componentWillMount() {
     fs.readFile( 'config.txt', 'utf8', ( err, data ) => {
-      console.log( err, data );
       
       if ( err ) {
-        console.log('No hay archivo de configuracion');
         this.setState( { configExists: false } )
       } else {
-        console.log('Si hay archivo de configuración');
         this.setState( { configExists: true } )
       }
     } )
