@@ -30,11 +30,13 @@ class App extends Component {
 
   componentWillMount() {
     fs.readFile( 'config.txt', 'utf8', ( err, data ) => {
-      
+
       if ( err ) {
         this.setState( { configExists: false } )
+
       } else {
         this.setState( { configExists: true } )
+
       }
     } )
   }

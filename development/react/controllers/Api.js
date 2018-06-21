@@ -22,13 +22,22 @@ class Api {
   }
 
   readConfigFile() {
-    const text = fs.readFileSync( 'config.txt', 'utf8');
-    const config = JSON.parse( text )
-    const { appType, deviceId, appId, } = config
+    //const text = fs.readFileSync( 'config.txt', 'utf8');
+
+    fs.readFile( 'config.txt', ( err, data ) => {
+      
+      if ( !err ) {
+        const config = JSON.parse( data )
+        const { appType, deviceId, appId, } = config
  
-    this.appType = appType
-    this.appID = appId[0]
-    this.deviceID = deviceId
+        this.appType = appType
+        this.appID = appId[0]
+        this.deviceID = deviceId
+      }
+
+    } )
+
+
   }
 
    getConfiguration() {

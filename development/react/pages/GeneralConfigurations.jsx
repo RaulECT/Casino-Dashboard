@@ -196,7 +196,7 @@ class Generalconfigurations extends Component {
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="4">
+            <Menu.Item key="14">
               <Link to="/dashboard/administracion_usuarios">
                 <Icon type="team" />
                 <span>Administración de Empleados</span>
