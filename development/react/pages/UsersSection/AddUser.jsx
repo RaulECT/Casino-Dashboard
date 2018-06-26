@@ -20,7 +20,6 @@ import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
 import leftHandImage from '../images/left.png'
 import rightHandImage from '../images/right.png'
 import Webcam from '../ClientsSection/Webcam.jsx'
-import fs from 'fs'
 
 const FormItem = Form.Item
 const Option = Select.Option
