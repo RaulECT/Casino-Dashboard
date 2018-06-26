@@ -629,7 +629,7 @@ class Api {
   }
 
   startMachine( appConfig ) {
-    console.log(appConfig)
+
     return axios.post( `${this.apiURL}/start_machine`, appConfig, {
       headers: { token: this.token },
       validateStatus: function (status) {

@@ -14,6 +14,8 @@ class ErrorManagment {
     this.handleRequestFaildes = this.handleRequestFaildes.bind( this )
     this.handleFingerprintNotFound = this.handleFingerprintNotFound.bind( this )
     this.openErrorNotification = this.openErrorNotification.bind( this )
+    this.handleDataNotFound = this.handleDataNotFound.bind( this ) 
+    this.handleLoginFailed = this.handleLoginFailed.bind( this )
 
     this.errorDictionary = {
       "InvalidToken": this.handleInvalidToken,
@@ -22,12 +24,13 @@ class ErrorManagment {
       "additionalProperties": this.handleAditionalProperties,
       "pattern": this.handleErrorPattern,
       "format": this.handleFormatError,
-      "FingerprintNotFound": this.handleFingerprintNotFound
+      "FingerprintNotFound": this.handleFingerprintNotFound,
+      "dataNotFound": this.handleDataNotFound,
+      "loginFailed": this.handleLoginFailed,
     }
   }
 
   resolveError( error ) {
-    console.log(error)
     
     const functionError = this.errorDictionary[error.error]
     functionError()
@@ -63,12 +66,22 @@ class ErrorManagment {
     this.openErrorNotification( 'No se encotro ningun usuario con esa huella.' )
   }
 
+  handleDataNotFound() {
+    this.openErrorNotification( 'Información no encontrada', 'No se ha encontrado ningún usuario y/o registro con la información proporcionada.' )
+  }
+
+  handleLoginFailed() {
+    this.openErrorNotification( 'Error en el inicio de sesión', 'El usuario y/o contraseña no coinciden, verificar la credenciales proporcionadas.' )
+  }
+
   openErrorNotification( title, description ) {
     notification['warning']({
       message: title,
       description: description,
     })
   }
+
+
 }
 
 module.exports = ErrorManagment

@@ -77,11 +77,11 @@ class FingerprintSDKTest {
   getDeviceList() {
     this.sdk.enumerateDevices()
       .then( response => {
-        console.log(response);
+
         this.deviceId = response[0]
       } )
       .catch( err => {
-        console.log(err);
+
         notification['warning']( {
           message: 'No se ha conectado el lector de huellas',
           description: 'No se ha detectado ningún lector de huellas, algunas funcionalidades no estaran disponibles sin el lector, favor de connectar un lector de huellas.'
@@ -98,7 +98,7 @@ class FingerprintSDKTest {
       var samples = JSON.parse(s.samples);
       localStorage.setItem("imageSrc", "data:image/png;base64," + Fingerprint.b64UrlTo64(samples[0]));
 
-      console.log(samples);
+
 
     } else if(this.currentFormat == Fingerprint.SampleFormat.Raw){
       // If sample acquired format is RAW- perform following call on object recieved
@@ -111,7 +111,7 @@ class FingerprintSDKTest {
       var decodedData = JSON.parse(Fingerprint.b64UrlToUtf8(sampleData));
       localStorage.setItem("raw", Fingerprint.b64UrlTo64(decodedData.Data));
 
-      console.log(sampleData);
+
     } else if(this.currentFormat == Fingerprint.SampleFormat.Compressed){
       // If sample acquired format is Compressed- perform following call on object recieved
       // Get samples from the object - get 0th element of samples and then get Data from it.
@@ -136,7 +136,7 @@ class FingerprintSDKTest {
       var sampleData = Fingerprint.b64UrlTo64(samples[0].Data);
       localStorage.setItem("intermediate", sampleData);
 
-      console.log(sampleData);
+
     } else{
       alert("Format Error");
       //disableEnableExport(true);
@@ -158,7 +158,7 @@ class FingerprintSDKTest {
       //return { success: true, data: "Start Capturing" }
       func( { success: true, data: "Start Capturing" } )
     }, function (error) {
-      console.log(error.message);
+ 
       _instance.errorManagment(error.message)
       //return { success: false, error: error }
       return new Promise( (resolve, reject) => {

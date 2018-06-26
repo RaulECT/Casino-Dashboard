@@ -70,7 +70,6 @@ class ConfigurationForm extends Component {
         config['time'] = time
       }
 
-      console.log( config );
       onConfig( config )
       
     } else{

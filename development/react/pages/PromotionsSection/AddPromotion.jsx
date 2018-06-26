@@ -44,7 +44,6 @@ class AddPromotion extends Component {
         values.timeLimit = this.formatDate( values.timeLimit.format() )
         values.valueMax = values.valueMax * 100
         values.valueMin = values.valueMin * 100
-        console.log( values );
 
         this.props.createPromotion( values )
 

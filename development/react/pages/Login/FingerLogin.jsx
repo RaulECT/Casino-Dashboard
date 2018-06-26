@@ -26,15 +26,13 @@ class FingerLogin extends Component {
   checkFinger() {
     const data = this.fingerManagment.getData()
 
-    console.log(data);
-
     if ( data.success ) {
       this.fingerManagment.stopCapture()
 
       this.setState( { fingerPrint: data.samples, reading: false } )
       this.api.fingerprintLogin( data.samples )
         .then( response => {
-          console.log( response );
+
           if ( response.status === 200 ) {
             localStorage.setItem( 'user', 'User' )
             // TODO: Redirect to Dashboard
@@ -64,8 +62,7 @@ class FingerLogin extends Component {
   readFinger() {
     this.setState( { reading: true } )
 
-    this.fingerManagment.startCapture( res => {
-      console.log( res );
+    this.fingerManagment.startCapture( res => {;
       
       if ( res.success ) {
         setTimeout( this.checkFinger, 1000 )

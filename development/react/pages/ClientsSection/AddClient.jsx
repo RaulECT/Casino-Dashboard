@@ -62,7 +62,7 @@ class AddClient extends Component {
                 
                 values.birthday = this.formatDate( values.birthday.format().split('T')[0] )
                 values.photo = photo.split(',')[1]
-                console.log( values );
+   
             } else {
                 console.log( 'No se ha tomado la foto o uno de los campos es incorrecto.' );
                 

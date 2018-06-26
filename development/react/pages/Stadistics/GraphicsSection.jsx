@@ -158,7 +158,7 @@ class GraphicsSection extends Component {
       case 'clientsByDay':
         this.api.getNumberCustomersByDay( startDate, endDate )
           .then( response => {
-            console.log(response);
+
             if (response.status === 200) {
               const { data, labels } = this.formatData( response.data.result.customersByDay )
               this.printChart( labels, data,  )
@@ -190,7 +190,6 @@ class GraphicsSection extends Component {
             const multiple = isMultiLine && ( graphType === 'lineGraph' || graphType === 'barGraph' )
             const labels = this.scoresByRange.getLabels( response.data.result.items )
             const data = this.scoresByRange.getDatasets( response.data.result.items )
-            console.log(labels, data);
             
 
             if ( multiple ) {
@@ -340,7 +339,6 @@ class GraphicsSection extends Component {
         break;
     
       default:
-        console.log('holi')
         this.printBarGraphic( labels, data )
         break;
     }
@@ -404,7 +402,6 @@ class GraphicsSection extends Component {
 
   handleGraphicsOptions( value ) {
     const { graphic, startDate, endDate } = this.state
-    console.log( `selected: ${value}` )
 
     this.setState( {
       graphSlected: value,

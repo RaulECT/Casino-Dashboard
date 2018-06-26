@@ -3,6 +3,7 @@ import fs from 'fs'
 import sys from 'util'
 import {exec} from 'child_process'
 import Api from '../controllers/Api'
+import ErrorManagment from '../controllers/ErrorManagment'
 import { 
   Form,
   Input,
@@ -18,6 +19,7 @@ class AppConfiguration extends Component {
   constructor( props ) {
     super( props )
 
+    this.errorManagment = new ErrorManagment()
     this.api = new Api()
 
     this.state = {
@@ -54,13 +56,16 @@ class AppConfiguration extends Component {
 
                   this.api.startMachine( appConfiguration )
                     .then( response => {
-                      console.log( response );
+
+                      this.setState( { isLoading: false } )
                       if ( response.status === 200 ) {
                         this.writeConfigFile( appConfiguration )
+                      } else {
+                        this.errorManagment.resolveError( response.data )
                       }
                     } )
                     .catch( err => {
-
+                      this.setState( { isLoading: false } )
                     } )
                   
                 } )
@@ -71,6 +76,7 @@ class AppConfiguration extends Component {
               
               
             } else {
+              this.setState( { isLoading: false } )
               this.showNotification( 'error', 'Error de conexión', 'No se puedo establecer conexión con la API, favorde intentar de nuevo.' )
             }
 
@@ -80,7 +86,7 @@ class AppConfiguration extends Component {
             
           } )
 
-        this.setState( { isLoading: false } )
+        
       }
     } )
   }
@@ -113,7 +119,7 @@ class AppConfiguration extends Component {
             }
             deviceId.MotherBoardId = stdout.split("  \r\r\n")[1]
             //store.set("diviceId", deviceId)
-            console.log(deviceId)
+  
             const deviceIdString = new Buffer(JSON.stringify(deviceId)).toString('base64')
             resolve( deviceIdString )
         } )

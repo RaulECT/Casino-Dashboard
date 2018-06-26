@@ -74,7 +74,7 @@ class AutomaticDelivery extends Component {
   getEmailLists() {
     this.api.getEmailsList()
       .then( response => {
-        console.log( response );
+
         if ( response.status === 200 ) {
           const {items} = response.data.result
 

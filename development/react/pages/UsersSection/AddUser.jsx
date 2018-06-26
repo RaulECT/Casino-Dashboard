@@ -55,7 +55,7 @@ class AddUser extends Component {
   componentWillMount() {
     this.api.getRoles()
       .then( response => {
-        console.log(response);
+  
         let roles = []
         const { rolesArray } = response.data.result
 
@@ -71,12 +71,10 @@ class AddUser extends Component {
       if ( !err ) {
 
         const valuesFormated = this.formatValues( values )
-        console.log(valuesFormated);
         
         //return false
         this.props.createUser( valuesFormated )
           .then( response => {
-            console.log(response);
             if ( response.status === 200 ) {
               this.openNotification( 'success', 'Operación exitosa', 'Se ha creado con éxito al nuevo empleado.' )
             } else {
@@ -96,12 +94,9 @@ class AddUser extends Component {
     const { hand, fingerSelcted } = this.state
     const handUpdated = hand
     const data = this.test.getData()
-
-    console.log(data);
     
     if ( data.success ) {
       this.test.stopCapture()
-      console.log(data)
       handUpdated[fingerSelcted.hand][fingerSelcted.index] = data.samples
 
       this.setState( {
@@ -137,8 +132,6 @@ class AddUser extends Component {
           dataFormated.RINDEX.push( right[key] )
       }
     }
-
-    console.log( dataFormated )
   }
 
   formatValues( values ) {
@@ -159,8 +152,6 @@ class AddUser extends Component {
           rIndex.push( hand.right[key] )
       }
     }
-
-    console.log(lIndex, rIndex);
     
     
     const valuesFormated = {
@@ -192,7 +183,6 @@ class AddUser extends Component {
   }
 
   readFinger( handSelected, index ) {
-    console.log(handSelected, index);
  
     this.setState( {
       fingerSelcted: { hand:handSelected, index: index },
@@ -200,7 +190,6 @@ class AddUser extends Component {
     } )
 
     this.test.startCapture( res => {
-      console.log(res)
     
       if (res.success) {
         setTimeout( this.checkFinger, 1000 )

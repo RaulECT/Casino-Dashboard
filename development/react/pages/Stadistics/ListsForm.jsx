@@ -52,7 +52,7 @@ class ListsForm extends Component {
   componentDidMount() {
    
     if ( this.props.list ) {
-      console.log(this.props.list);
+
       
     }
   }
@@ -64,7 +64,7 @@ class ListsForm extends Component {
     //return false
     this.api.createEmailList( emailList )
       .then( response => {
-        console.log( response );
+
         
         if ( response.status === 200 ) {
           const listId = response.data.result.items[0].id
@@ -84,10 +84,8 @@ class ListsForm extends Component {
 
     configList['emailListId'] = listId
 
-    console.log( configList );
     this.api.configEmailList( configList )
       .then( response => {
-        console.log( response );
         
         if ( response.status === 200 ) {
           updateLists()
@@ -95,7 +93,7 @@ class ListsForm extends Component {
         }
       } )
       .catch( err => {
-        console.log( response );
+        console.log( err );
         
       } )
   }

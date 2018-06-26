@@ -56,11 +56,9 @@ class EditUser extends Component {
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
         const valuesFormated = this.formatValues( values )
-        console.log(valuesFormated);
         
         this.api.editUser( valuesFormated )
           .then( response => {
-            console.log(response);
             if ( response.status === 200 ) {
               this.openNotification( 'success', 'Operación exitosa', 'Se ha editado con éxito al empleado.' )
               this.props.close()
@@ -144,7 +142,6 @@ class EditUser extends Component {
     const { roles } = this.props
 
     roles.map( ( element, index ) => {
-      console.log(element)
       this.roles.push( <Option key={index} value={element.id}>{element.name}</Option> )
     } )
   }

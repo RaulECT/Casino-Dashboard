@@ -9,7 +9,7 @@ class ScoresByDate {
   getLables( data ) {
     let labels = []
     let generalLabels = []
-    console.log( data );
+
     
     data.map( table => {
       generalLabels.push( table.tableId )

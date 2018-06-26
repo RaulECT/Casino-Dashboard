@@ -74,7 +74,7 @@ class ScoresByDateRange {
       pointHoverRadius: 12,
       pointBackgroundColor: rgb,
     }
-    console.log( dataset );
+
     return dataset
   }
 
@@ -117,7 +117,7 @@ class ScoresByDateRange {
       
     } )
 
-    console.log( datasets );
+
     return datasets
   }
 

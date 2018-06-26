@@ -269,13 +269,12 @@ class RolesSection extends Component {
           } ) 
         } else {
           // TODO: Handle Error
-          console.log(response);
+ 
           this.errorManagment.resolveError( response.data )
         }
       } )
       .catch( err => {
         console.log( err )
-        console.log('esta wea ya fallo');
         
       } )
   }

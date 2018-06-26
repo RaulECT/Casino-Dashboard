@@ -50,7 +50,7 @@ class MembershipSection extends Component {
   componentWillMount() {
     this.api.getMembershipValues()
       .then( response => {
-        console.log(response)
+
         this.setState( {
           loading: false,
           membershipPayment: Number(response.membershipPayment/100),

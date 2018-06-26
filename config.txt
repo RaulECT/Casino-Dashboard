@@ -1,1 +1,0 @@
-{"appId":["A265","A139","A145"],"deviceId":"eyJQcm9jZXNzb3JJZCI6IjAwNjYwRjAxMTc4QkZCRkYiLCJNb3RoZXJCb2FyZElkIjoiUEZEVUEwMThKOU8zNVQifQ==","username":"superAdmin","password":"p*2fujetHas$","appType":"adminModule"}

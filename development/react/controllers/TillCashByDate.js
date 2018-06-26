@@ -7,7 +7,6 @@ class TillCashByDate {
 
   getLabels( data ) {
     let labels = []
-    console.log( data );
 
     data.map( record => labels.push( record.time ) )
     

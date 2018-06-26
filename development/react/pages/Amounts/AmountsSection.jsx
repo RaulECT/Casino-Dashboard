@@ -144,8 +144,6 @@ class AmountsSection extends Component {
           updateModal: this.state.updateModal,
           fastAmountValues: newFatsAmounts
         } )
-
-        console.log(newAmount)
         
       }
     } )
@@ -219,7 +217,7 @@ class AmountsSection extends Component {
       key === item.key
     
     )[0]
-    console.log(target)
+
     if (target) {
       
       target.editable = true;

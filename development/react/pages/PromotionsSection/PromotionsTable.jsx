@@ -38,7 +38,6 @@ class PromotionsTable extends Component {
   }
 
   handleChange( pagination, filters, sorter ) {
-    console.log(sorter);
     
     this.setState({
       filteredInfo: filters,

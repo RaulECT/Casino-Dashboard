@@ -83,7 +83,6 @@ class SchedulesSection extends Component {
   saveScheduleValues() {
     this.props.form.validateFields( (err, values) => {
       if ( !err ) {
-        console.log(values);
         
         const beginWorkingDay = values.beginWorkingDay.format('LT').split(' ')[0].toString()
         const endWorkingDay = values.endWorkingDay.format('LT').split(' ')[0].toString()
@@ -95,7 +94,6 @@ class SchedulesSection extends Component {
         
         this.api.setScheduleValues( values )
           .then( response => {
-            console.log(response);
             
             this.handleSaveModal()
             
