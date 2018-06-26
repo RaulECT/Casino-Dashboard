@@ -1,7 +1,0 @@
-directories:
-  output: dist
-  buildResources: build
-appId: com.app.dashboard
-win:
-  target: nsis
-electronVersion: 2.0.2
