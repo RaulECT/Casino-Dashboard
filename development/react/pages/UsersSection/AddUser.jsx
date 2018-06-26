@@ -12,12 +12,15 @@ import {
   Icon,
   Popconfirm,
   Radio,
-  notification
+  notification,
+  Avatar,
 } from 'antd'
 import Api from '../../controllers/Api'
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
 import leftHandImage from '../images/left.png'
 import rightHandImage from '../images/right.png'
+import Webcam from '../ClientsSection/Webcam.jsx'
+import fs from 'fs'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -32,7 +35,10 @@ class AddUser extends Component {
       hand: { left:{}, right: {} },
       fingerSelcted: { hand:'', index: -1 },
       reading: false,
-      roles: []
+      roles: [],
+      photo: null,
+      isPhotoTaken: false,
+      isWebcamShowing: false,
     }
 
     this.handleFingerprintErr = this.handleFingerprintErr.bind(this)
@@ -46,6 +52,10 @@ class AddUser extends Component {
     this.getCheckIcon = this.getCheckIcon.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
     this.readFinger = this.readFinger.bind( this )
+    this.handlePhotoSection = this.handlePhotoSection.bind( this )
+    this.getForm = this.getForm.bind( this )
+    this.getWebCamSection = this.getWebCamSection.bind( this )
+    this.takePhoto = this.takePhoto.bind( this )
   }
 
   componentWillReceiveProps() {
@@ -67,14 +77,24 @@ class AddUser extends Component {
   }
 
   createUser() {
+    const { isPhotoTaken } = this.state
+
     this.props.form.validateFields( ( err, values ) => {
-      if ( !err ) {
+      if ( !err && isPhotoTaken ) {
 
         const valuesFormated = this.formatValues( values )
         
         //return false
         this.props.createUser( valuesFormated )
           .then( response => {
+            console.log( valuesFormated, response );
+
+            fs.writeFile('req.json', JSON.stringify( valuesFormated ) , function (err) {
+              if (err) throw err;
+              console.log('Saved!');
+  
+            })
+            
             if ( response.status === 200 ) {
               this.openNotification( 'success', 'Operación exitosa', 'Se ha creado con éxito al nuevo empleado.' )
             } else {
@@ -136,7 +156,7 @@ class AddUser extends Component {
 
   formatValues( values ) {
     const { birthday, email, firstName, genere, name, password, role, secondName, userName } = values
-    const {hand} = this.state
+    const {hand, photo} = this.state
     const lIndex = [] 
     const rIndex = []
     const birthdayString = this.formatDate( birthday.format() )
@@ -167,7 +187,8 @@ class AddUser extends Component {
       },
       roleId: role,
       gender: genere,
-      birthday: birthdayString
+      birthday: birthdayString,
+      photo,
     }
 
     return valuesFormated
@@ -231,26 +252,30 @@ class AddUser extends Component {
     return options
   }
 
-  render() {
-    const { visible, close } = this.props
+  handlePhotoSection() {
+    const { isWebcamShowing } = this.state
+
+    this.setState( { isWebcamShowing: !isWebcamShowing } )
+  }
+
+  getForm() {
     const { getFieldDecorator } = this.props.form
-    const { reading, hand } = this.state
+    const { reading, hand, photo,isPhotoTaken } = this.state
     const leftHandFingersScanned = Object.keys( hand.left ).length
     const rightHandFingersScanned = Object.keys( hand.right ).length
+    const userImg = isPhotoTaken ? ( <img src={photo} className="photo-client" /> ) : ( <Avatar className="photo-client" size="large" icon="user" /> )
 
-    return(
-      <Modal
-        title="Agregar usuario"
-        visible={visible}
-        width={800}
-        style={{top: 20}}
-        onCancel={close}
-        okText="Crear rol"
-        onOk={ ()=>{} }
-        footer={ this.getModalFooter() }
-      >
+    return (
+      <div>
         <Form layout="inline">
           <Divider orientation="left">Información General</Divider>
+          <FormItem style={ { display: 'block' } } >
+            <div className="photo-section">
+              {userImg}
+              <Button onClick={this.handlePhotoSection} icon="picture"> Tomar foto </Button> 
+            </div>
+          </FormItem>
+          
           <FormItem
             label="Nombre(s):"
             className="add-user-form"
@@ -348,7 +373,7 @@ class AddUser extends Component {
             )}
           </FormItem>
         </Form>
-        
+
         <Divider orientation="left">Escaneo de Huellas</Divider>
         <Row>
           <Col span={12}> <img className="hand-image" src={leftHandImage} alt=""/> </Col>
@@ -404,6 +429,40 @@ class AddUser extends Component {
             <Button className="scann-finger-button" disabled={reading} onClick={ () => { this.readFinger('right', 4) } }>Escanear 4ta huella</Button>
           </Col>
         </Row>
+      </div>
+    )
+  }
+
+  getWebCamSection() {
+    return(
+      <Webcam 
+        close={ this.handlePhotoSection }
+        take={ this.takePhoto }
+      />
+    )
+  }
+
+  takePhoto( photo ) {
+    this.setState( { photo, isPhotoTaken: true, isWebcamShowing: false } )
+  }
+
+  render() {
+    const { visible, close } = this.props
+    const { isWebcamShowing } = this.state
+    const section = isWebcamShowing ? this.getWebCamSection() : this.getForm()
+
+    return(
+      <Modal
+        title="Agregar usuario"
+        visible={visible}
+        width={800}
+        style={{top: 20}}
+        onCancel={close}
+        okText="Crear rol"
+        onOk={ ()=>{} }
+        footer={ this.getModalFooter() }
+      >
+        { section }
       </Modal>
     )
   }

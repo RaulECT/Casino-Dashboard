@@ -63,3 +63,26 @@
   display: flex !important;
   align-items: center;
 }
+
+.photo-section {
+  display: flex;
+  align-items: center;
+}
+
+.photo-section > button {
+  margin-left: 10px;
+}
+
+.photo-client {
+  width: 120px !important;
+  height: 120px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px !important;
+}
+
+.photo-client > i {
+  font-size: 60px;
+}

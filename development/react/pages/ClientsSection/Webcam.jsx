@@ -13,9 +13,12 @@ class Webcam extends Component {
             stream: null,
         }
 
+        this.stream = null
+
         this.handleStartClick = this.handleStartClick.bind(this)
         this.takePicture = this.takePicture.bind(this)
         this.clearPhoto = this.clearPhoto.bind(this)
+        this.closeWebcam = this.closeWebcam.bind( this )
     }
 
     componentDidMount() {
@@ -33,6 +36,7 @@ class Webcam extends Component {
                     constraints
                 } )
 
+                this.stream = stream
                 const video = document.querySelector('video')
                 const vendorURL = window.URL || window.webkitURL
 
@@ -76,13 +80,22 @@ class Webcam extends Component {
         context.drawImage(video, 0, 0, width, height);
 
         const data = canvas.toDataURL('image/png');
+        this.stream.getTracks()[0].stop()
         this.state.stream.getTracks()[0].stop()
         this.props.take( data )
         
     }
 
-    render() {
+    closeWebcam() {
         const { close } = this.props
+
+        this.stream.getTracks()[0].stop()
+        this.state.stream.getTracks()[0].stop()
+        close()
+    }
+
+    render() {
+        
 
         return (
             <div className="capture">
@@ -103,7 +116,7 @@ class Webcam extends Component {
 
                     <Button 
                         icon="close"
-                        onClick={ ()=> close() }
+                        onClick={ this.closeWebcam }
                     > 
                         Cancelar
                     </Button>
