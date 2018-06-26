@@ -13,12 +13,14 @@ import {
   Icon,
   Popconfirm,
   notification,
-  Radio
+  Radio,
+  Avatar,
 } from 'antd'
 import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
 import leftHandImage from '../images/left.png'
 import rightHandImage from '../images/right.png'
+import Webcam from '../ClientsSection/Webcam.jsx'
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -30,7 +32,10 @@ class EditUser extends Component {
     super( props )
     
     this.state = {
-      fields: {}
+      fields: {},
+      photo: null,
+      isPhotoTaken: false,
+      isWebcamShowing: false,
     }
 
     this.roles = []
@@ -44,6 +49,10 @@ class EditUser extends Component {
     this.handleInputChange = this.handleInputChange.bind( this )
     this.setUserValues = this.setUserValues.bind( this )
     this.loadRoles = this.loadRoles.bind( this )
+    this.handlePhotoSection = this.handlePhotoSection.bind( this )
+    this.getForm = this.getForm.bind( this )
+    this.takePhoto = this.takePhoto.bind( this )
+    this.getWebcamSection = this.getWebcamSection.bind( this )
 
     this.loadRoles()
   }
@@ -84,13 +93,17 @@ class EditUser extends Component {
 
   formatValues( values ) {
     const { birthday, role, } = values
-    const { fields } = this.state
+    const { fields, isPhotoTaken, photo } = this.state
     const { user } = this.props
     const birthdayString = this.formatDate( birthday.format() )
     const valuesFormated = {
       userId: this.props.user.userId,
       birthday: birthdayString,
       roleId: role
+    }
+
+    if ( isPhotoTaken ) {
+      valuesFormated['photo'] = photo
     }
 
     for (const key in fields) {
@@ -153,10 +166,178 @@ class EditUser extends Component {
     this.setState( {fields} )
   }
 
+  handlePhotoSection() {
+    const { isWebcamShowing } = this.state
+
+    this.setState( { isWebcamShowing: !isWebcamShowing } )
+  }
+
+  getForm() {
+    const { getFieldDecorator } = this.props.form
+    const { isPhotoTaken, photo, isWebcamShowing } = this.state
+    const userImg = isPhotoTaken ? ( <img src={photo} className="photo-client" /> ) : ( <Avatar className="photo-client" size="large" icon="user" /> )
+    const style = isWebcamShowing ? { display: 'none' } : {}
+
+    return(
+      <div style={ style }>
+        <Form layout="inline">
+        <Divider orientation="left">Información General</Divider>
+
+        <FormItem style={ { display: 'block' } } >
+          <div className="photo-section">
+            {userImg}
+            <Button onClick={this.handlePhotoSection} icon="picture"> Tomar foto </Button> 
+          </div>
+        </FormItem>
+
+        <FormItem
+          label="Nombre(s):"
+          className="edit-user-form"
+          style={ {width: '70%'} }
+        >
+          {getFieldDecorator( 'name', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            <Input 
+              name="names"
+              placeholder="Ej. Juan Perez"
+              onChange={this.handleInputChange} 
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          label="Apellido Paterno:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'firstName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            <Input 
+              name="firstSurname"
+              placeholder="Ej. Gonzales"
+              onChange={this.handleInputChange}  
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          label="Apellido Materno:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'secondName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            <Input 
+              name="secondSurname"
+              placeholder="Ej. Gomez" 
+              onChange={this.handleInputChange} 
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          label="Nombre de usuario:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'userName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            <Input 
+              onChange={this.handleInputChange}  
+              name="username"
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          label="E-mail:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'email', { rules: [ { type: 'email', message: 'No es un E-mail correcto!' }, {required: true, message: 'Ingrese un valor!'} ] } )(
+             <Input 
+              placeholder="correo@correo.com" 
+              onChange={this.handleInputChange}  
+              name="email"
+            />
+           
+          )}
+        </FormItem>
+
+        <FormItem
+          label="Contraseña:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'password', { rules: [ {required: false, message: 'Ingrese un Valor!'} ]} )(
+            <Input 
+              onChange={this.handleInputChange} 
+              name="password"
+            />
+          )}
+        </FormItem>
+
+        <FormItem
+          label="Repetir Contraseña:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'confirmPassword', { rules: [ {required: false, message: 'Ingrese un Valor!'} ] } )(
+            <Input onChange={this.handleInputChange}  />
+          )}
+
+        </FormItem>
+
+        <FormItem
+          label="Fecha Nacimiento:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'birthday', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+            <DatePicker  placeholder="yyyy/mm/dd" format={this.dateFormat} />
+        )}
+        </FormItem>
+
+        <FormItem
+          label="Rol:"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
+            <Select style={{ width: 120 }} >
+              { this.roles.map( element => { return element } ) }
+            </Select>
+          )}
+        </FormItem>
+
+        <FormItem
+          label="Genero"
+          className="edit-user-form"
+        >
+          {getFieldDecorator( 'genere', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
+            <RadioGroup onChange={this.handleInputChange} name="gender" >
+              <Radio value={'M'}>Masculino</Radio>
+              <Radio value={'F'}>Femenino</Radio>
+            </RadioGroup>
+          )}
+        </FormItem>
+      </Form>
+    </div>
+    )
+  }
+
+  getWebcamSection() {
+    const { isWebcamShowing } = this.state
+    const style = isWebcamShowing ? {} : { display: 'none' }
+
+    return(
+      <div style={ style }>
+        <Webcam 
+          close={ this.handlePhotoSection }
+          take={ this.takePhoto }
+        />
+      </div>
+      
+    )
+  }
+
+  takePhoto( photo ) {
+    this.setState( { photo, isPhotoTaken: true, isWebcamShowing: false } )
+  }
+
   render() {
     const { visible, close } = this.props
-    const { getFieldDecorator } = this.props.form
-
+    const { isWebcamShowing } = this.state
+    const section = isWebcamShowing ? this.getWebcamSection() : this.getForm()
+   
     return(
       <Modal
         title="Editar usuario"
@@ -168,129 +349,8 @@ class EditUser extends Component {
         onOk={ ()=>{} }
         footer={ this.getModalFooter() }
       >
-        <Form layout="inline">
-          <Divider orientation="left">Información General</Divider>
-
-          <FormItem
-            label="Nombre(s):"
-            className="edit-user-form"
-            style={ {width: '70%'} }
-          >
-            {getFieldDecorator( 'name', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input 
-                name="names"
-                placeholder="Ej. Juan Perez"
-                onChange={this.handleInputChange} 
-              />
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Apellido Paterno:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'firstName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input 
-                name="firstSurname"
-                placeholder="Ej. Gonzales"
-                onChange={this.handleInputChange}  
-              />
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Apellido Materno:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'secondName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input 
-                name="secondSurname"
-                placeholder="Ej. Gomez" 
-                onChange={this.handleInputChange} 
-              />
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Nombre de usuario:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'userName', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <Input 
-                onChange={this.handleInputChange}  
-                name="username"
-              />
-            )}
-          </FormItem>
-
-          <FormItem
-            label="E-mail:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'email', { rules: [ { type: 'email', message: 'No es un E-mail correcto!' }, {required: true, message: 'Ingrese un valor!'} ] } )(
-               <Input 
-                placeholder="correo@correo.com" 
-                onChange={this.handleInputChange}  
-                name="email"
-              />
-               
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Contraseña:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'password', { rules: [ {required: false, message: 'Ingrese un Valor!'} ]} )(
-              <Input 
-                onChange={this.handleInputChange} 
-                name="password"
-              />
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Repetir Contraseña:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'confirmPassword', { rules: [ {required: false, message: 'Ingrese un Valor!'} ] } )(
-              <Input onChange={this.handleInputChange}  />
-            )}
-   
-          </FormItem>
-
-          <FormItem
-            label="Fecha Nacimiento:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'birthday', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
-              <DatePicker  placeholder="yyyy/mm/dd" format={this.dateFormat} />
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Rol:"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'role', { rules: [ {required: true, message: 'Seleccione un rol!'} ] } )(
-              <Select style={{ width: 120 }} >
-                { this.roles.map( element => { return element } ) }
-              </Select>
-            )}
-          </FormItem>
-
-          <FormItem
-            label="Genero"
-            className="edit-user-form"
-          >
-            {getFieldDecorator( 'genere', { rules: [ {required: true, message: 'Seleccione una opción!'} ] } )(
-              <RadioGroup onChange={this.handleInputChange} name="gender" >
-                <Radio value={'M'}>Masculino</Radio>
-                <Radio value={'F'}>Femenino</Radio>
-              </RadioGroup>
-            )}
-          </FormItem>
-        </Form>
+        { this.getForm() }
+        { this.getWebcamSection() }
 
       </Modal>
     )
