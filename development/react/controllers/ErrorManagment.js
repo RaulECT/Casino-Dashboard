@@ -16,6 +16,7 @@ class ErrorManagment {
     this.openErrorNotification = this.openErrorNotification.bind( this )
     this.handleDataNotFound = this.handleDataNotFound.bind( this ) 
     this.handleLoginFailed = this.handleLoginFailed.bind( this )
+    this.handleFingerprintsErro = this.handleFingerprintsErro.bind( this )
 
     this.errorDictionary = {
       "InvalidToken": this.handleInvalidToken,
@@ -27,6 +28,7 @@ class ErrorManagment {
       "FingerprintNotFound": this.handleFingerprintNotFound,
       "dataNotFound": this.handleDataNotFound,
       "loginFailed": this.handleLoginFailed,
+      "FingerprintsEnrollmentError": this.handleFingerprintsErro,
     }
   }
 
@@ -51,27 +53,31 @@ class ErrorManagment {
   }
 
   handleRequestFaildes() {
-    this.openErrorNotification( 'Error en la petición', 'La petición ha fallado, favor de verificar los campos. En caso de reeincidencia, cerrar la sesión actual e iniciar una nueva sesión.' )
+    this.openErrorNotification( 'Error en la petición', 'La petición ha fallado, favor de verificar los campos. En caso de reeincidencia, cerrar la sesión actual e iniciar una nueva sesión. Error: Request failed with status code 401' )
   }
 
   handleErrorPattern() {
-    this.openErrorNotification( 'Error en el formato', 'Verifique que el formato de los valores sea el correcto.' )
+    this.openErrorNotification( 'Error en el formato', 'Verifique que el formato de los valores sea el correcto. Error: pattern' )
   }
 
   handleFormatError() {
-    this.openErrorNotification( 'Error en el formato de los datos', 'Verique que todos los campos cumplan en el formato establecido.' )
+    this.openErrorNotification( 'Error en el formato de los datos', 'Verique que todos los campos cumplan en el formato establecido. Error: format' )
   }
 
   handleFingerprintNotFound() {
-    this.openErrorNotification( 'No se encotro ningun usuario con esa huella.' )
+    this.openErrorNotification( 'No se encotro ningun usuario con esa huella. Error: FingerprintNotFound' )
   }
 
   handleDataNotFound() {
-    this.openErrorNotification( 'Información no encontrada', 'No se ha encontrado ningún usuario y/o registro con la información proporcionada.' )
+    this.openErrorNotification( 'Información no encontrada', 'No se ha encontrado ningún usuario y/o registro con la información proporcionada. Error: dataNotFound' )
   }
 
   handleLoginFailed() {
-    this.openErrorNotification( 'Error en el inicio de sesión', 'El usuario y/o contraseña no coinciden, verificar la credenciales proporcionadas.' )
+    this.openErrorNotification( 'Error en el inicio de sesión', 'El usuario y/o contraseña no coinciden, verificar la credenciales proporcionadas. Error: loginFailed' )
+  }
+
+  handleFingerprintsErro() {
+    this.openErrorNotification( 'Error en la lectura de huellas', 'Vuelva a escanear las huellas. Error: FingerprintsEnrollmentError' )
   }
 
   openErrorNotification( title, description ) {

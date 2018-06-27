@@ -17,6 +17,7 @@ import {
 } from 'antd'
 import Api from '../../controllers/Api'
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
+import ErrorManagment from '../../controllers/ErrorManagment'
 import leftHandImage from '../images/left.png'
 import rightHandImage from '../images/right.png'
 import Webcam from '../ClientsSection/Webcam.jsx'
@@ -42,6 +43,7 @@ class AddUser extends Component {
 
     this.handleFingerprintErr = this.handleFingerprintErr.bind(this)
     this.test = new FingerprintSDKTest( this.handleFingerprintErr )
+    this.errorManagment = new ErrorManagment()
     this.dateFormat = "DD/MM/YYYY"
     this.roles = []
     this.api = new Api()
@@ -87,17 +89,11 @@ class AddUser extends Component {
         this.props.createUser( valuesFormated )
           .then( response => {
             console.log( valuesFormated, response );
-
-            fs.writeFile('req.json', JSON.stringify( valuesFormated ) , function (err) {
-              if (err) throw err;
-              console.log('Saved!');
-  
-            })
             
             if ( response.status === 200 ) {
               this.openNotification( 'success', 'Operación exitosa', 'Se ha creado con éxito al nuevo empleado.' )
             } else {
-              
+              this.errorManagment.resolveError( response.data )
             }
           } )
           .catch( err => {
@@ -125,6 +121,9 @@ class AddUser extends Component {
       } )
 
       this.formatFingersData( handUpdated )
+    } else {
+      this.test.stopCapture()
+      this.setState( { reading: false } )
     }
   }
 
