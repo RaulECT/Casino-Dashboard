@@ -71,7 +71,7 @@ class GlobalHeader extends Component {
         <div className="header-right-menu">
           <Dropdown overlay={hoverMenu}>
             <span className="action account">
-              <Avatar size="small" className="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
+              <Avatar size="small" className="avatar" icon="user" />
               <span className="name">{user}</span>
             </span>
           </Dropdown>

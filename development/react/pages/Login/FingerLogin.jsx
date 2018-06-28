@@ -35,12 +35,9 @@ class FingerLogin extends Component {
 
           if ( response.status === 200 ) {
             localStorage.setItem( 'user', 'User' )
-            // TODO: Redirect to Dashboard
-
             localStorage.setItem( 'token', response.data.result.token )
             localStorage.setItem( 'isLogin', 'true' )
         
-            // TODO: Router Redirect to /dashboard
             this.props.push( '/dashboard/configuraciones_generales' )
           } else {
             this.errorManagment.resolveError( response.data )
@@ -57,12 +54,10 @@ class FingerLogin extends Component {
     
   }
 
-
-
   readFinger() {
     this.setState( { reading: true } )
 
-    this.fingerManagment.startCapture( res => {;
+    this.fingerManagment.startCapture( res => {
       
       if ( res.success ) {
         setTimeout( this.checkFinger, 1000 )
