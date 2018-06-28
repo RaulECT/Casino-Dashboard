@@ -336,7 +336,6 @@ class EditUser extends Component {
   render() {
     const { visible, close } = this.props
     const { isWebcamShowing } = this.state
-    const section = isWebcamShowing ? this.getWebcamSection() : this.getForm()
    
     return(
       <Modal
