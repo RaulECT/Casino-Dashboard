@@ -40,7 +40,8 @@
   "build": {
     "appId": "com.app.dashboard",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "icono.ico"
     }
   }
 }
