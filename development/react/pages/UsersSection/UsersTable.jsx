@@ -95,8 +95,8 @@ class UserTable extends Component {
 
               <Divider type="vertical" />
               
-              <Popconfirm title="¿Desea eliminar este usuario?" onConfirm={() => { this.props.deleteSingleUser( record.userId ) }}> 
-                <a>Eliminar</a>
+              <Popconfirm title="¿Desea desactivar este usuario?" onConfirm={() => { this.props.deleteSingleUser( record.userId ) }}> 
+                <a>Desactivar</a>
               </Popconfirm>
             </span> 
           </div>

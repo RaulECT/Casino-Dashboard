@@ -1,4 +1,5 @@
 import React, {Component} from 'react' 
+import moment from 'moment'
 import {
   Form,
   Modal,
@@ -57,6 +58,7 @@ class AddUser extends Component {
     this.getForm = this.getForm.bind( this )
     this.getWebCamSection = this.getWebCamSection.bind( this )
     this.takePhoto = this.takePhoto.bind( this )
+    this.resetForm = this.resetForm.bind( this )
   }
 
   componentWillReceiveProps() {
@@ -92,6 +94,7 @@ class AddUser extends Component {
             
             if ( response.status === 200 ) {
               this.openNotification( 'success', 'Operación exitosa', 'Se ha creado con éxito al nuevo empleado.' )
+              this.resetForm()
             } else {
               this.errorManagment.resolveError( response.data )
             }
@@ -254,6 +257,32 @@ class AddUser extends Component {
     const { isWebcamShowing } = this.state
 
     this.setState( { isWebcamShowing: !isWebcamShowing } )
+  }
+
+  resetForm() {
+    const { setFieldsValue } = this.props.form
+
+    setFieldsValue( {
+      name: '',
+      firstName: '',
+      secondName: '',
+      email: '',
+      birthday: moment( '', this.dateFormat ),
+      genere: '',
+      confirmPassword: '',
+      password: '',
+      userName: '',
+      role: ''
+    } )
+
+    this.setState( {
+      hand: { left:{}, right: {} },
+      fingerSelcted: { hand:'', index: -1 },
+      reading: false,
+      photo: null,
+      isPhotoTaken: false,
+      isWebcamShowing: false,
+    } )
   }
 
   getForm() {
