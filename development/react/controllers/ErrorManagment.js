@@ -17,6 +17,7 @@ class ErrorManagment {
     this.handleDataNotFound = this.handleDataNotFound.bind( this ) 
     this.handleLoginFailed = this.handleLoginFailed.bind( this )
     this.handleFingerprintsErro = this.handleFingerprintsErro.bind( this )
+    this.handleInvalidDate = this.handleInvalidDate.bind( this )
 
     this.errorDictionary = {
       "InvalidToken": this.handleInvalidToken,
@@ -29,6 +30,7 @@ class ErrorManagment {
       "dataNotFound": this.handleDataNotFound,
       "loginFailed": this.handleLoginFailed,
       "FingerprintsEnrollmentError": this.handleFingerprintsErro,
+      "invalidDate": this.handleInvalidDate,
     }
   }
 
@@ -78,6 +80,10 @@ class ErrorManagment {
 
   handleFingerprintsErro() {
     this.openErrorNotification( 'Error en la lectura de huellas', 'Vuelva a escanear las huellas. Error: FingerprintsEnrollmentError' )
+  }
+
+  handleInvalidDate() {
+    this.openErrorNotification( 'Fecha incorrecta', 'La fecha no cumple con el formato correcto. Error: invalidDate.' )
   }
 
   openErrorNotification( title, description ) {

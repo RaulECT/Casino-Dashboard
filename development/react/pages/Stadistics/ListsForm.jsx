@@ -3,6 +3,7 @@ import EmailListForm from './EmailListForm.jsx'
 import ConfigurationForm from './ConfigurationForm.jsx'
 import FinishMessage from './FinishMessage.jsx'
 import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
 import {
   Card,
   Collapse,
@@ -37,6 +38,7 @@ class ListsForm extends Component {
 
     this.input = null
     this.api = new Api()
+    this.errorManagment = new ErrorManagment()
     this.state = {
       currentStep: 0,
       listId: null,
@@ -86,10 +88,12 @@ class ListsForm extends Component {
 
     this.api.configEmailList( configList )
       .then( response => {
-        
+      
         if ( response.status === 200 ) {
           updateLists()
           this.nextStep()
+        } else {
+          this.errorManagment.resolveError( response.data )
         }
       } )
       .catch( err => {
