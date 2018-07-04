@@ -111,7 +111,7 @@ class UsersManagment extends Component {
 
             <Menu.Item key="18">
               <Icon type="team" />
-              <span>Administración de Empleadoss</span>
+              <span>Administración de Empleados</span>
             </Menu.Item>
 
             {/*<Menu.Item key="9">
