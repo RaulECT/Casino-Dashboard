@@ -18,6 +18,7 @@ class ErrorManagment {
     this.handleLoginFailed = this.handleLoginFailed.bind( this )
     this.handleFingerprintsErro = this.handleFingerprintsErro.bind( this )
     this.handleInvalidDate = this.handleInvalidDate.bind( this )
+    this.handleRequiredError = this.handleRequiredError.bind( this )
 
     this.errorDictionary = {
       "InvalidToken": this.handleInvalidToken,
@@ -31,6 +32,7 @@ class ErrorManagment {
       "loginFailed": this.handleLoginFailed,
       "FingerprintsEnrollmentError": this.handleFingerprintsErro,
       "invalidDate": this.handleInvalidDate,
+      "required": this.handleRequiredError,
     }
   }
 
@@ -84,6 +86,10 @@ class ErrorManagment {
 
   handleInvalidDate() {
     this.openErrorNotification( 'Fecha incorrecta', 'La fecha no cumple con el formato correcto. Error: invalidDate.' )
+  }
+
+  handleRequiredError() {
+    this.openErrorNotification( 'Información incompleta', 'Falta información para realizar la petición, verifique todos los campos. Error: required' )
   }
 
   openErrorNotification( title, description ) {

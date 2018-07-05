@@ -88,7 +88,7 @@ class ListsForm extends Component {
 
     this.api.configEmailList( configList )
       .then( response => {
-      
+        console.log( response )
         if ( response.status === 200 ) {
           updateLists()
           this.nextStep()

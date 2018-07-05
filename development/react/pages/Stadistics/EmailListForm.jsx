@@ -24,9 +24,11 @@ class EmailListForm extends Component {
   }
 
   componentDidMount() {
-    const { list } = this.props
-    if (list) {
-      console.log( list )
+    const { name } = this.props
+    const { setFieldsValue } = this.props.form
+
+    if ( name ) {
+      setFieldsValue( { name } )
     }
     
   }

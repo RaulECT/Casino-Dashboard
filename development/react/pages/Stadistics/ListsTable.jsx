@@ -7,6 +7,7 @@ import {
   Table
 } from 'antd'
 import ListsForm from './ListsForm.jsx'
+import EditList from './EditList.jsx'
 
 class ListsTable extends Component {
 
@@ -44,35 +45,6 @@ class ListsTable extends Component {
   }
 
   getColumns() {
-    /*return [ {
-      title: 'Asunto',
-      key: 'subject',
-      dataIndex: 'subject'
-    }, {
-      title: 'Emails',
-      key: 'emails',
-      dataIndex: 'emails',
-      render: (text, record) => {
-        const tags = this.createEmailsTags( record.emails )
-        return(tags)
-      }
-    }, {
-      title: 'Estadisticas',
-      key: 'stats',
-      dataIndex: 'stats',
-      render: ( text, record ) => {
-        const tags = this.createStatsTags( record.stats )
-        return(tags)
-      }
-    }, {
-      title: 'Operaciones',
-      key: 'operations',
-      render: ( text, record ) => {
-        return(
-          <a onClick={ ()=>{ this.selectElementToEdit( record ) } }>Editar</a>
-        )
-      }
-    } ] */
 
     return [ {
       title: 'Nombre',
@@ -116,12 +88,10 @@ class ListsTable extends Component {
     const {editModal, listSelcted} = this.state
     const { data } = this.props
     const listForm = editModal ? (
-      <ListsForm
+      <EditList 
         visible={editModal}
-        type="edit"
-        confirm={ this.prepareInfo }
-        close={this.handleEditModal}
         list={listSelcted}
+        close={this.handleEditModal}
       />
     ) : ''
 

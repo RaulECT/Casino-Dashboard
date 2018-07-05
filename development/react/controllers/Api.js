@@ -615,6 +615,15 @@ class Api {
     } )
   }
 
+  editEmailList( emailList ) {
+    return axios.post( `${this.apiURL}/admin/update_email_list`, emailList, {
+      headers: { token: this.token },
+      validateStatus: function (status) {
+        return status < 500; // Reject only if the status code is greater than or equal to 500
+      }
+    } )
+  }
+
   configEmailList( emailConfig ) {
     return axios.post( `${this.apiURL}/admin/new_email`, emailConfig, {
       headers: { token: this.token },
@@ -637,6 +646,8 @@ class Api {
       }
     } )
   }
+
+
 
 }
 
