@@ -6,6 +6,7 @@
 2. Requerimientos.
 3. Ejecutar como developer.
 4. Generar instaladores.
+5. Documentación.
 
 ## Descripción.
 Módulo de administración del casino que controla las siguientes caracteristicas:
@@ -31,6 +32,7 @@ Módulo de administración del casino que controla las siguientes caracteristica
 ├── production
 |   └── app.js
 ├── .babelrc
+├──  out
 ├── .gitignore
 ├──  index.js
 ├──  main.js
@@ -101,4 +103,7 @@ Por defecto se genera una carpeta __/dist__ en la raíz del proyecto con el inst
   },
 }
 ```
+
+## Documentación
+La documentación de cada una de las clases y componentes se encuentra en el archivo __index.html__ dentro del directorio __out__ de la raíz del proyecto. 
 
