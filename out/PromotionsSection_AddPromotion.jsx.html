@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PromotionsSection/AddPromotion.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PromotionsSection/AddPromotion.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de agregar una nueva promoción
+ * @namespace AddPromotion
+ * @extends Component
+ */
+import React, {Component} from 'react' 
+import {
+  Form,
+  Modal,
+  Input,
+  DatePicker,
+  Select,
+  InputNumber,
+  Button,
+  Popconfirm,
+} from 'antd'
+
+const FormItem = Form.Item
+const Option = Select.Option
+const { TextArea } = Input
+
+class AddPromotion extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.dateFormat = "YYYY/MM/DD"
+    this.types = [
+      { value: 'discount', label: 'Descuento' },
+      { value: 'gift', label: 'Regalo' },
+      { value: 'giftPercent', label: 'Porcentaje de regalo' },
+      { value: 'discountPercent', label: 'Porcentaje de descuento' }
+    ]
+
+    this.createPromotion = this.createPromotion.bind( this )
+    this.getModalFooter = this.getModalFooter.bind( this )
+    this.getPromotionsTypes = this.getPromotionsTypes.bind( this )
+  }
+
+  /**
+   * Obtiene los valores para crear la promoción
+   */
+  createPromotion() {
+    this.props.form.validateFields( ( err, values ) => {
+      if ( !err ) {
+        
+        values.timeLimit = this.formatDate( values.timeLimit.format() )
+        values.valueMax = values.valueMax * 100
+        values.valueMin = values.valueMin * 100
+
+        this.props.createPromotion( values )
+
+      }
+    } )
+  }
+
+  /**
+   * Formatea las fechas
+   * @param {String} date 
+   */
+  formatDate( date ) {
+    const fullDate = date.split('T')[0]
+    const dateParts = fullDate.split('-')
+
+    return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`
+  }
+
+  /**
+   * Regresa el footer del modal
+   * @returns {JSX} HTML markup del componente
+   */
+  getModalFooter() {
+    return [
+      &lt;Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar&lt;/Button>,
+      &lt;Popconfirm key="1" title="¿Desea crear esta promoción?" onConfirm={ () => { this.createPromotion() }  }>
+        &lt;Button icon="plus" type="primary">Crear promoción&lt;/Button>
+      &lt;/Popconfirm>
+    ]
+  }
+
+  /**
+   * Regresa los tipos de promociones existentes
+   */
+  getPromotionsTypes() {
+    this.types.map( ( element, index ) => { return ( &lt;Option key={index} value={element.value} > { element.label } &lt;/Option> ) } )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
+  render() {
+    const { visible, close } = this.props
+    const { getFieldDecorator } = this.props.form
+
+    return(
+      &lt;Modal
+        title="Agregar promoción"
+        visible={visible}
+        onCancel={close}
+        style={{ top: 20 }}
+        okText="Crear promoción"
+        onOk={ ()=>{} }
+        footer={ this.getModalFooter() }
+      >
+        &lt;Form layout="horizontal">
+          &lt;FormItem
+            label="Nombre de la promoción:"
+            className="add-prom-form"
+          >
+            {getFieldDecorator( 'name', { rules: [ {required: true, message: 'Ingrese un valor!'} ] } )(
+              &lt;Input placeholder="Ej. Juan Perez" />
+            )}
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Tipo de Promoción:"
+            className="add-prom-form"
+          >
+            {getFieldDecorator( 'type', { rules: [ {required: true, message: 'Seleccione un tipo!'} ] } )(
+              &lt;Select style={{ width: 210 }}>
+                &lt;Option value="discount">Descuento&lt;/Option>
+                &lt;Option value="gift">Regalo&lt;/Option>
+                &lt;Option value="giftPercent">Porcentaje de regalo&lt;/Option>
+                &lt;Option value="discountPercent">Porcentaje de descuento&lt;/Option>
+              &lt;/Select>
+            )}
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Porcentaje de descuento:"
+            className="add-prom-form"
+          >
+            {getFieldDecorator( 'amount', { rules: [ {required: true, message: 'Ingrese un Valor númerico!'} ] } )(
+              &lt;InputNumber min={1} placeholder="Ej. 50" />
+            )}
+   
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Recarga minima:"
+            className="add-prom-form"
+          >
+            {getFieldDecorator( 'valueMin', { rules: [ {required: true, message: 'Ingrese un Valor númerico!'} ] } )(
+              &lt;InputNumber min={1} placeholder="Ej. 100" />
+            )}
+   
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Recarga máxima:"
+            className="add-prom-form"
+          >
+            {getFieldDecorator( 'valueMax', { rules: [ {required: true, message: 'Ingrese un Valor númerico!'} ] } )(
+              &lt;InputNumber min={1} placeholder="Ej. 1000" />
+            )}
+   
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Fecha limite de la promición:"
+            className="add-prom-form"
+          >
+            {getFieldDecorator( 'timeLimit', { rules: [ {required: true, message: 'Ingrese una fecha!'} ] } )(
+              &lt;DatePicker placeholder="yyyy/mm/dd" format={this.dateFormat} />
+            )}
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Descripción:"
+          >
+            {getFieldDecorator( 'description', { rules: [ {required: true, message: 'Ingrese un Valor!'} ] } )(
+              &lt;TextArea placeholder="" autosize={{ minRows: 2, maxRows: 6 }} />
+            )}
+   
+          &lt;/FormItem>
+        &lt;/Form>
+      &lt;/Modal>
+    )
+  }
+}
+
+const WrappedAddPromotion = Form.create()(AddPromotion);
+module.exports = WrappedAddPromotion</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

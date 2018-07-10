@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la sección de inicio se sesión usando el lector de huellas
+ */
 import React, {Component} from 'react'
 import {Button} from 'antd'
 import FingerprintSDKTest from '../../controllers/FingerprintSDKTest'
@@ -7,6 +10,10 @@ import fingerImg from '../images/huella_big.png'
 
 class FingerLogin extends Component {
 
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -23,7 +30,10 @@ class FingerLogin extends Component {
     this.readFinger = this.readFinger.bind( this )
   }
 
-  checkFinger() {
+  /**
+   * Verifica si se registro la huella del usuario
+   */
+  checkFinger() { 
     const data = this.fingerManagment.getData()
 
     if ( data.success ) {
@@ -54,6 +64,9 @@ class FingerLogin extends Component {
     
   }
 
+  /**
+   * Lee la huella del usuario usando el lector de huella
+   */
   readFinger() {
     this.setState( { reading: true } )
 
@@ -65,6 +78,10 @@ class FingerLogin extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const {reading} = this.state
     const buttonText = reading ? 'Iniciando sesión...' : 'Leer huella para iniciar sesión'

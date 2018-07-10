@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la sección de edición de listas de correo
+ */
 import React, {Component} from 'react'
 import {
   Modal,
@@ -9,6 +12,11 @@ import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
 
 class EditList extends Component {
+
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -23,10 +31,17 @@ class EditList extends Component {
     this.editList = this.editList.bind( this )
   }
 
+  /**
+   * Función que cierrda el modal
+   */
   closeModal() {
     this.setState( { visible: false } )
   }
 
+  /**
+   * Función que regresa el footer del modal
+   * @returns {Array} Opciones del footer
+   */
   getModalFooter() {
     const { close } = this.props
 
@@ -35,6 +50,10 @@ class EditList extends Component {
     ]
   }
 
+  /**
+   * Función que envia a la API la información para editar la lista de correo
+   * @param {Object} listInfo Información de la lista 
+   */
   editList( listInfo ) {
     const { list, close } = this.props
     listInfo.id = list.id
@@ -56,6 +75,10 @@ class EditList extends Component {
       .catch( err => console.log( err ) )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const { visible } = this.state
     const { list, close } = this.props

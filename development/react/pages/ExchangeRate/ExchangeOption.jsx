@@ -1,16 +1,22 @@
+/**
+ * Componente que representa a una opción de la sección de manejor de cambio
+ * @namespace ExchangeOption
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import {
-  Form,
   Input,
   InputNumber
 } from 'antd'
 
 class ExchangeOption extends Component {
   
-
+  /**
+   * Randeriza la vista al usuario
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const input = this.props.input == 'number' ? (<InputNumber disabled={this.props.avaible} onChange={this.props.change} />) : (<Input disabled={this.props.avaible} onChange={this.props.change} className="chip-input"/>)
-    const FormItem = Form.FormItem
 
     return(
       <div className="exchange-container">

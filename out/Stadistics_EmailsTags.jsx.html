@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Stadistics/EmailsTags.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Stadistics/EmailsTags.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a los tags de emails
+ * @namespace EmailsTags
+ * @extends Component
+ */
+import React, {Component} from 'react'
+import {
+  Icon,
+  Input,
+  message,
+  Tag,
+  Tooltip
+} from 'antd'
+
+class EmailsTags extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {Object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      emailInputValue: '',
+      emailInputVisible: false
+    }
+
+    this.handleCloseTag = this.handleCloseTag.bind( this )
+    this.handleEmailInputConfirm = this.handleEmailInputConfirm.bind( this )
+    this.handelEmailInputChange = this.handelEmailInputChange.bind( this )
+    this.showEmailInput = this.showEmailInput.bind( this )
+  }
+
+  /**
+   * Función que maneja la eliminación de tags
+   * @param {String} removedEmail 
+   */
+  handleCloseTag( removedEmail ) {
+    const emails = this.props.emails.filter( email => email !== removedEmail )
+    
+    this.props.onUpdateEmails( emails )
+  }
+
+  /**
+   * Función que maneja la confirmación del formulario
+   */
+  handleEmailInputConfirm() {
+    const state = this.state
+    const inputValue = state.emailInputValue
+    const re = /^(([^&lt;>()\[\]\\.,;:\s@"]+(\.[^&lt;>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    let emails = this.props.emails
+
+    if ( inputValue &amp;&amp; emails.indexOf( inputValue ) === -1 &amp;&amp; re.test( inputValue ) ) {
+      emails = emails.concat( inputValue )
+    } else {
+      message.error( 'Correo repetido o no cumple con el formato de un correo electronico.', 5 )
+    }
+    
+    this.setState( { emailInputVisible: false, emailInputValue: '' }, this.props.onUpdateEmails( emails ) )
+    
+  }
+
+  /**
+   * Función que maneja los cambios en el input
+   * @param {Object} e 
+   */
+  handelEmailInputChange( e ) {
+    this.setState( { emailInputValue: e.target.value } )
+  }
+
+  /**
+   * Función que muestra el input para ingresar el email
+   */
+  showEmailInput() {
+    this.setState( { emailInputVisible: true } )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
+  render() {
+    const {emails} = this.props
+    const { emailInputValue, emailInputVisible } = this.state
+
+    return(
+      &lt;div>
+        {emails.map( (email, index) => {
+          const tagElement = (
+            &lt;Tag key={email} closable afterClose={ () => { this.handleCloseTag( email ) } }>
+              {email}
+            &lt;/Tag>
+          )
+
+          return &lt;Tooltip title={email} key={email}>{tagElement}&lt;/Tooltip>
+        } )}
+
+        { emailInputVisible &amp;&amp; (
+          &lt;Input 
+            ref={ (input) => { this.input = input } }
+            type="text"
+            size="small"
+            style={ {width: 220} }
+            value={emailInputValue}
+            onChange={this.handelEmailInputChange}
+            onBlur={this.handleEmailInputConfirm}
+            onPressEnter={this.handleEmailInputConfirm}
+          />
+        ) }
+
+        { !emailInputVisible &amp;&amp; (
+          &lt;Tag
+            onClick={this.showEmailInput}
+            style={{ background: '#fff', borderStyle: 'dashed' }}
+          >
+            &lt;Icon type="plus" /> Agregar Email
+          &lt;/Tag>
+        )
+        }
+      &lt;/div>
+    )
+  }
+}
+
+module.exports = EmailsTags</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

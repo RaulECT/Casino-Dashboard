@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Amounts/AmountsSection.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Amounts/AmountsSection.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de manejo de recargas rápidas del casino
+ * @namespace AmountsSection
+ * @extends Component
+ */
+import React, {Component} from 'react'
+import { 
+  Alert,
+  Table, 
+  Icon, 
+  Input,
+  Divider,
+  Button,
+  Popconfirm,
+  Modal,
+  Form,
+  InputNumber,
+  notification
+} from 'antd'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+
+import '../styles/amountSection.css'
+
+const FormItem = Form.Item
+
+const EditableCell = ({ editable, value, onChange }) => (
+  &lt;div>
+    {editable
+      ? &lt;Input style={{ margin: '-5px 0' }} value={value} onChange={e => onChange(e.target.value)} />
+      : value
+    }
+  &lt;/div>
+);
+
+class AmountsSection extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+ 
+    this.state = {
+      loading: true,
+      hasChanged: false,
+      success: false,
+      revertChangesModal: false,
+      addModal: false,
+      updateModal: false,
+      fastAmountValues: []
+    }
+
+    this.cacheData = []
+    this.amountsBackup = []
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+
+    this.addNewAmount = this.addNewAmount.bind( this )
+    this.deleteAmount = this.deleteAmount.bind( this )
+    this.handleAddModal = this.handleAddModal.bind( this )
+    this.handelRevertChangesModal = this.handelRevertChangesModal.bind( this )
+    this.handleUpdateModal = this.handleUpdateModal.bind( this )
+    this.revertChanges = this.revertChanges.bind( this )
+    this.updateAmounts = this.updateAmounts.bind( this )
+
+    this.columns = [{
+      title: 'Monto',
+      dataIndex: 'monto',
+      render: (text, record) => this.renderColumns(text, record, 'monto'),
+    }, 
+    {
+      title: 'Operaciones',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        const { editable } = record;
+        return (
+          &lt;div className="editable-row-operations">
+            {
+              editable ?
+                &lt;span>
+                  &lt;a onClick={() => this.save(record.key)}>Cambiar cantidad&lt;/a>
+                  &lt;Divider type="vertical" />
+                  &lt;Popconfirm title="¿Esta seguro que quiere cancelar la operación?" onConfirm={() => this.cancel(record.key)}>
+                    &lt;a>Cancelar&lt;/a>
+                  &lt;/Popconfirm>
+                &lt;/span>
+                : 
+                &lt;span>
+                  &lt;a onClick={() => this.edit(record.key)}>Editar&lt;/a>
+                  &lt;Divider type="vertical" />
+                  &lt;Popconfirm title="¿Desea eliminar este elemento?" onConfirm={() => this.deleteAmount(record.key)}>
+                    &lt;a>Eliminar&lt;/a>
+                  &lt;/Popconfirm>
+                &lt;/span> 
+                
+            }
+          &lt;/div>
+        );
+      },
+    }]
+  }
+
+  /**
+   * Función que se ejecuta antes de randerizas la vista, obtiene los valores guardados en la API
+   */
+  componentWillMount() {
+    this.api.getFastAmountsValues()
+      .then( response => {
+        const data = []
+        response.map( ( amount, index ) => {
+          data.push( { key: index.toString(), monto: amount/100 } )
+        } )
+        this.cacheData = data
+
+        this.setState( {
+          loading: false,
+          hasChanged: this.state.hasChanged,
+          success: this.state.success,
+          revertChangesModal: this.state.revertChangesModal,
+          addModal: this.state.addModal,
+          updateModal: this.state.updateModal,
+          fastAmountValues: data
+        } )
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
+  }
+
+  /**
+   * Función que guarda una nueva cantidad de recarga en la API
+   */
+  addNewAmount() {
+    this.props.form.validateFields( (err, values) => {
+      if( !err ) {
+        const newAmount = { 
+          key: (this.state.fastAmountValues.length + 1).toString(),
+          monto: values.newAmount 
+        }
+
+        const newFatsAmounts = this.state.fastAmountValues.concat( newAmount )
+
+        newFatsAmounts.sort( (a,b) => {
+          if (a.monto &lt; b.monto)
+            return -1
+          if (a.monto > b.monto)
+            return 1
+          return 0
+        } )
+
+        this.setState( {
+          loading: false,
+          hasChanged: true,
+          success: false,
+          revertChangesModal: this.state.revertChangesModal,
+          addModal: false,
+          updateModal: this.state.updateModal,
+          fastAmountValues: newFatsAmounts
+        } )
+        
+      }
+    } )
+  }
+
+  /**
+   * Cierra el modal de editar una cantidad en especifica
+   * @param {String} key ID del elemento seleccionado
+   */
+  cancel(key) {
+    const newData = [...this.state.fastAmountValues]
+    const target = newData.filter(item => key === item.key)[0]
+    if (target) {
+      Object.assign(target, this.cacheData.filter(item => key === item.key)[0])
+      delete target.editable;
+      this.setState({ 
+        loading: false,
+        hasChanged: this.state.hasChanged,
+        success: false,
+        revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
+        fastAmountValues: newData 
+      })
+    }
+  }
+
+  /**
+   * Guarda los cambios realizados de editar una cantidad
+   * @param {String} key ID del elemento seleccionado
+   */
+  save(key) {
+    const newData = [...this.state.fastAmountValues];
+    const target = newData.filter(item => key === item.key)[0];
+    if (target) {
+      delete target.editable;
+
+      newData.sort( (a,b) => {
+        if (a.monto &lt; b.monto)
+          return -1
+        if (a.monto > b.monto)
+          return 1
+        return 0
+      } )
+
+      this.setState({ 
+        loading: false,
+        hasChanged: true,
+        success: false,
+        revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
+        fastAmountValues: newData 
+      })
+      this.cacheData = newData.map(item => ({ ...item }));
+    }
+  }
+
+  /**
+   * Elimina un elemento seleccionado
+   * @param {String} key ID del elemento seleccionado
+   */
+  deleteAmount( key ) {
+    let amounts = this.state.fastAmountValues
+    key = amounts.findIndex( element => element.key === key.toString() )
+    amounts.splice( key, 1 )
+    this.setState( {
+      loading: false,
+      hasChanged: true,
+      success: false,
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: this.state.updateModal,
+      fastAmountValues: amounts
+    } )
+    
+  }
+
+  /**
+   * Muestra el formulario para editar un elemento seleccionado
+   * @param {String} key ID del elemento seleccionado
+   */
+  edit(key) {
+    const newData = [...this.state.fastAmountValues]
+    
+    const target = newData.filter(item => 
+      key === item.key
+    
+    )[0]
+
+    if (target) {
+      
+      target.editable = true;
+      this.setState({ 
+        loading: false,
+        hasChanged: this.state.hasChanged,
+        success: false,
+        revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
+        fastAmountValues: newData 
+      })
+    }
+  }
+
+  /**
+   * Función que maneja el modal para agregar una nueva cantidad de recarga
+   */
+  handleAddModal() {
+    this.setState( {
+      loading: false,
+      hasChanged: this.state.hasChanged,
+      success: false,
+      revertChangesModal: this.state.revertChangesModal,
+      addModal: !this.state.addModal,
+      updateModal: this.state.updateModal,
+      fastAmountValues: this.state.fastAmountValues
+    } )
+  }
+
+  /**
+   *  Muestra las opciones de edición de un elemento seleccionado
+   * @param {String} value Valor de la fila seleccionada
+   * @param {String} key Identificador de la fila
+   * @param {String} column Columna del elemento seleccionado
+   */
+  handleChange(value, key, column) {
+    const newData = [...this.state.fastAmountValues]
+    const target = newData.filter(item => key === item.key)[0]
+    if (target) {
+      target[column] = value;
+      this.setState({ 
+        loading: false,
+        hasChanged: this.state.hasChanged,
+        success: false,
+        revertChangesModal: this.state.revertChangesModal,
+        addModal: this.state.addModal,
+        updateModal: this.state.updateModal,
+        fastAmountValues: newData 
+      })
+    }
+  }
+
+  /**
+   * Maneja el modal de confirmación de guardar cambios
+   */
+  handleUpdateModal() {
+    this.setState( {
+      loading: false,
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: this.setState.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: !this.state.updateModal,
+      fastAmountValues: this.state.fastAmountValues
+    } )
+  }
+
+  /**
+   * Maneja el modal para revertir cambios
+   */
+  handelRevertChangesModal() {
+    this.setState( {
+      loading: false,
+      hasChanged: this.state.hasChanged,
+      success: this.state.success,
+      revertChangesModal: !this.setState.revertChangesModal,
+      addModal: this.state.addModal,
+      updateModal: this.state.updateModal,
+      fastAmountValues: this.state.fastAmountValues
+    } )
+  }
+
+  /**
+   * Randeriza un componente EditableCell
+   * @param {String} text 
+   * @param {object} record 
+   * @param {object} column 
+   */
+  renderColumns(text, record, column) {
+    return (
+      &lt;EditableCell
+        editable={record.editable}
+        value={text}
+        onChange={value => this.handleChange(value, record.key, column)}
+      />
+    );
+  }
+
+  /**
+   * Revierte los cambios realizados voliendo a solicitar los valores guardados en la API
+   */
+  revertChanges() {
+    this.api.getFastAmountsValues()
+      .then( response => {
+        const data = []
+        response.map( ( amount, index ) => {
+          data.push( { key: index.toString(), monto: amount/100 } )
+        } )
+        this.cacheData = data
+
+        this.amountsBackup = response
+        this.setState( {
+          loading: false,
+          hasChanged: false,
+          success: false,
+          revertChangesModal: false,
+          addModal: this.state.addModal,
+          updateModal: this.state.updateModal,
+          fastAmountValues: data
+        } )
+      } )
+      .catch( err => {
+        console.log( err )
+      } )
+  }
+
+  /**
+   * Función que envia a la API los cambios realizados al usuario
+   */
+  updateAmounts() {
+    const { fastAmountValues } = this.state
+    let newAmounts = []
+
+    fastAmountValues.map( amount => {
+      newAmounts.push( (amount.monto * 100) )
+    } )
+
+    this.api.updateFastAmounts( newAmounts )
+      .then( response => {
+        this.handleUpdateModal()
+
+        if ( response.status === 200 ) {
+          this.setState( {
+            loading: false,
+            hasChanged: false,
+            success: true,
+            revertChangesModal: this.state.revertChangesModal,
+            addModal: this.state.addModal,
+            updateModal: false,
+            fastAmountValues: this.state.fastAmountValues
+          } )
+        } else {
+          // TODO: Handle Error
+          this.errorManagment.resolveError( response.data )
+        }
+      } )
+      .catch( err => {
+        this.handleUpdateModal()
+        console.log( err )
+      } )
+  }
+
+  /**
+   * Muestra una notificación al usuario
+   * @param {String} type Tipo de notificación que se le mostrara al usuario 
+   * @param {*} message Título de la notificación
+   * @param {*} description Mensaje de la notificación
+   */
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+  
+  /**
+   * Randeriza la vista al usuario
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+    const { getFieldDecorator } = this.props.form
+    const changeMessage = this.state.hasChanged ? (&lt;Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''
+    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
+
+
+    const changesModal = (
+      &lt;Modal
+        title="Revertir Cambios"
+        visible={this.state.revertChangesModal}
+        onOk={this.revertChanges}
+        onCancel={this.handelRevertChangesModal}
+      >
+        &lt;p>¿Desea guardar todos los cambios realizados?&lt;/p>
+    
+      &lt;/Modal>)
+
+    const updateModal = (
+      &lt;Modal
+        title="Guardar Cambios"
+        visible={this.state.updateModal}
+        onOk={this.updateAmounts}
+        onCancel={this.handleUpdateModal}
+      >
+        &lt;p>¿Desea guardar todos los cambios realizados?&lt;/p>
+    
+      &lt;/Modal>)
+
+    const addModal = (
+      &lt;Modal
+        title="Agregar nuevo monto rápido"
+        visible={this.state.addModal}
+        onOk={ this.addNewAmount }
+        onCancel={this.handleAddModal}
+      >
+        &lt;Form>
+          &lt;FormItem
+            label="Nuevo monto:"
+            className="amount-form"
+          >
+            {getFieldDecorator('newAmount', {
+              rules: [{ required: true, message: 'Ingrese un valor!' }],
+            })(
+              &lt;InputNumber 
+                min={1} 
+                onChange={ ()=>{} }
+              />
+            )}
+          &lt;/FormItem>
+        &lt;/Form>
+        
+      &lt;/Modal>
+    )
+
+    const loadingSpin = this.state.loading ? (
+      &lt;Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
+    return(
+      &lt;div className="amounts-container">
+        {changeMessage}
+        {loadingSpin}
+
+        &lt;h4>Porfavor, asigne los valores deseados&lt;/h4>
+
+        &lt;Table
+          className="amonts-table" 
+          columns={this.columns} 
+          dataSource={this.state.fastAmountValues} 
+        />
+
+        &lt;div>
+          &lt;Button 
+            disabled={!this.state.hasChanged} 
+            className="button-fixed" icon="save" 
+            type="primary" 
+            onClick={this.handleUpdateModal}
+          >
+            Guardar Cambios
+          &lt;/Button>
+
+          &lt;Button
+            className="button-fixed"
+            icon="plus" 
+            type="primary"
+            disabled={this.state.loading}
+            onClick={this.handleAddModal} 
+          >
+            Agregar Monto
+          &lt;/Button>
+
+          &lt;Button
+            disabled={!this.state.hasChanged} 
+            icon="close" 
+            type="primary" 
+            onClick={this.handelRevertChangesModal} 
+          >
+            Cancelar Cambios
+          &lt;/Button>
+
+          {changesModal}
+          {updateModal}
+          {addModal}
+          
+        &lt;/div>
+      &lt;/div>
+    )
+  }
+}
+
+const WrappedAmountsSection = Form.create()(AmountsSection);
+module.exports = WrappedAmountsSection</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

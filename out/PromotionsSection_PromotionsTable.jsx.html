@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PromotionsSection/PromotionsTable.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PromotionsSection/PromotionsTable.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la tabla de promociones existentes
+ */
+import React, {Component} from 'react' 
+import {
+  Button,
+  Divider,
+  Popconfirm,
+  Table
+} from 'antd'
+
+class PromotionsTable extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.activeFilter = [
+      { text: 'activo', value: true },
+      { text: 'inactivo', value: false }
+    ]
+
+    this.state = {
+      filteredInfo: null,
+      sortedInfo: null
+    }
+
+    this.rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => console.log( selectedRows ) 
+    }
+
+    this.clearAll = this.clearAll.bind( this )
+    this.handleChange = this.handleChange.bind( this )
+    this.getColumns = this.getColumns.bind( this )
+    this.setRolSort = this.setRolSort.bind( this )
+  }
+
+  /**
+   * Función que resetea los valores de ordenamiento
+   */
+  clearAll() {
+    this.setState( {
+      filteredInfo: null,
+      sortedInfo: null
+    } )
+  }
+
+  /**
+   * Función que guarda en el estado el filtro y ordenamiento seleccionado por el usuario
+   * @param {*} pagination 
+   * @param {*} filters 
+   * @param {*} sorter 
+   */
+  handleChange( pagination, filters, sorter ) {
+    
+    this.setState({
+      filteredInfo: filters,
+      sortedInfo: sorter,
+    })
+  }
+
+  /**
+   * Función que regresa las columnas de la tabla de promociones
+   * @returns {Array} Columnas de la tabla
+   */
+  getColumns() {
+    let { filteredInfo, sortedInfo } = this.state
+    const { showEditSection, selectPromToEdit } = this.props
+
+    sortedInfo = sortedInfo || {}
+    filteredInfo = filteredInfo || {}
+
+    const columns = [ {
+      title: 'Nombre',
+      key: 'Name',
+      dataIndex: 'name',
+      sorter: (a, b) => this.sortAlphabetically( a.name, b.name ),
+      sortOrder: sortedInfo.columnKey === 'Name' &amp;&amp; sortedInfo.order
+    }, 
+    {
+      title: 'Activa',
+      key: 'active',
+      dataIndex: 'active',
+      sorter: (a, b) => this.sortAlphabetically( a.active, b.active ),
+      sortOrder: sortedInfo.columnKey === 'active' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Monto máx',
+      key: 'Max',
+      dataIndex: 'valueMax',
+      sorter: (a, b) => {return a.valueMax - b.valueMax},
+      sortOrder: sortedInfo.columnKey === 'Max' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Monto min',
+      key: 'Min',
+      dataIndex: 'valueMin',
+      sorter: ( a, b ) => a.valueMin - b.valueMin,
+      sortOrder: sortedInfo.columnKey === 'Min' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Vigencia',
+      key: 'vigencia',
+      dataIndex: 'timeLimit',
+      sorter: ( a, b ) => a &lt; b,
+      sortOrder: sortedInfo.columnKey === 'vigencia' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Opciones',
+      dataIndex: 'operation',
+      render: (text, record) => {
+        return (
+          &lt;div className="editable-row-operations">
+            &lt;span>
+              &lt;a onClick={() => { 
+                //showEditSection()  
+                selectPromToEdit( record )
+              }}>
+                Editar
+              &lt;/a>
+
+              &lt;Divider type="vertical" />
+              
+              &lt;Popconfirm title="¿Desea desactivar esta promoción?" onConfirm={() => { this.props.deactivePromotion( record.id ) }}> 
+                &lt;a>Desactivar&lt;/a>
+              &lt;/Popconfirm>
+            &lt;/span> 
+          &lt;/div>
+        )
+      }
+    } ]
+
+    return columns
+  }
+
+  /**
+   * Función que guarda en el estado el tipo de ordenamiento de la tabla
+   */
+  setRolSort() {
+    const { filteredInfo } = this.state
+
+    this.setState( {
+      sortedInfo: {
+        order: 'descend',
+        columnKey: 'roleName'
+      },
+      filteredInfo
+    } )
+  }
+
+  /**
+   * Función que ordena alfabeticamente dos strings
+   * @param {String} a 
+   * @param {String} b 
+   */
+  sortAlphabetically( a, b ) {
+    return (a &lt; b) ? -1 : (a > b) ? 1 : 0
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
+  render() {
+    const columns = this.getColumns()
+
+    return(
+      &lt;div style={{ width: '100%' }}>
+        &lt;div className="table-operations">
+          &lt;Button onClick={ this.clearAll }>Reestrablecer filtros&lt;/Button>
+        &lt;/div>
+
+        &lt;Table 
+          rowSelection={this.rowSelection} 
+          className="proms-table" 
+          dataSource={this.props.data} 
+          columns={columns} 
+          onChange={this.handleChange}
+        />
+      &lt;/div>
+    )
+  }
+}
+
+module.exports = PromotionsTable</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

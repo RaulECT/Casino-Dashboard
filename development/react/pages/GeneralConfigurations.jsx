@@ -9,22 +9,10 @@ import { Link } from 'react-router-dom'
 import { Layout, 
   Menu, 
   Icon, 
-  Avatar, 
-  Divider, 
-  Select, 
-  Modal, 
-  Tooltip, 
-  Dropdown, 
-  InputNumber,
-  Row, 
-  Button,
-  Form,
-  Col } from 'antd'
+  Form, 
+} from 'antd'
 import GlobalHeader from './GlobalHeader.jsx'
 import PageHeader from './PageHeader.jsx'
-
-import RolesManagment from './RolesManagment.jsx'
-
 import ChipsSection from './Chips/ChipsSection.jsx'
 import AmountsSection from './Amounts/AmountsSection.jsx'
 import ExchangeSection from './ExchangeRate/ExchangeSection.jsx'

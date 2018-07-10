@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la sección envios automaticos
+ */
 import React,{Component} from 'react'
 import {
   Button,
@@ -13,6 +16,10 @@ import '../styles/statsSection.css'
 
 class AutomaticDelivery extends Component {
 
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -33,10 +40,17 @@ class AutomaticDelivery extends Component {
     this.showDeleteConfirm = this.showDeleteConfirm.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentWillMount() {
     this.getEmailLists()
   }
 
+  /**
+   * Función que guarda los elementos seleccionados para eliminar
+   * @param {Array} elementesSelected Elementos seleccionados para eliminar 
+   */
   addListToDelete( elementesSelected ) {
     let listsToDelete = []
 
@@ -45,6 +59,13 @@ class AutomaticDelivery extends Component {
     this.setState( { listsToDelete } )
   }
 
+  /**
+   * 
+   * @param {*} emails 
+   * @param {*} stats 
+   * @param {*} subject 
+   * @param {*} periodicityConfig 
+   */
   createList( emails, stats, subject, periodicityConfig = {} ) {
     let { lists } = this.state
 
@@ -71,6 +92,9 @@ class AutomaticDelivery extends Component {
     this.setState( { lists } )
   }
 
+  /**
+   * Función que obtiene las listas guardadas en la API
+   */
   getEmailLists() {
     this.api.getEmailsList()
       .then( response => {
@@ -94,12 +118,18 @@ class AutomaticDelivery extends Component {
       } )
   }
 
+  /**
+   * Función que maneja la presencia del modal para crear una nueva lista de correo
+   */
   handleCreateListModal() {
     const { createListModal } = this.state
 
     this.setState( { createListModal: !createListModal } )
   }
 
+  /**
+   * Función que maneja la presencia del modal para confirmar la eliminación de un elemento
+   */
   showDeleteConfirm() {
     let { lists, listsToDelete } = this.state
     const _this = this
@@ -116,6 +146,10 @@ class AutomaticDelivery extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const { createListModal, lists, listsToDelete } = this.state
     const deleteDisabled = listsToDelete.length > 0 ? false : true

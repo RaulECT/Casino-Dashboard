@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la sección de emails ingresados para crear la lista de correo
+ */
 import React, {Component} from 'react'
 import EmailsTags from './EmailsTags.jsx'
 import {
@@ -12,6 +15,11 @@ import {
 const FormItem = Form.Item
 
 class EmailListForm extends Component {
+
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -23,6 +31,9 @@ class EmailListForm extends Component {
     this.updateEmails = this.updateEmails.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentDidMount() {
     const { name } = this.props
     const { setFieldsValue } = this.props.form
@@ -33,6 +44,9 @@ class EmailListForm extends Component {
     
   }
 
+  /**
+   * Función que forza el formulario
+   */
   submitList() {
     const {validateFields} = this.props.form
     const {emails} = this.state
@@ -49,10 +63,18 @@ class EmailListForm extends Component {
     } )
   }
 
+  /**
+   * Función que actualiza los emails 
+   * @param {Array} emails 
+   */
   updateEmails( emails ) {
     this.setState( {emails} )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup
+   */
   render() {
     const {getFieldDecorator} = this.props.form
     const {type} = this.props

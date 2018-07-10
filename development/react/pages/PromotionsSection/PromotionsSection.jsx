@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la sección de manejo de promociones
+ */
 import React, {Component} from 'react' 
 import {
   Form,
@@ -17,6 +20,11 @@ import EditPromotion from './EditPromotion.jsx'
 import '../styles/promsSection.css'
 
 class PromotionsSection extends Component {
+
+  /**
+   * Crea el componente
+   * @param {*} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -42,12 +50,19 @@ class PromotionsSection extends Component {
     this.selectPromToEdit = this.selectPromToEdit.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentWillMount() {
     this.loadPromotions()
   }
 
+  /**
+   * Función que desactiva una promoción
+   * @param {String} promotion ID de la promoión a desactivar
+   */
   deactivePromotion( promotion ) {
-    console.log( promotion );
+    
     this.api.deactivePromo( promotion )
       .then( response => {
         console.log( response );
@@ -64,6 +79,10 @@ class PromotionsSection extends Component {
       } )
   }
 
+  /**
+   * Función que le solicita a la API crear una nueva promoción
+   * @param {object} data Información de la promoción a crear
+   */
   createPromotion( data ) {
     const { addPromotionModal, editPromotionModal, success, promotionsToDelete, promotionToEdit, proms, loading } = this.state
 
@@ -92,6 +111,10 @@ class PromotionsSection extends Component {
       } )
   }
 
+  /**
+   * Función que le envia a la API la información para editar una promoción
+   * @param {*} data 
+   */
   editPromotion( data ) {
     const { addPromotionModal, editPromotionModal, success, promotionsToDelete, promotionToEdit, proms, loading } = this.state
     console.log(data);
@@ -118,6 +141,9 @@ class PromotionsSection extends Component {
       } ) 
   }
 
+  /**
+   * Función que carga las promociones guardadas en la API
+   */
   loadPromotions() {
     const { addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, success } = this.state
 
@@ -164,6 +190,9 @@ class PromotionsSection extends Component {
       } )
   }
 
+  /**
+   * Función que maneja la presencia del modal para agrega nuevas promociones
+   */
   handleAddPromotionModal() {
     const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, loading, success } = this.state
 
@@ -178,6 +207,9 @@ class PromotionsSection extends Component {
     } )
   }
 
+  /**
+   * Función que maneja la presencia del modal para editar las promociones
+   */
   handleEditPromotionModal() {
     const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, promotionToEdit, loading, success } = this.state
 
@@ -192,6 +224,11 @@ class PromotionsSection extends Component {
     } )
   }
 
+  /**
+   * Función que le muestra al usuario una notificación de éxito
+   * @param {String} description Título de la notificación 
+   * @param {String} message Mensaje de la notificación
+   */
   openNotificationWithIcon( description, message ) {
     notification['success']( {
       message: message,
@@ -199,8 +236,11 @@ class PromotionsSection extends Component {
     } )
   }
 
+  /**
+   * Función que guarda en el estado la promoción para editar
+   * @param {object} promSelcted 
+   */
   selectPromToEdit( promSelcted ) {
-    console.log(promSelcted);
     
     const { proms, addPromotionModal, editPromotionModal, promotionsToDelete, loading, success } = this.state
 
@@ -215,6 +255,10 @@ class PromotionsSection extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const { proms, addPromotionModal, editPromotionModal, promotionToEdit, promotionsToDelete, success, loading } = this.state
     const deleteDisabled = promotionsToDelete.length > 0 ? false : true

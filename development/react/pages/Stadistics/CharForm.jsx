@@ -1,3 +1,8 @@
+/**
+ * Componente que representa a las opciones para generar gráficas de estadisticas
+ * @namespace CharForm
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import {
   Form,
@@ -11,6 +16,10 @@ const Option = Select.Option
 
 class CharForm extends Component {
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const { onChartChange, onReportChange, onSubjectChange } = this.props
 

@@ -1,19 +1,19 @@
+/**
+ * Componente que representa a la sección de editar promoción
+ * @namespace EditPromotion
+ * @extends Component
+ */
 import React, {Component} from 'react' 
 import moment from 'moment'
 import {
   Form,
   Modal,
   Input,
-  Row,
-  Col,
   DatePicker,
-  Divider,
   Select,
   InputNumber,
   Button,
-  Icon,
   Popconfirm,
-  Radio
 } from 'antd'
 
 const FormItem = Form.Item
@@ -21,6 +21,11 @@ const Option = Select.Option
 const { TextArea } = Input
 
 class EditPromotion extends Component {
+
+  /**
+   * Crea el componente
+   * @param {*} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -38,10 +43,16 @@ class EditPromotion extends Component {
     this.setPromValues = this.setPromValues.bind( this )
   }
 
+  /**
+   * Función que se ejecuta despues de randerizar la vista
+   */
   componentDidMount() {
     this.setPromValues()
   }
 
+  /**
+   * Obtiene la información de los campos de texto para editar la promoción
+   */
   editPromotion() {
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
@@ -55,10 +66,18 @@ class EditPromotion extends Component {
     } )
   }
 
+  /**
+   * Formatea fechas a formato YYYY/MM/DD
+   * @param {*} date 
+   */
   formatDate( date ) {
     return date.replace( /-/g , '/' )
   }
 
+  /**
+   * Regresa el footer del modal
+   * @returns {Array} Opciones del footer
+   */
   getModalFooter() {
     return [
       <Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar</Button>,
@@ -68,10 +87,17 @@ class EditPromotion extends Component {
     ]
   }
 
+  /**
+   * Obtiene los tipos de promociones existentes
+   * @returns {JSX} Opción
+   */
   getPromotionsTypes() {
     this.types.map( ( element, index ) => { return ( <Option key={index} value={element.value} > { element.label } </Option> ) } )
   }
 
+  /**
+   * Coloca la información de la promoción en los campos correspondientes
+   */
   setPromValues() {
     const { setFieldsValue } = this.props.form
     const { active, amount, description, name, timeLimit, type, valueMax, valueMin } = this.props.prom
@@ -88,6 +114,10 @@ class EditPromotion extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const { visible, close } = this.props
     const { getFieldDecorator } = this.props.form

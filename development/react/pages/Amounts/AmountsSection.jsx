@@ -1,3 +1,8 @@
+/**
+ * Componente que representa a la sección de manejo de recargas rápidas del casino
+ * @namespace AmountsSection
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import { 
   Alert,
@@ -30,6 +35,10 @@ const EditableCell = ({ editable, value, onChange }) => (
 
 class AmountsSection extends Component {
 
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
  
@@ -93,6 +102,9 @@ class AmountsSection extends Component {
     }]
   }
 
+  /**
+   * Función que se ejecuta antes de randerizas la vista, obtiene los valores guardados en la API
+   */
   componentWillMount() {
     this.api.getFastAmountsValues()
       .then( response => {
@@ -117,6 +129,9 @@ class AmountsSection extends Component {
       } )
   }
 
+  /**
+   * Función que guarda una nueva cantidad de recarga en la API
+   */
   addNewAmount() {
     this.props.form.validateFields( (err, values) => {
       if( !err ) {
@@ -149,6 +164,10 @@ class AmountsSection extends Component {
     } )
   }
 
+  /**
+   * Cierra el modal de editar una cantidad en especifica
+   * @param {String} key ID del elemento seleccionado
+   */
   cancel(key) {
     const newData = [...this.state.fastAmountValues]
     const target = newData.filter(item => key === item.key)[0]
@@ -167,6 +186,10 @@ class AmountsSection extends Component {
     }
   }
 
+  /**
+   * Guarda los cambios realizados de editar una cantidad
+   * @param {String} key ID del elemento seleccionado
+   */
   save(key) {
     const newData = [...this.state.fastAmountValues];
     const target = newData.filter(item => key === item.key)[0];
@@ -194,6 +217,10 @@ class AmountsSection extends Component {
     }
   }
 
+  /**
+   * Elimina un elemento seleccionado
+   * @param {String} key ID del elemento seleccionado
+   */
   deleteAmount( key ) {
     let amounts = this.state.fastAmountValues
     key = amounts.findIndex( element => element.key === key.toString() )
@@ -210,6 +237,10 @@ class AmountsSection extends Component {
     
   }
 
+  /**
+   * Muestra el formulario para editar un elemento seleccionado
+   * @param {String} key ID del elemento seleccionado
+   */
   edit(key) {
     const newData = [...this.state.fastAmountValues]
     
@@ -233,6 +264,9 @@ class AmountsSection extends Component {
     }
   }
 
+  /**
+   * Función que maneja el modal para agregar una nueva cantidad de recarga
+   */
   handleAddModal() {
     this.setState( {
       loading: false,
@@ -245,6 +279,12 @@ class AmountsSection extends Component {
     } )
   }
 
+  /**
+   *  Muestra las opciones de edición de un elemento seleccionado
+   * @param {String} value Valor de la fila seleccionada
+   * @param {String} key Identificador de la fila
+   * @param {String} column Columna del elemento seleccionado
+   */
   handleChange(value, key, column) {
     const newData = [...this.state.fastAmountValues]
     const target = newData.filter(item => key === item.key)[0]
@@ -262,6 +302,9 @@ class AmountsSection extends Component {
     }
   }
 
+  /**
+   * Maneja el modal de confirmación de guardar cambios
+   */
   handleUpdateModal() {
     this.setState( {
       loading: false,
@@ -274,6 +317,9 @@ class AmountsSection extends Component {
     } )
   }
 
+  /**
+   * Maneja el modal para revertir cambios
+   */
   handelRevertChangesModal() {
     this.setState( {
       loading: false,
@@ -286,6 +332,12 @@ class AmountsSection extends Component {
     } )
   }
 
+  /**
+   * Randeriza un componente EditableCell
+   * @param {String} text 
+   * @param {object} record 
+   * @param {object} column 
+   */
   renderColumns(text, record, column) {
     return (
       <EditableCell
@@ -296,6 +348,9 @@ class AmountsSection extends Component {
     );
   }
 
+  /**
+   * Revierte los cambios realizados voliendo a solicitar los valores guardados en la API
+   */
   revertChanges() {
     this.api.getFastAmountsValues()
       .then( response => {
@@ -321,6 +376,9 @@ class AmountsSection extends Component {
       } )
   }
 
+  /**
+   * Función que envia a la API los cambios realizados al usuario
+   */
   updateAmounts() {
     const { fastAmountValues } = this.state
     let newAmounts = []
@@ -354,6 +412,12 @@ class AmountsSection extends Component {
       } )
   }
 
+  /**
+   * Muestra una notificación al usuario
+   * @param {String} type Tipo de notificación que se le mostrara al usuario 
+   * @param {*} message Título de la notificación
+   * @param {*} description Mensaje de la notificación
+   */
   openNotification( type, message, description ) {
     notification[type]({
       message,
@@ -361,6 +425,10 @@ class AmountsSection extends Component {
     } )
   }
   
+  /**
+   * Randeriza la vista al usuario
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const { getFieldDecorator } = this.props.form
     const changeMessage = this.state.hasChanged ? (<Alert style={{width: 'max-content', marginBottom: '20px'}} message="Se han detectado cambios, favor de guardarlos para que tengan efecto." type="warning" showIcon />) : ''

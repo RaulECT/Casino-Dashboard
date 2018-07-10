@@ -1,5 +1,7 @@
 /**
  * Componente que representa a la sección de configuración de fichas
+ * @namespace ChipsSection
+ * @extends Component
  */
 import React, {Component} from 'react'
 import ChipItem from './ChipItem.jsx'

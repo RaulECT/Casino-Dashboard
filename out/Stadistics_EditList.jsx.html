@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Stadistics/EditList.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Stadistics/EditList.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de edición de listas de correo
+ */
+import React, {Component} from 'react'
+import {
+  Modal,
+  Button,
+  notification,
+} from 'antd'
+import EmailListForm from './EmailListForm.jsx'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+
+class EditList extends Component {
+
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+    this.state = {
+      visible: true,
+    }
+
+    this.closeModal = this.closeModal.bind( this )
+    this.getModalFooter = this.getModalFooter.bind( this )
+    this.editList = this.editList.bind( this )
+  }
+
+  /**
+   * Función que cierrda el modal
+   */
+  closeModal() {
+    this.setState( { visible: false } )
+  }
+
+  /**
+   * Función que regresa el footer del modal
+   * @returns {Array} Opciones del footer
+   */
+  getModalFooter() {
+    const { close } = this.props
+
+    return[
+      &lt;Button key="1" onClick={ () => { close() } }>Cancelar&lt;/Button>
+    ]
+  }
+
+  /**
+   * Función que envia a la API la información para editar la lista de correo
+   * @param {Object} listInfo Información de la lista 
+   */
+  editList( listInfo ) {
+    const { list, close } = this.props
+    listInfo.id = list.id
+
+    this.api.editEmailList( listInfo )
+      .then( response =>{
+
+        if ( response.status === 200 ) {
+          notification['success']({
+            message: 'Operación éxitosa',
+            description: 'Se ha actualizado con éxito la lista de correos.',
+          })
+
+          close()
+        } else {
+          this.errorManagment.resolveError( response.data )
+        }
+      } )
+      .catch( err => console.log( err ) )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
+  render() {
+    const { visible } = this.state
+    const { list, close } = this.props
+
+    return(
+      &lt;Modal
+        title="Editar lista"
+        visible={ visible }
+        style={ { top: 20 } }
+        width={1000}
+        onCancel={ () => close() }
+        footer={ this.getModalFooter() }
+      >
+        &lt;EmailListForm 
+          type="edit"
+          onSubmitList={this.editList}
+          list={ [] }
+          name={ list.name }
+        />
+      &lt;/Modal>
+    )
+  }
+}
+
+module.exports = EditList</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: RolesSection/RolesSection.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: RolesSection/RolesSection.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de manejo de roles del casino
+ * @namespace RolesSection
+ * @extends Component
+ */
+import React, {Component} from 'react'
+import { 
+  Checkbox,
+  Table, 
+  Icon, 
+  Input,
+  Divider,
+  Button,
+  Popconfirm,
+  Modal,
+  Form,
+  InputNumber,
+  notification
+} from 'antd'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+
+import '../styles/rolesSection.css'
+
+const FormItem = Form.Item
+const CheckboxGroup = Checkbox.Group
+
+class RolesSection extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      loading: true,
+      success: false,
+      addModal: false,
+      updateModal: false,
+      roles: [],
+      editRolPermisions: []
+    }
+
+    this.newRolPermissions = {}
+    this.rolSelected = {}
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+
+    this.labelsOptions = [
+      { label:'Reponer membresia.', value:'editCardId' },
+      { label:'Ver miembros.', value:'consultCustomers' },
+      { label:'Atender mesa de juego.', value:'beAssignedToTableGame' },
+      { label:'Acceso a la app de caja.', value:'till' },
+      { label:'Acceso a la app de juegos.', value:'tableGame' },
+      { label:'Acceso a la app de recepción.', value:'reception' },
+      { label:'Acceso a la app de administración.', value:'adminModule' },
+      { label:'Crear miembros.', value:'createCustomers' },
+      { label:'Editar miembros.', value:'editCustomers' },
+      { label:'Consultar saldo de miembros.', value:'consultCustomerBalance' },
+      { label:'Acceso a la app de pitboss.', value:'pitbossModule' }
+    ]
+
+    this.columns = [ {
+      title: 'Rol',
+      dataIndex: 'name'
+    }, 
+    {
+      title: 'Operaciones',
+      dataIndex: 'operation',
+      render: ( text, record ) => {
+
+        return(
+          &lt;div className="editable-row-operations">
+            &lt;span>
+              &lt;a onClick={()=> this.showEditRolModal( record.key ) }>Editar&lt;/a>
+            &lt;/span>
+          &lt;/div>
+        )
+        
+      }
+    } ]
+
+    this.addNewRol = this.addNewRol.bind( this )
+    this.closeEditRolModal = this.closeEditRolModal.bind( this )
+    this.editRol = this.editRol.bind( this )
+    this.formatPermissions = this.formatPermissions.bind( this )
+    this.showEditRolModal = this.showEditRolModal.bind( this )
+    this.onChangePermissions = this.onChangePermissions.bind( this )
+    this.onChangeEditedPermisions = this.onChangeEditedPermisions.bind( this )
+    this.handleAddRoleModal = this.handleAddRoleModal.bind( this )
+    this.loadRoles = this.loadRoles.bind( this )
+
+    this.loadRoles()
+  }
+
+  /**
+   * Función que envila los datos a la API para crear un nuevo rol
+   */
+  addNewRol() {
+
+    this.props.form.validateFields( ['newRole'], (err, values) => {
+      if ( !err ) {
+ 
+        this.api.createRol( values.newRole, this.newRolPermissions )
+          .then( response => {
+            this.handleAddRoleModal()
+
+            if ( response.status === 200 ) {
+              this.setState( {
+                loading: this.state.loading,
+                success: true,
+                addModal: false,
+                updateModal: this.state.updateModal,
+                roles: this.state.roles,
+                editRolPermisions: this.state.editRolPermisions
+              } )
+
+              this.loadRoles()
+            } else {
+              // TODO: Handle Errors
+            }
+          } )
+          .catch( err => {
+            this.handleAddRoleModal()
+            console.log( err )
+          } )
+      }
+    } )
+  }
+
+  /**
+   * Función que cierra el modal para editar los roles
+   */
+  closeEditRolModal() {
+    this.setState( {
+      loading: this.state.loading,
+      success: this.state.success,
+      addModal: this.state.addModal,
+      updateModal: false,
+      roles: this.state.roles,
+      editRolPermisions: []
+    } )
+  }
+
+  /**
+   * Función que envia a la API la información para editar los roles
+   */
+  editRol() {
+    this.props.form.validateFields( ['editRol'], (err, value) => {
+      if( !err ) {
+        
+        const permissions = this.formatPermissions( this.state.editRolPermisions )
+        this.api.editRol( this.rolSelected.id, value.editRol, permissions )
+          .then( response => {
+            this.closeEditRolModal()
+
+            if ( response.status === 200 ) {
+              this.setState( {
+                loading: this.state.loading,
+                success: true,
+                addModal: this.state.addModal,
+                updateModal: this.state.updateModal,
+                roles: this.state.roles,
+                editRolPermisions: this.state.editRolPermisions
+              }, this.loadRoles() )
+            } else {
+              // TODO: Error managment
+            }
+          } )
+          .catch( err => {
+            this.closeEditRolModal()
+          } )
+      }
+    } )
+  }
+
+  /**
+   * Función que formatea los permisos de un rol
+   * @param {Array} permissions Permisos del rol
+   * @returns {object} Permisos del rol en formato JSON
+   */
+  formatPermissions( permissions ) {
+    let permissionsFormated = {}
+
+    this.labelsOptions.map( value => {
+      const permSelcted = permissions.indexOf( value.value ) !== -1
+      if (permSelcted) {
+        permissionsFormated[value.value] = true
+      } else {
+        permissionsFormated[value.value] = false
+      }
+    } )
+
+    return permissionsFormated
+  }
+
+  /**
+   * Función que muestra el modal para editar un rol
+   * @param {String} roleKey ID del rol a editar
+   */
+  showEditRolModal( roleKey ) {
+    let rolesList = this.state.roles
+    let permissions = []
+    const rolePosition = rolesList.findIndex( element => element.key === roleKey.toString() )
+
+    for (var key in rolesList[rolePosition].permissions) {
+      const hasPerm = rolesList[rolePosition].permissions[key]
+
+      if (rolesList[rolePosition].permissions.hasOwnProperty(key) &amp;&amp; hasPerm) {
+          permissions.push( key.toString() )
+      }
+    }
+    
+    this.props.form.setFieldsValue( {editRol: rolesList[rolePosition].name} )
+    this.rolSelected = rolesList[rolePosition]
+
+    this.setState( {
+      loading: this.state.loading,
+      success: this.state.success,
+      addModal: this.state.addModal,
+      updateModal: true,
+      roles: this.state.roles,
+      editRolPermisions: permissions
+    } )
+  }
+
+  /**
+   * Función que muestra una notificación al usuario
+   * @param {String} type Tipo de notificación
+   * @param {String} message Título de la notificación
+   * @param {String} description Mensaje de la notificación
+   */
+  openNotification( type, message, description ) {
+    notification[type]({
+      message,
+      description
+    } )
+  }
+
+  /**
+   * Función que se ejecuta al seleccionar un permiso
+   * @param {Array} checkedValues Valores seleccionados 
+   */
+  onChangePermissions( checkedValues ) {
+
+    let perm = {}
+    checkedValues.map( item => {
+      perm[item] = true
+    } )
+
+    this.newRolPermissions = perm
+  }
+
+  /**
+   * Función que se ejecuta al seleccionar permisos del formulario de edición de roles
+   * @param {*} e Evento generado al seleccionar un permiso de edición
+   */
+  onChangeEditedPermisions( e ) {
+    let editRolPermisions = this.state.editRolPermisions
+
+    if ( e.target.checked ) {
+      editRolPermisions = editRolPermisions.concat( e.target.value )
+    } else {
+      const index = editRolPermisions.indexOf( e.target.value )
+      editRolPermisions.splice(index, 1)
+    }
+
+    this.setState( {
+      loading: this.state.loading,
+      success: this.state.success,
+      addModal: this.state.addModal,
+      updateModal: this.state.updateModal,
+      roles: this.state.roles,
+      editRolPermisions: editRolPermisions
+    } )
+  }
+
+  /**
+   * Función que maneja la presenecia del modal para crear roles
+   */
+  handleAddRoleModal() {
+    this.setState( {
+      loading: this.state.loading,
+      success: this.state.success,
+      addModal: !this.state.addModal,
+      updateModal: this.state.updateModal,
+      roles: this.state.roles,
+      editRolPermisions: this.state.editRolPermisions
+    } )
+  }
+
+  /**
+   * Función que carga los roles guardados en la API
+   */
+  loadRoles() {
+    this.api.getRoles()
+      .then( response => {
+        
+        if ( response.status === 200 ) {
+          const roles = response.data.result.rolesArray
+
+          roles.map( ( element, index ) => {
+            element['key'] = index.toString()
+          } )
+
+          this.setState( {
+            loading: false,
+            success: false,
+            addModal: this.state.addModal,
+            updateModal: this.state.updateModal,
+            roles: roles,
+            editRolPermisions: this.state.editRolPermisions
+          } ) 
+        } else {
+          // TODO: Handle Error
+ 
+          this.errorManagment.resolveError( response.data )
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+        
+      } )
+  }
+
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
+  render() {
+    const { getFieldDecorator } = this.props.form
+    this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}
+    const addRoleModal = (
+      &lt;Modal
+        visible={this.state.addModal}
+        title="Agregar nuevo Rol"
+        okText="Crear rol"
+        onCancel={ () => { this.handleAddRoleModal() } }
+        onOk={ ()=>{} }
+        footer={ [
+          &lt;Button key="2" onClick={ ()=>{ this.handleAddRoleModal() } }>Cancelar&lt;/Button>,
+          &lt;Popconfirm key="1" title="¿Desea crear este rol?" onConfirm={ () => { this.addNewRol()  }  }>
+            &lt;Button type="primary">Crear rol&lt;/Button>
+          &lt;/Popconfirm>
+        ] }
+      >
+        &lt;Form layout="vertical">
+          &lt;FormItem label="Nuevo Rol:" className="add-rol-section">
+            { getFieldDecorator( 'newRole', {
+              rules: [ {required: true, message: 'Ingrese un valor!'} ]
+            } )(
+              &lt;Input />
+            ) }
+            
+          &lt;/FormItem>
+
+          &lt;p>Permisos:&lt;/p>
+          &lt;CheckboxGroup 
+            style={{ width: '100%' }}
+            className="permison-section"
+            options={this.labelsOptions}
+            onChange={this.onChangePermissions}
+          />
+        &lt;/Form>
+      &lt;/Modal>
+    )
+    const updateModal = (
+      &lt;Modal
+        visible={this.state.updateModal}
+        title="Editar rol"
+        okText="Editar rol"
+        onCancel={ ()=>{ this.closeEditRolModal() } }
+        onOk={ ()=>{} }
+        footer={ [
+          &lt;Button key="2" onClick={ ()=>{ this.closeEditRolModal() } }>Cancelar&lt;/Button>,
+          &lt;Popconfirm key="1" title="¿Desea editar este rol?" onConfirm={ () => { this.editRol() }  }>
+            &lt;Button type="primary">Editar rol&lt;/Button>
+          &lt;/Popconfirm>
+        ] }
+      >
+        &lt;Form layout="vertical">
+          &lt;FormItem label="Rol:" className="edit-role-section">
+            { getFieldDecorator( 'editRol', {
+              rules: [ {required: true, message: 'Ingrese un valor!'} ]
+            } )(
+              &lt;Input />
+            ) }
+          &lt;/FormItem>
+
+          &lt;p>Permisos:&lt;/p>
+
+          &lt;div style={{ width: '100%' }} className="permison-section">
+            {
+              this.labelsOptions.map( (element, index) => {
+                const checked = this.state.editRolPermisions.indexOf( element.value ) !== -1 ? true : false
+    
+                return(
+                  &lt;Checkbox key={index} checked={checked} value={element.value} onChange={this.onChangeEditedPermisions} > {element.label} &lt;/Checkbox>
+                )
+              } )
+            }
+          &lt;/div>
+        &lt;/Form>
+      &lt;/Modal>
+    )
+    const loadingSpin = this.state.loading ? (
+      &lt;Icon 
+        type="loading" 
+        style={{ fontSize: '50px', display: 'block', margin: 'auto', marginBottom: '40px' }}
+      /> ) : ''
+
+    return(
+      &lt;div className="roles-container">
+        {loadingSpin}
+        
+
+        &lt;h4>Porfavor, asigne los valores deseados&lt;/h4>
+
+        { addRoleModal }
+        { updateModal }
+
+        &lt;Table 
+          className="roles-table"
+          columns={this.columns}
+          dataSource={this.state.roles}
+        />
+
+        &lt;div>
+          &lt;Button
+            className="button-fixed"
+            icon="plus"
+            type="primary"
+            onClick={this.handleAddRoleModal}
+            disabled={this.state.loading}
+          >
+            Agregar Rol
+          &lt;/Button>
+        &lt;/div>
+      &lt;/div>
+    )
+  }
+
+}
+
+const WrappedRoleSection = Form.create()(RolesSection);
+module.exports = WrappedRoleSection
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

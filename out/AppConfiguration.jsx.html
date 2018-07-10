@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AppConfiguration.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AppConfiguration.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente de la vista de configuración de la aplicación
+ * @namespace AppConfiguration
+ * @extends Component
+ */
+import React, {Component} from 'react'
+import fs from 'fs'
+import {exec} from 'child_process'
+import Api from '../controllers/Api'
+import ErrorManagment from '../controllers/ErrorManagment'
+import { 
+  Form,
+  Input,
+  Button,
+  notification,
+ } from 'antd'
+ import './styles/appConfiguration.css'
+
+ const FormItem = Form.Item
+
+class AppConfiguration extends Component {
+
+  /**
+   * Constructor del componente
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.errorManagment = new ErrorManagment()
+    this.api = new Api()
+
+    this.state = {
+      isLoading: false,
+    }
+
+    this.configApp = this.configApp.bind( this )
+  }
+
+  /**
+   * Función que envia los datos necesarios a la API para configurar la aplicación
+   * @param {object} e Evento producido por el formulario 
+   */
+  configApp( e ) {
+    const { validateFields } = this.props.form
+    e.preventDefault()
+    this.setState( { isLoading: true } )
+
+    validateFields( ( err, values ) => {
+      if ( !err ) {
+
+        this.api.echoAPI()
+          .then( response => {
+
+            const { connection } = response.data.result
+
+            if ( connection ) {
+              this.getDeviceId()
+                .then( deviceId => {
+                  const appId = this.generteAppId()
+                  const appConfiguration = {
+                    appId,
+                    deviceId,
+                    username: values.username,
+                    password: values.password,
+                    appType: 'adminModule',
+                  }
+
+                  this.api.startMachine( appConfiguration )
+                    .then( response => {
+
+                      this.setState( { isLoading: false } )
+                      if ( response.status === 200 ) {
+                        this.writeConfigFile( appConfiguration )
+                      } else {
+                        this.errorManagment.resolveError( response.data )
+                      }
+                    } )
+                    .catch( err => {
+                      this.setState( { isLoading: false } )
+                    } )
+                  
+                } )
+                .catch( err => {
+                  console.log(err);
+                  
+                } )
+              
+              
+            } else {
+              this.setState( { isLoading: false } )
+              this.showNotification( 'error', 'Error de conexión', 'No se puedo establecer conexión con la API, favorde intentar de nuevo.' )
+            }
+
+          } )
+          .catch( err => {
+            console.log( err );
+            
+          } )
+
+        
+      }
+    } )
+  }
+
+  /**
+   * Crea un archivo de configuración en la carpeta del proyecto
+   * @param {object} config Configuración de la aplicación 
+   */
+  writeConfigFile( config ) {
+    const configText = JSON.stringify( config ) //`${appId}----${deviceId}----${username}----${password}`
+    const { onConfirm } = this.props
+
+    fs.writeFile('config.txt', configText, function (err) {
+      if (err) throw err;
+      console.log('Saved!');
+      onConfirm()
+    })
+  }
+
+  /**
+   * Genera el device id de la maquina en donde esta instalada la aplicación
+   */
+  getDeviceId() {
+    return new Promise( ( resolve, reject ) => {
+      let deviceId = {}
+
+      exec("wmic CPU get ProcessorId", (error, stdout, stderr) => {
+        if (error) {
+            console.error(`exec error: ${error}`)
+            reject( error )
+        }
+        deviceId.ProcessorId = stdout.split("  \r\r\n")[1];
+        exec("wmic baseboard get serialnumber", (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`)
+                reject( error )
+            }
+            deviceId.MotherBoardId = stdout.split("  \r\r\n")[1]
+            //store.set("diviceId", deviceId)
+  
+            const deviceIdString = new Buffer(JSON.stringify(deviceId)).toString('base64')
+            resolve( deviceIdString )
+        } )
+      } )
+    } )
+
+  }
+
+  /**
+   * Muestra una notificación al usuario
+   * @param {String} type Tipo de notifiación que se le va a mostrar al usuario
+   * @param {String} title Titulo que tendrá la notificación
+   * @param {String} message Mensaje que se le mostrara al usuario
+   */
+  showNotification( type, title, message ) {
+    notification[type]( {
+      message: title,
+      description: message
+    } )
+  }
+
+  /**
+   * Genera 3 ids de la aplicación
+   */
+  generteAppId() {
+    const appId = []
+    const numberOfItems = 3
+    const max = 1000
+    const min = 5
+
+    for (let index = 0; index &lt; numberOfItems; index++) {
+      const number = Math.floor(Math.random() * (max - min + 1)) + min
+      appId.push( `A${number}` )
+    }
+
+    return appId
+  }
+
+  /**
+   * Randeriza la vista al usuario
+   */
+  render() {
+    const { getFieldDecorator } = this.props.form
+    const { isLoading } = this.state
+
+    return(
+      &lt;div className="container">
+        &lt;h1>Configuración de la Aplicación&lt;/h1>
+
+        &lt;Form className="config-form" onSubmit={this.configApp}>
+          &lt;FormItem
+            label="Usuario:"
+          >
+            {getFieldDecorator('username', {
+              rules: [ { required: true, message: 'Este campo es obligatorio' } ]
+            })(
+              &lt;Input disabled={isLoading}>&lt;/Input>
+            )}
+          &lt;/FormItem>
+
+          &lt;FormItem
+            label="Contraseña:"
+          >
+            {getFieldDecorator('password', {
+              rules: [ { required: true, message: 'Este campo es obligatorio' } ]
+            })(
+              &lt;Input type="password" disabled={isLoading}>&lt;/Input>
+            )}
+          &lt;/FormItem>
+
+          &lt;FormItem>
+            &lt;Button 
+              style={ {width: '100%'} }
+              type="primary"
+              size="large"
+              htmlType="submit"
+              loading={isLoading}
+            >
+              Configurar Aplicación
+            &lt;/Button>
+          &lt;/FormItem>
+        &lt;/Form>
+      &lt;/div>
+    )
+  }
+}
+
+const WrappedAppConfiguration = Form.create()(AppConfiguration)
+module.exports = WrappedAppConfiguration</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

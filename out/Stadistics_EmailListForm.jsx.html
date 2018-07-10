@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Stadistics/EmailListForm.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Stadistics/EmailListForm.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de emails ingresados para crear la lista de correo
+ */
+import React, {Component} from 'react'
+import EmailsTags from './EmailsTags.jsx'
+import {
+  Button,
+  Divider,
+  Form, 
+  Input,
+  message,
+  Popconfirm,
+} from 'antd'
+
+const FormItem = Form.Item
+
+class EmailListForm extends Component {
+
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      emails: []
+    }
+
+    this.submitList = this.submitList.bind( this )
+    this.updateEmails = this.updateEmails.bind( this )
+  }
+
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
+  componentDidMount() {
+    const { name } = this.props
+    const { setFieldsValue } = this.props.form
+
+    if ( name ) {
+      setFieldsValue( { name } )
+    }
+    
+  }
+
+  /**
+   * Función que forza el formulario
+   */
+  submitList() {
+    const {validateFields} = this.props.form
+    const {emails} = this.state
+    const {onSubmitList} = this.props
+
+    validateFields( ( err, values ) => {
+      if ( !err ) {
+        if ( emails.length > 0 ) {
+          onSubmitList( {name: values.name, emails} )
+        } else {
+          message.error( 'No se ha ingresado ningún correo.' )
+        }
+      }
+    } )
+  }
+
+  /**
+   * Función que actualiza los emails 
+   * @param {Array} emails 
+   */
+  updateEmails( emails ) {
+    this.setState( {emails} )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup
+   */
+  render() {
+    const {getFieldDecorator} = this.props.form
+    const {type} = this.props
+    const {emails} = this.state
+    const okText = type === 'add' ? 'Crear lista' : 'Editar lista'
+    const title = type === 'add' ? '¿Desea crear esta lista?' : '¿Desea editar esta lista?'
+
+    return(
+      &lt;Form style={ {marginTop: 30} }>
+        &lt;FormItem
+          label="Nombre de la lista:"
+          className="subject-field"
+        >
+          {
+            getFieldDecorator( 'name', { rules: [{required: true, message: 'Ingrese un valor!'}] } )(
+              &lt;Input placeholder="" style={ {width: 500} } />
+            ) }
+        &lt;/FormItem>
+
+        &lt;Divider orientation="left">Emails&lt;/Divider>
+        &lt;EmailsTags 
+          onUpdateEmails={this.updateEmails}
+          emails={emails}
+        />
+
+        &lt;FormItem style={ {marginBottom: -10} }>
+          &lt;Popconfirm key="1" title={title} onConfirm={ ()=>{ this.submitList() } }>
+            &lt;Button 
+              type="primary"
+              style={ {marginTop: 70} }
+              icon="plus"
+            >
+              {okText}
+            &lt;/Button>
+          &lt;/Popconfirm>
+
+        &lt;/FormItem>
+
+      &lt;/Form>
+    )
+  }
+}
+
+const WrappedEmailListForm = Form.create()(EmailListForm);
+module.exports = WrappedEmailListForm</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

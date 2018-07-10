@@ -1,18 +1,18 @@
+/**
+ * Componente que representa a la sección de agregar una nueva promoción
+ * @namespace AddPromotion
+ * @extends Component
+ */
 import React, {Component} from 'react' 
 import {
   Form,
   Modal,
   Input,
-  Row,
-  Col,
   DatePicker,
-  Divider,
   Select,
   InputNumber,
   Button,
-  Icon,
   Popconfirm,
-  Radio
 } from 'antd'
 
 const FormItem = Form.Item
@@ -21,6 +21,10 @@ const { TextArea } = Input
 
 class AddPromotion extends Component {
 
+  /**
+   * Crea el componente.
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -37,6 +41,9 @@ class AddPromotion extends Component {
     this.getPromotionsTypes = this.getPromotionsTypes.bind( this )
   }
 
+  /**
+   * Obtiene los valores para crear la promoción
+   */
   createPromotion() {
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
@@ -51,6 +58,10 @@ class AddPromotion extends Component {
     } )
   }
 
+  /**
+   * Formatea las fechas
+   * @param {String} date 
+   */
   formatDate( date ) {
     const fullDate = date.split('T')[0]
     const dateParts = fullDate.split('-')
@@ -58,6 +69,10 @@ class AddPromotion extends Component {
     return `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`
   }
 
+  /**
+   * Regresa el footer del modal
+   * @returns {JSX} HTML markup del componente
+   */
   getModalFooter() {
     return [
       <Button key="2" onClick={ ()=>{ this.props.close() } }>Cancelar</Button>,
@@ -67,10 +82,17 @@ class AddPromotion extends Component {
     ]
   }
 
+  /**
+   * Regresa los tipos de promociones existentes
+   */
   getPromotionsTypes() {
     this.types.map( ( element, index ) => { return ( <Option key={index} value={element.value} > { element.label } </Option> ) } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const { visible, close } = this.props
     const { getFieldDecorator } = this.props.form

@@ -1,3 +1,8 @@
+/**
+ * Componente que representa a los tags de emails
+ * @namespace EmailsTags
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import {
   Icon,
@@ -8,6 +13,11 @@ import {
 } from 'antd'
 
 class EmailsTags extends Component {
+
+  /**
+   * Crea el componente.
+   * @param {Object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -22,12 +32,19 @@ class EmailsTags extends Component {
     this.showEmailInput = this.showEmailInput.bind( this )
   }
 
+  /**
+   * Función que maneja la eliminación de tags
+   * @param {String} removedEmail 
+   */
   handleCloseTag( removedEmail ) {
     const emails = this.props.emails.filter( email => email !== removedEmail )
     
     this.props.onUpdateEmails( emails )
   }
 
+  /**
+   * Función que maneja la confirmación del formulario
+   */
   handleEmailInputConfirm() {
     const state = this.state
     const inputValue = state.emailInputValue
@@ -44,14 +61,25 @@ class EmailsTags extends Component {
     
   }
 
+  /**
+   * Función que maneja los cambios en el input
+   * @param {Object} e 
+   */
   handelEmailInputChange( e ) {
     this.setState( { emailInputValue: e.target.value } )
   }
 
+  /**
+   * Función que muestra el input para ingresar el email
+   */
   showEmailInput() {
     this.setState( { emailInputVisible: true } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const {emails} = this.props
     const { emailInputValue, emailInputVisible } = this.state

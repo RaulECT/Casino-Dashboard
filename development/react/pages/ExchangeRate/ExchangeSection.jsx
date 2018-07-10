@@ -1,5 +1,7 @@
 /**
  * Componenete que representa a la sección de tipos de cambio.
+ * @namespace ExchangeSection
+ * @extends Component
  */
 import React, {Component} from 'react'
 import {

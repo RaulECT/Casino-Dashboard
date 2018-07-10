@@ -1,13 +1,18 @@
+/**
+ * Componente que representa a la sección de historial de movimientos de caja del casino
+ */
 import React, {Component} from 'react' 
 import {
-  Button,
-  Divider,
-  Popconfirm,
   Table
 } from 'antd'
 import Api from '../../controllers/Api'
 
 class TillRecord extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -23,10 +28,19 @@ class TillRecord extends Component {
     this.handleChange = this.handleChange.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentWillMount() {
     this.loadTillLog()
   }
 
+  /**
+   * Función que guarda en el estado el tipo de ordenamiento seleccionado por el usuario
+   * @param {*} pagination 
+   * @param {*} filters 
+   * @param {*} sorter 
+   */
   handleChange( pagination, filters, sorter ) {
     const { records } = this.state
 
@@ -36,6 +50,10 @@ class TillRecord extends Component {
     })
   }
 
+  /**
+   * Función que obtiene las columnas de la tabla
+   * @returns {Array} Columnas de la tabla
+   */
   getColumns() {
     let { sortedInfo } = this.state
 
@@ -94,10 +112,18 @@ class TillRecord extends Component {
     return columns
   }
 
+  /**
+   * Función que ordena alfabeticamente dos strings
+   * @param {String} a 
+   * @param {String} b 
+   */
   sortAlphabetically( a, b ) {
     return (a < b) ? -1 : (a > b) ? 1 : 0
   }
 
+  /**
+   * Función que carga de la API los registros guardados
+   */
   loadTillLog() {
     const { sortedInfo } = this.state
 
@@ -123,6 +149,10 @@ class TillRecord extends Component {
       } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const columns = this.getColumns()
 

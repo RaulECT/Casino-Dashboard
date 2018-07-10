@@ -1,6 +1,10 @@
+/**
+ * Componente de la vista de configuración de la aplicación
+ * @namespace AppConfiguration
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import fs from 'fs'
-import sys from 'util'
 import {exec} from 'child_process'
 import Api from '../controllers/Api'
 import ErrorManagment from '../controllers/ErrorManagment'
@@ -16,6 +20,10 @@ import {
 
 class AppConfiguration extends Component {
 
+  /**
+   * Constructor del componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -29,6 +37,10 @@ class AppConfiguration extends Component {
     this.configApp = this.configApp.bind( this )
   }
 
+  /**
+   * Función que envia los datos necesarios a la API para configurar la aplicación
+   * @param {object} e Evento producido por el formulario 
+   */
   configApp( e ) {
     const { validateFields } = this.props.form
     e.preventDefault()
@@ -91,6 +103,10 @@ class AppConfiguration extends Component {
     } )
   }
 
+  /**
+   * Crea un archivo de configuración en la carpeta del proyecto
+   * @param {object} config Configuración de la aplicación 
+   */
   writeConfigFile( config ) {
     const configText = JSON.stringify( config ) //`${appId}----${deviceId}----${username}----${password}`
     const { onConfirm } = this.props
@@ -102,6 +118,9 @@ class AppConfiguration extends Component {
     })
   }
 
+  /**
+   * Genera el device id de la maquina en donde esta instalada la aplicación
+   */
   getDeviceId() {
     return new Promise( ( resolve, reject ) => {
       let deviceId = {}
@@ -128,6 +147,12 @@ class AppConfiguration extends Component {
 
   }
 
+  /**
+   * Muestra una notificación al usuario
+   * @param {String} type Tipo de notifiación que se le va a mostrar al usuario
+   * @param {String} title Titulo que tendrá la notificación
+   * @param {String} message Mensaje que se le mostrara al usuario
+   */
   showNotification( type, title, message ) {
     notification[type]( {
       message: title,
@@ -135,6 +160,9 @@ class AppConfiguration extends Component {
     } )
   }
 
+  /**
+   * Genera 3 ids de la aplicación
+   */
   generteAppId() {
     const appId = []
     const numberOfItems = 3
@@ -149,6 +177,9 @@ class AppConfiguration extends Component {
     return appId
   }
 
+  /**
+   * Randeriza la vista al usuario
+   */
   render() {
     const { getFieldDecorator } = this.props.form
     const { isLoading } = this.state

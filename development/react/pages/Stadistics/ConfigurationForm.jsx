@@ -1,3 +1,8 @@
+/**
+ * Componente que representa al formulario de configuración de lista de correo
+ * @namespace ConfigurationForm
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import PeriodForm from './PeriodForm.jsx'
 import ChartForm from './CharForm.jsx'
@@ -11,6 +16,11 @@ import {
 } from 'antd'
 
 class ConfigurationForm extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -37,6 +47,9 @@ class ConfigurationForm extends Component {
     this.validateFields = this.validateFields.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentWillMount() {
     const date = new Date()
     const year = date.getFullYear()
@@ -49,6 +62,9 @@ class ConfigurationForm extends Component {
     this.setState( { startDate: `${year}/${month}/${day}` } )
   }
 
+  /**
+   * Función que obtiene la información para configurar la lista de correo
+   */
   configEmailList() {
     const {onConfig} = this.props
     const { charType, isRecurrent, reportType, startDate, endDate, period, subject, time } = this.state
@@ -77,6 +93,10 @@ class ConfigurationForm extends Component {
     }
   }
 
+  /**
+   * Función que obtiene la hora actual
+   * @returns {string} Hora actual en string
+   */
   getCurrentHour() {
     const date = new Date()
     let hour = `${date.getHours()}`
@@ -88,42 +108,81 @@ class ConfigurationForm extends Component {
     return `${hour}:${minutes}`
   }
 
+  /**
+   * Función guarda en el estado el tipo de gráfica seleccionada
+   * @param {String} charType 
+   */
   handleChartTypeChange( charType ) {
     this.setState( { charType } )
   }
 
+  /**
+   * Función que guarda en el estado el periodo seleccionado
+   * @param {String} period 
+   */
   handlePeriodChange( period ) {
     this.setState( { period } )
   }
 
+  /**
+   * Función que guarda en el estado el tipo de reporte seleccionado
+   * @param {String} reportType 
+   */
   handleReportTypeChange( reportType ){
     this.setState( { reportType } )
   }
 
+  /**
+   * Función que guarda en el estado la fecha inicial
+   * @param {String} startDate 
+   */
   handleStartDateChange( startDate ) {
     this.setState( { startDate } )
   }
 
+  /**
+   * Función que guarda en el estado la fecha final
+   * @param {String} endDate 
+   */
   handleEndDateChange( endDate ) {
     this.setState( { endDate } )
   }
 
+  /**
+   * Función que guarda en el estado si el envio es recurrente
+   * @param {Boolean} isRecurrent 
+   */
   handleRecurrentChange( isRecurrent ) {
     this.setState( { isRecurrent } )
   }
 
+  /**
+   * Función que guarda en el estado el cuerpo del email
+   * @param {String} subject 
+   */
   handleSubjectChange( subject ) {
     this.setState( { subject: subject.target.value } )
   }
 
+  /**
+   * Función que guarda en el estado la hora de envio seleccionada
+   * @param {String} time 
+   */
   handleTimeChange( time ) {
     this.setState( { time } )
   }
 
+  /**
+   * Función que le muesatra al usaurio un mensaje de error
+   * @param {String} msg Mensaje para el usuario 
+   */
   showErrorMessage( msg ) {
     message.error( msg )
   }
 
+  /**
+   * Función que valida los campos del formulario
+   */
   validateFields() {
     const { charType, isRecurrent, reportType, startDate, endDate, period, subject, time } = this.state
     let correctFields = false
@@ -137,6 +196,10 @@ class ConfigurationForm extends Component {
     return correctFields
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render(){
     return(
       <div>

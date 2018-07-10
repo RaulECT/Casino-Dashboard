@@ -1,3 +1,8 @@
+/**
+ * Componente que representa a la sección de horarios del casino
+ * @namespace SchedulesSection
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import {
   Alert,
@@ -16,6 +21,11 @@ import ErrorManagment from '../../controllers/ErrorManagment'
 const FormItem = Form.Item
 
 class SchedulesSection extends Component {
+
+  /**
+   * Función que crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -34,6 +44,9 @@ class SchedulesSection extends Component {
     this.saveScheduleValues = this.saveScheduleValues.bind( this )
   }
 
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
   componentWillMount() {
     this.api.getScheduleValues()
       .then( response => {
@@ -54,6 +67,9 @@ class SchedulesSection extends Component {
       } )
   }
 
+  /**
+   * Función que indica en el estado que hubieron cambios de valores
+   */
   handleInputsChange() {
     this.setState( {
       loading: false,
@@ -63,6 +79,9 @@ class SchedulesSection extends Component {
     } )
   }
 
+  /**
+   * Función que maneja la presencia del modal para confirmar los cambios realizados
+   */
   handleSaveModal() {
     this.setState( {
       loading: false,
@@ -73,6 +92,12 @@ class SchedulesSection extends Component {
     
   }
 
+  /**
+   * Función que muestra una notificación al usuario
+   * @param {String} type Tipo de notificación 
+   * @param {String} message Título de la notificación
+   * @param {*} description Descripción de la notificación
+   */
   openNotification( type, message, description ) {
     notification[type]({
       message,
@@ -80,6 +105,9 @@ class SchedulesSection extends Component {
     } )
   }
 
+  /**
+   * Función que envia a la API los cambios realizados por el usuario
+   */
   saveScheduleValues() {
     this.props.form.validateFields( (err, values) => {
       if ( !err ) {
@@ -117,6 +145,10 @@ class SchedulesSection extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
   render() {
     const format = 'HH:mm'
     const style = {width: '120%'}

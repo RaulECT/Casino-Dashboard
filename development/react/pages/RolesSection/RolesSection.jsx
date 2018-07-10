@@ -1,7 +1,11 @@
+/**
+ * Componente que representa a la sección de manejo de roles del casino
+ * @namespace RolesSection
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import { 
   Checkbox,
-  Alert,
   Table, 
   Icon, 
   Input,
@@ -23,6 +27,10 @@ const CheckboxGroup = Checkbox.Group
 
 class RolesSection extends Component {
 
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -87,6 +95,9 @@ class RolesSection extends Component {
     this.loadRoles()
   }
 
+  /**
+   * Función que envila los datos a la API para crear un nuevo rol
+   */
   addNewRol() {
 
     this.props.form.validateFields( ['newRole'], (err, values) => {
@@ -119,6 +130,9 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que cierra el modal para editar los roles
+   */
   closeEditRolModal() {
     this.setState( {
       loading: this.state.loading,
@@ -130,6 +144,9 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que envia a la API la información para editar los roles
+   */
   editRol() {
     this.props.form.validateFields( ['editRol'], (err, value) => {
       if( !err ) {
@@ -159,6 +176,11 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que formatea los permisos de un rol
+   * @param {Array} permissions Permisos del rol
+   * @returns {object} Permisos del rol en formato JSON
+   */
   formatPermissions( permissions ) {
     let permissionsFormated = {}
 
@@ -174,6 +196,10 @@ class RolesSection extends Component {
     return permissionsFormated
   }
 
+  /**
+   * Función que muestra el modal para editar un rol
+   * @param {String} roleKey ID del rol a editar
+   */
   showEditRolModal( roleKey ) {
     let rolesList = this.state.roles
     let permissions = []
@@ -200,6 +226,12 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que muestra una notificación al usuario
+   * @param {String} type Tipo de notificación
+   * @param {String} message Título de la notificación
+   * @param {String} description Mensaje de la notificación
+   */
   openNotification( type, message, description ) {
     notification[type]({
       message,
@@ -207,6 +239,10 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que se ejecuta al seleccionar un permiso
+   * @param {Array} checkedValues Valores seleccionados 
+   */
   onChangePermissions( checkedValues ) {
 
     let perm = {}
@@ -217,6 +253,10 @@ class RolesSection extends Component {
     this.newRolPermissions = perm
   }
 
+  /**
+   * Función que se ejecuta al seleccionar permisos del formulario de edición de roles
+   * @param {*} e Evento generado al seleccionar un permiso de edición
+   */
   onChangeEditedPermisions( e ) {
     let editRolPermisions = this.state.editRolPermisions
 
@@ -237,6 +277,9 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que maneja la presenecia del modal para crear roles
+   */
   handleAddRoleModal() {
     this.setState( {
       loading: this.state.loading,
@@ -248,6 +291,9 @@ class RolesSection extends Component {
     } )
   }
 
+  /**
+   * Función que carga los roles guardados en la API
+   */
   loadRoles() {
     this.api.getRoles()
       .then( response => {
@@ -279,6 +325,10 @@ class RolesSection extends Component {
       } )
   }
 
+  /**
+   * Randeriza la vista del componente.
+   * @returns {string} HTML markup del componente.
+   */
   render() {
     const { getFieldDecorator } = this.props.form
     this.state.success ? this.openNotification( 'success', 'Operación exitosa', 'Se han guardado los cambios con éxito.' ) : () => {}

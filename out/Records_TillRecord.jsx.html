@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Records/TillRecord.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Records/TillRecord.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la sección de historial de movimientos de caja del casino
+ */
+import React, {Component} from 'react' 
+import {
+  Table
+} from 'antd'
+import Api from '../../controllers/Api'
+
+class TillRecord extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      sortedInfo: null,
+      records: []
+    }
+
+    this.api = new Api()
+
+    this.getColumns = this.getColumns.bind( this )
+    this.loadTillLog = this.loadTillLog.bind( this )
+    this.handleChange = this.handleChange.bind( this )
+  }
+
+  /**
+   * Función que se ejecuta antes de randerizar la vista
+   */
+  componentWillMount() {
+    this.loadTillLog()
+  }
+
+  /**
+   * Función que guarda en el estado el tipo de ordenamiento seleccionado por el usuario
+   * @param {*} pagination 
+   * @param {*} filters 
+   * @param {*} sorter 
+   */
+  handleChange( pagination, filters, sorter ) {
+    const { records } = this.state
+
+    this.setState({
+      sortedInfo: sorter,
+      records
+    })
+  }
+
+  /**
+   * Función que obtiene las columnas de la tabla
+   * @returns {Array} Columnas de la tabla
+   */
+  getColumns() {
+    let { sortedInfo } = this.state
+
+    sortedInfo = sortedInfo || {}
+
+    const columns = [ {
+      title: 'Operación',
+      key: 'type',
+      dataIndex: 'type',
+      sorter: (a, b) => this.sortAlphabetically( a.type, b.type ),
+      sortOrder: sortedInfo.columnKey === 'type' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Método de pago',
+      key: 'paymentMethod',
+      dataIndex: 'paymentMethod',
+      sorter: (a, b) => this.sortAlphabetically( a.paymentMethod, b.paymentMethod ),
+      sortOrder: sortedInfo.columnKey === 'paymentMethod' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Cantidad',
+      key: 'amount',
+      dataIndex: 'amount',
+      sorter: (a, b) => this.sortAlphabetically( a.amount, b.amount ),
+      sortOrder: sortedInfo.columnKey === 'amount' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Fecha',
+      key: 'createdOn',
+      dataIndex: 'createdOn',
+      sorter: (a, b) => this.sortAlphabetically( a.createdOn, b.createdOn ),
+      sortOrder: sortedInfo.columnKey === 'createdOn' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Caja',
+      key: 'till',
+      dataIndex: 'till',
+      sorter: (a, b) => this.sortAlphabetically( a.till, b.till ),
+      sortOrder: sortedInfo.columnKey === 'till' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Cajero',
+      key: 'cashier',
+      dataIndex: 'cashier',
+      sorter: (a, b) => this.sortAlphabetically( a.cashier, b.cashier ),
+      sortOrder: sortedInfo.columnKey === 'cashier' &amp;&amp; sortedInfo.order
+    },
+    {
+      title: 'Cliente',
+      key: 'from',
+      dataIndex: 'from',
+      sorter: (a, b) => this.sortAlphabetically( a.from, b.from ),
+      sortOrder: sortedInfo.columnKey === 'from' &amp;&amp; sortedInfo.order
+    } ]
+
+    return columns
+  }
+
+  /**
+   * Función que ordena alfabeticamente dos strings
+   * @param {String} a 
+   * @param {String} b 
+   */
+  sortAlphabetically( a, b ) {
+    return (a &lt; b) ? -1 : (a > b) ? 1 : 0
+  }
+
+  /**
+   * Función que carga de la API los registros guardados
+   */
+  loadTillLog() {
+    const { sortedInfo } = this.state
+
+    this.api.getTillLog()
+      .then( response => {
+
+        if ( response.status === 200 ) {
+          const records = response.data.result.items 
+
+          records.map( ( element, index ) => {
+            element.key = index
+            element.createdOn = element.createdOn.format().split('T')[0]
+          } )
+
+          this.setState( {
+            records: records,
+            sortedInfo
+          } )
+        }
+      } )
+      .catch( err => {
+
+      } )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
+  render() {
+    const columns = this.getColumns()
+
+    return(
+      &lt;div style={{width: '100%'}}>
+        &lt;Table
+          columns={columns}
+          dataSource={this.state.records}
+        />
+      &lt;/div>
+    )
+  }
+}
+
+module.exports = TillRecord</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

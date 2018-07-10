@@ -32,11 +32,13 @@
  * @extends Component
  */
 import React, {Component} from 'react'
-import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
+import { Alert, Form, Icon, Input, Button, Checkbox, Row, Col, notification, Tabs } from 'antd'
 import Api from '../controllers/Api'
+import FingerLogin from './Login/FingerLogin.jsx'
 
 import './styles/login.css'
 
+const TabPane = Tabs.TabPane 
 const FormItem = Form.Item
 
 class Login extends Component {
@@ -51,7 +53,8 @@ class Login extends Component {
     this.state = {
       wrongCredentials: false,
       errorMessage: '',
-      isShowingSpin: false
+      isShowingSpin: false,
+      logo: ''
     }
 
     this.api = new Api()
@@ -64,6 +67,9 @@ class Login extends Component {
    * Función que se ejecuta antes de randerizar la vista
    */
   componentWillMount() {
+    this.api.getLogo()
+      .then( response => this.setState( {logo: response} ) )
+
     if ( localStorage.isLogin == 'true' ) {
       // TODO: Router redirectt to /dashboard
       this.props.history.push( '/dashboard/configuraciones_generales' )
@@ -138,7 +144,7 @@ class Login extends Component {
    */
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {wrongCredentials, errorMessage, isShowingSpin} = this.state
+    const {logo, wrongCredentials, errorMessage, isShowingSpin} = this.state
     const errorMsg = wrongCredentials ? &lt;Alert style={ { textAlign: 'left' } } message={errorMessage} type="error" showIcon />: ''
     const loadinSpin = isShowingSpin ? 
       (&lt;div className="loading-section">
@@ -155,37 +161,47 @@ class Login extends Component {
             xs={{span: 24, offset: 0}}
           >
             &lt;div className="form-section">
-              &lt;h1 className="login-title">Modulo de Administración&lt;/h1>
+              &lt;img style={ { width: '100%' } } src={`data:image/png;base64, ${logo}`} alt="logo"/>
+              {/*&lt;h1 className="login-title">Modulo de Administración&lt;/h1>*/}
 
-              &lt;Form
-                onSubmit={this.handleLoginSubmit}
-                className="login-form"
-              >
-                &lt;FormItem>
-                  {getFieldDecorator('userName', {
-                    rules: [{ required: true, message: 'Ingrese su e-mail!' }],
-                  })(
-                    &lt;Input disabled={isShowingSpin} size="large" prefix={&lt;Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
-                  )}
-                &lt;/FormItem>
+              &lt;Tabs defaultActiveKey="1">
+                &lt;TabPane tab="Password" key="1">
+                  &lt;Form
+                    onSubmit={this.handleLoginSubmit}
+                    className="login-form"
+                  >
+                    &lt;FormItem>
+                      {getFieldDecorator('userName', {
+                        rules: [{ required: true, message: 'Ingrese su e-mail!' }],
+                      })(
+                        &lt;Input disabled={isShowingSpin} size="large" prefix={&lt;Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Nombre de Usuario" />
+                      )}
+                    &lt;/FormItem>
 
-                &lt;FormItem>
-                  {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Ingrese su contraseña!' }],
-                  })(
-                    &lt;Input disabled={isShowingSpin} size="large" prefix={&lt;Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
-                  )}
-                &lt;/FormItem>
+                    &lt;FormItem>
+                      {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Ingrese su contraseña!' }],
+                      })(
+                        &lt;Input disabled={isShowingSpin} size="large" prefix={&lt;Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Contraseña" />
+                      )}
+                    &lt;/FormItem>
 
-                { errorMsg }
-                { loadinSpin }
+                    { errorMsg }
 
-                &lt;FormItem>
-                  &lt;Button disabled={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
-                    Iniciar Sesión
-                  &lt;/Button>
-                &lt;/FormItem>
-              &lt;/Form>
+                    &lt;FormItem>
+                      &lt;Button loading={isShowingSpin} size="large" type="primary" htmlType="submit" className="login-form-button">
+                        Iniciar Sesión
+                      &lt;/Button>
+                    &lt;/FormItem>
+                  &lt;/Form>
+                &lt;/TabPane>
+                &lt;TabPane tab="Huella" key="2">
+                  &lt;FingerLogin
+                    push={this.props.history.push}
+                  />
+                &lt;/TabPane>
+              &lt;/Tabs>
+
             &lt;/div>
           &lt;/Col>
         &lt;/Row>
@@ -206,13 +222,13 @@ module.exports = WrappedNormalLoginForm</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed May 23 2018 15:35:26 GMT-0500 (CDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jul 10 2018 13:04:01 GMT-0500 (CDT)
 </footer>
 
 <script> prettyPrint(); </script>

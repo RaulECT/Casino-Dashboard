@@ -1,3 +1,6 @@
+/**
+ * Componente que representa a la tabla de promociones existentes
+ */
 import React, {Component} from 'react' 
 import {
   Button,
@@ -7,6 +10,11 @@ import {
 } from 'antd'
 
 class PromotionsTable extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -30,6 +38,9 @@ class PromotionsTable extends Component {
     this.setRolSort = this.setRolSort.bind( this )
   }
 
+  /**
+   * Función que resetea los valores de ordenamiento
+   */
   clearAll() {
     this.setState( {
       filteredInfo: null,
@@ -37,6 +48,12 @@ class PromotionsTable extends Component {
     } )
   }
 
+  /**
+   * Función que guarda en el estado el filtro y ordenamiento seleccionado por el usuario
+   * @param {*} pagination 
+   * @param {*} filters 
+   * @param {*} sorter 
+   */
   handleChange( pagination, filters, sorter ) {
     
     this.setState({
@@ -45,6 +62,10 @@ class PromotionsTable extends Component {
     })
   }
 
+  /**
+   * Función que regresa las columnas de la tabla de promociones
+   * @returns {Array} Columnas de la tabla
+   */
   getColumns() {
     let { filteredInfo, sortedInfo } = this.state
     const { showEditSection, selectPromToEdit } = this.props
@@ -115,6 +136,9 @@ class PromotionsTable extends Component {
     return columns
   }
 
+  /**
+   * Función que guarda en el estado el tipo de ordenamiento de la tabla
+   */
   setRolSort() {
     const { filteredInfo } = this.state
 
@@ -127,10 +151,19 @@ class PromotionsTable extends Component {
     } )
   }
 
+  /**
+   * Función que ordena alfabeticamente dos strings
+   * @param {String} a 
+   * @param {String} b 
+   */
   sortAlphabetically( a, b ) {
     return (a < b) ? -1 : (a > b) ? 1 : 0
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {string} HTML markup del componente
+   */
   render() {
     const columns = this.getColumns()
 

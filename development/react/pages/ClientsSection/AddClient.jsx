@@ -4,15 +4,10 @@ import {
   Form,
   Modal,
   Input,
-  Row,
-  Col,
   DatePicker,
-  Divider,
   Select,
   Button,
-  Icon,
   Popconfirm,
-  Radio
 } from 'antd'
 import Webcam from './Webcam.jsx'
 
