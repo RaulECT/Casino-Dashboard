@@ -1,3 +1,8 @@
+/**
+ * Componente que representa al form de configuración de periodicidad de la lista de correo
+ * @namespace PeriodForm
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import {
   DatePicker,
@@ -12,6 +17,11 @@ const Option = Select.Option
 const { RangePicker, MonthPicker, WeekPicker } = DatePicker 
 
 class PeriodForm extends Component {
+
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -27,6 +37,10 @@ class PeriodForm extends Component {
     this.handleSwitchChange = this.handleSwitchChange.bind( this )
   }
 
+  /**
+   * Función que regresa el tipo de calendario de acuerdo a la periodicidad indicanda por el usuario
+   * @returns {JSX} Calendario para introducir la periodicidad
+   */
   getRangeCalendar() {
     const {period} = this.state
 
@@ -78,6 +92,11 @@ class PeriodForm extends Component {
     }
   }
 
+  /**
+   * Función que maneja los cambios de fechas de periodicidad
+   * @param {Array} dates Fechas en formato Moment seleccionadas por el usuario 
+   * @param {Array} datesStrings Fehcas en formato String seleccionadas por el usuario
+   */
   handleDateChange( dates, datesStrings ) {
     const {onStartDateChange, onEndDateChange} = this.props
 
@@ -85,30 +104,52 @@ class PeriodForm extends Component {
     onEndDateChange( datesStrings[1] )
   }
 
+  /**
+   * Función que maneja solo la fecha de terminación 
+   * @param {Moment} date Fecha de terminación en formato Moment
+   * @param {String} dateString Fecha de terminación en formato String
+   */
   handleEndDateChange( date, dateString ) {
     const {onEndDateChange} = this.props 
 
     onEndDateChange( dateString )
   }
 
+  /**
+   * Función que maneja el cambio de horas
+   * @param {Date} hour Hora en formato Date
+   * @param {String} hourString Hora en formato String
+   */
   handleHourChange( hour,hourString ) {
     const {onTimeChange} = this.props
 
     onTimeChange( hourString )
   }
 
+  /**
+   * Función que maneja el cambio de periodicidad
+   * @param {String} period Periodicidad
+   */
   handlePeriodChange( period ) {
     const {onPeriodChange} = this.props
 
     onPeriodChange( period )
   }
 
+  /**
+   * Función que maneja solo los cambios de fecha de inicio de la periodicidad
+   * @param {Moment} date Fecha de inicio en formato Moment 
+   * @param {String} dateString Fecha de inicio en formato String
+   */
   handleStartDateChange( date, dateString ) {
     const { onStartDateChange } = this.props
 
     onStartDateChange( dateString )
   }
 
+  /**
+   * Función que maneja la presencia del formulario de configuración de periodicidad
+   */
   handleSwitchChange() {
     const {isActive} = this.state
     const {onRecurrentChange} = this.props
@@ -116,6 +157,10 @@ class PeriodForm extends Component {
     this.setState( { isActive: !isActive }, onRecurrentChange( !isActive ) )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
   render() {
     const { isActive } = this.state
     const formStyle = isActive ? { display: 'inline-flex' } :  { display: 'none' }

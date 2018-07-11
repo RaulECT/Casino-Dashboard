@@ -1,3 +1,8 @@
+/**
+ * Función que representa al modal para crear y configurar listas de correos
+ * @namespace ListsForm
+ * @extends Component
+ */
 import React,{Component} from 'react'
 import EmailListForm from './EmailListForm.jsx'
 import ConfigurationForm from './ConfigurationForm.jsx'
@@ -5,34 +10,20 @@ import FinishMessage from './FinishMessage.jsx'
 import Api from '../../controllers/Api'
 import ErrorManagment from '../../controllers/ErrorManagment'
 import {
-  Card,
-  Collapse,
-  DatePicker,
-  Divider,
   Button,
   Form,
-  Icon,
-  Input,
-  List,
-  message,
   Modal,
-  Popconfirm,
-  Select,
   Steps,
-  Switch,
-  Tag,
-  TimePicker,
-  Tooltip
 } from 'antd'
 
-const { RangePicker, MonthPicker, WeekPicker } = DatePicker
 const { Step } = Steps
-const FormItem = Form.Item
-const Option = Select.Option
-const Panel = Collapse.Panel
 
 class ListsForm extends Component {
 
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -51,19 +42,12 @@ class ListsForm extends Component {
     this.reset = this.reset.bind( this )
   }
 
-  componentDidMount() {
-   
-    if ( this.props.list ) {
-
-      
-    }
-  }
-
+  /**
+   * Función que le envia a la API la información para crear la lista de corro
+   * @param {Array} emailList Listas de correos ingresados por el usuario 
+   */
   creatEmaiList( emailList ) {
     
-    //this.nextStep()
-
-    //return false
     this.api.createEmailList( emailList )
       .then( response => {
 
@@ -80,6 +64,10 @@ class ListsForm extends Component {
       } )
   }
 
+  /**
+   * Función que envia a la API la información para configurar las listas de correos
+   * @param {Object} configList Configuración de la lista de corro 
+   */
   configEmailList( configList ) {
     const { listId } = this.state
     const { updateLists } = this.props
@@ -102,6 +90,10 @@ class ListsForm extends Component {
       } )
   }
 
+  /**
+   * Función que regresa la sección de acuerdo al paso en que el usaurio se encuentre
+   * @returns {JSX} Sección a mostrar al usuario
+   */
   getStepSection() {
     const { currentStep } = this.state
     const { close, list } = this.props
@@ -146,6 +138,9 @@ class ListsForm extends Component {
     return section
   }
 
+  /**
+   * Función que cambia a la siguiente sección
+   */
   nextStep() {
     let {currentStep} = this.state
     currentStep++
@@ -153,28 +148,33 @@ class ListsForm extends Component {
     this.setState( { currentStep } )
   }
 
-
+  /**
+   * Función que regresa el footer del modal
+   * @returns {Array} Opciones del modal
+   */
   getModalFooter() {
-    const { close, confirm, type } = this.props
-    const okText = type === 'add' ? 'Crear lista' : 'Editar lista'
-    const title = type === 'add' ? '¿Desea crear esta lista?' : '¿Desea editar esta lista?'
-
+    const { close,} = this.props
+   
     return [
       <Button key="2" onClick={ ()=>{ close() } }>Cancelar</Button>,
 
     ]
   }
 
+  /**
+   * Función que resetea los pasos
+   */
   reset() {
     this.setState( { currentStep: 0 } )
   }
 
-
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
   render() {
     const { close, visible, type } = this.props
-    const { getFieldDecorator } = this.props.form
-    const {isRecurrent, rangePickerMode, currentStep} = this.state
-    const periodicityStyle = isRecurrent ? { display: 'inline-flex' } :  { display: 'none' }
+    const { currentStep} = this.state
     const title = type === 'add' ? 'Crear nueva lista' : 'Editar lista'
     const section = this.getStepSection()
 

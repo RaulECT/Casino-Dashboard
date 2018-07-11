@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Stadistics/ListsForm.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Stadistics/ListsForm.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Función que representa al modal para crear y configurar listas de correos
+ * @namespace ListsForm
+ * @extends Component
+ */
+import React,{Component} from 'react'
+import EmailListForm from './EmailListForm.jsx'
+import ConfigurationForm from './ConfigurationForm.jsx'
+import FinishMessage from './FinishMessage.jsx'
+import Api from '../../controllers/Api'
+import ErrorManagment from '../../controllers/ErrorManagment'
+import {
+  Button,
+  Form,
+  Modal,
+  Steps,
+} from 'antd'
+
+const { Step } = Steps
+
+class ListsForm extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.input = null
+    this.api = new Api()
+    this.errorManagment = new ErrorManagment()
+    this.state = {
+      currentStep: 0,
+      listId: null,
+    }
+
+    this.configEmailList = this.configEmailList.bind( this )
+    this.creatEmaiList = this.creatEmaiList.bind( this )
+    this.getStepSection = this.getStepSection.bind( this )
+    this.nextStep = this.nextStep.bind( this )
+    this.reset = this.reset.bind( this )
+  }
+
+  /**
+   * Función que le envia a la API la información para crear la lista de corro
+   * @param {Array} emailList Listas de correos ingresados por el usuario 
+   */
+  creatEmaiList( emailList ) {
+    
+    this.api.createEmailList( emailList )
+      .then( response => {
+
+        
+        if ( response.status === 200 ) {
+          const listId = response.data.result.items[0].id
+
+          this.setState({ listId }, this.nextStep())
+        }
+      } )
+      .catch( err => {
+        console.log( err );
+        
+      } )
+  }
+
+  /**
+   * Función que envia a la API la información para configurar las listas de correos
+   * @param {Object} configList Configuración de la lista de corro 
+   */
+  configEmailList( configList ) {
+    const { listId } = this.state
+    const { updateLists } = this.props
+
+    configList['emailListId'] = listId
+
+    this.api.configEmailList( configList )
+      .then( response => {
+        console.log( response )
+        if ( response.status === 200 ) {
+          updateLists()
+          this.nextStep()
+        } else {
+          this.errorManagment.resolveError( response.data )
+        }
+      } )
+      .catch( err => {
+        console.log( err );
+        
+      } )
+  }
+
+  /**
+   * Función que regresa la sección de acuerdo al paso en que el usaurio se encuentre
+   * @returns {JSX} Sección a mostrar al usuario
+   */
+  getStepSection() {
+    const { currentStep } = this.state
+    const { close, list } = this.props
+    let section = null
+
+    switch ( currentStep ) {
+      case 0:
+        section = (
+          &lt;EmailListForm
+            type="add"
+            onSubmitList={this.creatEmaiList}
+            list={list}
+          />)
+        break;
+
+      case 1:
+        section = ( 
+          &lt;ConfigurationForm 
+            onConfig={this.configEmailList}
+          /> 
+        )
+        break;
+      
+      case 2: 
+        section = (
+          &lt;FinishMessage
+            onClose={close}
+            onReset={this.reset}
+          />
+        )
+        break;
+
+      default:
+        section = ( 
+          &lt;ConfigurationForm 
+            onConfig={this.configEmailList}
+          /> 
+        )
+        break;
+    }
+
+    return section
+  }
+
+  /**
+   * Función que cambia a la siguiente sección
+   */
+  nextStep() {
+    let {currentStep} = this.state
+    currentStep++
+
+    this.setState( { currentStep } )
+  }
+
+  /**
+   * Función que regresa el footer del modal
+   * @returns {Array} Opciones del modal
+   */
+  getModalFooter() {
+    const { close,} = this.props
+   
+    return [
+      &lt;Button key="2" onClick={ ()=>{ close() } }>Cancelar&lt;/Button>,
+
+    ]
+  }
+
+  /**
+   * Función que resetea los pasos
+   */
+  reset() {
+    this.setState( { currentStep: 0 } )
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
+  render() {
+    const { close, visible, type } = this.props
+    const { currentStep} = this.state
+    const title = type === 'add' ? 'Crear nueva lista' : 'Editar lista'
+    const section = this.getStepSection()
+
+    return(
+      &lt;Modal
+        title={title}
+        visible={visible}
+        style={{ top: 20 }}
+        width={1000}
+        onCancel={close}
+        footer={ this.getModalFooter() }
+      >
+        &lt;Steps current={currentStep}>
+          &lt;Step title="Crear Lista de Correo" description="" />
+          &lt;Step title="Configurar Lista de Correo" description="" />
+          &lt;Step title="Listo!" description="" />
+        &lt;/Steps>
+
+
+        {section}
+
+
+      &lt;/Modal>
+    )
+  }
+}
+
+const WrappedListsForm = Form.create()(ListsForm);
+module.exports = WrappedListsForm</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="GraphicsSection.html">GraphicsSection</a></li><li><a href="ListsForm.html">ListsForm</a></li><li><a href="ListsTable.html">ListsTable</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PeriodForm.html">PeriodForm</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations_.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jul 11 2018 12:50:33 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

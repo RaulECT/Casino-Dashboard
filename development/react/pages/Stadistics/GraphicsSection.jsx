@@ -1,3 +1,8 @@
+/**
+ * Componente que representa a la sección de gráficos y estadisticas
+ * @namespace GraphicsSection
+ * @extends Component
+ */
 import React, {Component} from 'react'
 import Chart from 'chart.js'
 import jsPDF from 'jspdf'
@@ -18,11 +23,17 @@ import {
   Switch
 } from 'antd'
 import Api from '../../controllers/Api'
+import { Moment } from '../../../../node_modules/moment';
 
 const Option = Select.Option
 const { RangePicker } = DatePicker
 
 class GraphicsSection extends Component {
+
+  /**
+   * Crea el componente
+   * @param {object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -100,11 +111,19 @@ class GraphicsSection extends Component {
  
   }
 
+  /**
+   * Función que limpia el canvas del gráfico 
+   */
   cleanCanvas() {
     document.getElementById("chartContainer").innerHTML = '&nbsp;';
     document.getElementById("chartContainer").innerHTML = '<canvas id="myChart"></canvas>'
   }
 
+  /**
+   * Función que formatea los datos para obtener los labels y los datos del gráfico
+   * @param {Object} data 
+   * @returns JSON con el formato para generar el gráfico
+   */
   formatData( data ) {
     let labels = []
     let info = []
@@ -119,6 +138,9 @@ class GraphicsSection extends Component {
     return { data: info, labels }
   }
 
+  /**
+   * Función que genera y descarga el gráfico en PDF
+   */
   generatePDF() {
     const { graphic, graphSlected, startDate, endDate } = this.state
     const title = this.graphics[graphSlected].text
@@ -135,6 +157,10 @@ class GraphicsSection extends Component {
     doc.save(`${fileName}.pdf`)
   }
 
+  /**
+   * Función que genera datos de prueba aleatorios
+   * @returns JSON con datos y labels aleatorios
+   */
   generateTesData() {
     let days = []
     let data = []
@@ -151,6 +177,9 @@ class GraphicsSection extends Component {
     return { data, labels: days }
   }
 
+  /**
+   * Función que solicita a la API la información de la estadistica que el usuario quiere ver
+   */
   getData() {
     const { graphSlected, startDate, endDate, graphType, isMultiLine } = this.state
 
@@ -229,6 +258,10 @@ class GraphicsSection extends Component {
     
   }
 
+  /**
+   * Función que genera el calendario de fechas de acuerdo a la estadistica y tipo de gráfico que el usuario selecciono
+   * @returns {JSX} Calendario
+   */
   getCalendar() {
     const {graphSlected, graphType} = this.state
     let calendar = null
@@ -290,10 +323,22 @@ class GraphicsSection extends Component {
     return calendar
   }
 
+  /**
+   * Función que inicia el proceso de generado de graficas
+   */
   makeGraphic() {
     this.getData()
   }
 
+  /**
+   * Función que genera un gráfico de barras
+   * @param {Array} labels Labels del gráfico
+   * @param {Array} data Datos que tendrá el gráfico
+   * @param {String} xLabel Título del eje x
+   * @param {String} yLabel Título del eje y
+   * @param {String} title Título del gráfico
+   * @param {Boolean} isMultiLine Indica si se va a comparar gráficos
+   */
   printBarGraphic( labels, data, xLabel, yLabel, title, isMultiLine = false ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
@@ -318,6 +363,15 @@ class GraphicsSection extends Component {
     } )
   }
 
+  /**
+   * Función que indica que gráfico se debe generar
+   * @param {Array} labels Labels que tendrá el gráfico
+   * @param {Array} data Datos que se representará en el gráfico
+   * @param {String} xLabel Nombre del eje X
+   * @param {String} yLabel Nombre del eje Y
+   * @param {String} title Título del gráfico
+   * @param {Boolean} isMultiLine Indica si se va a comparar más de un elemento
+   */
   printChart( labels, data, xLabel, yLabel, title, isMultiLine = false ) {
     const { graphType } = this.state
    
@@ -333,10 +387,6 @@ class GraphicsSection extends Component {
       case 'lineGraph':
         this.printLineGraphic( labels, data, xLabel, yLabel, title, isMultiLine )
         break;
-
-      case 'y':
-        this.printPolarGraphic( labels, xLabel, yLabel, title, data )
-        break;
     
       default:
         this.printBarGraphic( labels, data )
@@ -344,6 +394,15 @@ class GraphicsSection extends Component {
     }
   }
 
+  /**
+   * Función que genera un gráfico lineal
+   * @param {Array} labels Labels que tendrá el gráfico
+   * @param {Array} data Información que se graficara 
+   * @param {String} xLabel Título del eje X
+   * @param {String} yLabel Título del eje Y
+   * @param {String} title Título del gráfico
+   * @param {Boolean} isMultiLine Inidica si se va a comprar mas de un elemento
+   */
   printLineGraphic( labels, data, xLabel, yLabel, title, isMultiLine = false ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
@@ -367,6 +426,11 @@ class GraphicsSection extends Component {
     } )
   }
 
+  /**
+   * Función que genera un gráfico de tipo polar
+   * @param {Array} labels Labels que tendrá el gráfico
+   * @param {Array} data Información que se graficara
+   */
   printPolarGraphic( labels, data ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
@@ -379,6 +443,14 @@ class GraphicsSection extends Component {
     this.setState( { graphic: myChart } )
   }
 
+  /**
+   * Función que genera un gráfico de tipo pastel
+   * @param {Array} labels Labels que tendrá el gráfico 
+   * @param {Array} data Información que se gráficara 
+   * @param {*} xLabel Título del eje X
+   * @param {*} yLabel Título del eje Y
+   * @param {*} title Título del gráfico
+   */
   printPieGraphic( labels, data, xLabel, yLabel, title, ) {
     const { graphSlected, startDate, endDate } = this.state
     this.cleanCanvas()
@@ -400,6 +472,10 @@ class GraphicsSection extends Component {
     } )
   }
 
+  /**
+   * Función que guarda en el estado el tipo de estadistica que el usuario selecciono
+   * @param {String} value Estadistica seleccionada por el usuario 
+   */
   handleGraphicsOptions( value ) {
     const { graphic, startDate, endDate } = this.state
 
@@ -412,14 +488,27 @@ class GraphicsSection extends Component {
     
   }
 
+  /**
+   * Función que guarda en el estado el tipo de gráfico seleccionado por el usuario
+   * @param {String} value Gráfica seleccionado por el usuario
+   */
   handleChartType( value ) {
     this.setState( { graphType: value } )
   }
 
+  /**
+   * Función que guarda en el estado si el gráfico va a comparar mas de un elemento
+   * @param {Boolean} value 
+   */
   handleMultiLineChange( value ) {
     this.setState( { isMultiLine: value } )
   }
 
+  /**
+   * Función que guarda en el estado el rango de fechas seleccionadas por el usuario
+   * @param {Moment} date Fechas en formato de Moment 
+   * @param {String} dateString Fechas en formato string 
+   */
   handleRangePicker( date, dateString ) {
     //console.log(date, dateString)
     const { graphic, graphSlected } = this.state
@@ -442,6 +531,10 @@ class GraphicsSection extends Component {
     } )
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
   render() {
     const { graphic, graphSlected, graphType, startDate, endDate } = this.state
     const generatePDFDisabled = graphic ? false : true

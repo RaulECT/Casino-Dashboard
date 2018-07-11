@@ -1,7 +1,15 @@
+/**
+ * Clase que se encarga de configurar los gráficos para mostrarlos al usuario
+ */
 import Chart from 'chart.js'
 
 class GraphicsManagment {
 
+  /**
+   * Función que se encarga de configurar un gráfico de tipo barra
+   * @param {Object} config Coniguracion que se desea
+   * @param {Boolean} isMultiLine Indica si hay mas de un elemento en el gráfico
+   */
   configBarGraphic( config, isMultiLine = false ) {
     const { data, dataLabels, chartLabel, xLabel, yLabel, title, type } = config
     const colors = []
@@ -78,6 +86,11 @@ class GraphicsManagment {
     return configuration
   }
   
+  /**
+   * Función que se encarga de configurar un gráfico de tipo lineal
+   * @param {Object} config Configuración que se desea del gráfico
+   * @param {Boolean} isMultiLine Indica si hay mas de un elemento en el gráfico
+   */
   configLineGraphic( config, isMultiLine = false ) {
     const { data, dataLabels, chartLabel, xLabel, yLabel, title } = config
 
@@ -152,6 +165,10 @@ class GraphicsManagment {
 
   }
 
+  /**
+   * Función que se encarga de configurar un gráfico de tipo pastel
+   * @param {Object} config Configuración que se desea del gráfico
+   */
   configPieGraphic( config ) {
     const { data, dataLabels, chartLabel, title } = config
     const colors = []
@@ -183,6 +200,9 @@ class GraphicsManagment {
 
   }
 
+  /**
+   * Función que se encarga de configurar un gráfico de tipo polar
+   */
   configPolarGraphic() {
     
     let config = {
@@ -208,6 +228,10 @@ class GraphicsManagment {
     return config
   }
 
+  /**
+   * Función que se encarga de generar un color random en formato hexadecimal
+   * @returns {String} Color en formato hexadecimal
+   */
   getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -217,6 +241,10 @@ class GraphicsManagment {
     return `${color}8f`;
   }
 
+  /**
+   * Función que se encarga de generar un color random en formato RGBA
+   * @returns {String} Color en formato RGBA
+   */
   getRandomRGBColor() {
     const red = Math.floor(Math.random() * 255)
     const green = Math.floor(Math.random() * 255)

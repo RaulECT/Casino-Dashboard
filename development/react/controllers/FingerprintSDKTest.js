@@ -1,6 +1,14 @@
+/**
+ * Clase que se encarga de ser interfaz con el lector de huellas
+ */
 import { notification } from 'antd'
 
 class FingerprintSDKTest {
+
+  /**
+   * Crea la clase
+   * @param {*} errM 
+   */
   constructor( errM ) {
     
     this.operationToRestart = null
@@ -34,22 +42,42 @@ class FingerprintSDKTest {
     
   }
 
+  /**
+   * Función que sirve para indicar cuando el lector esta conectado
+   * @param {Object} e 
+   */
   onDeviceConnected( e ) {
-    console.log( 'This wea is connceted' )
+    console.log( 'This is connceted' )
   }
 
+  /**
+   * Función que sirve para indicar cuando el lector esta desconectado
+   * @param {Object} e 
+   */
   onDeviceDisconnected( e ) {
-    console.log( 'This wea is disconnceted' )
+    console.log( 'This is disconnceted' )
   }
 
+  /**
+   * Función que sirve para indicar cuando se presente un error de comunicación
+   * @param {Object} e 
+   */
   onCommunicationFailed( e ) {
     console.log( 'Communication failed' )
   }
 
+  /**
+   * Función que se ejecuta cuando el escaner esta leyendo una huella
+   * @param {Object} s 
+   */
   onReading( s ) {
     console.log('leyendo');
   }
 
+  /**
+   * Función que indica el formato en el que se va a guardar la información
+   * @param {String} format 
+   */
   setFormat( format ) {
     switch ( format ) {
       case 'Raw':
@@ -72,8 +100,9 @@ class FingerprintSDKTest {
     }
   }
 
-
-
+  /**
+   * Función que busca los lectores de huellas conectados para usar
+   */
   getDeviceList() {
     this.sdk.enumerateDevices()
       .then( response => {
@@ -89,7 +118,10 @@ class FingerprintSDKTest {
       } )
   }
 
-
+  /**
+   * Función que formatea las huellas en el formato indicado 
+   * @param {Object} s Huella obtenida del lector
+   */
   sampleAcquired(s){
     if(this.currentFormat == Fingerprint.SampleFormat.PngImage){
       // If sample acquired format is PNG- perform following call on object recieved
@@ -143,6 +175,10 @@ class FingerprintSDKTest {
     }
   }
 
+  /**
+   * Función que inicia la captura de la huella
+   * @param {Function} func Función que se ejecuta cuando el lector empieza a leer la huella
+   */
   startCapture( func ) {
     if (this.acquisitionStarted) // Monitoring if already started capturing
       return;
@@ -167,6 +203,9 @@ class FingerprintSDKTest {
     })
   }
 
+  /**
+   * Función que detiene la lectura de huella
+   */
   stopCapture() {
     if (!this.acquisitionStarted) //Monitor if already stopped capturing
       return;
@@ -184,6 +223,9 @@ class FingerprintSDKTest {
     } )
   }
 
+  /**
+   * Función que devuelve la huella esacneada en el formato establecido
+   */
   getData() {
     return this.fingerData
   }

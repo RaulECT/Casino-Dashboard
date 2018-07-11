@@ -1,3 +1,7 @@
+/**
+ * Clase que representa a la conexión con la API
+ * @namespace Api
+ */
 import axios from 'axios'
 import fs from 'fs'
 import res from './test_data'
@@ -6,6 +10,9 @@ import res_till_range from './till_range_fake'
 
 class Api {
 
+  /**
+   * Crea la clase
+   */
   constructor() {
     this.apiURL = 'http://springlabsdevs.online/casinos/api'
     this.appType = '' //'adminModule'
@@ -21,6 +28,9 @@ class Api {
     this.createUser = this.createUser.bind( this )
   }
 
+  /**
+   * Función que lee el archivo de configuración para conectar con la API
+   */
   readConfigFile() {
     //const text = fs.readFileSync( 'config.txt', 'utf8');
 
@@ -34,17 +44,19 @@ class Api {
         this.appID = appId[0]
         this.deviceID = deviceId
       }
-
     } )
-
-
   }
 
-   getConfiguration() {
+  /**
+   * Función que obtiene la configuración general del casino guardada en la API
+   */
+  getConfiguration() {
     return axios.get( `${this.apiURL}/config/adminModule` )
-      
   }
 
+  /**
+   * Función que obtiene el logo del casino guardado en la API
+   */
   getLogo() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
@@ -61,6 +73,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene las fichas y sus valores guardadas en la API
+   */
   getChips() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
@@ -77,6 +92,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene los valores de recargas rápidas guardadas en la API
+   */
   getFastAmountsValues() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
@@ -93,6 +111,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene los valores de tipo de cambio guardados en la API
+   */
   getExchangeValues() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
@@ -113,6 +134,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene los valores de precios de membresia guardados en la API
+   */
   getMembershipValues() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
@@ -133,6 +157,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene los horarios del casino guardados en la API
+   */
   getScheduleValues() {
     return new Promise( ( resolve, reject ) => {
       this.getConfiguration()
@@ -155,6 +182,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función le envia a la API la nueva configuración de las fichas
+   * @param {Object} values Nuevos valores de las fichas
+   */
   updateChipsValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -165,6 +196,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene los roles del casino guradados en la API
+   */
   getRoles() {
     return axios.get( `${this.apiURL}/admin/get_roles`, {
       headers: {token: this.token},
@@ -174,6 +208,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que envia a la API los nuevos valores de recargas rápidas
+   * @param {Array} fastAmounts Nuevos valores de recargas ráìdas
+   */
   updateFastAmounts( fastAmounts ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -186,6 +224,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que envia a la API los nuevos valores de tipo de cambio
+   * @param {*} values Nuevos valores de tipos de cambio
+   */
   updateExchangeValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -200,6 +242,11 @@ class Api {
     } )
   }
 
+  /**
+   * Función que envia a la API la información para crear un nuevo rol
+   * @param {String} rolName Nombre del nuevo rol 
+   * @param {Object} permissions Permisos del nuevo rol 
+   */
   createRol( rolName, permissions) {
     return axios.post( `${this.apiURL}/admin/create_rol`, {
       name: rolName,
@@ -212,6 +259,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API el nombre del usuario para realizar una busqueda por nombre
+   * @param {String} name Nombre del usuario que se quiere buscar
+   */
   getUserByName( name ) {
     return axios.get( `${this.apiURL}/admin/users_by_name?partName=${name}`, {
       headers: {token: this.token},
@@ -221,6 +272,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API los nuevos valores de precios de membresias
+   * @param {Object} values Valores de membresias 
+   */
   updateMembershipValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -235,6 +290,12 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para editar un rol
+   * @param {String} id ID del rol para editar
+   * @param {String} name Nombre del rol
+   * @param {Object} permissions Nuevos permisos del rol 
+   */
   editRol( id, name, permissions ) {
    return axios.post( `${this.apiURL}/admin/edit_rol`, {
     id: id,
@@ -248,6 +309,10 @@ class Api {
    } ) 
   }
 
+  /**
+   * Función que le envia a la API la información para dar de alta a un usuario
+   * @param {Object} userInfo Información del nuevo usuario
+   */
   createUser( userInfo ) {
     userInfo.appId = this.appID
 
@@ -259,6 +324,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API los nuevos horarios del casino
+   * @param {Object} values Nuevos horarios del casino 
+   */
   setScheduleValues( values ) {
     return axios.post( `${this.apiURL}/admin/edit_config`, {
       appId: this.appID,
@@ -274,6 +343,11 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para iniciar sesión usando credenciales de acceso
+   * @param {String} user Nombre de usuario 
+   * @param {String} password Contraseña del usuario
+   */
   passwordLogin( user, password ) {
     return axios.post( `${this.apiURL}/password_login`, {
       username: user,
@@ -289,6 +363,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para iniciar sesión usando un lector de huellas
+   * @param {String} fingerprint Huella del usuario en formato WSQ
+   */
   fingerprintLogin( fingerprint ) {
     return axios.post( `${this.apiURL}/fingerprint_login`, {
       fingerprint,
@@ -302,6 +380,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que obtiene las promociones guardadas en la API
+   */
   getProms() {
     return axios.post( `${this.apiURL}/admin/get_promos`,{}, {
       headers: { token: this.token },
@@ -311,6 +392,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para crear una nueva promoción
+   * @param {Object} data Información de la nueva promoción 
+   */
   createPromo( data ) {
     const { amount, description, name, timeLimit, type, valueMax, valueMin } = data
 
@@ -332,6 +417,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para desactivar una promoción
+   * @param {String} promoId ID de la promo a desactivar 
+   */
   deactivePromo( promoId ) {
     return axios.post( `${this.apiURL}/admin/edit_promo`, {
       appId: this.appID,
@@ -345,6 +434,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para editar una promoción
+   * @param {Object} promo Informaicón para editar una promoción 
+   */
   editPromo( promo ) {
     const { amount, description, name, promoId, timeLimit, type, valueMax, valueMin } = promo
     
@@ -366,6 +459,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la infromación para que se realize una busqueda de clientes por nombre
+   * @param {String} name Nombre del cliete para realizar la busqueda
+   */
   getClientByName( name ) {
     return axios.get( `${this.apiURL}/reception/customers_by_name?partName=${name}&sliceSize=10&sliceNumber=1`, {
       headers: {token: this.token},
@@ -375,6 +472,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para eliminar a un usuario
+   * @param {String} userId ID del usuario a eliminar 
+   */
   deleteUser( userId ) {
     return axios.post( `${this.apiURL}/admin/deactive_user`, {
       appId: this.appID,
@@ -387,6 +488,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le solicita a la API el historial de movimientos de caja
+   */
   getTillLog() {
     return axios.get( `${this.apiURL}/admin/get_till_log`,{
       headers: {token: this.token},
@@ -396,6 +500,11 @@ class Api {
     } )
   }
   
+  /**
+   * Función que le envia a la API la información para obtener el número de clientes en un rango de fechas
+   * @param {String} startDate 
+   * @param {String} endDate 
+   */
   getNumberCustomersByRangeDate( startDate, endDate ) {
     return axios.post( `${this.apiURL}/admin/number_customers_by_day`, {
       startDate: startDate,
@@ -408,6 +517,11 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para obtener el número clientes en un rango de fechas
+   * @param {String} startDate 
+   * @param {String} endDate 
+   */
   getNumberCustomersByDay(startDate, endDate) {
     return axios.post( `${this.apiURL}/admin/number_customers_by_day`, {
       startDate,
@@ -420,6 +534,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia la API la información para obtener las ganacias por fechas
+   */
   getScoresByDates() {
     // TODO: REPLACE WITH API
     return new Promise( ( resolve, reject ) => {
@@ -427,6 +544,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para obtener los cortes de caja por día
+   */
   getTillCash() {
     // TODO: REPLACE WITH API
     return new Promise( ( resolve, reject ) => {
@@ -434,6 +554,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para obtener los cortes de caja por rango de fecha
+   */
   getTillCashByRange() {
     // TODO: REPLACE WITH API
     return new Promise( ( resolve, reject ) => {
@@ -441,6 +564,9 @@ class Api {
     })
   }
 
+  /**
+   * Función que le envia a la API la información para obtener los cortes de caja de una fecha
+   */
   getScoresByDate() {
     // TODO: REPLACE WITH API
    return new Promise( ( resolve, reject ) => {
@@ -583,6 +709,10 @@ class Api {
    } ) 
   }
 
+  /**
+   * Función que le envia a la API la información para editar a un usuario
+   * @param {object} userInfo Información para editar al usuario
+   */
   editUser( userInfo ) {
     userInfo.appId = this.appID
 
@@ -594,6 +724,9 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le solicita a la API la lista de emails guardados
+   */
   getEmailsList() {
     return axios.post( `${this.apiURL}/admin/get_email_list`, {
       pageNumber: 1,
@@ -606,6 +739,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para crear una lista de correo
+   * @param {Object} emailList Información de la lista de correo 
+   */
   createEmailList( emailList ) {
     return axios.post( `${this.apiURL}/admin/create_email_list`, emailList, {
       headers: { token: this.token },
@@ -615,6 +752,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para editar una lista de correo
+   * @param {Object} emailList Información para editar la lista de correo 
+   */
   editEmailList( emailList ) {
     return axios.post( `${this.apiURL}/admin/update_email_list`, emailList, {
       headers: { token: this.token },
@@ -624,6 +765,10 @@ class Api {
     } )
   }
 
+  /**
+   * Función que le envia a la API la información para configurar una lista de correo
+   * @param {object} emailConfig Configuración de la lista de correo
+   */
   configEmailList( emailConfig ) {
     return axios.post( `${this.apiURL}/admin/new_email`, emailConfig, {
       headers: { token: this.token },
@@ -633,10 +778,17 @@ class Api {
     } )
   }
 
+  /**
+   * Función que sirve para indicar si la API esta en servicio
+   */
   echoAPI() {
     return axios.get( `${this.apiURL}/echo/` )
   }
 
+  /**
+   * Función que le envia a la API la información para configurar la aplicación
+   * @param {Object} appConfig Configuración de la aplicación 
+   */
   startMachine( appConfig ) {
 
     return axios.post( `${this.apiURL}/start_machine`, appConfig, {

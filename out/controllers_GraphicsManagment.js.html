@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/GraphicsManagment.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/GraphicsManagment.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Clase que se encarga de configurar los gráficos para mostrarlos al usuario
+ */
+import Chart from 'chart.js'
+
+class GraphicsManagment {
+
+  /**
+   * Función que se encarga de configurar un gráfico de tipo barra
+   * @param {Object} config Coniguracion que se desea
+   * @param {Boolean} isMultiLine Indica si hay mas de un elemento en el gráfico
+   */
+  configBarGraphic( config, isMultiLine = false ) {
+    const { data, dataLabels, chartLabel, xLabel, yLabel, title, type } = config
+    const colors = []
+    const bordersColors = []
+
+    for (let index = 0; index &lt; dataLabels.length; index++) {
+      const { rgb, rgba } = this.getRandomRGBColor()
+      colors.push( rgb )
+      bordersColors.push( rgba )
+    }
+
+    const configuration = {
+      type: type,
+      data: {
+        labels: dataLabels,
+        datasets: [
+          {
+            label: chartLabel,
+            backgroundColor: colors,
+            borderColor: bordersColors,
+            data: data,
+          }
+        ]
+      },
+      options: {
+        legend: {display: isMultiLine},
+        scales: {
+          yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: yLabel
+              },
+              ticks: {
+                beginAtZero: true
+              },
+          }],
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: xLabel
+            },
+            ticks: {
+              beginAtZero: true
+            },
+          }]
+        },
+        title: {
+          display: true,
+          text: title
+        }
+      }
+    }
+
+    if ( isMultiLine ) {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: data,
+      }
+    } else {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: [
+          {
+            label: chartLabel,
+            backgroundColor: colors,
+            data: data
+          }
+        ]
+      }
+    }
+
+    return configuration
+  }
+  
+  /**
+   * Función que se encarga de configurar un gráfico de tipo lineal
+   * @param {Object} config Configuración que se desea del gráfico
+   * @param {Boolean} isMultiLine Indica si hay mas de un elemento en el gráfico
+   */
+  configLineGraphic( config, isMultiLine = false ) {
+    const { data, dataLabels, chartLabel, xLabel, yLabel, title } = config
+
+    let configuration = {
+      type: 'line',
+      data: {
+        labels: dataLabels,
+        datasets: [{ 
+            data: data,
+            label: chartLabel,
+            borderColor: "#3e95cd",
+            pointRadius: 14,
+            fill: 'origin'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        legend: {display: isMultiLine},
+        scales: {
+          yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: yLabel
+              },
+              ticks: {
+                beginAtZero: true
+              },
+          }],
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: xLabel
+            },
+          }]
+      },
+        title: {
+          display: true,
+          fontSize: 16,
+          text: title
+        }
+      }
+    }
+
+    if ( isMultiLine ) {
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: data,
+      }
+    } else {
+      const { rgb, rgba } = this.getRandomRGBColor()
+
+      configuration['data'] = {
+        labels: dataLabels,
+        datasets: [{ 
+            data: data,
+            label: chartLabel,
+            borderColor: rgb,
+            fill: 'origin',
+            backgroundColor: rgba,
+            pointRadius: 7,
+            pointHoverRadius: 10,
+            pointBackgroundColor: rgb,
+          }
+        ]
+      }
+    }
+
+    return configuration
+
+  }
+
+  /**
+   * Función que se encarga de configurar un gráfico de tipo pastel
+   * @param {Object} config Configuración que se desea del gráfico
+   */
+  configPieGraphic( config ) {
+    const { data, dataLabels, chartLabel, title } = config
+    const colors = []
+
+    for (let index = 0; index &lt; dataLabels.length; index++) {
+      colors.push( this.getRandomColor().slice( 0, 7 ) )
+    }
+
+    return {
+      type: 'pie',
+      data: {
+        labels: dataLabels,
+        datasets: [{
+          label: chartLabel,
+          backgroundColor: colors,
+          data: data
+        }]
+      },
+      options: {
+        pieceLabel: {
+          render: 'value' //show values
+        },
+        title: {
+          display: true,
+          text: title
+        }
+      }
+    }
+
+  }
+
+  /**
+   * Función que se encarga de configurar un gráfico de tipo polar
+   */
+  configPolarGraphic() {
+    
+    let config = {
+      type: 'polarArea',
+      data: {
+        labels: ["M1", "M2"],
+        datasets: [
+          {
+            label: "Ganancias por fecha",
+            backgroundColor: ["#3e95cd", "#8e5ea2"],
+            data: [107050,182050]
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+    }
+
+    return config
+  }
+
+  /**
+   * Función que se encarga de generar un color random en formato hexadecimal
+   * @returns {String} Color en formato hexadecimal
+   */
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i &lt; 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return `${color}8f`;
+  }
+
+  /**
+   * Función que se encarga de generar un color random en formato RGBA
+   * @returns {String} Color en formato RGBA
+   */
+  getRandomRGBColor() {
+    const red = Math.floor(Math.random() * 255)
+    const green = Math.floor(Math.random() * 255)
+    const blue = Math.floor(Math.random() * 255 )
+    const alpha = .15
+
+    const rgb = `rgb(${red}, ${green}, ${blue})`
+    const rgba = `rgba(${red}, ${green}, ${blue}, ${alpha})`
+
+    return { rgb, rgba }
+  }
+  
+}
+
+module.exports = GraphicsManagment</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="ErrorManagment.html">ErrorManagment</a></li><li><a href="FingerprintSDKTest.html">FingerprintSDKTest</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="ScoresByDate.html">ScoresByDate</a></li><li><a href="ScoresByDateRange.html">ScoresByDateRange</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jul 11 2018 12:50:50 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

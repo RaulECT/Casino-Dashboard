@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/ErrorManagment.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/ErrorManagment.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Clase que se encarga de manejar los errores presentados en la aplicación
+ */
+import { notification } from 'antd'
+
+class ErrorManagment {
+
+  /**
+   * Crea la clase
+   */
+  constructor() {
+
+    this.resolveError = this.resolveError.bind( this )
+    this.handleAditionalProperties = this.handleAditionalProperties.bind( this )
+    this.handleInvalidToken = this.handleInvalidToken.bind( this )
+    this.handleErrorPattern= this.handleErrorPattern.bind( this )
+    this.handleFormatError = this.handleFormatError.bind( this )
+    this.handleRequestFaildes = this.handleRequestFaildes.bind( this )
+    this.handleFingerprintNotFound = this.handleFingerprintNotFound.bind( this )
+    this.openErrorNotification = this.openErrorNotification.bind( this )
+    this.handleDataNotFound = this.handleDataNotFound.bind( this ) 
+    this.handleLoginFailed = this.handleLoginFailed.bind( this )
+    this.handleFingerprintsErro = this.handleFingerprintsErro.bind( this )
+    this.handleInvalidDate = this.handleInvalidDate.bind( this )
+    this.handleRequiredError = this.handleRequiredError.bind( this )
+
+    this.errorDictionary = {
+      "InvalidToken": this.handleInvalidToken,
+      "TokenNotProvided": this.handleInvalidToken,
+      "Request failed with status code 401": this.handleRequestFaildes,
+      "additionalProperties": this.handleAditionalProperties,
+      "pattern": this.handleErrorPattern,
+      "format": this.handleFormatError,
+      "FingerprintNotFound": this.handleFingerprintNotFound,
+      "dataNotFound": this.handleDataNotFound,
+      "loginFailed": this.handleLoginFailed,
+      "FingerprintsEnrollmentError": this.handleFingerprintsErro,
+      "invalidDate": this.handleInvalidDate,
+      "required": this.handleRequiredError,
+    }
+  }
+
+  /**
+   * Función que se encarga de manejar un error
+   * @param {Object} error Error que se desea manejar
+   */
+  resolveError( error ) {
+    
+    const functionError = this.errorDictionary[error.error]
+    functionError()
+  }
+
+  /**
+   * Función que maneja el error AditionalProperties
+   */
+  handleAditionalProperties() {
+    this.openErrorNotification( 'Error en la petición', 'Verifique que se cumplan todos los campos necesarios para realizar esta operación.' )
+  }
+
+  /**
+   * Función que maneja el error InvalidToken
+   */
+  handleInvalidToken() {
+
+    this.openErrorNotification( 'Sesión vencida', 'La sesión ha expirado, la apliación se va a reedirigir a la venta de inicio de sesión para iniciar una nueva sesión.' )
+
+    setTimeout( () => {
+      localStorage.clear()
+      location.reload()
+    }, 5000 ) 
+  }
+
+  /**
+   * Función que maneja el error RequestFailed
+   */
+  handleRequestFaildes() {
+    this.openErrorNotification( 'Error en la petición', 'La petición ha fallado, favor de verificar los campos. En caso de reeincidencia, cerrar la sesión actual e iniciar una nueva sesión. Error: Request failed with status code 401' )
+  }
+
+  /**
+   * Función que maneja el error Pattern
+   */
+  handleErrorPattern() {
+    this.openErrorNotification( 'Error en el formato', 'Verifique que el formato de los valores sea el correcto. Error: pattern' )
+  }
+
+  /**
+   * Función que maneja el error FormatError
+   */
+  handleFormatError() {
+    this.openErrorNotification( 'Error en el formato de los datos', 'Verique que todos los campos cumplan en el formato establecido. Error: format' )
+  }
+
+  /**
+   * Función que maneja el error FingerPrintNotFound
+   */
+  handleFingerprintNotFound() {
+    this.openErrorNotification( 'No se encotro ningun usuario con esa huella. Error: FingerprintNotFound' )
+  }
+
+  /**
+   * Función que maneja el error DataNotFound
+   */
+  handleDataNotFound() {
+    this.openErrorNotification( 'Información no encontrada', 'No se ha encontrado ningún usuario y/o registro con la información proporcionada. Error: dataNotFound' )
+  }
+
+  /**
+   * Función que manejra el error LoginFailed
+   */
+  handleLoginFailed() {
+    this.openErrorNotification( 'Error en el inicio de sesión', 'El usuario y/o contraseña no coinciden, verificar la credenciales proporcionadas. Error: loginFailed' )
+  }
+
+  /**
+   * Función que maneja el error FingerPrintError
+   */
+  handleFingerprintsErro() {
+    this.openErrorNotification( 'Error en la lectura de huellas', 'Vuelva a escanear las huellas. Error: FingerprintsEnrollmentError' )
+  }
+
+  /**
+   * Función que maneja el error InvalidDate
+   */
+  handleInvalidDate() {
+    this.openErrorNotification( 'Fecha incorrecta', 'La fecha no cumple con el formato correcto. Error: invalidDate.' )
+  }
+
+  /**
+   * Función que maneja el error Required
+   */
+  handleRequiredError() {
+    this.openErrorNotification( 'Información incompleta', 'Falta información para realizar la petición, verifique todos los campos. Error: required' )
+  }
+
+  /**
+   * Función que muestra al usuario un mensaje de notificación
+   * @param {String} title Título del mensaje
+   * @param {String} description Descripción del mensaje
+   */
+  openErrorNotification( title, description ) {
+    notification['warning']({
+      message: title,
+      description: description,
+    })
+  }
+
+
+}
+
+module.exports = ErrorManagment</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="ErrorManagment.html">ErrorManagment</a></li><li><a href="FingerprintSDKTest.html">FingerprintSDKTest</a></li><li><a href="Generalconfigurations_.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="Login.html">Login</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="ScoresByDate.html">ScoresByDate</a></li><li><a href="ScoresByDateRange.html">ScoresByDateRange</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="GeneralConfigurations.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jul 11 2018 12:50:50 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

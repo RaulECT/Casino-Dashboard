@@ -1,10 +1,23 @@
+/**
+ * Clase que se encarga de manejar los datos de la estadistica de ganancias por rango de fechas
+ */
 class ScoresByDateRange {
+
+  /**
+   * Crea la clase
+   * @constructor
+   */
   constructor() {
     this.labels = []
     this.generalLabels = []
     this.totalByTable = []
   }
 
+  /**
+   * Función que se encarga de obtener los labels de acuerdo a los adtos obtenidos de la API
+   * @param {Object} data Datos de la estadistica
+   * @returns {Object} Labels 
+   */
   getLabels( data ) {
     let labels = []
     let generalLabels = []
@@ -28,6 +41,11 @@ class ScoresByDateRange {
     return { labels, generalLabels }
   }
 
+  /**
+   * Función que se encarga de generar los datasets por mesa utilizando la información proporcionada por la API
+   * @param {Object} data Datos de la estadistica
+   * @returns {Object} Datasets 
+   */
   getDatasets( data ) {
     let datasets = []
     let amountByTable = []
@@ -53,6 +71,11 @@ class ScoresByDateRange {
     return { datasets, dataTotal: amountByTable }
   }
 
+  /**
+   * Función que se encarga de generar el dataset con el total de ganancias de todas las mesas
+   * @param {Object} data Datos de la estadistica
+   * @returns {Object} Dataset 
+   */
   getTotalDataSet( data ) {
     let totalByDates = []
     const { rgb, rgba } = this.getRandomRGBColor()
@@ -78,6 +101,11 @@ class ScoresByDateRange {
     return dataset
   }
 
+  /**
+   * Función que se encarga de generar los datasets por fecha de acuerdo a la información obtenida
+   * @param {Object} data Información de la estadistica
+   * @returns {Object} Datasets
+   */
   getDatasetsByDate( data ) {
     let datasets = []
     const pointsStyles = ['circle',
@@ -121,6 +149,10 @@ class ScoresByDateRange {
     return datasets
   }
 
+  /**
+   * Función que se encarga de generar un color random en formato hexadecimal
+   * @returns Color en forma hexadecimal
+   */
   getRandomColor() {
     var letters = '0123456789ABCDEF'
     var color = '#'
@@ -130,6 +162,10 @@ class ScoresByDateRange {
     return color
   }
 
+  /**
+   * Función que se encarga de generar un color random en formato RGBa
+   * @returns Color en formato RGBa
+   */
   getRandomRGBColor() {
     const red = Math.floor(Math.random() * 255)
     const green = Math.floor(Math.random() * 255)

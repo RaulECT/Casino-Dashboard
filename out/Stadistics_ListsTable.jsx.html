@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Stadistics/ListsTable.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Stadistics/ListsTable.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Componente que representa a la tabla con las listas de correos registradas
+ * @namespace EditList
+ * @extends Component
+ */
+import React, {Component} from 'react' 
+import {
+  Tag,
+  Table
+} from 'antd'
+import EditList from './EditList.jsx'
+
+class ListsTable extends Component {
+
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
+  constructor( props ) {
+    super( props )
+
+    this.state = {
+      editModal: false,
+      listSelcted: null
+    }
+
+    this.rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => this.props.selectList( selectedRows )
+    }
+
+    this.handleEditModal = this.handleEditModal.bind( this )
+    this.prepareInfo = this.prepareInfo.bind( this )
+    this.selectElementToEdit = this.selectElementToEdit.bind( this )
+  }
+
+  /**
+   * Función que crea los tags de acuerdo a los emails ingresados por el usuario
+   * @param {Array} emails Emails ingresados por el usuario
+   * @returns {Array} Array de los tags creados con base a los emails ingresados por el usaurio
+   */
+  createEmailsTags( emails ) {
+    const tags = []
+
+    emails.map( (element, index) => tags.push( &lt;Tag color="geekblue" key={index}>{element}&lt;/Tag> ) )
+
+    return tags
+  }
+
+  /**
+   * Función que crea los tags de acuerdo a las gráficas indicadas por el usuario
+   * @param {Array} stats Stats de la lista de correo
+   * @returns {Array} Array de tags 
+   */
+  createStatsTags( stats ) {
+    const tags = []
+
+    stats.map( (element, index) => tags.push( &lt;Tag color="purple" key={index}>{element.statName}&lt;/Tag> ) )
+
+    return tags 
+  }
+
+  /**
+   * Función que regresa los columnas de la tabla
+   * @returns {Object} Columnas de la tabla
+   */
+  getColumns() {
+
+    return [ {
+      title: 'Nombre',
+      key: 'name',
+      dataIndex: 'name'
+    }, {
+      title: 'Fecha de creación',
+      key: 'createdDate',
+      dataIndex: 'createdDate'
+    },{
+      title: 'Operaciones',
+      key: 'operations',
+      render: ( text, record ) => {
+        return(
+          &lt;a onClick={ ()=>{ this.selectElementToEdit( record ) } }>Editar&lt;/a>
+        )
+      }
+    } ]
+  }
+
+  /**
+   * Función que maneja la presencia del modal para editar listas de correos
+   */
+  handleEditModal() {
+    const { editModal } = this.state
+
+    this.setState( { editModal: !editModal } )
+  }
+
+  /**
+   * Función que guarda en el estado el elemento seleccionado por el usuario para editar
+   * @param {Object} element Elemento seleccionado por el usuario
+   */
+  selectElementToEdit( element ) {
+    this.setState( { listSelcted: element }, this.handleEditModal() )
+  }
+
+  /**
+   * Función que prepara la información para enviar a la API
+   * @param {Array} emails Emails ingresados por el usuario
+   * @param {Array} stats Stats seleccionados por el usuario
+   * @param {String} subject Cuerpo del email 
+   */
+  prepareInfo( emails, stats, subject ) {
+    const { listSelcted } = this.state
+    const { edit } = this.props
+    
+    edit( listSelcted.subject, { emails, stats, subject } )
+    this.handleEditModal()
+  }
+
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
+  render() {
+    const columns = this.getColumns()
+    const {editModal, listSelcted} = this.state
+    const { data } = this.props
+    const listForm = editModal ? (
+      &lt;EditList 
+        visible={editModal}
+        list={listSelcted}
+        close={this.handleEditModal}
+      />
+    ) : ''
+
+    return(
+      &lt;div>
+        &lt;Table 
+          rowSelection={this.rowSelection}
+          columns={columns}
+          dataSource={data}
+        />
+
+        {listForm}
+      &lt;/div>
+    )
+  }
+}
+
+module.exports = ListsTable</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AddPromotion.html">AddPromotion</a></li><li><a href="AmountsSection.html">AmountsSection</a></li><li><a href="AppConfiguration.html">AppConfiguration</a></li><li><a href="AutomaticDelivery.html">AutomaticDelivery</a></li><li><a href="ChipsSection.html">ChipsSection</a></li><li><a href="ConfigurationForm.html">ConfigurationForm</a></li><li><a href="EditList.html">EditList</a></li><li><a href="EditPromotion.html">EditPromotion</a></li><li><a href="EmailListForm.html">EmailListForm</a></li><li><a href="EmailsTags.html">EmailsTags</a></li><li><a href="ExchangeSection.html">ExchangeSection</a></li><li><a href="FingerLogin.html">FingerLogin</a></li><li><a href="Generalconfigurations.html">Generalconfigurations</a></li><li><a href="GlobalHeader.html">GlobalHeader</a></li><li><a href="GraphicsSection.html">GraphicsSection</a></li><li><a href="ListsForm.html">ListsForm</a></li><li><a href="ListsTable.html">ListsTable</a></li><li><a href="Login.html">Login</a></li><li><a href="MembershipSection.html">MembershipSection</a></li><li><a href="PeriodForm.html">PeriodForm</a></li><li><a href="PromotionsManagment.html">PromotionsManagment</a></li><li><a href="PromotionsSection.html">PromotionsSection</a></li><li><a href="PromotionsTable.html">PromotionsTable</a></li><li><a href="Records.html">Records</a></li><li><a href="RolesManagment.html">RolesManagment</a></li><li><a href="RolesSection.html">RolesSection</a></li><li><a href="SchedulesSection.html">SchedulesSection</a></li><li><a href="Stadistics.html">Stadistics</a></li><li><a href="TillRecord.html">TillRecord</a></li><li><a href="UsersManagment.html">UsersManagment</a></li></ul><h3>Namespaces</h3><ul><li><a href="CharForm.html">CharForm</a></li><li><a href="ExchangeOption.html">ExchangeOption</a></li><li><a href="FinishMessage.html">FinishMessage</a></li><li><a href="GeneralConfigurations_.html">GeneralConfigurations</a></li><li><a href="PageHeader.html">PageHeader</a></li><li><a href="Record.html">Record</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jul 11 2018 12:50:33 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

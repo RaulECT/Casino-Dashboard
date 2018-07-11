@@ -1,16 +1,21 @@
+/**
+ * Componente que representa a la tabla con las listas de correos registradas
+ * @namespace EditList
+ * @extends Component
+ */
 import React, {Component} from 'react' 
 import {
-  Button,
-  Divider,
-  Popconfirm,
   Tag,
   Table
 } from 'antd'
-import ListsForm from './ListsForm.jsx'
 import EditList from './EditList.jsx'
 
 class ListsTable extends Component {
 
+  /**
+   * Crea el componente
+   * @param {Object} props 
+   */
   constructor( props ) {
     super( props )
 
@@ -28,6 +33,11 @@ class ListsTable extends Component {
     this.selectElementToEdit = this.selectElementToEdit.bind( this )
   }
 
+  /**
+   * Función que crea los tags de acuerdo a los emails ingresados por el usuario
+   * @param {Array} emails Emails ingresados por el usuario
+   * @returns {Array} Array de los tags creados con base a los emails ingresados por el usaurio
+   */
   createEmailsTags( emails ) {
     const tags = []
 
@@ -36,6 +46,11 @@ class ListsTable extends Component {
     return tags
   }
 
+  /**
+   * Función que crea los tags de acuerdo a las gráficas indicadas por el usuario
+   * @param {Array} stats Stats de la lista de correo
+   * @returns {Array} Array de tags 
+   */
   createStatsTags( stats ) {
     const tags = []
 
@@ -44,6 +59,10 @@ class ListsTable extends Component {
     return tags 
   }
 
+  /**
+   * Función que regresa los columnas de la tabla
+   * @returns {Object} Columnas de la tabla
+   */
   getColumns() {
 
     return [ {
@@ -65,16 +84,29 @@ class ListsTable extends Component {
     } ]
   }
 
+  /**
+   * Función que maneja la presencia del modal para editar listas de correos
+   */
   handleEditModal() {
     const { editModal } = this.state
 
     this.setState( { editModal: !editModal } )
   }
 
+  /**
+   * Función que guarda en el estado el elemento seleccionado por el usuario para editar
+   * @param {Object} element Elemento seleccionado por el usuario
+   */
   selectElementToEdit( element ) {
     this.setState( { listSelcted: element }, this.handleEditModal() )
   }
 
+  /**
+   * Función que prepara la información para enviar a la API
+   * @param {Array} emails Emails ingresados por el usuario
+   * @param {Array} stats Stats seleccionados por el usuario
+   * @param {String} subject Cuerpo del email 
+   */
   prepareInfo( emails, stats, subject ) {
     const { listSelcted } = this.state
     const { edit } = this.props
@@ -83,6 +115,10 @@ class ListsTable extends Component {
     this.handleEditModal()
   }
 
+  /**
+   * Randeriza la vista del componente
+   * @returns {String} HTML markup del componente
+   */
   render() {
     const columns = this.getColumns()
     const {editModal, listSelcted} = this.state

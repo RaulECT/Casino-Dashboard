@@ -1,9 +1,13 @@
-import React, {Component} from 'react'
-import { Redirect } from 'react-router'
-import { Button, notification } from 'antd'
+/**
+ * Clase que se encarga de manejar los errores presentados en la aplicación
+ */
+import { notification } from 'antd'
 
 class ErrorManagment {
 
+  /**
+   * Crea la clase
+   */
   constructor() {
 
     this.resolveError = this.resolveError.bind( this )
@@ -36,16 +40,26 @@ class ErrorManagment {
     }
   }
 
+  /**
+   * Función que se encarga de manejar un error
+   * @param {Object} error Error que se desea manejar
+   */
   resolveError( error ) {
     
     const functionError = this.errorDictionary[error.error]
     functionError()
   }
 
+  /**
+   * Función que maneja el error AditionalProperties
+   */
   handleAditionalProperties() {
     this.openErrorNotification( 'Error en la petición', 'Verifique que se cumplan todos los campos necesarios para realizar esta operación.' )
   }
 
+  /**
+   * Función que maneja el error InvalidToken
+   */
   handleInvalidToken() {
 
     this.openErrorNotification( 'Sesión vencida', 'La sesión ha expirado, la apliación se va a reedirigir a la venta de inicio de sesión para iniciar una nueva sesión.' )
@@ -56,42 +70,74 @@ class ErrorManagment {
     }, 5000 ) 
   }
 
+  /**
+   * Función que maneja el error RequestFailed
+   */
   handleRequestFaildes() {
     this.openErrorNotification( 'Error en la petición', 'La petición ha fallado, favor de verificar los campos. En caso de reeincidencia, cerrar la sesión actual e iniciar una nueva sesión. Error: Request failed with status code 401' )
   }
 
+  /**
+   * Función que maneja el error Pattern
+   */
   handleErrorPattern() {
     this.openErrorNotification( 'Error en el formato', 'Verifique que el formato de los valores sea el correcto. Error: pattern' )
   }
 
+  /**
+   * Función que maneja el error FormatError
+   */
   handleFormatError() {
     this.openErrorNotification( 'Error en el formato de los datos', 'Verique que todos los campos cumplan en el formato establecido. Error: format' )
   }
 
+  /**
+   * Función que maneja el error FingerPrintNotFound
+   */
   handleFingerprintNotFound() {
     this.openErrorNotification( 'No se encotro ningun usuario con esa huella. Error: FingerprintNotFound' )
   }
 
+  /**
+   * Función que maneja el error DataNotFound
+   */
   handleDataNotFound() {
     this.openErrorNotification( 'Información no encontrada', 'No se ha encontrado ningún usuario y/o registro con la información proporcionada. Error: dataNotFound' )
   }
 
+  /**
+   * Función que manejra el error LoginFailed
+   */
   handleLoginFailed() {
     this.openErrorNotification( 'Error en el inicio de sesión', 'El usuario y/o contraseña no coinciden, verificar la credenciales proporcionadas. Error: loginFailed' )
   }
 
+  /**
+   * Función que maneja el error FingerPrintError
+   */
   handleFingerprintsErro() {
     this.openErrorNotification( 'Error en la lectura de huellas', 'Vuelva a escanear las huellas. Error: FingerprintsEnrollmentError' )
   }
 
+  /**
+   * Función que maneja el error InvalidDate
+   */
   handleInvalidDate() {
     this.openErrorNotification( 'Fecha incorrecta', 'La fecha no cumple con el formato correcto. Error: invalidDate.' )
   }
 
+  /**
+   * Función que maneja el error Required
+   */
   handleRequiredError() {
     this.openErrorNotification( 'Información incompleta', 'Falta información para realizar la petición, verifique todos los campos. Error: required' )
   }
 
+  /**
+   * Función que muestra al usuario un mensaje de notificación
+   * @param {String} title Título del mensaje
+   * @param {String} description Descripción del mensaje
+   */
   openErrorNotification( title, description ) {
     notification['warning']({
       message: title,
