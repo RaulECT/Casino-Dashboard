@@ -105,5 +105,5 @@ Por defecto se genera una carpeta __/dist__ en la raíz del proyecto con el inst
 ```
 
 ## Documentación
-La documentación de cada una de las clases y componentes se encuentra en el archivo __index.html__ dentro del directorio __out__ de la raíz del proyecto. 
+La documentación general se encuentra en el archivo __index.html__ dentro del directorio __out__ de la raíz del proyecto. Para ver la documentación de cada uno de los archivos del proyecto basta con buscar el nombre de la clase y/o componente en la carpeta __out__. Por ejemplo: __Login.html__
 
