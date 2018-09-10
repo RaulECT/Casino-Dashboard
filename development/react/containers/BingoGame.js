@@ -5,12 +5,31 @@ import { changeCard } from '../store/actions/actions'
 import Aux from '../components/Aux'
 import Card from '../components/Card'
 
-const card1 = '/static/assets/card1.png'
 
 class BingoGame extends Component {
 
   constructor( props ) {
     super( props )
+
+
+  }
+
+  componentDidMount() {
+
+    //TODO: REPLACE WITH SOCKETIO
+    addEventListener( "keypress", (e) => { 
+      if ( e.which === 13 || e.keyCode === 13 ) {
+        this.getRandomCard()
+      }
+     } )
+  }
+
+  getRandomCard = () => {
+    const randomNumber = Math.floor(Math.random() * (this.props.cardList.length - 0 + 1)) + 0;
+    const randomCard = this.props.cardList[randomNumber]
+
+    this.props.onChangeCard( randomCard, this.props.cardList )
+ 
   }
 
   render() {
@@ -36,4 +55,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(BingoGame)
+const mapDispatchToProps = dispatch => {
+  return {
+    onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BingoGame)

@@ -18369,18 +18369,37 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var card1 = '/static/assets/card1.png';
-
 var BingoGame = function (_Component) {
   _inherits(BingoGame, _Component);
 
   function BingoGame(props) {
     _classCallCheck(this, BingoGame);
 
-    return _possibleConstructorReturn(this, (BingoGame.__proto__ || Object.getPrototypeOf(BingoGame)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (BingoGame.__proto__ || Object.getPrototypeOf(BingoGame)).call(this, props));
+
+    _this.getRandomCard = function () {
+      var randomNumber = Math.floor(Math.random() * (_this.props.cardList.length - 0 + 1)) + 0;
+      var randomCard = _this.props.cardList[randomNumber];
+
+      _this.props.onChangeCard(randomCard, _this.props.cardList);
+    };
+
+    return _this;
   }
 
   _createClass(BingoGame, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      //TODO: REPLACE WITH SOCKETIO
+      addEventListener("keypress", function (e) {
+        if (e.which === 13 || e.keyCode === 13) {
+          _this2.getRandomCard();
+        }
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var card = this.props.card ? _react2.default.createElement(_Card2.default, {
@@ -18406,7 +18425,15 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(BingoGame);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    onChangeCard: function onChangeCard(card, cardList) {
+      return dispatch((0, _actions.changeCard)(card, cardList));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(BingoGame);
 
 /***/ }),
 /* 29 */
@@ -21354,7 +21381,8 @@ var reducer = function reducer() {
   switch (action.type) {
     case CHANGE_CARD:
       return _extends({}, state, {
-        currentCard: action.card
+        currentCard: action.card,
+        cardsList: action.cardList
       });
 
     default:
@@ -21383,10 +21411,11 @@ var CHANGE_CARD = exports.CHANGE_CARD = 'CHANGE_CARD';
  * ACTIONS FUNCTIONS
  */
 
-var changeCard = exports.changeCard = function changeCard(card) {
+var changeCard = exports.changeCard = function changeCard(card, cardList) {
   return {
     type: CHANGE_CARD,
-    card: card
+    card: card,
+    cardList: cardList
   };
 };
 

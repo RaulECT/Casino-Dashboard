@@ -15,7 +15,8 @@ const reducer = ( state = initialState, action )=> {
     case CHANGE_CARD:
       return {
         ...state,
-        currentCard: action.card
+        currentCard: action.card,
+        cardsList: action.cardList
       }
   
     default:

@@ -7,9 +7,10 @@ export const CHANGE_CARD = 'CHANGE_CARD'
  * ACTIONS FUNCTIONS
  */
 
-export const changeCard = ( card ) => {
+export const changeCard = ( card, cardList ) => {
   return {
     type: CHANGE_CARD,
-    card: card
+    card: card,
+    cardList: cardList
   }
 }
