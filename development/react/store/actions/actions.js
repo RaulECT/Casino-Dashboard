@@ -1,7 +1,7 @@
 /**
  * ACTIONS
  */
-const CHANGE_CARD = 'CHANGE_CARD'
+export const CHANGE_CARD = 'CHANGE_CARD'
 
 /**
  * ACTIONS FUNCTIONS
