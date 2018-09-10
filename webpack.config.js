@@ -11,10 +11,13 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" },
       { test: /\.css$/, use: [ 
         {loader: 'style-loader'}, 
         {loader: 'css-loader', options: {url: false}} ] 
+      },
+      { test: /\.(png|jpg|gif)$/, use: [
+        {loader: 'url-loader', options: {limit: 81920}} ]
       }
     ]
   }
