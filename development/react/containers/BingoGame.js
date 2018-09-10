@@ -10,8 +10,6 @@ class BingoGame extends Component {
 
   constructor( props ) {
     super( props )
-
-
   }
 
   componentDidMount() {
@@ -25,11 +23,20 @@ class BingoGame extends Component {
   }
 
   getRandomCard = () => {
+    //TODO: REPLACE WITH RANDOM FUNCTION LATELY
     const randomNumber = Math.floor(Math.random() * (this.props.cardList.length - 0 + 1)) + 0;
+   
     const randomCard = this.props.cardList[randomNumber]
+    const cardsUpdated = [...this.props.cardList]
 
-    this.props.onChangeCard( randomCard, this.props.cardList )
- 
+    cardsUpdated.slice( randomNumber, 1 )
+    this.props.onChangeCard( randomCard, cardsUpdated )
+    this.playAudio( randomCard.audio )
+  }
+
+  playAudio = ( audioFile ) => {
+    const audio = new Audio( `/static/assets/audio/${audioFile}` )
+    audio.play()
   }
 
   render() {
