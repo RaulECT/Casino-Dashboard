@@ -1,6 +1,6 @@
 import * as actionsTypes from '../actions/actions'
 
-const cardList = []
+import { cardList } from './cards'
 
 const initialState = {
   currentCard: null,
