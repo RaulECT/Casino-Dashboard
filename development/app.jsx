@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 
 import App from './react/App.jsx'
 import bingoReducer from './react/store/reducers/bingoGame'
+require( 'antd/dist/antd.css' )
 
 const rootReducer = combineReducers( {
   bng: bingoReducer
