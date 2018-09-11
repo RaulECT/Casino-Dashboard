@@ -5,10 +5,12 @@ import { Provider } from 'react-redux'
 
 import App from './react/App.jsx'
 import bingoReducer from './react/store/reducers/bingoGame'
+import dashboardReducer from './react/store/reducers/gameManagment'
 require( 'antd/dist/antd.css' )
 
 const rootReducer = combineReducers( {
-  bng: bingoReducer
+  bng: bingoReducer,
+  dsh: dashboardReducer
 } )
 
 const store = createStore( rootReducer )

@@ -18,6 +18,7 @@ import {
 
 import GlobalHeader from '../../components/GlobalHeader/GlobalHeader'
 import PageHeader from '../../components/PageHeader/PageHeader'
+import GameControl from '../GameControl/GameControl'
 import './Dashboard.css'
 import Sider from 'antd/lib/layout/Sider';
 
@@ -38,7 +39,7 @@ class Dashboard extends Component {
 
     switch ( this.state.currentSection ) {
       case 'Juego Bingo':
-        component = null
+        component = (<GameControl />)
         break;
     
       default:
