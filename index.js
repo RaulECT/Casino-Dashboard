@@ -18,8 +18,15 @@ app.get( '/', function( req, res ) {
  */
 const io = require('socket.io')()
 io.on( "connect", ( client ) => {
-  console.log( '[SERVER]- BINGO GAME APP CONECTED', client )
+
+  client.on( 'START_GAME_RQ', () => {
+    io.emit( 'START_GAME' )
+  } )
+
+  client.on( 'DRAW_CARD_RQ', () => {
+    io.emit( 'DRAW_CARD' )
+  } )
 } )
 io.listen(server)
 
-server.listen( 3000, () => { console.log('APP RUNNING') } )
+server.listen( 3000 )

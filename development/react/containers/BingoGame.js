@@ -4,6 +4,9 @@ import { changeCard } from '../store/actions/actions'
 
 import Aux from '../components/Aux'
 import Card from '../components/Card'
+import openSocket from 'socket.io-client'
+
+const socket = openSocket('http://localhost:3000')
 
 
 class BingoGame extends Component {
@@ -19,6 +22,14 @@ class BingoGame extends Component {
       if ( e.which === 13 || e.keyCode === 13 ) {
         this.getRandomCard()
       }
+     } )
+
+     socket.on( 'START_GAME', () => {
+       this.getRandomCard()
+     } )
+
+     socket.on( 'DRAW_CARD', () => {
+       this.getRandomCard()
      } )
   }
 
