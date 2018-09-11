@@ -26,6 +26,10 @@ io.on( "connect", ( client ) => {
   client.on( 'DRAW_CARD_RQ', () => {
     io.emit( 'DRAW_CARD' )
   } )
+
+  client.on( 'USER_WON_RQ', () => {
+    io.emit( 'USER_WON' )
+  } )
 } )
 io.listen(server)
 

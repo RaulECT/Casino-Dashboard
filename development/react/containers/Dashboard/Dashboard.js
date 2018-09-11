@@ -39,7 +39,7 @@ class Dashboard extends Component {
 
     switch ( this.state.currentSection ) {
       case 'Juego Bingo':
-        component = (<GameControl />)
+        component = (<GameControl push={this.props.history.push} />)
         break;
     
       default:

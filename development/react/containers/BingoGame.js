@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { changeCard } from '../store/actions/actions'
 
 import Aux from '../components/Aux'
@@ -30,6 +31,10 @@ class BingoGame extends Component {
 
      socket.on( 'DRAW_CARD', () => {
        this.getRandomCard()
+     } )
+
+     socket.on( 'USER_WON', () => {
+       this.props.history.push( '/winner' )
      } )
   }
 

@@ -56,12 +56,17 @@ class GameControl extends Component {
   validateFolio = ( folio ) => {
 
     if ( folio === '1234' ) {
-      console.log( 'FOLIO GANADOR' )
+      this.anounceWinner()
     } else {
       this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
     }
 
-    
+  }
+
+  anounceWinner = () => {
+    this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
+    socket.emit( 'USER_WON_RQ' )
+    this.props.onEndGame()
   }
 
   render() {
