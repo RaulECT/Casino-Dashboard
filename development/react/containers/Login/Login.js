@@ -5,7 +5,8 @@ import {
   Button,
   Row,
   Col,
-  Input
+  Input,
+  notification
 } from 'antd'
 
 import './Login.css'
@@ -18,7 +19,27 @@ const styles = {
 
 class Login extends Component {
 
+  onHandleLogin = ( e ) => {
+    e.preventDefault()
+
+    this.props.form.validateFields( ( error, values ) => {
+      if ( !error ) {
+        // TODO: REPLACE WITH API CALL
+        if ( values.userName === 'a@b.com' && values.password === '123' ) {
+          this.props.history.push( '/dashboard' )
+        } else {
+          notification['error']({
+            message: 'Usuario y/o Contraseña erroneas',
+            description: 'No se encontro a ningún usuario con ese correo y/o contraseña',
+          })
+        }
+      }
+    } )
+  }
+
   render() {
+    const { getFieldDecorator } = this.props.form
+
     return(
       <Row>
         <Col
@@ -31,21 +52,33 @@ class Login extends Component {
 
             <Form
               className="login-form"
+              onSubmit={this.onHandleLogin}
             >
               <FormItem>
+              {getFieldDecorator('userName', {
+                rules: [{ required: true, message: 'Ingrese su e-mail!' }],
+                })(
                 <Input
                   size="large"
                   placeholder="E-mail"
                   prefix={ <Icon type="user" style={ styles.icon } /> }
-                />
+                />  
+              )}
+                
               </FormItem>
 
               <FormItem>
-                <Input 
-                  size="large"
-                  placeholder="Password"
-                  prefix={ <Icon type="lock" style={ styles.icon } /> }
-                />
+                {getFieldDecorator('password', {
+                  rules: [{ required: true, message: 'Ingrese su contraseña!' }],
+                  })(
+                   <Input 
+                    size="large"
+                    placeholder="Password"
+                    prefix={ <Icon type="lock" style={ styles.icon } /> }
+                  /> 
+                )}
+
+                
               </FormItem>
 
               <FormItem>
@@ -64,4 +97,5 @@ class Login extends Component {
   }
 }
 
-export default Login
+const WrappedNormalLoginForm = Form.create()(Login);
+export default WrappedNormalLoginForm
