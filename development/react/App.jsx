@@ -3,6 +3,7 @@ import { HashRouter, Route } from 'react-router-dom'
 
 import BingoGame from './containers/BingoGame'
 import Login from './containers/Login/Login'
+import Dashboard from './containers/Dashboard/Dashboard'
 
 class App extends Component {
   render() {
@@ -10,7 +11,7 @@ class App extends Component {
       <HashRouter>
         <div>
           <Route exact path="/" component={BingoGame} />
-          <Route exact path="/dashboard" component={Login} />
+          <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/dashboard/login" component={Login} />
         </div>
       </HashRouter>
