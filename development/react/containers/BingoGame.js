@@ -40,12 +40,10 @@ class BingoGame extends Component {
 
   getRandomCard = () => {
     //TODO: REPLACE WITH RANDOM FUNCTION LATELY
-    const randomNumber = Math.floor(Math.random() * (this.props.cardList.length - 0 + 1)) + 0;
-   
+    const randomNumber = Math.floor(Math.random() * (this.props.cardList.length - 0 + 1)) + 0; 
     const randomCard = this.props.cardList[randomNumber]
-    const cardsUpdated = [...this.props.cardList]
+    const cardsUpdated = this.props.cardList.filter( ( element, index ) => index !== randomNumber  )
 
-    cardsUpdated.slice( randomNumber, 1 )
     this.props.onChangeCard( randomCard, cardsUpdated )
     this.playAudio( randomCard.audio )
   }
