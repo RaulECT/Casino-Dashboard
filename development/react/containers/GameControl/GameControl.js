@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startGame, endGame } from '../../store/actions/actions'
+import { startGame, endGame } from '../../store/actions/index'
 
 import openSocket from 'socket.io-client'
 import {
