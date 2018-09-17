@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startGame, endGame } from '../../store/actions/index'
+import { startGame, endGame, initGame } from '../../store/actions/index'
 
 import openSocket from 'socket.io-client'
 import {
@@ -18,7 +18,7 @@ class GameControl extends Component {
 
   getWatingGameSection = () => {
     return(
-      <Button onClick={ this.startGame }>Iniciar Juego</Button>
+      <Button onClick={ this.props.onInitGame }>Iniciar Juego</Button>
     )
   }
 
@@ -37,11 +37,6 @@ class GameControl extends Component {
       </div>
       
     )
-  }
-
-  startGame = () => {
-    socket.emit( 'START_GAME_RQ' )
-    this.props.onStartGame()
   }
 
   drawCard = () => { socket.emit( 'DRAW_CARD_RQ' ) }
@@ -89,7 +84,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onStartGame: () => dispatch( startGame() ),
-    onEndGame: () => dispatch( endGame() )
+    onEndGame: () => dispatch( endGame() ),
+    onInitGame: () => dispatch( initGame() )
   }
 }
 

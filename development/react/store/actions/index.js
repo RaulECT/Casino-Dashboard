@@ -1,8 +1,9 @@
 export {
-  changeCard
+  changeCard,
 } from './bingoGame'
 
 export {
   startGame,
-  endGame
+  endGame,
+  initGame
 } from './gameManagment'

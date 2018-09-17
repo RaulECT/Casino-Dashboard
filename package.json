@@ -4,7 +4,9 @@
   "description": "React base project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:webpack": "node_modules/.bin/webpack --watch",
+    "devserver": "node index.js"
   },
   "author": "Raul canul",
   "license": "ISC",
