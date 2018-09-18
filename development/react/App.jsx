@@ -11,9 +11,9 @@ class App extends Component {
     return(
       <HashRouter>
         <div>
-          <Route exact path="/" component={BingoGame} />
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/dashboard/login" component={Login} />
+          <Route exact path="/game" component={BingoGame} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/winner" component={WinnerSection} />
         </div>
       </HashRouter>

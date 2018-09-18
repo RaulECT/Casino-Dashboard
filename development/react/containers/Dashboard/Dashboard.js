@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Route, Link} from 'react-router-dom'
 import {
   Layout, 
   Menu, 
@@ -21,6 +22,9 @@ import PageHeader from '../../components/PageHeader/PageHeader'
 import GameControl from '../GameControl/GameControl'
 import './Dashboard.css'
 import Sider from 'antd/lib/layout/Sider';
+import CreateGame from '../CreateGame/CreateGame'
+
+const SubMenu = Menu.SubMenu
 
 class Dashboard extends Component {
 
@@ -30,24 +34,13 @@ class Dashboard extends Component {
     this.state = {
       collapsed: false,
       isMobile: false,
-      currentSection: 'Juego Bingo'
-    }
-  }
-
-  getSection = () => {
-    let component = null
-
-    switch ( this.state.currentSection ) {
-      case 'Juego Bingo':
-        component = (<GameControl push={this.props.history.push} />)
-        break;
-    
-      default:
-        component = null
-        break;
+      currentSection: 'Control de Partida'
     }
 
-    return component
+    this.titlesDictionary = {
+      bingo_submenu_control: 'Control de Partida',
+      bingo_submenu_create: 'Crear Partida'
+    }
   }
 
   onToggle = () => {
@@ -56,8 +49,14 @@ class Dashboard extends Component {
     } )
   }
 
+  changePanelHeader = ( panel ) => {
+    const panelKey = panel.key
+    const newTitle = this.titlesDictionary[panelKey]
+    
+    this.setState( {currentSection: newTitle} )
+  }
+
   render() {
-    const section = this.getSection()
 
     return(
       <Layout className="dashboard-layout">
@@ -77,12 +76,18 @@ class Dashboard extends Component {
             theme="dark"
             mode="inline"
             style={{ padding: '16px 0', width: '100%' }}
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['bingo_submenu_control']}
+            defaultOpenKeys={['bingo_submenu']}
+            onSelect={ this.changePanelHeader }
           >
-            <Menu.Item key="1">
-              <Icon type="dashboard" />
-              <span>Juego Bingo</span>
-            </Menu.Item>
+            <SubMenu
+              key="bingo_submenu"
+              title={<span><Icon type="crown" /><span>Bingo</span></span>}
+            >
+              <Menu.Item key="bingo_submenu_control"><Link to="/dashboard/game_control">Control de partida</Link></Menu.Item>
+              <Menu.Item key="bingo_submenu_create"><Link to="/dashboard/create_game">Crear partida</Link></Menu.Item> 
+            </SubMenu>
+
           </Menu>
         </Sider>
 
@@ -99,7 +104,8 @@ class Dashboard extends Component {
           />
 
           <div className="dashboard-content">
-            { section }
+            <Route exact path="/dashboard/game_control" component={GameControl} />
+            <Route exact path="/dashboard/create_game" component={CreateGame} />
           </div>
         </Layout>
       </Layout>
