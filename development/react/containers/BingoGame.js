@@ -5,9 +5,7 @@ import { changeCard } from '../store/actions/index'
 
 import Aux from '../components/Aux'
 import Card from '../components/Card'
-import openSocket from 'socket.io-client'
-
-const socket = openSocket('http://localhost:3000')
+import { socket } from '../../socket'
 
 
 class BingoGame extends Component {

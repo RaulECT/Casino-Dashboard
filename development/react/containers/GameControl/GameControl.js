@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { startGame, endGame, initGame, drawCard, anounceWinner } from '../../store/actions/index'
 
-import openSocket from 'socket.io-client'
 import {
   Button,
   Input,
@@ -10,7 +9,7 @@ import {
 } from 'antd'
 import Aux from '../../components/Aux'
 
-const socket = openSocket('http://localhost:3000')
+
 const Search = Input.Search
 
 class GameControl extends Component {
@@ -58,8 +57,6 @@ class GameControl extends Component {
 
   anounceWinner = () => {
     this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
-    /*socket.emit( 'USER_WON_RQ' )
-    this.props.onEndGame()*/ 
     this.props.onAnounceWinner()
   }
 

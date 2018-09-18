@@ -1,9 +1,6 @@
 import { START_GAME, END_GAME } from './actions'
-import openSocket from 'socket.io-client'
+import { socket } from '../../../socket'
 
-// TODO: CHANGE TO PRODUCTION URL
-const socketURL = 'http://localhost:3000'
-const socket = openSocket( socketURL )
 
 export const startGame = () => {
   return {
