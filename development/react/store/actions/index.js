@@ -5,5 +5,7 @@ export {
 export {
   startGame,
   endGame,
-  initGame
+  initGame,
+  drawCard,
+  anounceWinner
 } from './gameManagment'

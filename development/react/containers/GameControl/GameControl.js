@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startGame, endGame, initGame } from '../../store/actions/index'
+import { startGame, endGame, initGame, drawCard, anounceWinner } from '../../store/actions/index'
 
 import openSocket from 'socket.io-client'
 import {
@@ -33,13 +33,11 @@ class GameControl extends Component {
         />
       
         <br />
-        <Button onClick={this.drawCard}>Sacar carta</Button> 
+        <Button onClick={ this.props.onDrawCard }>Sacar carta</Button> 
       </div>
       
     )
   }
-
-  drawCard = () => { socket.emit( 'DRAW_CARD_RQ' ) }
 
   openNotification = ( type, title, message ) => {
     notification[type]({
@@ -60,8 +58,9 @@ class GameControl extends Component {
 
   anounceWinner = () => {
     this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
-    socket.emit( 'USER_WON_RQ' )
-    this.props.onEndGame()
+    /*socket.emit( 'USER_WON_RQ' )
+    this.props.onEndGame()*/ 
+    this.props.onAnounceWinner()
   }
 
   render() {
@@ -85,7 +84,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
-    onInitGame: () => dispatch( initGame() )
+    onInitGame: () => dispatch( initGame() ),
+    onDrawCard: () => dispatch( drawCard() ),
+    onAnounceWinner: () => dispatch( anounceWinner() )
   }
 }
 

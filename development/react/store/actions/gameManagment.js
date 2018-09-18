@@ -23,3 +23,14 @@ export const endGame = () => {
     type: END_GAME
   }
 }
+
+export const drawCard = () => {
+  socket.emit( 'DRAW_CARD_RQ' )
+}
+
+export const anounceWinner = () => {
+  return ( dispatch ) => {
+    socket.emit( 'USER_WON_RQ' )
+    dispatch( endGame() )
+  }
+}
