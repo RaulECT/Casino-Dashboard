@@ -1,4 +1,4 @@
-import { START_GAME, END_GAME } from './actions'
+import { START_GAME, END_GAME, INCREMENT_TURN } from './actions'
 import { socket } from '../../../socket'
 
 
@@ -22,7 +22,17 @@ export const endGame = () => {
 }
 
 export const drawCard = () => {
-  socket.emit( 'DRAW_CARD_RQ' )
+  return ( dispatch ) => {
+    socket.emit( 'DRAW_CARD_RQ' )
+    dispatch( incrementTurn() )
+  }
+  
+}
+
+export const incrementTurn = () => {
+  return {
+    type: INCREMENT_TURN
+  }
 }
 
 export const anounceWinner = () => {

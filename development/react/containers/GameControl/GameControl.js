@@ -9,7 +9,6 @@ import {
 } from 'antd'
 import Aux from '../../components/Aux'
 
-
 const Search = Input.Search
 
 class GameControl extends Component {
@@ -73,7 +72,8 @@ class GameControl extends Component {
 
 const mapStateToProps = state => {
   return {
-    isGameStart: state.dsh.isGameStart
+    isGameStart: state.dsh.isGameStart,
+    turn: state.dsh.turn,
   }
 }
 
