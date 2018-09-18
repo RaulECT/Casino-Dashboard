@@ -1,0 +1,20 @@
+.gameControl__sub-header {
+  color: rgba(0, 0, 0, .4);
+}
+
+.gameControl__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.gameControl__wating-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.gameControl__button--init {
+  margin: auto;
+  margin-top: 1.5rem;
+}
+
