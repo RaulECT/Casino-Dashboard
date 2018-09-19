@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { HashRouter, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import CSSTransition from 'react-transition-group/CSSTransition'
 
 import Aux from './components/Aux'
 import BingoGame from './containers/BingoGame'
@@ -8,6 +9,7 @@ import Login from './containers/Login/Login'
 import Dashboard from './containers/Dashboard/Dashboard'
 import WinnerSection from './containers/WinnerSection/WinnerSection'
 import { authCheckState } from './store/actions/index'
+import './App.css'
 
 class App extends Component {
 
@@ -42,7 +44,14 @@ class App extends Component {
 
     return(
       <Aux>
-        {routes}
+        <CSSTransition
+          in={this.props.isAuthenticated}
+          timeout={300}
+          classNames="page"
+        >
+          {routes}
+        </CSSTransition>
+        
       </Aux>
     )
   }
