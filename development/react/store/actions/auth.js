@@ -22,6 +22,9 @@ export const authFail = ( error ) => {
 }
 
 export const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+
   return {
     type: AUTH_LOGOUT
   }
@@ -34,7 +37,7 @@ export const auth = ( email, password ) => {
     if ( email === 'a@b.com' && password === '123' ) {
       localStorage.setItem('token', 'FAKE_TOKEN')
       localStorage.setItem('user', email)
-      
+
       dispatch( authSuccess( 'FAKE_TOKEN', email ) )
     } else {
       dispatch( authFail( { error: 'WRONG_CREDENTIALS' } ) )
