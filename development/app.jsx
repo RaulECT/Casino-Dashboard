@@ -7,11 +7,13 @@ import thunk from 'redux-thunk'
 import App from './react/App.jsx'
 import bingoReducer from './react/store/reducers/bingoGame'
 import dashboardReducer from './react/store/reducers/gameManagment'
+import authReducer from './react/store/reducers/auth'
 require( 'antd/dist/antd.css' )
 
 const rootReducer = combineReducers( {
   bng: bingoReducer,
-  dsh: dashboardReducer
+  dsh: dashboardReducer,
+  auth: authReducer
 } )
 
 const store = createStore( rootReducer, applyMiddleware( thunk ) )
