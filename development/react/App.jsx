@@ -7,8 +7,14 @@ import BingoGame from './containers/BingoGame'
 import Login from './containers/Login/Login'
 import Dashboard from './containers/Dashboard/Dashboard'
 import WinnerSection from './containers/WinnerSection/WinnerSection'
+import { authCheckState } from './store/actions/index'
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.onCheckAuth()
+  }
+
   render() {
     let routes = (
       <HashRouter>
@@ -48,4 +54,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect( mapStateToProps )(App)
+const mapDispatchToProps = dispatch => {
+  return {
+    onCheckAuth: () => dispatch( authCheckState() )
+  }
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )(App)
