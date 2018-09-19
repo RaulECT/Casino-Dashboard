@@ -9,3 +9,11 @@ export {
   drawCard,
   anounceWinner
 } from './gameManagment'
+
+export {
+  auth,
+  authsStart,
+  authSuccess,
+  authFail,
+  setAuthRedirectPath
+} from './auth'

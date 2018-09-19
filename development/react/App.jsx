@@ -28,7 +28,7 @@ class App extends Component {
           <Route exact path="/game" component={BingoGame} />
           <Route path="/dashboard" component={Dashboard} />
           <Route exact path="/winner" component={WinnerSection} />
-          <Redirect to="/dashboard" />
+          <Redirect to="/dashboard/game_control" />
         </div>
       </HashRouter>
       )

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import {
   Form,
   Icon,
@@ -6,10 +7,11 @@ import {
   Row,
   Col,
   Input,
-  notification
+  Alert
 } from 'antd'
 
 import './Login.css'
+import { auth } from '../../store/actions/index'
 
 const FormItem = Form.Item
 const styles = {
@@ -19,26 +21,27 @@ const styles = {
 
 class Login extends Component {
 
+
   onHandleLogin = ( e ) => {
     e.preventDefault()
 
     this.props.form.validateFields( ( error, values ) => {
       if ( !error ) {
-        // TODO: REPLACE WITH API CALL
-        if ( values.userName === 'a@b.com' && values.password === '123' ) {
-          this.props.history.push( '/dashboard' )
-        } else {
-          notification['error']({
-            message: 'Usuario y/o Contraseña erroneas',
-            description: 'No se encontro a ningún usuario con ese correo y/o contraseña',
-          })
-        }
+        this.props.onAuth( values.userName, values.password )
       }
     } )
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
+    const errorAlert = this.props.error ? (
+      <Alert 
+        message="Usuario y/o contraseña incorrectos"
+        description="Ingrese un email y correo validos."
+        type="error"
+        showIcon
+      />
+    ) : null
 
     return(
       <Row>
@@ -61,6 +64,7 @@ class Login extends Component {
                 <Input
                   size="large"
                   placeholder="E-mail"
+                  disabled={this.props.loading}
                   prefix={ <Icon type="user" style={ styles.icon } /> }
                 />  
               )}
@@ -74,12 +78,15 @@ class Login extends Component {
                    <Input 
                     size="large"
                     placeholder="Password"
+                    disabled={this.props.loading}
                     prefix={ <Icon type="lock" style={ styles.icon } /> }
                   /> 
                 )}
 
                 
               </FormItem>
+              
+              { errorAlert }
 
               <FormItem>
                 <Button
@@ -87,6 +94,7 @@ class Login extends Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
+                  loading={ this.props.loading }
                 >Iniciar Sesión</Button>
               </FormItem>
             </Form>
@@ -97,5 +105,20 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+    authRedirectPath: state.auth.authRedirectPath
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: ( email, password ) => dispatch( auth( email, password ) )
+  }
+}
+
 const WrappedNormalLoginForm = Form.create()(Login);
-export default WrappedNormalLoginForm
+export default connect( mapStateToProps, mapDispatchToProps )(WrappedNormalLoginForm)
