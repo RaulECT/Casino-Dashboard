@@ -1,4 +1,5 @@
 import { AUTH_FAIL, AUTH_START, AUTH_LOGOUT, AUTH_SUCCESS, SET_AUTH_REDIRECT_PATH } from './actions'
+import axios from '../../../axios-bingo'
 
 export const authsStart = () => {
   return {
@@ -42,6 +43,26 @@ export const auth = ( email, password ) => {
     } else {
       dispatch( authFail( { error: 'WRONG_CREDENTIALS' } ) )
     }
+    /*axios.post( '/login', {
+      username: email,
+      password: password
+    } )
+    .then( response => {
+     
+      if ( response.status !== 404 ) {
+        localStorage.setItem( 'token', response.data.result.token )
+        localStorage.setItem( 'user', email )
+        localStorage.setItem( 'permissions', response.data.permissions )
+
+        dispatch( authSuccess( response.data.result.token, email ) )
+      } else {
+        dispatch( authFail( response.data ) )
+      }
+    } )
+    .catch( err => {
+      console.log(err)
+      dispatch( authFail( err ) )
+    } )*/
   }
 }
 
