@@ -80,6 +80,7 @@ class Login extends Component {
                     placeholder="Password"
                     disabled={this.props.loading}
                     prefix={ <Icon type="lock" style={ styles.icon } /> }
+                    type="password"
                   /> 
                 )}
 
