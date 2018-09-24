@@ -7,7 +7,11 @@ export {
   endGame,
   initGame,
   drawCard,
-  anounceWinner
+  anounceWinner,
+  startCreateGame,
+  createGame,
+  startGameSuccess,
+  startGameFail
 } from './gameManagment'
 
 export {
