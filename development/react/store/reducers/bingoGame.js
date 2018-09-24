@@ -5,11 +5,14 @@ import { cardList } from './cards'
 const initialState = {
   currentCard: null,
   playerWin: false,
-  cardsList: cardList
+  cardsList: cardList,
+  currentGame: null,
+  loading: false,
+  error: null
 }
 
 const reducer = ( state = initialState, action )=> {
-  const { CHANGE_CARD } = actionsTypes
+  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL } = actionsTypes
 
   switch ( action.type ) {
     case CHANGE_CARD:
@@ -18,7 +21,28 @@ const reducer = ( state = initialState, action )=> {
         currentCard: action.card,
         cardsList: action.cardList
       }
-  
+    
+    case GET_CURRENT_GAME:
+      return {
+        ...state,
+        error: null,
+        loading: true
+      }
+
+    case GET_CURRENT_GAME_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        currentGame: action.game
+      }
+    
+    case GET_CURRENT_GAME_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+
     default:
       return state
   }

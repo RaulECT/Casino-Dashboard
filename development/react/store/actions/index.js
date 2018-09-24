@@ -1,5 +1,6 @@
 export {
   changeCard,
+  loadCurrentGame
 } from './bingoGame'
 
 export {
