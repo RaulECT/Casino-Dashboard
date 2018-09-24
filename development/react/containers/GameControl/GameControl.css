@@ -18,3 +18,42 @@
   margin-top: 1.5rem;
 }
 
+.gameControl__game-name {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, .4);
+}
+
+.gameControl__game-info {
+  margin-top: 1.5rem;
+}
+
+.gameControl__game-info > p {
+  margin-bottom: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10rem;
+  box-sizing: border-box;
+}
+
+.gameControl__game-info > p > span {
+  font-weight: bold;
+}
+
+.gameControl__turn-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.gameControl__turn-label > span {
+  font-size: 2rem;
+}
+
+.gameControl__card-section {
+  margin-bottom: 1.5rem;
+}
+
+.gameControl__card-section > p {
+  margin-bottom: 0.3rem;
+}
+

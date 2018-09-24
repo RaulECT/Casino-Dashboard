@@ -4,11 +4,14 @@ import { startGame, endGame, initGame, drawCard, anounceWinner, loadCurrentGame 
 
 import './GameControl.css'
 import Aux from '../../components/Aux'
+import Card from '../../components/Card'
 import {
   Button,
   Input,
   notification,
-  Skeleton
+  Skeleton,
+  Row,
+  Col
 } from 'antd'
 
 
@@ -68,9 +71,42 @@ class GameControl extends Component {
           size="large"
           onSearch={value => this.validateFolio(value)}
         />
-      
-        <br />
-        <Button onClick={ this.props.onDrawCard }>Sacar carta</Button> 
+
+        <Row>
+          <Col className="gameControl__game-info" span={12}>
+            <h3 className="gameControl__game-name">#83 - Doble Linea</h3>
+            <p><span>ID:</span> 15319</p>
+            <p><span>Premio Linea:</span> $189</p>
+            <p><span>Prmeio Loteria:</span> $852</p>
+            <p><span>Jackpot Line:</span> $3,800</p>
+          </Col>
+
+          <Col className="gameControl__game-info" span={12}>
+            <h3 className="gameControl__turn-label">
+              Turno: <span>1</span>
+            </h3>
+
+            <div className="gameControl__card-section">
+              <p>Carta actual:</p>
+              <Card 
+                img="/static/assets/Nuevas Figuras_1.png"
+                width="30%"
+                height="50%"
+              />
+            </div>            
+
+            <Button 
+              onClick={ this.props.onDrawCard }
+              type="primary"
+              size="large"
+              icon="redo"
+            >
+              Sacar carta
+            </Button>
+          </Col>
+        </Row>
+        
+         
       </div>
       
     )
