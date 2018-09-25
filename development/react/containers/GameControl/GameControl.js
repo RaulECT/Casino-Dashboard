@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startGame, endGame, initGame, drawCard, anounceWinner, loadCurrentGame } from '../../store/actions/index'
+import { 
+  startGame, 
+  endGame, 
+  initGame, 
+  drawCard, 
+  anounceWinner, 
+  loadCurrentGame,
+  changeCard
+
+} from '../../store/actions/index'
 
 import './GameControl.css'
 import Aux from '../../components/Aux'
@@ -21,6 +30,26 @@ class GameControl extends Component {
 
   componentDidMount() {
     this.props.onLoadGame()
+  }
+
+  handleOnInitGame = () => {
+    this.props.onInitGame()
+    this.handleOnChangeCard()
+  }
+
+  handleOnChangeCard = () => {
+    const { card, cardList } = this.generateRandomCard()
+    
+    this.props.onDrawCard( card, cardList )
+  }
+
+  generateRandomCard = () => {
+    //TODO: REPLACE WITH RANDOM FUNCTION LATELY
+    const randomNumber = Math.floor(Math.random() * (this.props.cardList.length - 0 + 1)) + 0; 
+    const randomCard = this.props.cardList[randomNumber]
+    const cardsUpdated = this.props.cardList.filter( ( element, index ) => index !== randomNumber  )
+
+    return { card: randomCard, cardList: cardsUpdated }
   }
 
   getWatingGameSection = () => {
@@ -52,7 +81,7 @@ class GameControl extends Component {
               icon="play-circle" 
               type="primary" 
               size="large"
-              onClick={this.props.onInitGame}  
+              onClick={ this.handleOnInitGame}  
             >
               Iniciar Partida
             </Button>
@@ -63,6 +92,8 @@ class GameControl extends Component {
   }
 
   getPlayingGameSection = () => {
+    const cardImage = this.props.card ? this.props.card.image : 'Nuevas Figuras_1.png'
+
     return(
       <div>
         <Search 
@@ -83,20 +114,20 @@ class GameControl extends Component {
 
           <Col className="gameControl__game-info" span={12}>
             <h3 className="gameControl__turn-label">
-              Turno: <span>1</span>
+              Turno: <span>{this.props.turn}</span>
             </h3>
 
             <div className="gameControl__card-section">
               <p>Carta actual:</p>
               <Card 
-                img="/static/assets/Nuevas Figuras_1.png"
+                img={`/static/assets/${cardImage}`}
                 width="30%"
                 height="50%"
               />
             </div>            
 
             <Button 
-              onClick={ this.props.onDrawCard }
+              onClick={ this.handleOnChangeCard }
               type="primary"
               size="large"
               icon="redo"
@@ -151,6 +182,8 @@ const mapStateToProps = state => {
     turn: state.dsh.turn,
     game: state.bng.currentGame,
     loading: state.bng.loading,
+    card: state.bng.currentCard,
+    cardList: state.bng.cardsList,
   }
 }
 
@@ -159,9 +192,10 @@ const mapDispatchToProps = dispatch => {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
     onInitGame: () => dispatch( initGame() ),
-    onDrawCard: () => dispatch( drawCard() ),
+    onDrawCard: ( card, cardList ) => dispatch( drawCard( card, cardList ) ),
     onAnounceWinner: () => dispatch( anounceWinner() ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
+    onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) )
   }
 }
 

@@ -23,8 +23,8 @@ io.on( "connect", ( client ) => {
     io.emit( 'START_GAME' )
   } )
 
-  client.on( 'DRAW_CARD_RQ', () => {
-    io.emit( 'DRAW_CARD' )
+  client.on( 'DRAW_CARD_RQ', ( turn ) => {
+    io.emit( 'DRAW_CARD', {turn: turn} )
   } )
 
   client.on( 'USER_WON_RQ', () => {

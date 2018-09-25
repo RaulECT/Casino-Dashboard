@@ -23,17 +23,19 @@ class BingoGame extends Component {
       }
      } )
 
-     socket.on( 'START_GAME', () => {
-       this.getRandomCard()
-     } )
-
-     socket.on( 'DRAW_CARD', () => {
-       this.getRandomCard()
+     socket.on( 'DRAW_CARD', (turn) => {
+       console.log( turn )
+       this.onChangeCard( turn.turn.card, turn.turn.cardList )
      } )
 
      socket.on( 'USER_WON', () => {
        this.props.history.push( '/winner' )
      } )
+  }
+
+  onChangeCard = ( card, cardList ) => {
+    this.props.onChangeCard( card, cardList )
+    this.playAudio( card.audio )
   }
 
   getRandomCard = () => {

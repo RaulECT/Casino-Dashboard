@@ -1,5 +1,6 @@
 import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL } from './actions'
 import { socket } from '../../../socket'
+import { changeCard } from './bingoGame'
 import {notification} from 'antd'
 
 export const startGame = () => {
@@ -21,10 +22,11 @@ export const endGame = () => {
   }
 }
 
-export const drawCard = () => {
+export const drawCard = ( card, cardList ) => {
   return ( dispatch ) => {
-    socket.emit( 'DRAW_CARD_RQ' )
+    socket.emit( 'DRAW_CARD_RQ', { card: card, cardList:cardList } )
     dispatch( incrementTurn() )
+    dispatch( changeCard(card, cardList) )
   }
   
 }
