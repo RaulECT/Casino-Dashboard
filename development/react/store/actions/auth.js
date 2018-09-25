@@ -34,16 +34,8 @@ export const logout = () => {
 export const auth = ( email, password ) => {
   return dispatch => {
     dispatch( authsStart )
-    // TODO: REPLACE WITH API
-    if ( email === 'a@b.com' && password === '123' ) {
-      localStorage.setItem('token', 'FAKE_TOKEN')
-      localStorage.setItem('user', email)
 
-      dispatch( authSuccess( 'FAKE_TOKEN', email ) )
-    } else {
-      dispatch( authFail( { error: 'WRONG_CREDENTIALS' } ) )
-    }
-    /*axios.post( '/login', {
+    axios.post( '/login', {
       username: email,
       password: password
     } )
@@ -62,7 +54,7 @@ export const auth = ( email, password ) => {
     .catch( err => {
       console.log(err)
       dispatch( authFail( err ) )
-    } )*/
+    } )
   }
 }
 
