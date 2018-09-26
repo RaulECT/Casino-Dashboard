@@ -45,10 +45,10 @@ class GameControl extends Component {
 
   generateRandomCard = () => {
     //TODO: REPLACE WITH RANDOM FUNCTION LATELY
-    const randomNumber = Math.floor(Math.random() * (this.props.cardList.length - 0 + 1)) + 0; 
+    const randomNumber = Math.floor(Math.random() * (this.props.cardList.length )) + 0; 
     const randomCard = this.props.cardList[randomNumber]
     const cardsUpdated = this.props.cardList.filter( ( element, index ) => index !== randomNumber  )
-
+    
     return { card: randomCard, cardList: cardsUpdated }
   }
 
