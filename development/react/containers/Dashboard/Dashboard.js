@@ -106,6 +106,7 @@ class Dashboard extends Component {
           <div className="dashboard-content">
             <Route exact path="/dashboard/game_control" component={GameControl} />
             <Route exact path="/dashboard/create_game" component={CreateGame} />
+            <Route exact path="/" component={GameControl} />
           </div>
         </Layout>
       </Layout>
