@@ -24,7 +24,7 @@ class App extends Component {
           <Route exact path="/game" component={BingoGame} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/winner" component={WinnerSection} />
-          <Redirect to="/login" />
+          <Route exact path="/" component={Login} />
         </div>
       </HashRouter>
     )
@@ -36,7 +36,7 @@ class App extends Component {
           <Route exact path="/game" component={BingoGame} />
           <Route path="/dashboard" component={Dashboard} />
           <Route exact path="/winner" component={WinnerSection} />
-          <Redirect to="/dashboard/game_control" />
+          <Route exact path="/" component={Dashboard} />
         </div>
       </HashRouter>
       )
