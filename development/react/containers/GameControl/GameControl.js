@@ -98,6 +98,7 @@ class GameControl extends Component {
 
   getPlayingGameSection = () => {
     const cardImage = this.props.card ? this.props.card.image : 'Nuevas Figuras_1.png'
+    const currentHref = window.location.href.split('dashboard')[0]
 
     return(
       <div>
@@ -139,6 +140,8 @@ class GameControl extends Component {
             >
               Sacar carta
             </Button>
+
+            <a href={`${currentHref}game`} style={ { marginLeft: 20 } } target="_blanc">Ver Juego de Bingo</a>
           </Col>
         </Row>
         
