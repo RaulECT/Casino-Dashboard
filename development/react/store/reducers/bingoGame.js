@@ -12,7 +12,7 @@ const initialState = {
 }
 
 const reducer = ( state = initialState, action )=> {
-  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL } = actionsTypes
+  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME } = actionsTypes
 
   switch ( action.type ) {
     case CHANGE_CARD:
@@ -41,6 +41,16 @@ const reducer = ( state = initialState, action )=> {
         ...state,
         loading: false,
         error: action.error
+      }
+
+    case RESTART_GAME:
+      return {
+        currentCard: null,
+        playerWin: false,
+        cardsList: cardList,
+        currentGame: null,
+        loading: false,
+        error: null
       }
 
     default:

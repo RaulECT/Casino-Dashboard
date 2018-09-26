@@ -22,7 +22,9 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         isGameStart: false,
-        turn: 0
+        turn: 0,
+        error: null,
+        loading: false
       }
 
     case INCREMENT_TURN:

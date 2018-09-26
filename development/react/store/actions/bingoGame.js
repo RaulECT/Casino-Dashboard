@@ -1,4 +1,4 @@
-import { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL } from './actions'
+import { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME } from './actions'
 
 export const changeCard = ( card, cardList ) => {
   return {
@@ -43,5 +43,11 @@ export const loadCurrentGame = () => {
 
       dispatch( setCurrentGame( fakeGame ) )
     }, 6000 )
+  }
+}
+
+export const resetGame = () => {
+  return {
+    type: RESTART_GAME
   }
 }

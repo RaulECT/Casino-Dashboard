@@ -1,6 +1,6 @@
 import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL } from './actions'
 import { socket } from '../../../socket'
-import { changeCard } from './bingoGame'
+import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
 
 export const startGame = () => {
@@ -41,6 +41,7 @@ export const anounceWinner = () => {
   return ( dispatch ) => {
     socket.emit( 'USER_WON_RQ' )
     dispatch( endGame() )
+    dispatch( resetGame() )
   }
 }
 
