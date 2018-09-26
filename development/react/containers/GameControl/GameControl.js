@@ -38,9 +38,14 @@ class GameControl extends Component {
   }
 
   handleOnChangeCard = () => {
-    const { card, cardList } = this.generateRandomCard()
+    if ( this.props.cardList.length !== 0 ) {
+      const { card, cardList } = this.generateRandomCard()
     
-    this.props.onDrawCard( card, cardList )
+      this.props.onDrawCard( card, cardList )
+    } else {
+      this.openNotification( 'warning', 'Ya no hay cartas', 'Se han acabado todas las cartas para cantar, verifique a un ganador para terminar el juego' )
+    }
+    
   }
 
   generateRandomCard = () => {
