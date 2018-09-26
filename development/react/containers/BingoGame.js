@@ -23,12 +23,11 @@ class BingoGame extends Component {
       }
      } )
 
-     socket.on( 'BINGO_CONECTED', () => {
-       console.log('wea conected')
+     socket.on( 'BINGO_CONECTED', ( data ) => {
+       this.onChangeCard( data.card, data.cardList )
      } )
 
      socket.on( 'DRAW_CARD', (turn) => {
-       console.log( turn )
        this.onChangeCard( turn.turn.card, turn.turn.cardList )
      } )
 

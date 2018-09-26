@@ -22,13 +22,16 @@ app.get( '/', function( req, res ) {
  */
 const io = require('socket.io')()
 io.on( "connect", ( client ) => {
-  io.emit( 'BINGO_CONECTED' )
+  io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList } )
 
   client.on( 'START_GAME_RQ', () => {
     io.emit( 'START_GAME' )
   } )
 
   client.on( 'DRAW_CARD_RQ', ( turn ) => {
+    currentCard = turn.card
+    cardList = turn.cardList
+    
     io.emit( 'DRAW_CARD', {turn: turn} )
   } )
 
