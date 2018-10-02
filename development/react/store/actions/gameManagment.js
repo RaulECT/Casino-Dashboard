@@ -47,10 +47,6 @@ export const anounceWinner = () => {
 }
 
 export const startCreateGame = () => {
-  /*notification['success']({
-    message: 'Crear Juego',
-    description: 'Se ha creado el juego exitosamente'
-  })*/
 
   return {
     type: CREATE_GAME_START
@@ -58,7 +54,7 @@ export const startCreateGame = () => {
 }
 
 export const startGameSuccess = ( onResetFields ) => {
-  openNotification( 'success', 'Crear Juego', 'Description' )
+  openNotification( 'success', 'Crear Juego', 'Se ha creado con éxito el juego' )
   onResetFields()
 
   return {
@@ -82,7 +78,7 @@ export const createGame = ( gameInfo, onResetFields ) => {
     const gameData = { doublePrice, electronicPrice, gameDate, gameName, lineConsPrize, linePattern, linePrize, lotteryConsoPrize, lotteryPattern, lotteryPrize, singlePrice, triplePrice }
     dispatch( startCreateGame() )
     
-    axios.post( '/create', gameData )
+    axios.post( '/games/create', gameData )
       .then( response => {
 
         if ( response.status === 200 ) {

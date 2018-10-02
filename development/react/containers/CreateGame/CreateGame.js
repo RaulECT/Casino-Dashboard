@@ -284,7 +284,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = disparch => {
   return {
-    onCreateGame: ( gameInfo ) => disparch( createGame( gameInfo ) )
+    onCreateGame: ( gameInfo, onResetFields ) => disparch( createGame( gameInfo, onResetFields ) )
   }
 }
 
