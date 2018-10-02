@@ -9,7 +9,8 @@ const initialState = {
   currentGame: null,
   loading: false,
   error: null,
-  cardboardList: []
+  cardboardList: [],
+  history: []
 }
 
 const reducer = ( state = initialState, action )=> {
@@ -20,7 +21,8 @@ const reducer = ( state = initialState, action )=> {
       return {
         ...state,
         currentCard: action.card,
-        cardsList: action.cardList
+        cardsList: action.cardList,
+        history: state.history.concat( action.card.num )
       }
     
     case GET_CURRENT_GAME:
@@ -52,7 +54,8 @@ const reducer = ( state = initialState, action )=> {
         currentGame: null,
         loading: false,
         error: null,
-        cardboardList: []
+        cardboardList: [],
+        history: []
       }
 
     case ADD_CARDBOARD:

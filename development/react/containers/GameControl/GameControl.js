@@ -269,7 +269,8 @@ const mapStateToProps = state => {
     loading: state.bng.loading,
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
-    cardboardList: state.bng.cardboardList
+    cardboardList: state.bng.cardboardList,
+    h: state.bng.history,
   }
 }
 
