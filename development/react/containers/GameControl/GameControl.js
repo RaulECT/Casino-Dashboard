@@ -71,9 +71,8 @@ class GameControl extends Component {
             </div>
         
             <div>
-              <p><b>Premio Linea:</b> $189.00</p>
-              <p><b>Premio Loteria:</b> $852.00</p>
-              <p><b>Jackpot Linea:</b> $3,764.00</p>
+              <p><b>Premio Linea:</b> ${this.props.game ? this.props.game.linePrize : ''}</p>
+              <p><b>Premio Loteria:</b> ${this.props.game ? this.props.game.lotteryPrize : ''}</p>
             </div>
           </div>
 
@@ -120,11 +119,11 @@ class GameControl extends Component {
 
         <Row>
           <Col className="gameControl__game-info" span={12}>
-            <h3 className="gameControl__game-name">#83 - Doble Linea</h3>
-            <p><span>ID:</span> 15319</p>
-            <p><span>Premio Linea:</span> $189</p>
-            <p><span>Prmeio Loteria:</span> $852</p>
-            <p><span>Jackpot Line:</span> $3,800</p>
+            <h3 className="gameControl__game-name"> {this.props.game ? `#${this.props.game.index} - ${this.props.game.gameName}` : ''}</h3>
+            <p><span>ID:</span> {this.props.game ? this.props.game.id : ''}</p>
+            <p><span>Premio Linea:</span> ${this.props.game ? this.props.game.linePrize : ''}</p>
+            <p><span>Prmeio Loteria:</span> ${this.props.game ? this.props.game.lotteryPrize: ''}</p>
+            
           </Col>
 
           <Col className="gameControl__game-info" span={12}>
