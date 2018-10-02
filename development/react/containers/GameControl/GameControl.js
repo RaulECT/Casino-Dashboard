@@ -20,7 +20,8 @@ import {
   notification,
   Skeleton,
   Row,
-  Col
+  Col,
+  Modal
 } from 'antd'
 
 
@@ -46,6 +47,15 @@ class GameControl extends Component {
       this.openNotification( 'warning', 'Ya no hay cartas', 'Se han acabado todas las cartas para cantar, verifique a un ganador para terminar el juego' )
     }
     
+  }
+
+  showStartGameModal = () => {
+    return (Modal.confirm( {
+      title: '¿Desea iniciar esta partida?',
+      content: ( <p>Una vez que la partida inicie no se podrá parar hasta terminarla.</p> ),
+      onOk: () => { this.handleOnInitGame() },
+      onCancel: () => {}
+    } ) )
   }
 
   generateRandomCard = () => {
@@ -81,11 +91,12 @@ class GameControl extends Component {
             icon="play-circle" 
             type="primary" 
             size="large"
-            onClick={ this.handleOnInitGame}  
+            onClick={ this.showStartGameModal}  
           >
             Iniciar Partida
           </Button>
         </section>
+
       </Aux>
     ) 
     
