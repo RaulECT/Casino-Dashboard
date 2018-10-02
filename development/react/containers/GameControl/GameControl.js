@@ -7,7 +7,8 @@ import {
   drawCard, 
   anounceWinner, 
   loadCurrentGame,
-  changeCard
+  changeCard,
+  addCardboard,
 
 } from '../../store/actions/index'
 
@@ -21,13 +22,19 @@ import {
   Skeleton,
   Row,
   Col,
-  Modal
+  Modal,
+  Form,
+  Icon
 } from 'antd'
 
 
 const Search = Input.Search
 
 class GameControl extends Component {
+
+  state = {
+    isAddCardboardsModalShowing: false
+  }
 
   componentDidMount() {
     this.props.onLoadGame()
@@ -49,6 +56,25 @@ class GameControl extends Component {
     
   }
 
+  handleAddCardboardModal = () => {
+    this.setState( prevState => {
+      return { isAddCardboardsModalShowing: !prevState.isAddCardboardsModalShowing }
+    } )
+  }
+
+  handleOnAddCardboard = ( e = null ) => {
+    e ? e.preventDefault() : null
+
+    this.props.form.validateFields( ( err, values ) => {
+      if ( !err ) {
+        console.log( values )
+        this.props.onAddCardboard( values.playerCardboard )
+        this.handleAddCardboardModal()
+        this.props.form.resetFields()
+      }
+    } )
+  }
+
   showStartGameModal = () => {
     return (Modal.confirm( {
       title: '¿Desea iniciar esta partida?',
@@ -68,6 +94,8 @@ class GameControl extends Component {
   }
 
   getWatingGameSection = () => {
+    const {getFieldDecorator} = this.props.form 
+
     const gameInfo = (
       <Aux>
         <h2 className="gameControl__sub-header">Próxima partida:</h2>
@@ -86,17 +114,47 @@ class GameControl extends Component {
             </div>
           </div>
 
-          <Button 
-            className="gameControl__button--init" 
-            icon="play-circle" 
-            type="primary" 
-            size="large"
-            onClick={ this.showStartGameModal}  
-          >
-            Iniciar Partida
-          </Button>
+          <div className="gameControl__button-group">
+            <Button
+              icon="user-add"
+              size="large"
+              onClick={ this.handleAddCardboardModal }
+            >
+              Añadir Carton
+            </Button>
+
+            <Button 
+              className="gameControl__button--init" 
+              icon="play-circle" 
+              type="primary" 
+              size="large"
+              onClick={ this.showStartGameModal}  
+            >
+              Iniciar Partida
+            </Button>
+          </div>
+          
         </section>
 
+        <Modal
+          title="Añadir carton de jugador"
+          onOk={ this.handleOnAddCardboard }
+          onCancel={ this.handleAddCardboardModal }
+          visible={this.state.isAddCardboardsModalShowing}
+        >
+          <Form onSubmit={this.handleOnAddCardboard}>
+            {getFieldDecorator('playerCardboard', {
+              rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            })(
+              <Input
+                min={0}
+                size="large"
+                placeholder="Ingrese el carton del jugador"
+                prefix={ <Icon type="user-add" style={{ color: 'rgba(0,0,0,.25)' }} /> }
+              />
+            )}
+          </Form>
+        </Modal>
       </Aux>
     ) 
     
@@ -134,7 +192,7 @@ class GameControl extends Component {
             <p><span>ID:</span> {this.props.game ? this.props.game.id : ''}</p>
             <p><span>Premio Linea:</span> ${this.props.game ? this.props.game.linePrize : ''}</p>
             <p><span>Prmeio Loteria:</span> ${this.props.game ? this.props.game.lotteryPrize: ''}</p>
-            
+            <p><span>Cartones Registrados:</span> { this.props.cardboardList.length }</p>
           </Col>
 
           <Col className="gameControl__game-info" span={12}>
@@ -211,6 +269,7 @@ const mapStateToProps = state => {
     loading: state.bng.loading,
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
+    cardboardList: state.bng.cardboardList
   }
 }
 
@@ -222,9 +281,11 @@ const mapDispatchToProps = dispatch => {
     onDrawCard: ( card, cardList ) => dispatch( drawCard( card, cardList ) ),
     onAnounceWinner: () => dispatch( anounceWinner() ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
-    onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) )
+    onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
+    onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) )
   }
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )(GameControl)
+const WrappedGameControl = Form.create()(GameControl)
+export default connect( mapStateToProps, mapDispatchToProps )(WrappedGameControl)
 

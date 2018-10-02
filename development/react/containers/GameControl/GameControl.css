@@ -14,8 +14,7 @@
 }
 
 .gameControl__button--init {
-  margin: auto;
-  margin-top: 1.5rem;
+  margin-left: 1rem;
 }
 
 .gameControl__game-name {
@@ -57,3 +56,8 @@
   margin-bottom: 0.3rem;
 }
 
+.gameControl__button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

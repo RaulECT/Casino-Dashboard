@@ -1,6 +1,7 @@
 export {
   changeCard,
-  loadCurrentGame
+  loadCurrentGame,
+  addCardboard
 } from './bingoGame'
 
 export {

@@ -8,11 +8,12 @@ const initialState = {
   cardsList: cardList,
   currentGame: null,
   loading: false,
-  error: null
+  error: null,
+  cardboardList: []
 }
 
 const reducer = ( state = initialState, action )=> {
-  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME } = actionsTypes
+  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME, ADD_CARDBOARD } = actionsTypes
 
   switch ( action.type ) {
     case CHANGE_CARD:
@@ -50,7 +51,14 @@ const reducer = ( state = initialState, action )=> {
         cardsList: cardList,
         currentGame: null,
         loading: false,
-        error: null
+        error: null,
+        cardboardList: []
+      }
+
+    case ADD_CARDBOARD:
+      return {
+        ...state,
+        cardboardList: state.cardboardList.concat( action.cardboard )
       }
 
     default:
