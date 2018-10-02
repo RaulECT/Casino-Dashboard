@@ -237,11 +237,16 @@ class GameControl extends Component {
 
   validateFolio = ( folio ) => {
 
-    if ( folio === '1234' ) {
-      this.anounceWinner()
+    if ( this.props.turn >= 4 ) {
+      if ( folio === '1234' ) {
+        this.anounceWinner()
+      } else {
+        this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
+      }      
     } else {
-      this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
+      this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
     }
+
 
   }
 
@@ -270,7 +275,6 @@ const mapStateToProps = state => {
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
     cardboardList: state.bng.cardboardList,
-    h: state.bng.history,
   }
 }
 
