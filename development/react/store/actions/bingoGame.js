@@ -38,22 +38,10 @@ export const getCurrentGameFail = ( error ) => {
 export const loadCurrentGame = () => {
   return dispatch => {
     dispatch( getCurrentGameStart() )
-    /*setTimeout( () => {
-      const fakeGame = {
-        name: 'doble linea',
-        id: '15319',
-        order: '32',
-        linePrice: '189',
-        bingoPrice: '852',
-        jackPotPrice: '3,764'
-      }
-
-      dispatch( setCurrentGame( fakeGame ) )
-    }, 6000 )*/
 
     axios.post( '/games/get', {} )
       .then( response => {
-        console.log( response )
+  
         if ( response.status === 200 ) {
           const game = getNextGame( response.data.result.items )
           
@@ -79,11 +67,11 @@ export const resetGame = () => {
 const getNextGame = ( games ) => {
   const currentDate = moment()
   let game = null
-  //console.log('Current date:', currentDate)
+
   for (let index = 0; index < games.length; index++) {
-    console.log( `No. ${index}, Before: ${currentDate.isBefore( games[index].gameDate )}, After: ${currentDate.isAfter( games[index].gameDate )}` )
     if ( games[index].gameDate !== undefined && currentDate.isBefore( games[index].gameDate ) ) {
       game = games[index]
+      game['index'] = index + 1
       break
     }
   }

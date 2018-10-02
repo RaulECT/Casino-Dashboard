@@ -65,9 +65,9 @@ class GameControl extends Component {
         <section className="gameControl__wating-section">
           <div className="gameControl__info">
             <div>
-              <p><b>Nombre de partida:</b> DOBLE LINEA</p>
-              <p><b>ID de partida:</b> 15319</p>
-              <p><b>Partida #:</b> 32</p>
+              <p><b>Nombre de partida:</b> {this.props.game ? this.props.game.gameName : ''}</p>
+              <p><b>ID de partida:</b> {this.props.game ? this.props.game.id : ''}</p>
+              <p><b>Partida #:</b> {this.props.game ? this.props.game.index : ''}</p>
             </div>
         
             <div>
