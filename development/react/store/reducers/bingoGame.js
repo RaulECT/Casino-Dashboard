@@ -32,7 +32,7 @@ const reducer = ( state = initialState, action )=> {
     case GET_CURRENT_GAME_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loading: action.loading,
         currentGame: action.game
       }
     

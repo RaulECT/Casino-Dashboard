@@ -77,7 +77,7 @@ export const createGame = ( gameInfo, onResetFields ) => {
   return ( dispatch ) => {
     const gameData = { doublePrice, electronicPrice, gameDate, gameName, lineConsPrize, linePattern, linePrize, lotteryConsoPrize, lotteryPattern, lotteryPrize, singlePrice, triplePrice }
     dispatch( startCreateGame() )
-    
+   
     axios.post( '/games/create', gameData )
       .then( response => {
 

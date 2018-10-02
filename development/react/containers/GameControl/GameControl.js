@@ -58,42 +58,51 @@ class GameControl extends Component {
   }
 
   getWatingGameSection = () => {
-    return(
+    const gameInfo = (
+      <Aux>
+        <h2 className="gameControl__sub-header">Próxima partida:</h2>
+
+        <section className="gameControl__wating-section">
+          <div className="gameControl__info">
+            <div>
+              <p><b>Nombre de partida:</b> DOBLE LINEA</p>
+              <p><b>ID de partida:</b> 15319</p>
+              <p><b>Partida #:</b> 32</p>
+            </div>
+        
+            <div>
+              <p><b>Premio Linea:</b> $189.00</p>
+              <p><b>Premio Loteria:</b> $852.00</p>
+              <p><b>Jackpot Linea:</b> $3,764.00</p>
+            </div>
+          </div>
+
+          <Button 
+            className="gameControl__button--init" 
+            icon="play-circle" 
+            type="primary" 
+            size="large"
+            onClick={ this.handleOnInitGame}  
+          >
+            Iniciar Partida
+          </Button>
+        </section>
+      </Aux>
+    ) 
+    
+    const section = this.props.game ? gameInfo : ( <h2 className="gameControl__sub-header">No se ha encontrado un siguientes juego, verifique que el juego existe o favor de crear uno.</h2> )
+    
+    return (
       <Aux>
         <Skeleton 
           loading={this.props.loading} 
           active
         >
-          <h2 className="gameControl__sub-header">Próxima partida:</h2>
-
-          <section className="gameControl__wating-section">
-            <div className="gameControl__info">
-              <div>
-                <p><b>Nombre de partida:</b> DOBLE LINEA</p>
-                <p><b>ID de partida:</b> 15319</p>
-                <p><b>Partida #:</b> 32</p>
-              </div>
-          
-              <div>
-                <p><b>Premio Linea:</b> $189.00</p>
-                <p><b>Premio Loteria:</b> $852.00</p>
-                <p><b>Jackpot Linea:</b> $3,764.00</p>
-              </div>
-            </div>
-
-            <Button 
-              className="gameControl__button--init" 
-              icon="play-circle" 
-              type="primary" 
-              size="large"
-              onClick={ this.handleOnInitGame}  
-            >
-              Iniciar Partida
-            </Button>
-          </section>
+          { section }
         </Skeleton>
       </Aux>
     )
+    
   }
 
   getPlayingGameSection = () => {

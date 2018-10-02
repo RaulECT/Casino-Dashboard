@@ -31,7 +31,7 @@ class CreateGame extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
         const dateString = values.gameDate.format('YYYY-DD-MM') 
-        const hourString = values.gameHour.format('h:mm:ss') 
+        const hourString = values.gameHour.format('HH:mm:ss') 
         values.gameDate = moment( `${dateString} ${hourString}`, 'YYYY-DD-MM h:mm:ss Z' ).format()
         
         this.props.onCreateGame( values, this.props.form.resetFields )
