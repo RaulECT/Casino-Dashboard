@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 import {
   Form,
@@ -8,7 +9,8 @@ import {
   Select,
   Button,
   DatePicker,
-  InputNumber
+  InputNumber,
+  TimePicker
 } from 'antd'
 import { createGame } from '../../store/actions/index'
 
@@ -28,6 +30,10 @@ class CreateGame extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        const dateString = values.gameDate.format('YYYY-DD-MM') 
+        const hourString = values.gameHour.format('h:mm:ss') 
+        values.gameDate = moment( `${dateString} ${hourString}`, 'YYYY-DD-MM h:mm:ss Z' ).format()
+        
         this.props.onCreateGame( values )
       }
     })
@@ -51,23 +57,23 @@ class CreateGame extends Component {
         </FormItem> 
 
         <FormItem
-          label="Orden de Partida:"
-        >
-          {getFieldDecorator('orderGame', {
-            rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
-          })(
-            <InputNumber size="large" min={0} style={styles.input} />
-          )}
-         
-        </FormItem> 
-
-        <FormItem
           label="Fecha de Juego:"
         > 
           {getFieldDecorator('gameDate', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
            <DatePicker size="large" style={styles.input} />
+          )}
+          
+        </FormItem> 
+
+        <FormItem
+          label="Hora de Juego:"
+        > 
+          {getFieldDecorator('gameHour', {
+            rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+          })(
+           <TimePicker size="large"  style={styles.input} />
           )}
           
         </FormItem> 
@@ -141,14 +147,14 @@ class CreateGame extends Component {
         <FormItem
           label="Patron de Premio de Línea:"
         >
-          {getFieldDecorator('linePatron', {
+          {getFieldDecorator('linePattern', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <Select
               placeholder="Seleccione un patron"
               size="large"
             >
-              <Option value="doble">DOBLE LINEA</Option>
+              <Option value="LINEA">LINEA</Option>
             </Select>
           )}
         </FormItem>
@@ -157,14 +163,14 @@ class CreateGame extends Component {
           label="Patron de Premio de Lotería:"
         >
           
-          {getFieldDecorator('bingoPatron', {
+          {getFieldDecorator('lotteryPattern', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <Select
               placeholder="Seleccione un patron"
               size="large"
             >
-              <Option value="doble">DOBLE LINEA</Option>
+              <Option value="DOBLE LINEA">DOBLE LINEA</Option>
             </Select>
           )}
         </FormItem>
@@ -172,7 +178,7 @@ class CreateGame extends Component {
         <FormItem
           label="Premio de Linea:"
         >
-          {getFieldDecorator('lineAward', {
+          {getFieldDecorator('linePrize', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <InputNumber 
@@ -188,7 +194,7 @@ class CreateGame extends Component {
         <FormItem
           label="% Premio de Consolación de Linea:"
         >
-          {getFieldDecorator('percentageAward', {
+          {getFieldDecorator('lineConsPrize', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
            <InputNumber 
@@ -204,7 +210,7 @@ class CreateGame extends Component {
         <FormItem
           label="Premio de Lotería:"
         >
-          {getFieldDecorator('bingoAward', {
+          {getFieldDecorator('lotteryPrize', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <InputNumber 
@@ -220,7 +226,7 @@ class CreateGame extends Component {
         <FormItem
           label="% Premio de Consolación de Lotería:"
         >
-          {getFieldDecorator('consolationAward', {
+          {getFieldDecorator('lotteryConsoPrize', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <InputNumber 

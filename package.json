@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:webpack": "node_modules/.bin/webpack --watch",
-    "devserver": "node index.js"
+    "devserver": "node index.js",
+    "start": "npm-run-all --parallel watch:webpack devserver"
   },
   "author": "Raul canul",
   "license": "ISC",
@@ -23,6 +24,8 @@
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.10",
     "file-loader": "^2.0.0",
+    "moment": "^2.22.2",
+    "npm-run-all": "^4.1.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
