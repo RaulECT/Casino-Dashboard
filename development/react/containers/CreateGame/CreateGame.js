@@ -34,7 +34,7 @@ class CreateGame extends Component {
         const hourString = values.gameHour.format('h:mm:ss') 
         values.gameDate = moment( `${dateString} ${hourString}`, 'YYYY-DD-MM h:mm:ss Z' ).format()
         
-        this.props.onCreateGame( values )
+        this.props.onCreateGame( values, this.props.form.resetFields )
       }
     })
   }
@@ -51,7 +51,10 @@ class CreateGame extends Component {
           {getFieldDecorator('gameName', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
-           <Input size="large" /> 
+           <Input 
+            size="large" 
+            disabled={this.props.loading} 
+           /> 
           )}
           
         </FormItem> 
@@ -62,7 +65,11 @@ class CreateGame extends Component {
           {getFieldDecorator('gameDate', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
-           <DatePicker size="large" style={styles.input} />
+           <DatePicker 
+            size="large" 
+            style={styles.input} 
+            disabled={this.props.loading}
+          />
           )}
           
         </FormItem> 
@@ -73,7 +80,11 @@ class CreateGame extends Component {
           {getFieldDecorator('gameHour', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
-           <TimePicker size="large"  style={styles.input} />
+           <TimePicker 
+            size="large"  
+            style={styles.input} 
+            disabled={this.props.loading}
+          />
           )}
           
         </FormItem> 
@@ -91,6 +102,7 @@ class CreateGame extends Component {
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
            />
           )}
         </FormItem>
@@ -107,6 +119,7 @@ class CreateGame extends Component {
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
            />
           )}
         </FormItem> 
@@ -123,6 +136,7 @@ class CreateGame extends Component {
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
             />
           )}
         </FormItem> 
@@ -139,6 +153,7 @@ class CreateGame extends Component {
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
             />
           )}
         </FormItem> 
@@ -153,6 +168,7 @@ class CreateGame extends Component {
             <Select
               placeholder="Seleccione un patron"
               size="large"
+              disabled={this.props.loading}
             >
               <Option value="LINEA">LINEA</Option>
             </Select>
@@ -169,6 +185,7 @@ class CreateGame extends Component {
             <Select
               placeholder="Seleccione un patron"
               size="large"
+              disabled={this.props.loading}
             >
               <Option value="DOBLE LINEA">DOBLE LINEA</Option>
             </Select>
@@ -187,6 +204,7 @@ class CreateGame extends Component {
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
             />
           )}
         </FormItem> 
@@ -203,6 +221,7 @@ class CreateGame extends Component {
             parser={value => value.replace('%', '')}
             style={ styles.input }
             size="large"
+            disabled={this.props.loading}
            />
           )}
         </FormItem> 
@@ -219,6 +238,7 @@ class CreateGame extends Component {
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
             /> 
           )}
         </FormItem> 
@@ -235,6 +255,7 @@ class CreateGame extends Component {
               parser={value => value.replace('%', '')}
               style={ styles.input }
               size="large"
+              disabled={this.props.loading}
             />
           )}
         </FormItem> 
@@ -244,6 +265,7 @@ class CreateGame extends Component {
           size="large"
           htmlType="submit"
           icon="plus"
+          loading={this.props.loading}
         >
           Crear Partida
         </Button>
