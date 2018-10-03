@@ -1,0 +1,17 @@
+.bingo-background {
+  width: 100vw;
+  height: 100vh;
+  background: url('/static/assets/background.svg');
+  background-size: cover;
+  padding: 2rem 4.5rem;
+  display: flex;
+}
+
+.bingo-background__panel {
+  background: rgba(0, 0, 0, .20);
+  border-radius: 9px;
+  flex: 1;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
+}

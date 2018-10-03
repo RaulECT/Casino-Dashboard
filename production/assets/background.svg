@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920px" height="1080px" viewBox="0 0 1920 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>background + Recurso 3 + Recurso 1 + Recurso 4 + Recurso 4 + Recurso 4 Mask</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#9EEBFF" offset="0%"></stop>
+            <stop stop-color="#37CCC3" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0" y="0" width="1920" height="1080"></rect>
+    </defs>
+    <g id="Monitoreo-de-Juego---2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="background-+-Recurso-3-+-Recurso-1-+-Recurso-4-+-Recurso-4-+-Recurso-4-Mask">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="Mask" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+            <g id="background" mask="url(#mask-3)">
+                <g id="Recurso-4-+-Recurso-4-Mask">
+                    <g id="Recurso-1">
+                        <g id="Recurso-3"></g>
+                    </g>
+                </g>
+            </g>
+            <g id="Recurso-3" mask="url(#mask-3)" fill="#000000" fill-rule="nonzero" opacity="0.2">
+                <g transform="translate(1637.000000, -27.000000)" id="Shape">
+                    <polygon stroke="#37CCC3" stroke-width="9" style="mix-blend-mode: darken;" points="208.7 244.39 0.96 137.17 67.09 0.5 257.2 0.5 318.92 31.54"></polygon>
+                    <polygon stroke="#37CCC3" stroke-width="9" points="263.2 220.94 230.73 201.86 318.92 31.54 257.2 0.5 394.75 0.5"></polygon>
+                    <polygon stroke="none" points="102.36 198.37 104.2 190.46 136.87 207.32"></polygon>
+                    <polygon stroke="#37CCC3" stroke-width="10" points="328.45 255.86 216.59 229.17 232.1 202.67 263.2 220.94 380.44 24.49 391.58 27.66"></polygon>
+                    <polygon stroke="#37CCC3" stroke-width="9" points="416.97 255.86 426.85 42.82 388.15 40.06 328.45 255.86 216.64 229.05 208.53 244.57 184.14 231.72 184.19 255.86"></polygon>
+                </g>
+            </g>
+            <g id="Recurso-1" mask="url(#mask-3)" fill="#000000" fill-rule="nonzero" opacity="0.2">
+                <g transform="translate(-145.000000, 926.000000)" id="Shape">
+                    <polygon stroke="#37CCC3" stroke-width="9" style="mix-blend-mode: darken;" points="196.144647 10 383 106.277858 323.520784 229 152.522769 229 97 201.132083"></polygon>
+                    <polygon stroke="#37CCC3" stroke-width="9" points="146.903041 31 176 48.1332824 96.9578718 201.122971 152.27856 229 29 229"></polygon>
+                    <polygon stroke="none" points="292 50.9617304 290.355153 58 261 43"></polygon>
+                    <polygon stroke="#37CCC3" stroke-width="10" points="88.6405949 0 189 23.99054 175.083748 47.8171068 147.182008 31.3945605 41.9950289 208 32 205.149389"></polygon>
+                    <polygon stroke="#37CCC3" stroke-width="9" points="8.87198312 0 0 191.515165 34.7633032 194 88.3858716 0 188.813192 24.0978512 196.097292 10.1474594 218 21.7013101 217.955892 0"></polygon>
+                </g>
+            </g>
+            <g id="Recurso-4" mask="url(#mask-3)" fill="#000000" fill-rule="nonzero" opacity="0.2" stroke="#37CCC3" stroke-width="9">
+                <g transform="translate(913.000000, 916.000000)" id="Shape">
+                    <polygon points="114.31 234.49 221.74 328.86 284.89 250.53 271.35 239.88 233.09 263.19 177.74 160.93 176.28 160.53"></polygon>
+                    <polygon points="166.4 139.15 233.09 263.19 317.92 211.76 247.53 89.85"></polygon>
+                    <polygon points="257.83 86.36 259.51 110.6 317.92 211.76 291.88 227.54 362.93 221.48 350.91 76.95"></polygon>
+                    <polygon points="0.35 71.24 103.38 155.83 163.25 86.78 59.16 0.34"></polygon>
+                </g>
+            </g>
+            <g id="Recurso-4" mask="url(#mask-3)" fill="#000000" fill-rule="nonzero" opacity="0.2" stroke="#37CCC3" stroke-width="9">
+                <g transform="translate(1074.106707, 71.218303) rotate(-100.000000) translate(-1074.106707, -71.218303) translate(967.106707, -25.781697)" id="Shape">
+                    <polygon points="67 138.498129 130.60904 194 168 147.931741 159.982999 141.668152 137.329347 155.377473 104.556748 95.2352522 103.692285 95"></polygon>
+                    <polygon points="98 82.0100381 137.172452 155 187 124.736587 145.654237 53"></polygon>
+                    <polygon points="152 50.5613919 152.991056 64.8874427 187.447954 124.673883 172.086584 134 214 130.418487 206.909229 45"></polygon>
+                    <polygon points="0 41.9499646 60.7174954 92 96 51.1446395 34.6578269 0"></polygon>
+                </g>
+            </g>
+            <g id="Recurso-4" mask="url(#mask-3)" fill="#000000" fill-rule="nonzero" opacity="0.2" stroke="#37CCC3" stroke-width="9">
+                <g transform="translate(-0.419729, 169.512080) rotate(38.000000) translate(0.419729, -169.512080) translate(-127.919729, 54.012080)" id="Shape">
+                    <polygon points="80.1865561 164.490819 155.546907 230.689798 199.845577 175.742611 190.347494 168.271814 163.508742 184.62339 124.681642 112.889708 123.657476 112.609114"></polygon>
+                    <polygon points="116.726821 97.6114012 163.508742 184.62339 223.015571 148.546104 173.638161 63.0282745"></polygon>
+                    <polygon points="180.863439 60.5800978 182.041931 77.584053 223.015571 148.546104 204.748946 159.61551 254.589334 155.364521 246.157505 53.97914"></polygon>
+                    <polygon points="0.245519155 49.9736703 72.5193436 109.312143 114.517149 60.8747208 41.499752 0.238504322"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

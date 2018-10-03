@@ -9,6 +9,9 @@ import Login from './containers/Login/Login'
 import Dashboard from './containers/Dashboard/Dashboard'
 import WinnerSection from './containers/WinnerSection/WinnerSection'
 import { authCheckState } from './store/actions/index'
+
+import Test from './containers/Test'
+
 import './App.css'
 
 class App extends Component {
@@ -33,6 +36,7 @@ class App extends Component {
       routes = (
         <HashRouter>
         <div>
+          <Route exact path="/Test" component={Test} />
           <Route exact path="/game" component={BingoGame} />
           <Route path="/dashboard" component={Dashboard} />
           <Route exact path="/winner" component={WinnerSection} />

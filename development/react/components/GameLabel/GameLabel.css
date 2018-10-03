@@ -1,0 +1,59 @@
+.game-label__label {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 3.6rem;
+  margin-bottom: 0;
+}
+
+.game-label__text {
+  margin-top: -3.5rem;
+  font-weight: bold;
+}
+
+.game-label__text--important {
+  margin-top: -3.5rem !important;
+  color: #FFE432;
+  font-size: 10rem;
+}
+
+.game-label__text--regular-salmon {
+  color: #F5CDA7;
+  font-size: 8rem;
+}
+
+.game-label__text--regular-green {
+  color: #58FCEC;
+  font-size: 8rem;
+}
+
+.game-label__text--regular-pink {
+  color: #F7AEF8;
+  font-size: 8rem;
+}
+
+@media only screen and ( max-width: 1500px ) {
+  .game-label__label {
+    font-size: 2.6rem;
+  }
+
+  .game-label__text {
+    margin-top: -2rem;
+  }
+
+  .game-label__text--important {
+    margin-top: -2.5rem !important;
+    font-size: 5rem;
+  }
+  
+  .game-label__text--regular-salmon {
+    font-size: 4rem;
+  }
+  
+  .game-label__text--regular-green {
+    font-size: 4rem;
+  }
+  
+  .game-label__text--regular-pink {
+    font-size: 4rem;
+  }
+}
