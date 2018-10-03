@@ -69,7 +69,7 @@ const getNextGame = ( games ) => {
   let game = null
 
   for (let index = 0; index < games.length; index++) {
-    if ( games[index].gameDate !== undefined && currentDate.isBefore( games[index].gameDate ) ) {
+    if ( games[index].gameDate !== undefined && currentDate.isBefore( games[index].gameDate ) && games[index].active === true ) {
       game = games[index]
       game['index'] = index + 1
       break

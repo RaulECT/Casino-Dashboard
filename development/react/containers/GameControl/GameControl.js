@@ -24,7 +24,8 @@ import {
   Col,
   Modal,
   Form,
-  Icon
+  Icon,
+  InputNumber
 } from 'antd'
 
 
@@ -41,7 +42,8 @@ class GameControl extends Component {
   }
 
   handleOnInitGame = () => {
-    this.props.onInitGame()
+    this.props.onInitGame( this.props.game.id, this.props.cardboardList )
+    //console.log( `Game ID:${this.props.game.id} - Cardboards:`, this.props.cardboardList )
     this.handleOnChangeCard()
   }
 
@@ -146,10 +148,12 @@ class GameControl extends Component {
             {getFieldDecorator('playerCardboard', {
               rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
             })(
-              <Input
+              <InputNumber
+                style={ { width: '100%' } }
                 min={0}
                 size="large"
                 placeholder="Ingrese el carton del jugador"
+                autoFocus
                 prefix={ <Icon type="user-add" style={{ color: 'rgba(0,0,0,.25)' }} /> }
               />
             )}
@@ -239,7 +243,8 @@ class GameControl extends Component {
 
     if ( this.props.turn >= 4 ) {
       if ( folio === '1234' ) {
-        this.anounceWinner()
+
+        this.anounceWinner( folio )
       } else {
         this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
       }      
@@ -250,9 +255,10 @@ class GameControl extends Component {
 
   }
 
-  anounceWinner = () => {
-    this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
-    this.props.onAnounceWinner()
+  anounceWinner = ( winner ) => {
+    console.log( `GameID: ${this.props.game.id} - Winner: ${winner} - Cards: `, this.props.history )
+    //this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
+    this.props.onAnounceWinner( this.props.game.id, this.props.history, parseInt(winner) )
   }
 
   render() {
@@ -275,6 +281,7 @@ const mapStateToProps = state => {
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
     cardboardList: state.bng.cardboardList,
+    history: state.bng.history
   }
 }
 
@@ -282,9 +289,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
-    onInitGame: () => dispatch( initGame() ),
+    onInitGame: ( gameId, cardboardList ) => dispatch( initGame( gameId, cardboardList ) ),
     onDrawCard: ( card, cardList ) => dispatch( drawCard( card, cardList ) ),
-    onAnounceWinner: () => dispatch( anounceWinner() ),
+    onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) )

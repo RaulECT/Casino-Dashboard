@@ -10,10 +10,29 @@ export const startGame = () => {
   }
 }
 
-export const initGame = () => {
+export const initGame = ( gameId, cardboards ) => {
   return (dispatch) => {
-    socket.emit( 'START_GAME_RQ' )
-    dispatch( startGame() )
+
+    axios.post( '/games/start', {
+      id: gameId,
+      cardboards: cardboards
+    } )
+      .then( response => {
+        console.log(response)
+        if ( response.status === 200 ) {
+          socket.emit( 'START_GAME_RQ' )
+          dispatch( startGame() )
+
+        } else {
+          openNotification( 'error', 'Upss, no se ha iniciar la partida', `Ha ocurrido un error mientras se iniciaba la partida. Error:${response.data.error}` )
+          dispatch( anounceWinnerFail( response.data ) )
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+        openNotification( 'error', 'Upss, no se ha podido terminar la partida', `Ha ocurrido un error mientras se terminaba la partida. Error:${err}` )
+        dispatch( anounceWinnerFail( err ) )
+      } )
   }
 }
 
@@ -38,11 +57,34 @@ export const incrementTurn = () => {
   }
 }
 
-export const anounceWinner = () => {
+export const anounceWinner = ( gameId, cards, winner ) => {
   return ( dispatch ) => {
-    socket.emit( 'USER_WON_RQ' )
-    dispatch( endGame() )
-    dispatch( resetGame() )
+
+    axios.post( '/games/end', {
+      id: gameId,
+      cards: cards,
+      winnerCardboard: winner   
+    } )
+      .then( response => {
+        console.log( response )
+        if ( response.status === 200 ) {
+          socket.emit( 'USER_WON_RQ' )
+          dispatch( endGame() )
+          dispatch( resetGame() )  
+          openNotification( 'success', 'Alguien ha ganado!', `El carton que ingresó ha ganado esta partida de loteria.` )
+
+        } else {
+          openNotification( 'error', 'Upss, no se ha podido terminar la partida', `Ha ocurrido un error mientras se terminaba la partida. Error:${response.data}` )
+          dispatch( anounceWinnerFail( response.data ) )
+        }
+        
+      } )
+      .catch( err => {
+        console.log( err )
+        openNotification( 'error', 'Upss, no se ha podido terminar la partida', `Ha ocurrido un error mientras se terminaba la partida. Error:${err}` )
+        dispatch( anounceWinnerFail( err ) )
+      } )
+
   }
 }
 
@@ -64,6 +106,14 @@ export const startGameSuccess = ( onResetFields ) => {
 
 export const startGameFail = ( error ) => {
   openNotification( 'error', 'Error en crear juego', `Ha ocurrido un error, favor de intentar de nuevo. Error: ${error.error ? error.error : error}` )
+
+  return {
+    type: CREATE_GAME_FAIL,
+    error: error
+  }
+}
+
+export const anounceWinnerFail = ( error ) => {
 
   return {
     type: CREATE_GAME_FAIL,

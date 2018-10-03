@@ -22,7 +22,7 @@ const reducer = ( state = initialState, action )=> {
         ...state,
         currentCard: action.card,
         cardsList: action.cardList,
-        history: state.history.concat( action.card.num )
+        history: state.history.concat( parseInt(action.card.num) )
       }
     
     case GET_CURRENT_GAME:
@@ -61,7 +61,7 @@ const reducer = ( state = initialState, action )=> {
     case ADD_CARDBOARD:
       return {
         ...state,
-        cardboardList: state.cardboardList.concat( action.cardboard )
+        cardboardList: state.cardboardList.concat( parseInt(action.cardboard) )
       }
 
     default:
