@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { changeCard } from '../store/actions/index'
+import { changeCard, setCurrentGame } from '../store/actions/index'
 
 import Aux from '../components/Aux'
 import Card from '../components/Card'
@@ -25,6 +25,7 @@ class BingoGame extends Component {
 
      socket.on( 'BINGO_CONECTED', ( data ) => {
        this.onChangeCard( data.card, data.cardList )
+       this.onSetCurrentGame( data.game )
      } )
 
      socket.on( 'DRAW_CARD', (turn) => {
@@ -33,6 +34,11 @@ class BingoGame extends Component {
 
      socket.on( 'USER_WON', () => {
        this.props.history.push( '/winner' )
+     } )
+
+     socket.on( 'START_GAME', ( game ) => {
+       console.log( 'game started, current game:', game )
+       this.props.game ? null : this.props.onSetCurrentGame( game )
      } )
   }
 
@@ -75,13 +81,15 @@ const mapStateToProps = state => {
   return {
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
-    playerWin: state.bng.playerWin
+    playerWin: state.bng.playerWin,
+    game: state.bng.currentGame
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) )
+    onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
+    onSetCurrentGame: ( game ) => dispatch( setCurrentGame( game ) )
   }
 }
 

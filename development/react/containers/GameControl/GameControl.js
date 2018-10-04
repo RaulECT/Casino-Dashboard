@@ -42,8 +42,7 @@ class GameControl extends Component {
   }
 
   handleOnInitGame = () => {
-    this.props.onInitGame( this.props.game.id, this.props.cardboardList )
-    //console.log( `Game ID:${this.props.game.id} - Cardboards:`, this.props.cardboardList )
+    this.props.onInitGame( this.props.game.id, this.props.cardboardList, this.props.game )
     this.handleOnChangeCard()
   }
 
@@ -289,7 +288,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
-    onInitGame: ( gameId, cardboardList ) => dispatch( initGame( gameId, cardboardList ) ),
+    onInitGame: ( gameId, cardboardList, game ) => dispatch( initGame( gameId, cardboardList, game ) ),
     onDrawCard: ( card, cardList ) => dispatch( drawCard( card, cardList ) ),
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: () => dispatch( loadCurrentGame() ),

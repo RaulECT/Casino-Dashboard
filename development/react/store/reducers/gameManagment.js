@@ -15,7 +15,7 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         isGameStart: true,
-        turn: 0
+        turn: 1
       }
 
     case END_GAME:
