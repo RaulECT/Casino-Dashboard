@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './Card.css'
+
 const card = ( props ) => {
 
   const styles = {
@@ -13,18 +15,9 @@ const card = ( props ) => {
       src={props.img} 
       alt="Bingo Card"
       style={ styles }
+      className="card-item"
     />
   )
 }
 
-/**
- * <img 
-      src={props.img} 
-      alt="Bingo Card"
-      style={ { width, height } }
-    />
-    <div style={ styles }></div>
-     background: `url('${props.img}')`,
-    backgroundSize: props ? props.cover : 'contain',
- */
 export default card

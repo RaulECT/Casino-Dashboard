@@ -1,0 +1,26 @@
+.bingo-game__title {
+  text-align: center;
+  color: #fff;
+  font-size: 7.2rem;
+  font-weight: 200;
+}
+
+.bingo-game__panel {
+  padding: 0.5rem 2rem;
+}
+
+.bingo-game__game-details {
+  margin-bottom: -0.5rem;
+  color: #fff;
+  font-weight: 300;
+  font-size: 3.6rem;
+
+}
+
+.bingo-game__game-name {
+  margin-bottom: -0.5rem;
+  color: #F1DB4B;
+  font-weight: bold;
+  font-size: 6rem;
+  margin: -2rem 0;
+}

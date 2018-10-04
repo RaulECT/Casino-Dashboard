@@ -21,30 +21,20 @@ class App extends Component {
   }
 
   render() {
-    let routes = (
-      <HashRouter>
-        <div>
-          <Route exact path="/game" component={BingoGame} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/winner" component={WinnerSection} />
-          <Route exact path="/" component={Login} />
-        </div>
-      </HashRouter>
-    )
+    let routes = []
 
     if ( this.props.isAuthenticated ) {
-      routes = (
-        <HashRouter>
-        <div>
-          <Route exact path="/Test" component={Test} />
-          <Route exact path="/game" component={BingoGame} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route exact path="/winner" component={WinnerSection} />
-          <Route exact path="/" component={Dashboard} />
-        </div>
-      </HashRouter>
-      )
-    } 
+      routes = [
+        <Route key="test_screen" exact path="/Test" component={Test} />,
+        <Route key="dashboard_screen" path="/dashboard" component={Dashboard} />,
+        <Route key="main_screen" exact path="/" component={Dashboard} />
+      ]
+    } else {
+      routes = [
+        <Route key="login_screen" exact path="/login" component={Login} />,
+        <Route key="main_screen" exact path="/" component={Login} />
+      ]
+    }
 
     return(
       <Aux>
@@ -53,7 +43,13 @@ class App extends Component {
           timeout={300}
           classNames="page"
         >
-          {routes}
+          <HashRouter>
+            <div>
+              <Route key="game_screen" exact path="/game" component={BingoGame} />
+              <Route key="winner_screen" exact path="/winner" component={WinnerSection} />
+              {routes}
+            </div>
+          </HashRouter>
         </CSSTransition>
         
       </Aux>

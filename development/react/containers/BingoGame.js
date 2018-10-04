@@ -10,6 +10,7 @@ import Panel from '../components/Panel/Panel'
 import GridItem from '../components/GridItem/GridItem'
 import GameLabel from '../components/GameLabel/GameLabel'
 import { socket } from '../../socket'
+import './BingoGame.css'
 
 
 class BingoGame extends Component {
@@ -29,7 +30,7 @@ class BingoGame extends Component {
 
      socket.on( 'BINGO_CONECTED', ( data ) => {
        this.onChangeCard( data.card, data.cardList )
-       this.onSetCurrentGame( data.game )
+       this.props.onSetCurrentGame( data.game )
      } )
 
      socket.on( 'DRAW_CARD', (turn) => {
@@ -84,10 +85,14 @@ class BingoGame extends Component {
         opacity={.15}
         gridTemplateColumns='repeat(4, minmax(min-content, 1fr))'
         gridTemplateRows='repeat(5,min-content)'
+        rowGap='1rem'
+        columnGap="3rem"
+        className="bingo-game__panel"
       >
         <GridItem
           gridRow="1/2"
           gridColumn="1/-1"
+          className="bingo-game__title"
         >
           Loteria Bingo!
         </GridItem>
@@ -105,16 +110,16 @@ class BingoGame extends Component {
           gridColumn="3/-1"
           styles={ { textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', } }
         >
-          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>Juego #{ this.props.game ? this.props.game.index : '' }</p>
-          <p style={ { marginBottom: '-0.5rem', color: '#F1DB4B', fontWeight: 'bold', fontSize: '3rem', } }>{ this.props.game ? this.props.game.gameName : '' }</p>
-          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>{ this.props.game ? this.props.game.cardboards.length : '' } cartones</p>
+          <p className="bingo-game__game-details">Juego #{ this.props.game ? this.props.game.index : '' }</p>
+          <p className="bingo-game__game-name">{ this.props.game ? this.props.game.gameName : '' }</p>
+          <p className="bingo-game__game-details">{ this.props.game ? this.props.game.cardboards.length : '' } cartones</p>
         </GridItem>
 
         <GameLabel 
           gridRow="3/4"
           gridColumn="1/3"
           label="Premio:"
-          text="$158"
+          text={ `$${this.props.game ? this.props.game.linePrize: ''}` }
           type="regular-salmon"
         />
 
@@ -122,7 +127,7 @@ class BingoGame extends Component {
           gridRow="3/4"
           gridColumn="3/-1"
           label="Turno:"
-          text={ 10 }
+          text={ `${this.props.gameHistory.length}` }
           type="regular-pink"
         />
 
@@ -130,7 +135,7 @@ class BingoGame extends Component {
           gridRow="4/5"
           gridColumn="1/3"
           label="Bingo:"
-          text="$278"
+          text={`$${this.props.game ? this.props.game.lotteryPrize : ''}`}
           type="regular-green"
         />
 
@@ -145,7 +150,7 @@ class BingoGame extends Component {
           gridRow="4/-1"
           gridColumn="3/-1"
           label="Carta actual:"
-          customContent={ ( <Card cover="contain" width='16rem' height='25rem' img={ `/static/assets/${this.props.card.image}` } />  ) }
+          customContent={ ( <Card cover="contain" width='20rem' height='31rem' img={ `/static/assets/${this.props.card.image}` } />  ) }
         />
 
       </Panel>
@@ -160,7 +165,7 @@ const mapStateToProps = state => {
     cardList: state.bng.cardsList,
     playerWin: state.bng.playerWin,
     game: state.bng.currentGame,
-    history: state.bng.history
+    gameHistory: state.bng.history
   }
 }
 

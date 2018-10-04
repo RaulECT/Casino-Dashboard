@@ -6,11 +6,13 @@ const panel = ( props ) => {
     background: `rgba(0, 0, 0, ${props.opacity ? props.opacity : 0 })`,
     display: 'grid',
     gridTemplateColumns: props.gridTemplateColumns,
-    gridTemplateRows: props.gridTemplateRows
+    gridTemplateRows: props.gridTemplateRows,
+    rowGap: props.rowGap ? props.rowGap : 0,
+    columnGap: props.columnGap ? props.columnGap : 0
   }
 
   return(
-    <div style={ styles }>
+    <div style={ styles } className={props.className}>
       { props.children }
     </div>
   )
