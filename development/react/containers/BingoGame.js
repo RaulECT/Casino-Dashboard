@@ -5,6 +5,10 @@ import { changeCard, setCurrentGame } from '../store/actions/index'
 
 import Aux from '../components/Aux'
 import Card from '../components/Card'
+import Background from '../components/Background/Background'
+import Panel from '../components/Panel/Panel'
+import GridItem from '../components/GridItem/GridItem'
+import GameLabel from '../components/GameLabel/GameLabel'
 import { socket } from '../../socket'
 
 
@@ -63,16 +67,88 @@ class BingoGame extends Component {
   }
 
   render() {
-    const card = this.props.card ? 
-      <Card 
-        img={ `/static/assets/${this.props.card.image}` } 
-      /> 
-      : 'Juego no iniciado...'
+    const card = this.props.card ? this.renderGameScreen() : 'Juego no iniciado...'
 
     return(
       <Aux>
         {card}
       </Aux>
+    )
+  }
+
+  renderGameScreen = () => {
+   return (
+    <Background>
+      <Panel
+        opacity={.15}
+        gridTemplateColumns='repeat(4, minmax(min-content, 1fr))'
+        gridTemplateRows='repeat(5,min-content)'
+      >
+        <GridItem
+          gridRow="1/2"
+          gridColumn="1/-1"
+        >
+          Loteria Bingo!
+        </GridItem>
+
+        <GameLabel 
+          gridRow="2/3"
+          gridColumn="1/3"
+          label="Acomulado:"
+          text="$3,789"
+          type="important"
+        />
+
+        <GridItem
+          gridRow="2/3"
+          gridColumn="3/-1"
+          styles={ { textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', } }
+        >
+          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>Juego #67</p>
+          <p style={ { marginBottom: '-0.5rem', color: '#F1DB4B', fontWeight: 'bold', fontSize: '3rem', } }>Doble Linea</p>
+          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>200 cartones</p>
+        </GridItem>
+
+        <GameLabel 
+          gridRow="3/4"
+          gridColumn="1/3"
+          label="Premio:"
+          text="$158"
+          type="regular-salmon"
+        />
+
+        <GameLabel 
+          gridRow="3/4"
+          gridColumn="3/-1"
+          label="Turno:"
+          text="17"
+          type="regular-pink"
+        />
+
+        <GameLabel 
+          gridRow="4/5"
+          gridColumn="1/3"
+          label="Bingo:"
+          text="$278"
+          type="regular-green"
+        />
+
+        <GameLabel 
+          gridRow="5/6"
+          gridColumn="1/3"
+          label="Patron ganador:"
+          customContent={ ( <div style={ { width: '16rem', height: '19rem', background: 'rgba(0, 0, 0, .26)' } }></div> ) }
+        />
+
+        <GameLabel 
+          gridRow="4/-1"
+          gridColumn="3/-1"
+          label="Carta actual:"
+          customContent={ ( <Card cover="contain" width='16rem' height='25rem' img={ `/static/assets/${this.props.card.image}` } />  ) }
+        />
+
+      </Panel>
+    </Background>
     )
   }
 }

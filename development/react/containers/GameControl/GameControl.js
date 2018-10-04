@@ -207,8 +207,9 @@ class GameControl extends Component {
               <p>Carta actual:</p>
               <Card 
                 img={`/static/assets/${cardImage}`}
-                width="30%"
-                height="50%"
+                width="16rem"
+                height="25rem"
+                cover="contain"
               />
             </div>            
 
