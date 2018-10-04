@@ -37,6 +37,7 @@ class BingoGame extends Component {
      } )
 
      socket.on( 'USER_WON', () => {
+       console.log('winner')
        this.props.history.push( '/winner' )
      } )
 
@@ -104,9 +105,9 @@ class BingoGame extends Component {
           gridColumn="3/-1"
           styles={ { textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', } }
         >
-          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>Juego #67</p>
-          <p style={ { marginBottom: '-0.5rem', color: '#F1DB4B', fontWeight: 'bold', fontSize: '3rem', } }>Doble Linea</p>
-          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>200 cartones</p>
+          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>Juego #{ this.props.game ? this.props.game.index : '' }</p>
+          <p style={ { marginBottom: '-0.5rem', color: '#F1DB4B', fontWeight: 'bold', fontSize: '3rem', } }>{ this.props.game ? this.props.game.gameName : '' }</p>
+          <p style={ { marginBottom: '-0.5rem', color: '#fff', fontWeight: 300, fontSize: '2.6rem', } }>{ this.props.game ? this.props.game.cardboards.length : '' } cartones</p>
         </GridItem>
 
         <GameLabel 
@@ -121,7 +122,7 @@ class BingoGame extends Component {
           gridRow="3/4"
           gridColumn="3/-1"
           label="Turno:"
-          text="17"
+          text={ 10 }
           type="regular-pink"
         />
 
@@ -158,7 +159,8 @@ const mapStateToProps = state => {
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
     playerWin: state.bng.playerWin,
-    game: state.bng.currentGame
+    game: state.bng.currentGame,
+    history: state.bng.history
   }
 }
 
