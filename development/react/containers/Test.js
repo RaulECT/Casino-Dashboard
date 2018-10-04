@@ -80,6 +80,20 @@ const t = ( props ) => (
         text="$278"
         type="regular-green"
       />
+
+      <GameLabel 
+        gridRow="5/6"
+        gridColumn="1/3"
+        label="Patron ganador:"
+        customContent={ ( <div style={ { width: '16rem', height: '19rem', background: 'rgba(0, 0, 0, .26)' } }></div> ) }
+      />
+
+      <GameLabel 
+        gridRow="4/-1"
+        gridColumn="3/-1"
+        label="Carta actual:"
+        customContent={ ( <div style={ { width: '16rem', height: '25rem', background: `url('static/assets/cartas/Nuevas Figuras_21.svg')`, backgroundSize: 'cover' } }></div> ) }
+      />
       
     </Panel>
   </Background>
