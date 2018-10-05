@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { changeCard, setCurrentGame } from '../store/actions/index'
+import { changeCard, setCurrentGame, setGameHistory } from '../store/actions/index'
 
 import Aux from '../components/Aux'
 import Card from '../components/Card'
@@ -29,12 +29,14 @@ class BingoGame extends Component {
      } )
 
      socket.on( 'BINGO_CONECTED', ( data ) => {
+       console.log(data)
+       this.props.onSetGameHistory( data.gameHistory )
        this.onChangeCard( data.card, data.cardList )
        this.props.onSetCurrentGame( data.game )
      } )
 
      socket.on( 'DRAW_CARD', (turn) => {
-       this.onChangeCard( turn.turn.card, turn.turn.cardList )
+      this.onChangeCard( turn.turn.card, turn.turn.cardList )
      } )
 
      socket.on( 'USER_WON', () => {
@@ -172,7 +174,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
-    onSetCurrentGame: ( game ) => dispatch( setCurrentGame( game ) )
+    onSetCurrentGame: ( game ) => dispatch( setCurrentGame( game ) ),
+    onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
   }
 }
 

@@ -50,7 +50,8 @@ class GameControl extends Component {
     if ( this.props.cardList.length !== 0 ) {
       const { card, cardList } = this.generateRandomCard()
     
-      this.props.onDrawCard( card, cardList )
+      this.props.onDrawCard( card, cardList, this.props.gameHistory )
+      console.log( this.props.gameHistory )
     } else {
       this.openNotification( 'warning', 'Ya no hay cartas', 'Se han acabado todas las cartas para cantar, verifique a un ganador para terminar el juego' )
     }
@@ -256,9 +257,9 @@ class GameControl extends Component {
   }
 
   anounceWinner = ( winner ) => {
-    console.log( `GameID: ${this.props.game.id} - Winner: ${winner} - Cards: `, this.props.history )
+    console.log( `GameID: ${this.props.game.id} - Winner: ${winner} - Cards: `, this.props.gameHistory )
     //this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
-    this.props.onAnounceWinner( this.props.game.id, this.props.history, parseInt(winner) )
+    this.props.onAnounceWinner( this.props.game.id, this.props.gameHistory, parseInt(winner) )
   }
 
   render() {
@@ -281,7 +282,7 @@ const mapStateToProps = state => {
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
     cardboardList: state.bng.cardboardList,
-    history: state.bng.history
+    gameHistory: state.bng.history
   }
 }
 
@@ -290,7 +291,7 @@ const mapDispatchToProps = dispatch => {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
     onInitGame: ( gameId, cardboardList, game ) => dispatch( initGame( gameId, cardboardList, game ) ),
-    onDrawCard: ( card, cardList ) => dispatch( drawCard( card, cardList ) ),
+    onDrawCard: ( card, cardList, history ) => dispatch( drawCard( card, cardList, history ) ),
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),

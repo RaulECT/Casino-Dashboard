@@ -10,6 +10,7 @@ var server = http.createServer(app)
 var currentCard = null
 var cardList = null
 var currentGame = null
+var gameHistory = null
 
 app.use( '/static/', express.static( 'production' ) )
 
@@ -24,7 +25,7 @@ app.get( '/', function( req, res ) {
 const io = require('socket.io')()
 io.on( "connect", ( client ) => {
   if ( currentCard !== null && cardList !== null ) {
-    io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame } )
+    io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
   }
 
   client.on( 'START_GAME_RQ', ( game ) => {
@@ -35,6 +36,7 @@ io.on( "connect", ( client ) => {
   client.on( 'DRAW_CARD_RQ', ( turn ) => {
     currentCard = turn.card
     cardList = turn.cardList
+    gameHistory = turn.gameHistory
     
     io.emit( 'DRAW_CARD', {turn: turn} )
   } )
@@ -43,6 +45,7 @@ io.on( "connect", ( client ) => {
     currentCard = null
     cardList = null
     currentGame = null
+    gameHistory = null
 
     io.emit( 'USER_WON' )
   } )

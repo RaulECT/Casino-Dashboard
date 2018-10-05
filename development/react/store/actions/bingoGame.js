@@ -1,4 +1,4 @@
-import { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME, ADD_CARDBOARD } from './actions'
+import { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME, ADD_CARDBOARD, SET_GAME_HISTORY } from './actions'
 import axios from '../../../axios-bingo'
 import moment from 'moment'
 import { notification } from 'antd'
@@ -84,6 +84,13 @@ export const addCardboard = ( cardboard ) => {
   return {
     type: ADD_CARDBOARD,
     cardboard: cardboard
+  }
+}
+
+export const setGameHistory = ( gamehistory ) => {
+  return {
+    type: SET_GAME_HISTORY,
+    gameHistory: gamehistory
   }
 }
 

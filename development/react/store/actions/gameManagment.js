@@ -42,9 +42,9 @@ export const endGame = () => {
   }
 }
 
-export const drawCard = ( card, cardList ) => {
+export const drawCard = ( card, cardList, history ) => {
   return ( dispatch ) => {
-    socket.emit( 'DRAW_CARD_RQ', { card: card, cardList:cardList } )
+    socket.emit( 'DRAW_CARD_RQ', { card: card, cardList:cardList, gameHistory: history } )
     dispatch( incrementTurn() )
     dispatch( changeCard(card, cardList) )
   }
