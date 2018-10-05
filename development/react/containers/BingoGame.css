@@ -24,3 +24,18 @@
   font-size: 6rem;
   margin: -2rem 0;
 }
+
+@media only screen and ( max-width: 1500px ) {
+  .bingo-game__title {
+    font-size: 4rem;
+  }
+
+  .bingo-game__game-details {
+    font-size: 2.6rem;
+  }
+
+  .bingo-game__game-name {
+    font-size: 3rem;
+    margin: -1rem 0;
+  }
+}

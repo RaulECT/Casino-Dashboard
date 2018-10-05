@@ -8,6 +8,7 @@
 .game-label__text {
   margin-top: -3.5rem;
   font-weight: bold;
+  font-family: sans-serif;
 }
 
 .game-label__text--important {
