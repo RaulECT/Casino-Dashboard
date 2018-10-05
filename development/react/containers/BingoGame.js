@@ -83,7 +83,9 @@ class BingoGame extends Component {
 
   renderGameScreen = () => {
    return (
-    <Background>
+    <Background
+      grid
+    >
       <Panel
         opacity={.15}
         gridTemplateColumns='repeat(4, minmax(min-content, 1fr))'

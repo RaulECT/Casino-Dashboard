@@ -4,7 +4,7 @@ import './Background.css'
 
 const background = ( props ) => (
   <div className="bingo-background">
-    <div className="bingo-background__panel">
+    <div className={ props.grid ? 'bingo-background__panel' : 'bingo-background__panel--without-grid'}>
       { props.children }
     </div>
   </div>

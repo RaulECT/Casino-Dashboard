@@ -8,6 +8,7 @@ import BingoGame from './containers/BingoGame'
 import Login from './containers/Login/Login'
 import Dashboard from './containers/Dashboard/Dashboard'
 import WinnerSection from './containers/WinnerSection/WinnerSection'
+import CardsSection from './containers/CardsSection/CardsSection'
 import { authCheckState } from './store/actions/index'
 
 import Test from './containers/Test'
@@ -47,6 +48,7 @@ class App extends Component {
             <div>
               <Route key="game_screen" exact path="/game" component={BingoGame} />
               <Route key="winner_screen" exact path="/winner" component={WinnerSection} />
+              <Route key="cards_screen" exact path="/history" component={CardsSection} />
               {routes}
             </div>
           </HashRouter>

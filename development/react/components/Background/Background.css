@@ -15,3 +15,9 @@
   grid-auto-columns: 1fr;
   grid-template-columns: 1fr 1fr;
 }
+
+.bingo-background__panel--without-grid {
+  background: rgba(0, 0, 0, .20);
+  border-radius: 9px;
+  flex: 1;
+}
