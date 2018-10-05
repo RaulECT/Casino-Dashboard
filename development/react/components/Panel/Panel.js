@@ -8,7 +8,8 @@ const panel = ( props ) => {
     gridTemplateColumns: props.gridTemplateColumns,
     gridTemplateRows: props.gridTemplateRows,
     rowGap: props.rowGap ? props.rowGap : 0,
-    columnGap: props.columnGap ? props.columnGap : 0
+    columnGap: props.columnGap ? props.columnGap : 0,
+    ...props.style
   }
 
   return(
