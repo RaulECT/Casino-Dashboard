@@ -27,9 +27,10 @@ class CardsSection extends Component {
   renderCards = () => {
     const cards = []
     const { gameHistory } = this.props
+    const endIndex = gameHistory.length > 16 ? gameHistory.length - 16 : 0
     
     if ( gameHistory.length > 16 ) {
-      for (let index = 16; index < gameHistory.length; index++) {
+      for (let index = 0; index < endIndex; index++) {
         const card = gameHistory[index]
 
         const imageRef = cardList[ card - 1 ].image
@@ -37,8 +38,8 @@ class CardsSection extends Component {
           <Card 
             key={ `card_img_${index}` }
             cover="contain" 
-            width='13rem' 
-            height='20rem'
+            width='10rem' 
+            height='15rem'
             img={ `/static/assets/${imageRef}` }
           />
         )

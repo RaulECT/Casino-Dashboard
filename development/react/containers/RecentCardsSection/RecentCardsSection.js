@@ -20,8 +20,8 @@ class RecentCardsSection extends Component {
         <Card 
           key={ `card_img_${index}` }
           cover="contain" 
-          width='13rem' 
-          height='20rem'
+          width='10rem' 
+          height='15rem'
           img={ `/static/assets/${imageRef}` }
         />
       )
@@ -38,7 +38,7 @@ class RecentCardsSection extends Component {
         opacity={0}
         gridTemplateColumns='repeat(4, minmax(min-content, max-content))'
         gridTemplateRows='repeat(5,min-content)'
-        rowGap='1.5rem'
+        rowGap='1.1rem'
         columnGap="3rem"
         className="bingo-game__panel"
         style={ { margin: 'auto' } }
@@ -50,3 +50,6 @@ class RecentCardsSection extends Component {
 } 
 
 export default RecentCardsSection
+
+//width='13rem' 
+//height='20rem'
