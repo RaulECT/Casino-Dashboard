@@ -148,6 +148,15 @@ export const createGame = ( gameInfo, onResetFields ) => {
   }
 }
 
+export const forceEndGame = () => {
+  return dispatch => {
+    openNotification( 'warning', 'Fin del Juego', 'Se ha forzado el fin del juego.' )
+    dispatch( endGame() )
+    dispatch( resetGame() )  
+    socket.emit( 'FORCE_END_GAME_RQ' )
+  }
+}
+
 const openNotification = ( type, title, description ) => {
   notification[type]({
     message: title,

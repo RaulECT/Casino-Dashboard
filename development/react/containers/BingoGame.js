@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { changeCard, setCurrentGame, setGameHistory } from '../store/actions/index'
+import { changeCard, setCurrentGame, setGameHistory, resetGame, forceEndGame } from '../store/actions/index'
 
 import Aux from '../components/Aux'
 import Card from '../components/Card'
@@ -30,7 +30,6 @@ class BingoGame extends Component {
      } )
 
      socket.on( 'BINGO_CONECTED', ( data ) => {
-       console.log(data)
        this.props.onSetGameHistory( data.gameHistory )
        this.onChangeCard( data.card, data.cardList )
        this.props.onSetCurrentGame( data.game )
@@ -41,13 +40,16 @@ class BingoGame extends Component {
      } )
 
      socket.on( 'USER_WON', () => {
-       console.log('winner')
+       this.props.onEndGame()
        this.props.history.push( '/winner' )
      } )
 
      socket.on( 'START_GAME', ( game ) => {
-       console.log( 'game started, current game:', game )
        this.props.game ? null : this.props.onSetCurrentGame( game )
+     } )
+
+     socket.on( 'FORCE_END_GAME', () => {
+       this.props.onEndGame()
      } )
   }
 
@@ -183,6 +185,8 @@ const mapDispatchToProps = dispatch => {
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onSetCurrentGame: ( game ) => dispatch( setCurrentGame( game ) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
+    onEndGame: () => dispatch( resetGame() ),
+    onForceEndGame: () => dispatch( forceEndGame() ) 
   }
 }
 

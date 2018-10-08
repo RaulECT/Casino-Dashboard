@@ -9,6 +9,7 @@ import {
   loadCurrentGame,
   changeCard,
   addCardboard,
+  forceEndGame
 
 } from '../../store/actions/index'
 
@@ -246,18 +247,21 @@ class GameControl extends Component {
   }
 
   validateFolio = ( folio ) => {
-
-    if ( this.props.turn >= 4 ) {
-      if ( folio === '1234' ) {
-
-        this.anounceWinner( folio )
+    if ( folio !== '000000' ) {
+      if ( this.props.turn >= 4 ) {
+        if ( folio === '1234' ) {
+  
+          this.anounceWinner( folio )
+        } else {
+          this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
+        }      
       } else {
-        this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
-      }      
+        this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
+      } 
     } else {
-      this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
+      //TODO: FORCE END GAME
+      this.props.onForceEndGame()
     }
-
 
   }
 
@@ -300,7 +304,8 @@ const mapDispatchToProps = dispatch => {
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
-    onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) )
+    onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
+    onForceEndGame: () => dispatch( forceEndGame() )
   }
 }
 

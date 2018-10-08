@@ -49,6 +49,16 @@ io.on( "connect", ( client ) => {
 
     io.emit( 'USER_WON' )
   } )
+
+  client.on( 'FORCE_END_GAME_RQ', () => {
+    currentCard = null
+    cardList = null
+    currentGame = null
+    gameHistory = null
+
+    io.emit( 'FORCE_END_GAME' )
+  } )
+
 } )
 io.listen(server)
 

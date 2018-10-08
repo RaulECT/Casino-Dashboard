@@ -3,7 +3,8 @@ export {
   loadCurrentGame,
   addCardboard,
   setCurrentGame,
-  setGameHistory
+  setGameHistory,
+  resetGame
 } from './bingoGame'
 
 export {
@@ -15,7 +16,8 @@ export {
   startCreateGame,
   createGame,
   startGameSuccess,
-  startGameFail
+  startGameFail,
+  forceEndGame,
 } from './gameManagment'
 
 export {
