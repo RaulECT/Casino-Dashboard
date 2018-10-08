@@ -245,17 +245,23 @@ class GameControl extends Component {
   }
 
   validateFolio = ( folio ) => {
+
     if ( folio !== '000000' ) {
-      if ( this.props.turn >= 4 ) {
-        if ( folio === '1234' ) {
-  
-          this.anounceWinner( folio )
+      if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
+        if ( this.props.turn >= 4 ) {
+          if ( folio === '1234' ) {
+    
+            this.anounceWinner( folio )
+          } else {
+            this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
+          }      
         } else {
-          this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
-        }      
+          this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
+        } 
       } else {
-        this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
-      } 
+        this.openNotification( 'warning', 'Folio no encontrado', 'El folio que ingresó no se encuentra registrado para esta partida.' )
+      }
+
     } else {
       //TODO: FORCE END GAME
       this.props.onForceEndGame()
