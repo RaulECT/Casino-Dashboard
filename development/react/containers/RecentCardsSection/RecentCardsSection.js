@@ -53,3 +53,6 @@ export default RecentCardsSection
 
 //width='13rem' 
 //height='20rem'
+
+//width='10rem' 
+//height='15rem'

@@ -77,5 +77,10 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardsSection)
 
+// TV SIZE
 //width='13rem' 
 //height='20rem'
+
+// LAPTOP SIZE 
+//width='10rem' 
+//height='15rem'
