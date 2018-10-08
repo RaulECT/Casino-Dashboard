@@ -55,7 +55,6 @@ class GameControl extends Component {
       const { card, cardList } = this.generateRandomCard()
     
       this.props.onDrawCard( card, cardList, this.props.gameHistory )
-      console.log( this.props.gameHistory )
     } else {
       this.openNotification( 'warning', 'Ya no hay cartas', 'Se han acabado todas las cartas para cantar, verifique a un ganador para terminar el juego' )
     }
@@ -73,7 +72,6 @@ class GameControl extends Component {
 
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
-        console.log( values )
         this.props.onAddCardboard( values.playerCardboard )
         this.handleAddCardboardModal()
         this.props.form.resetFields()

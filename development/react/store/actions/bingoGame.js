@@ -4,7 +4,6 @@ import moment from 'moment'
 import { notification } from 'antd'
 
 export const changeCard = ( card, cardList ) => {
-  console.log('this wea')
   return {
     type: CHANGE_CARD,
     card: card,

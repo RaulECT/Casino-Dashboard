@@ -18,7 +18,7 @@ export const initGame = ( gameId, cardboards, game ) => {
       cardboards: cardboards
     } )
       .then( response => {
-        console.log(response)
+ 
         if ( response.status === 200 ) {
           socket.emit( 'START_GAME_RQ', game )
           dispatch( startGame() )
@@ -66,7 +66,7 @@ export const anounceWinner = ( gameId, cards, winner ) => {
       winnerCardboard: winner   
     } )
       .then( response => {
-        console.log( response )
+    
         if ( response.status === 200 ) {
           socket.emit( 'USER_WON_RQ' )
           dispatch( endGame() )
