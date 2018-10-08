@@ -42,6 +42,9 @@ class GameControl extends Component {
   }
 
   handleOnInitGame = () => {
+    //TODO: DELETE AFTER TEST
+    this.props.game.cardboards = this.props.cardboardList
+
     this.props.onInitGame( this.props.game.id, this.props.cardboardList, this.props.game )
     this.handleOnChangeCard()
   }
@@ -224,6 +227,8 @@ class GameControl extends Component {
             </Button>
 
             <a href={`${currentHref}game`} style={ { marginLeft: 20 } } target="_blanc">Ver Juego de Bingo</a>
+            <a href={`${currentHref}history`} style={ { marginLeft: 20 } } target="_blanc">Ver historial de cartas</a>
+
           </Col>
         </Row>
         

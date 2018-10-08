@@ -76,3 +76,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardsSection)
+
+//width='13rem' 
+//height='20rem'
