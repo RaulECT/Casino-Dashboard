@@ -18,6 +18,7 @@ export {
   startGameSuccess,
   startGameFail,
   forceEndGame,
+  validateFolio
 } from './gameManagment'
 
 export {

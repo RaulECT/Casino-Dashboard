@@ -9,7 +9,8 @@ import {
   loadCurrentGame,
   changeCard,
   addCardboard,
-  forceEndGame
+  forceEndGame,
+  validateFolio
 
 } from '../../store/actions/index'
 
@@ -249,12 +250,9 @@ class GameControl extends Component {
     if ( folio !== '000000' ) {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
         if ( this.props.turn >= 4 ) {
-          if ( folio === '1234' ) {
+ 
+          this.props.onValidateFolio( folio, [...this.props.gameHistory], () => { this.anounceWinner( folio ) } )
     
-            this.anounceWinner( folio )
-          } else {
-            this.openNotification( 'error', 'Folio no ganador', 'El folio ingresado no ha ganado la partida.' )
-          }      
         } else {
           this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
         } 
@@ -263,14 +261,13 @@ class GameControl extends Component {
       }
 
     } else {
-      //TODO: FORCE END GAME
       this.props.onForceEndGame()
     }
 
   }
 
   anounceWinner = ( winner ) => {
-    console.log( `GameID: ${this.props.game.id} - Winner: ${winner} - Cards: `, this.props.gameHistory )
+    //console.log( `GameID: ${this.props.game.id} - Winner: ${winner} - Cards: `, this.props.gameHistory )
     //this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
     this.props.onAnounceWinner( this.props.game.id, this.props.gameHistory, parseInt(winner) )
   }
@@ -309,7 +306,8 @@ const mapDispatchToProps = dispatch => {
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
-    onForceEndGame: () => dispatch( forceEndGame() )
+    onForceEndGame: () => dispatch( forceEndGame() ),
+    onValidateFolio: ( folio, hist, callback ) => dispatch( validateFolio(folio, hist, callback) )
   }
 }
 

@@ -1,9 +1,17 @@
-import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL } from './actions'
+import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL } from './actions'
 import { socket } from '../../../socket'
 import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
 import axios from '../../../axios-bingo'
 
+/**
+ * MARK: - Variables
+ */
+const cardsByRow = 4
+
+ /**
+  * MARK: - Game Managment Actions
+  */
 export const startGame = () => {
   return {
     type: START_GAME
@@ -157,9 +165,132 @@ export const forceEndGame = () => {
   }
 }
 
+export const validateFolio = ( folio, hist, callback ) => {
+  console.log(hist)
+  return dispatch => {
+    dispatch( startValidateFolio() )
+
+    axios.post( '/cardboards/get', {
+      numcode: parseInt(folio)
+    } )
+      .then( response => {
+        console.log( response )
+        if ( response.status === 200 ) {
+          const isWinner = verifyWinner( response.data.result.items[0].card, hist )
+          dispatch( validateFolioSuccess() )
+
+          if ( isWinner ) {
+            callback()
+          } else {
+            openNotification( 'warning', 'Carton no ganador', 'El folio que ha ingresado no ganado la partida de bingo' )
+          }
+          
+        } else {
+          dispatch( validateFolioFail( response.data ) )
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+        openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${err}` )
+        dispatch( validateFolioFail( err ) )
+      } )
+  }
+}
+
+export const startValidateFolio = () => {
+  return {
+    type: VALIDATE_FOLIO_START
+  }
+}
+
+export const validateFolioSuccess = () => {
+  return {
+    type: VALIDATE_FOLIO_SUCCESS
+  }
+}
+
+export const validateFolioFail = ( error ) => {
+  return {
+    type: VALIDATE_FOLIO_FAIL,
+    error: error
+  }
+}
+
 const openNotification = ( type, title, description ) => {
   notification[type]({
     message: title,
     description: description
   })
+}
+
+/**
+ * ----------------------------------------------------------------------------------------------------
+ * MARK: - CARDBOARD VALIDATIONS
+ * -----------------------------------------------------------------------------------------------------
+ */
+
+const verifyWinner = ( cardboard, hist ) => {
+	if( isWinnerPerRow( cardboard, hist ) ) {
+    console.log( 'Gano por linea!' )
+    return true
+  } else if( isWinnerPerCol( cardboard, hist ) ) {
+    console.log('Gano por columna')
+    return true
+  } else if( isWinnerPerDiag( cardboard, hist ) ) {
+    console.log( 'Gano por diagonal' )
+    return true
+  } else {
+    console.log( 'No gano' )
+    return false
+  }
+
+  return false
+}
+
+const isWinnerPerRow = ( cardboard, hist ) => {
+	let currentRow = []
+  
+  for( let index = 0; index < cardsByRow; index++ ) {
+  	currentRow = cardboard[index]
+    
+    if( ( hist.indexOf( currentRow[0] ) !== -1 ) &&
+    		( hist.indexOf( currentRow[1] ) !== -1 ) &&
+        ( hist.indexOf( currentRow[2] ) !== -1 ) &&
+        ( hist.indexOf( currentRow[3] ) !== -1 ) ) {
+    	return true
+    }
+  }
+  
+  return false
+}
+
+const isWinnerPerCol = ( cardboard, hist ) => {
+	let currentCol = []
+  
+  for( let index = 0; index < cardsByRow; index++ ) {
+  	if( ( hist.indexOf( cardboard[0][index] ) !== -1 ) &&
+    		( hist.indexOf( cardboard[1][index] ) !== -1 ) &&
+        ( hist.indexOf( cardboard[2][index] ) !== -1 ) &&
+        ( hist.indexOf( cardboard[3][index] ) !== -1 ) ) {
+    	return true
+    }
+  }
+  
+  return false
+}
+
+const isWinnerPerDiag = ( cardboard, hist ) => {
+	if( ( hist.indexOf( cardboard[0][0] ) !== -1 ) &&
+  		( hist.indexOf( cardboard[1][1] ) !== -1 ) &&
+      ( hist.indexOf( cardboard[2][2] ) !== -1 ) &&
+      ( hist.indexOf( cardboard[3][3] ) !== -1 ) ) {
+  	return true
+  } else if( ( hist.indexOf( cardboard[0][3] ) !== -1 ) &&
+  		( hist.indexOf( cardboard[1][2] ) !== -1 ) &&
+      ( hist.indexOf( cardboard[2][1] ) !== -1 ) &&
+      ( hist.indexOf( cardboard[3][0] ) !== -1 ) ) {
+  	return true
+  }
+  
+  return false
 }

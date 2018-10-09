@@ -40,8 +40,13 @@ class BingoGame extends Component {
      } )
 
      socket.on( 'USER_WON', () => {
-       this.props.onEndGame()
-       this.props.history.push( '/winner' )
+      const lastCard = { ...this.props.card }
+
+      this.props.history.push( {
+        pathname: '/winner',
+        state: { card: lastCard }
+      } )
+      this.props.onEndGame()
      } )
 
      socket.on( 'START_GAME', ( game ) => {

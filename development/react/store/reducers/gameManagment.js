@@ -8,7 +8,17 @@ const initialState = {
 }
 
 const reducer = ( state = initialState, action ) => {
-  const { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL } = actionsTypes
+  const { 
+    START_GAME, 
+    END_GAME, 
+    INCREMENT_TURN, 
+    CREATE_GAME_START, 
+    CREATE_GAME_SUCCESS, 
+    CREATE_GAME_FAIL,
+    VALIDATE_FOLIO_START,
+    VALIDATE_FOLIO_SUCCESS,
+    VALIDATE_FOLIO_FAIL 
+  } = actionsTypes
 
   switch ( action.type ) {
     case START_GAME:
@@ -52,6 +62,27 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         loading: false,
         error: false
+      }
+
+    case VALIDATE_FOLIO_START:
+      return {
+        ...state,
+        loading: true, 
+        error: null
+      }
+
+    case VALIDATE_FOLIO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
+      }
+
+    case VALIDATE_FOLIO_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
       }
 
     default:
