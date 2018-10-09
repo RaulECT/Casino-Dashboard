@@ -47,6 +47,8 @@ export const auth = ( email, password ) => {
         localStorage.setItem( 'permissions', response.data.permissions )
 
         dispatch( authSuccess( response.data.result.token, email ) )
+
+        location.reload()
       } else {
         dispatch( authFail( response.data ) )
       }
