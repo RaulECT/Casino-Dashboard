@@ -7,10 +7,8 @@
 Para poder ejecutar la app de manera local se deben seguir las siguientes instrucciones:
 
 1.  Instalar las dependencias de la app mediante el comando `npm install`.
-2. Ejecutar los siguientes scripts en terminales separadas:
-   1. Webpack: `npm run watch:webpack`.
-   2. Node server: `npm run devserver`.
-3. Ingresar al navegador a la URL: [http://localhost:3000/](http://localhost:3000/)
+2.  Iniciar la aplicación mediante el comando `npm start`
+3.  Ingresar al navegador a la URL: [http://localhost:3000/](http://localhost:3000/)
 
 **Nota:** si se desea ver la interacción del dashboard y la aplicación de bingo, ingresar en ventanas diferentes al dashboard y a la aplicación de bingo.
 
@@ -27,19 +25,25 @@ Si no se ha iniciado sesión con anterioridad, la aplicación mostrara la pantal
 
 En caso de un inicio éxitoso de sesión, la aplicación redirigirá al usuario a la sección de *Control de Juego* para poder iniciar una partida de lotería.
 
+### Próxima partida
 
+Esta sección aparecera una vez que el usuario haya ingresado a la aplicación. En esta pantalla se mostrará la siguiente partida que se tiene registrada. Para poder dar comienzo a esa partida es necesario registrar al menos 1 folio de un carton, se recomienda el folio **123456** para probar todo el juego. 
 
 ### Control de partida en tiempo real
 
-El control de partida en tiempo real ocurrira una vez que el usuario presione el boton *Iniciar Partida*. En esta pantalla el usuario podrá ver los datos de la partida actual y cantar cartas para que se muestren en la aplicación de bingo.
+Esta sección corresponde a los controles de la partica actual. En esta pantalla se muestra la información de la partida actual, número de turnos y carta actual. Esta sección cuenta con accesos a la aplicación del bingo e historial de cartas cantadas.
 
-Así mismo el usuario podrá ingresar el folio de una posible cartilla ganadora, para ver una demostración, ingrese el folio: **1234**. Se le notificará al usuario que el folio corresponde al ganador y en la aplicación de bingo mostrara la pantalla del ganador.
+Esta sección cuenta con la opción de validar si algún carton de lotería es ganador, solo basta con ingresar el folio del carton y la apliación verificará si ese carton ha ganado la partida o no.
+
+### Creación de partidas
+
+Esta sección corresponde al formulario para crear partidas de lotería. 
 
 
 
 ## Aplicación de Bingo
 
-Para acceder a esta aplicación ingrese a la dirección  [http://localhost:3000/game](http://localhost:3000/game). Si desear cantar cartas en esa aplicación, se podrá hacer precionando la tecla **enter**.
+Para acceder a esta aplicación ingrese a la dirección  [http://localhost:3000/game](http://localhost:3000/game). Esta aplicación corresponde a la que los jugadores estarán observando durante la partida de lotería.
 
 
 
@@ -53,7 +57,7 @@ En caso de subir la aplicación a un servidor de producción, se tendrá que mod
  * SE TENDRÁ QUE COMENTAR LA SIGUIENTE LINEA Y DESCOMENTAR LA QUE HACE REFERENCIA AL   
  * SERVIDOR DE PRODUCCIÓN SUSTITUYENDO 'PRODUCTION_URL' CON LA URL DEL SERVER.
  */
-const socketURL = 'http://localhost:3000' 
-//const socketURL = 'PRODUCTION_URL' // PRODUCTION
+const socketURL = 'http://localhost:3000' // COMENTAR ESTA LINEA
+//const socketURL = 'PRODUCTION_URL' // PRODUCTION // DESCOMENTAR ESTA LINEA
 ...
 ```
