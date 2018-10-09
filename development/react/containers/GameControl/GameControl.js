@@ -116,6 +116,7 @@ class GameControl extends Component {
             <div>
               <p><b>Premio Linea:</b> ${this.props.game ? this.props.game.linePrize : ''}</p>
               <p><b>Premio Loteria:</b> ${this.props.game ? this.props.game.lotteryPrize : ''}</p>
+              <p><b>Cartones registrados: </b> { this.props.cardboardList.length }</p>
             </div>
           </div>
 
@@ -133,6 +134,7 @@ class GameControl extends Component {
               icon="play-circle" 
               type="primary" 
               size="large"
+              disabled={ this.props.cardboardList.length === 0 ? true : false }
               onClick={ this.showStartGameModal}  
             >
               Iniciar Partida
