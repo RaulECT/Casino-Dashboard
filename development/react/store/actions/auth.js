@@ -33,7 +33,7 @@ export const logout = () => {
 
 export const auth = ( email, password ) => {
   return dispatch => {
-    dispatch( authsStart )
+    dispatch( authsStart() )
 
     axios.post( '/login', {
       username: email,
