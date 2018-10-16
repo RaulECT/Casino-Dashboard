@@ -10,6 +10,7 @@ import Panel from '../components/Panel/Panel'
 import GridItem from '../components/GridItem/GridItem'
 import GameLabel from '../components/GameLabel/GameLabel'
 import RecentCardsSection from './RecentCardsSection/RecentCardsSection'
+import CardboardPattern from '../components/CardboardPattern/CardboardPattern'
 import { socket } from '../../socket'
 import './BingoGame.css'
 
@@ -155,7 +156,11 @@ class BingoGame extends Component {
           gridRow="5/6"
           gridColumn="1/3"
           label="Patrón ganador:"
-          customContent={ ( <div style={ { width: '16rem', height: '19rem', background: 'rgba(0, 0, 0, .26)' } }></div> ) }
+          customContent={ ( 
+            <div style={ { width: '23rem', height: '23rem', background: 'rgba(0, 0, 0, .26)' } }>
+              <CardboardPattern />
+            </div> 
+          ) }
         />
 
         <GameLabel 

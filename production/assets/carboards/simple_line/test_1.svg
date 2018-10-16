@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 297 297">
+  <defs>
+    <style>
+      .cls-1{
+        fill:#0dffe7;
+      }
+
+      .cls-1,
+      .cls-2{
+        stroke:#000;
+        stroke-miterlimit:10;
+      }
+      
+      .cls-2{
+        fill:#fff;
+      }
+    </style>
+  </defs>
+  
+  <title>2</title>
+  
+  <g id="Capa_2" data-name="Capa 2">
+    <rect class="cls-1" x="0.5" y="0.5" width="74" height="74"/>
+    <rect class="cls-1" x="0.5" y="74.5" width="74" height="74"/>
+    <rect class="cls-2" x="74.5" y="0.5" width="74" height="74"/>
+    <rect class="cls-2" x="74.5" y="74.5" width="74" height="74"/>
+    <rect class="cls-2" x="148.5" y="0.5" width="74" height="74"/>
+    <rect class="cls-2" x="148.5" y="74.5" width="74" height="74"/>
+    <rect class="cls-2" x="222.5" y="0.5" width="74" height="74"/>
+    <rect class="cls-2" x="222.5" y="74.5" width="74" height="74"/>
+    <rect class="cls-1" x="0.5" y="148.5" width="74" height="74"/>
+    <rect class="cls-1" x="0.5" y="222.5" width="74" height="74"/>
+    <rect class="cls-2" x="74.5" y="148.5" width="74" height="74"/>
+    <rect class="cls-2" x="74.5" y="222.5" width="74" height="74"/>
+    <rect class="cls-2" x="148.5" y="148.5" width="74" height="74"/>
+    <rect class="cls-2" x="148.5" y="222.5" width="74" height="74"/>
+    <rect class="cls-2" x="222.5" y="148.5" width="74" height="74"/>
+    <rect class="cls-2" x="222.5" y="222.5" width="74" height="74"/>
+  </g>
+</svg>

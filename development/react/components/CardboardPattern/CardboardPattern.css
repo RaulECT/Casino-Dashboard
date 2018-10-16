@@ -1,0 +1,16 @@
+.cls-1{
+  fill:#eed761;
+}
+
+.cls-1,
+.cls-2{
+  stroke: rgba(0, 0, 0, 1);
+  stroke-miterlimit: 10;
+  stroke-width: 0.5rem;
+  rx: 9px;
+  ry: 9px;
+}
+
+.cls-2{
+  fill: rgba(0, 0, 0, .1);
+}
