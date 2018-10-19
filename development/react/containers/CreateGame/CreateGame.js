@@ -39,6 +39,10 @@ class CreateGame extends Component {
     })
   }
 
+  disabledDate = ( current ) => {
+    return current && current < moment().startOf('day')
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form 
 
@@ -68,6 +72,7 @@ class CreateGame extends Component {
            <DatePicker 
             size="large" 
             style={styles.input} 
+            disabledDate={this.disabledDate}
             disabled={this.props.loading}
           />
           )}
