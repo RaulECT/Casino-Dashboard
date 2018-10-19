@@ -100,9 +100,10 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('singlePrice', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            initialValue: 10
           })(
            <InputNumber 
-              min={0}
+              min={10}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -117,9 +118,10 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('doublePrice', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            initialValue: 15
           })(
             <InputNumber 
-              min={0}
+              min={15}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -134,9 +136,10 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('triplePrice', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            initialValue: 20
           })(
             <InputNumber 
-              min={0}
+              min={1}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -151,9 +154,10 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('electronicPrice', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            initialValue: 1
           })(
             <InputNumber 
-              min={0}
+              min={1}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
