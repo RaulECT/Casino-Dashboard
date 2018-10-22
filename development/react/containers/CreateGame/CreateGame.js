@@ -94,11 +94,15 @@ class CreateGame extends Component {
           label="Nombre del Juego:"
         >
           {getFieldDecorator('gameName', {
-            rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            rules: [{ 
+              required: true, 
+              message: 'Este campo no puede estar vacio y debe contener al menos 5 caracteres!',
+              min: 5, }],
           })(
            <Input 
             size="large" 
             disabled={this.props.loading} 
+            placeholder="El nombre de la pártida debe contener al menos 5 letras..."
            /> 
           )}
           

@@ -151,7 +151,9 @@ class GameControl extends Component {
         >
           <Form onSubmit={this.handleOnAddCardboard}>
             {getFieldDecorator('playerCardboard', {
-              rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+              rules: [{ 
+                required: true, 
+                message: 'Este campo no puede estar vacio!', }],
             })(
               <InputNumber
                 style={ { width: '100%' } }
@@ -167,7 +169,7 @@ class GameControl extends Component {
       </Aux>
     ) 
     
-    const section = this.props.game ? gameInfo : ( <h2 className="gameControl__sub-header">No se ha encontrado un siguientes juego, verifique que el juego existe o favor de crear uno.</h2> )
+    const section = this.props.game ? gameInfo : ( <h2 className="gameControl__sub-header">No se ha encontrado una próxima partida de loteria, verifique que el juego existe o favor de crear uno.</h2> )
     
     return (
       <Aux>
