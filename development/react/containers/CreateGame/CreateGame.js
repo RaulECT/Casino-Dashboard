@@ -272,9 +272,9 @@ class CreateGame extends Component {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
            <InputNumber 
-            min={0}
-            formatter={value => `${value}%`}
-            parser={value => value.replace('%', '')}
+            min={1}
+            max={100}
+            formatter={value => `%${value}`}
             style={ styles.input }
             size="large"
             disabled={this.props.loading}
@@ -306,9 +306,9 @@ class CreateGame extends Component {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <InputNumber 
-              min={0}
-              formatter={value => `${value}%`}
-              parser={value => value.replace('%', '')}
+              min={1}
+              max={100}
+              formatter={value => `%${value}`}
               style={ styles.input }
               size="large"
               disabled={this.props.loading}
