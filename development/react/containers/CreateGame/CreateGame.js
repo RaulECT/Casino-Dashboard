@@ -16,6 +16,7 @@ import { createGame } from '../../store/actions/index'
 
 const FormItem = Form.Item
 const { Option } = Select
+const format = 'HH:mm'
 const styles = {
   input: {
     width: '100%'
@@ -23,6 +24,14 @@ const styles = {
 }
 
 class CreateGame extends Component {
+
+  state = {
+    isSelectedDateCurrentDate: true
+  }
+
+  handleOnGameDateChange = ( e ) => {
+    this.setState( { isSelectedDateCurrentDate: !moment().isBefore( e ) } )
+  }
 
   handleOnSubmitForm = ( e ) => {
     e.preventDefault()
@@ -41,6 +50,38 @@ class CreateGame extends Component {
 
   disabledDate = ( current ) => {
     return current && current < moment().startOf('day')
+  }
+
+  disabledHours = () => {
+    const { isSelectedDateCurrentDate } = this.state
+    const currentHour = ( new Date() ).getHours()
+    const hoursRange = isSelectedDateCurrentDate ? this.range( 0, currentHour ) : this.range( 0, 0 )
+ 
+    return hoursRange
+  }
+
+  disabledMinutes = () => {
+    const { isSelectedDateCurrentDate } = this.state
+    const minute = ( new Date() ).getMinutes()
+    const minutesRange = isSelectedDateCurrentDate ? this.range( 0, minute ) : this.range( 0, 0 )
+ 
+    return minutesRange
+  }
+
+  disabledSeconds = () => {
+    const { isSelectedDateCurrentDate } = this.state
+    const second = ( new Date() ).getSeconds()
+    const secondsRange = isSelectedDateCurrentDate ? this.range( 0, second ) : this.range( 0, 0 )
+ 
+    return secondsRange
+  }
+
+  range = (start, end) => {
+    const result = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
   }
 
   render() {
@@ -74,6 +115,7 @@ class CreateGame extends Component {
             style={styles.input} 
             disabledDate={this.disabledDate}
             disabled={this.props.loading}
+            onChange={ this.handleOnGameDateChange }
           />
           )}
           
@@ -87,8 +129,13 @@ class CreateGame extends Component {
           })(
            <TimePicker 
             size="large"  
+            format={format}
             style={styles.input} 
             disabled={this.props.loading}
+            disabledHours={this.disabledHours}
+            disabledMinutes={ this.disabledMinutes }
+            disabledSeconds={ this.disabledSeconds }
+            hideDisabledOptions
           />
           )}
           
