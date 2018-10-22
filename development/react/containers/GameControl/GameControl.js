@@ -194,7 +194,7 @@ class GameControl extends Component {
           placeholder="Ingrese el folio del carton a validar"
           enterButton="Validar"
           size="large"
-          onSearch={value => this.validateFolio(value)}
+          onSearch={value => this.validateSearchValue(value)}
         />
 
         <Row>
@@ -268,6 +268,19 @@ class GameControl extends Component {
       this.props.onForceEndGame()
     }
 
+  }
+
+  validateSearchValue = ( searchValue ) => {
+    console.log(searchValue)
+    if ( searchValue.length === 6 ) {
+      if ( typeof searchValue === "number" ) {
+        this.validateFolio( searchValue )
+      } else {
+        this.openNotification( 'warning', 'Formato incorrecto', 'El folio debe ser un número.' )
+      }
+    } else {
+      this.openNotification( 'warning', 'Formato incorrecto', 'El número de caracteres del folio debe ser de 6 caracteres.' )
+    }
   }
 
   anounceWinner = ( winner ) => {
