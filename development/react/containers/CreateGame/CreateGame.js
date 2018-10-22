@@ -257,9 +257,10 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('linePrize', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            initialValue: 50
           })(
             <InputNumber 
-              min={0}
+              min={1}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -276,7 +277,7 @@ class CreateGame extends Component {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
            <InputNumber 
-            min={1}
+            min={0}
             max={100}
             formatter={value => `%${value}`}
             style={ styles.input }
@@ -291,9 +292,10 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('lotteryPrize', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
+            initialValue: 150
           })(
             <InputNumber 
-              min={0}
+              min={1}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -310,7 +312,7 @@ class CreateGame extends Component {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
             <InputNumber 
-              min={1}
+              min={0}
               max={100}
               formatter={value => `%${value}`}
               style={ styles.input }
