@@ -17,7 +17,7 @@ const reducer = ( state = initialState, action ) => {
     CREATE_GAME_FAIL,
     VALIDATE_FOLIO_START,
     VALIDATE_FOLIO_SUCCESS,
-    VALIDATE_FOLIO_FAIL 
+    VALIDATE_FOLIO_FAIL,
   } = actionsTypes
 
   switch ( action.type ) {

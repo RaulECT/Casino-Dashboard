@@ -29,7 +29,7 @@ export const initGame = ( gameId, cardboards, game ) => {
       .then( response => {
  
         if ( response.status === 200 ) {
-          socket.emit( 'START_GAME_RQ', game )
+          socket.emit( 'START_GAME_RQ', {game, cardboards} )
           dispatch( startGame() )
 
         } else {
@@ -226,6 +226,12 @@ const openNotification = ( type, title, description ) => {
     message: title,
     description: description
   })
+}
+
+const setCurrentGame = ( data ) => {
+  return {
+    
+  }
 }
 
 /**

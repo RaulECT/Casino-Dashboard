@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { socket } from '../../../socket'
 import { 
   startGame, 
   endGame, 
@@ -10,7 +11,8 @@ import {
   changeCard,
   addCardboard,
   forceEndGame,
-  validateFolio
+  validateFolio,
+  setGameHistory
 
 } from '../../store/actions/index'
 
@@ -40,6 +42,13 @@ class GameControl extends Component {
   }
 
   componentDidMount() {
+    socket.on( 'DASHBOARD_CONECTED', data => {
+      console.log(data)
+      this.props.onSetGameHistory( data.gameHistory )
+      this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
+      this.props.onDrawCard( data.currentCard, data.cardList, data.gameHistory )
+    } )
+
     this.props.onLoadGame()
   }
 
@@ -207,7 +216,7 @@ class GameControl extends Component {
 
           <Col className="gameControl__game-info" span={12}>
             <h3 className="gameControl__turn-label">
-              Turno: <span>{this.props.turn}</span>
+              Turno: <span>{this.props.gameHistory.length}</span>
             </h3>
 
             <div className="gameControl__card-section">
@@ -325,7 +334,8 @@ const mapDispatchToProps = dispatch => {
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
     onForceEndGame: () => dispatch( forceEndGame() ),
-    onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) )
+    onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) ),
+    onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) )
   }
 }
 
