@@ -41,10 +41,11 @@ export const loadCurrentGame = () => {
 
     axios.post( '/games/get', {} )
       .then( response => {
-  
-        if ( response.status === 200 ) {
-          const game = getNextGame( response.data.result.items )
-          
+        
+        if ( response.status === 200 ) {  
+          //const game = getNextGame( response.data.result.items )
+          const game = response.data.result.items[0]
+
           dispatch( setCurrentGame( game ) )
         } else {
           dispatch( getCurrentGameFail( response.data ) )
