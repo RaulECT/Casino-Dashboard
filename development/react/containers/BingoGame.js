@@ -17,10 +17,6 @@ import './BingoGame.css'
 
 class BingoGame extends Component {
 
-  constructor( props ) {
-    super( props )
-  }
-
   componentDidMount() {
 
     //TODO: REPLACE WITH SOCKETIO
@@ -174,6 +170,7 @@ class BingoGame extends Component {
 
       <RecentCardsSection 
         cards={ this.props.gameHistory }
+        gameType={ this.props.linePattern }
       />
     </Background>
     )
