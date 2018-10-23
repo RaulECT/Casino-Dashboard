@@ -231,6 +231,7 @@ class CreateGame extends Component {
               disabled={this.props.loading}
             >
               <Option value="LINEA">LINEA</Option>
+              <Option value="DOBLE LINEA">DOBLE LINEA</Option>
             </Select>
           )}
         </FormItem>

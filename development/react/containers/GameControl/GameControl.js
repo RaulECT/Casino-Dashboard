@@ -153,11 +153,10 @@ class GameControl extends Component {
             {getFieldDecorator('playerCardboard', {
               rules: [{ 
                 required: true, 
-                message: 'Este campo no puede estar vacio!', }],
+                message: 'Este campo no puede estar vacio! y debe estar compuesto por 6 numeros', }],
             })(
               <InputNumber
                 style={ { width: '100%' } }
-                min={0}
                 size="large"
                 placeholder="Ingrese el carton del jugador"
                 autoFocus
@@ -255,7 +254,7 @@ class GameControl extends Component {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
         if ( this.props.turn >= 4 ) {
  
-          this.props.onValidateFolio( folio, [...this.props.gameHistory], () => { this.anounceWinner( folio ) } )
+          this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, () => { this.anounceWinner( folio ) } )
     
         } else {
           this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
@@ -271,8 +270,10 @@ class GameControl extends Component {
   }
 
   validateSearchValue = ( searchValue ) => {
-    console.log(searchValue)
+  
     if ( searchValue.length === 6 ) {
+      searchValue = parseInt( searchValue )
+      console.log(searchValue)
       if ( typeof searchValue === "number" ) {
         this.validateFolio( searchValue )
       } else {
@@ -324,7 +325,7 @@ const mapDispatchToProps = dispatch => {
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
     onForceEndGame: () => dispatch( forceEndGame() ),
-    onValidateFolio: ( folio, hist, callback ) => dispatch( validateFolio(folio, hist, callback) )
+    onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) )
   }
 }
 

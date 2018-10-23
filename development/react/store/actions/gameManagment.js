@@ -3,6 +3,7 @@ import { socket } from '../../../socket'
 import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
 import axios from '../../../axios-bingo'
+import { validateCardboard } from './cardboardValidator'
 
 /**
  * MARK: - Variables
@@ -165,7 +166,7 @@ export const forceEndGame = () => {
   }
 }
 
-export const validateFolio = ( folio, hist, callback ) => {
+export const validateFolio = ( folio, hist, gameType, callback ) => {
   console.log(hist)
   return dispatch => {
     dispatch( startValidateFolio() )
@@ -176,7 +177,11 @@ export const validateFolio = ( folio, hist, callback ) => {
       .then( response => {
         console.log( response )
         if ( response.status === 200 ) {
-          const isWinner = verifyWinner( response.data.result.items[0].card, hist )
+          //const isWinner = verifyWinner( response.data.result.items[0].card, hist )
+          //const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
+          const t = 'DOBLE LINEA'
+          console.log(t)
+          const isWinner = validateCardboard( response.data.result.items[0].card, t, hist )
           dispatch( validateFolioSuccess() )
 
           if ( isWinner ) {
@@ -229,68 +234,68 @@ const openNotification = ( type, title, description ) => {
  * -----------------------------------------------------------------------------------------------------
  */
 
-const verifyWinner = ( cardboard, hist ) => {
-	if( isWinnerPerRow( cardboard, hist ) ) {
-    console.log( 'Gano por linea!' )
-    return true
-  } else if( isWinnerPerCol( cardboard, hist ) ) {
-    console.log('Gano por columna')
-    return true
-  } else if( isWinnerPerDiag( cardboard, hist ) ) {
-    console.log( 'Gano por diagonal' )
-    return true
-  } else {
-    console.log( 'No gano' )
-    return false
-  }
+// const verifyWinner = ( cardboard, hist ) => {
+// 	if( isWinnerPerRow( cardboard, hist ) ) {
+//     console.log( 'Gano por linea!' )
+//     return true
+//   } else if( isWinnerPerCol( cardboard, hist ) ) {
+//     console.log('Gano por columna')
+//     return true
+//   } else if( isWinnerPerDiag( cardboard, hist ) ) {
+//     console.log( 'Gano por diagonal' )
+//     return true
+//   } else {
+//     console.log( 'No gano' )
+//     return false
+//   }
 
-  return false
-}
+//   return false
+// }
 
-const isWinnerPerRow = ( cardboard, hist ) => {
-	let currentRow = []
+// const isWinnerPerRow = ( cardboard, hist ) => {
+// 	let currentRow = []
   
-  for( let index = 0; index < cardsByRow; index++ ) {
-  	currentRow = cardboard[index]
+//   for( let index = 0; index < cardsByRow; index++ ) {
+//   	currentRow = cardboard[index]
     
-    if( ( hist.indexOf( currentRow[0] ) !== -1 ) &&
-    		( hist.indexOf( currentRow[1] ) !== -1 ) &&
-        ( hist.indexOf( currentRow[2] ) !== -1 ) &&
-        ( hist.indexOf( currentRow[3] ) !== -1 ) ) {
-    	return true
-    }
-  }
+//     if( ( hist.indexOf( currentRow[0] ) !== -1 ) &&
+//     		( hist.indexOf( currentRow[1] ) !== -1 ) &&
+//         ( hist.indexOf( currentRow[2] ) !== -1 ) &&
+//         ( hist.indexOf( currentRow[3] ) !== -1 ) ) {
+//     	return true
+//     }
+//   }
   
-  return false
-}
+//   return false
+// }
 
-const isWinnerPerCol = ( cardboard, hist ) => {
-	let currentCol = []
+// const isWinnerPerCol = ( cardboard, hist ) => {
+// 	let currentCol = []
   
-  for( let index = 0; index < cardsByRow; index++ ) {
-  	if( ( hist.indexOf( cardboard[0][index] ) !== -1 ) &&
-    		( hist.indexOf( cardboard[1][index] ) !== -1 ) &&
-        ( hist.indexOf( cardboard[2][index] ) !== -1 ) &&
-        ( hist.indexOf( cardboard[3][index] ) !== -1 ) ) {
-    	return true
-    }
-  }
+//   for( let index = 0; index < cardsByRow; index++ ) {
+//   	if( ( hist.indexOf( cardboard[0][index] ) !== -1 ) &&
+//     		( hist.indexOf( cardboard[1][index] ) !== -1 ) &&
+//         ( hist.indexOf( cardboard[2][index] ) !== -1 ) &&
+//         ( hist.indexOf( cardboard[3][index] ) !== -1 ) ) {
+//     	return true
+//     }
+//   }
   
-  return false
-}
+//   return false
+// }
 
-const isWinnerPerDiag = ( cardboard, hist ) => {
-	if( ( hist.indexOf( cardboard[0][0] ) !== -1 ) &&
-  		( hist.indexOf( cardboard[1][1] ) !== -1 ) &&
-      ( hist.indexOf( cardboard[2][2] ) !== -1 ) &&
-      ( hist.indexOf( cardboard[3][3] ) !== -1 ) ) {
-  	return true
-  } else if( ( hist.indexOf( cardboard[0][3] ) !== -1 ) &&
-  		( hist.indexOf( cardboard[1][2] ) !== -1 ) &&
-      ( hist.indexOf( cardboard[2][1] ) !== -1 ) &&
-      ( hist.indexOf( cardboard[3][0] ) !== -1 ) ) {
-  	return true
-  }
+// const isWinnerPerDiag = ( cardboard, hist ) => {
+// 	if( ( hist.indexOf( cardboard[0][0] ) !== -1 ) &&
+//   		( hist.indexOf( cardboard[1][1] ) !== -1 ) &&
+//       ( hist.indexOf( cardboard[2][2] ) !== -1 ) &&
+//       ( hist.indexOf( cardboard[3][3] ) !== -1 ) ) {
+//   	return true
+//   } else if( ( hist.indexOf( cardboard[0][3] ) !== -1 ) &&
+//   		( hist.indexOf( cardboard[1][2] ) !== -1 ) &&
+//       ( hist.indexOf( cardboard[2][1] ) !== -1 ) &&
+//       ( hist.indexOf( cardboard[3][0] ) !== -1 ) ) {
+//   	return true
+//   }
   
-  return false
-}
+//   return false
+// }
