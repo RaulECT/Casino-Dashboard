@@ -12,8 +12,8 @@ import {
   addCardboard,
   forceEndGame,
   validateFolio,
-  setGameHistory
-
+  setGameHistory,
+  setGame
 } from '../../store/actions/index'
 
 import './GameControl.css'
@@ -45,8 +45,9 @@ class GameControl extends Component {
     socket.on( 'DASHBOARD_CONECTED', data => {
       console.log(data)
       this.props.onSetGameHistory( data.gameHistory )
-      this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
+      //this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
       this.props.onDrawCard( data.currentCard, data.cardList, data.gameHistory )
+      this.props.onSetGame( data.cardboards, data.currentGame )
     } )
 
     this.props.onLoadGame()
@@ -335,7 +336,8 @@ const mapDispatchToProps = dispatch => {
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
     onForceEndGame: () => dispatch( forceEndGame() ),
     onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) ),
-    onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) )
+    onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
+    onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) )
   }
 }
 

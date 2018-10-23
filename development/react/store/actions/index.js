@@ -4,7 +4,8 @@ export {
   addCardboard,
   setCurrentGame,
   setGameHistory,
-  resetGame
+  resetGame,
+  setGame
 } from './bingoGame'
 
 export {

@@ -228,12 +228,6 @@ const openNotification = ( type, title, description ) => {
   })
 }
 
-const setCurrentGame = ( data ) => {
-  return {
-    
-  }
-}
-
 /**
  * ----------------------------------------------------------------------------------------------------
  * MARK: - CARDBOARD VALIDATIONS

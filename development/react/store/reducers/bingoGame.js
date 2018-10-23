@@ -14,7 +14,7 @@ const initialState = {
 }
 
 const reducer = ( state = initialState, action )=> {
-  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME, ADD_CARDBOARD, SET_GAME_HISTORY } = actionsTypes
+  const { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME, ADD_CARDBOARD, SET_GAME_HISTORY, SET_GAME } = actionsTypes
 
   switch ( action.type ) {
     case CHANGE_CARD:
@@ -68,6 +68,13 @@ const reducer = ( state = initialState, action )=> {
       return {
         ...state,
         history: action.gameHistory
+      }
+
+    case SET_GAME:
+      return {
+        ...state,
+        cardboardList: action.cardboardList,
+        currentGame: action.game
       }
 
     default:
