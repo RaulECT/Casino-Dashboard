@@ -78,9 +78,9 @@ export const anounceWinner = ( gameId, cards, winner ) => {
     
         if ( response.status === 200 ) {
           socket.emit( 'USER_WON_RQ' )
-          dispatch( endGame() )
-          dispatch( resetGame() )  
-          openNotification( 'success', 'Alguien ha ganado!', `El carton que ingresó ha ganado esta partida de loteria.` )
+          // dispatch( endGame() )
+          // dispatch( resetGame() )  
+          // openNotification( 'success', 'Alguien ha ganado!', `El carton que ingresó ha ganado esta partida de loteria.` )
 
         } else {
           openNotification( 'error', 'Upss, no se ha podido terminar la partida', `Ha ocurrido un error mientras se terminaba la partida. Error:${response.data}` )
@@ -179,9 +179,9 @@ export const validateFolio = ( folio, hist, gameType, callback ) => {
         if ( response.status === 200 ) {
           //const isWinner = verifyWinner( response.data.result.items[0].card, hist )
           //const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
-          const t = 'DOBLE LINEA'
-          console.log(t)
-          const isWinner = validateCardboard( response.data.result.items[0].card, t, hist )
+          // const t = 'DOBLE LINEA'
+          // console.log(t)
+          const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
           dispatch( validateFolioSuccess() )
 
           if ( isWinner ) {

@@ -14,7 +14,8 @@ import {
   validateFolio,
   setGameHistory,
   setGame,
-  generateConectionId
+  generateConectionId,
+  resetGame
 } from '../../store/actions/index'
 
 import './GameControl.css'
@@ -53,11 +54,17 @@ class GameControl extends Component {
       this.props.onSetGame( data.cardboards, data.currentGame )
     } )
 
-    // socket.on( 'DRAW_CARD', (turn) => {
-    //   //this.onChangeCard( turn.turn.card, turn.turn.cardList )
-    //   turn.turn.conectionId !== this.props.conectionId ? 
-    //     this.props.onDrawCard( turn.turn.card, turn.turn.cardList, this.props.gameHistory ) : null
-    // } )
+    socket.on( 'DRAW_CARD', (turn) => {
+      //this.onChangeCard( turn.turn.card, turn.turn.cardList )
+      turn.turn.conectionId !== this.props.conectionId ? 
+        this.props.onChangeCard( turn.turn.card, turn.turn.cardList ) : null
+    } )
+
+    socket.on( 'USER_WON', () => { 
+      this.props.onEndGame()
+      this.props.onResetGame()
+      this.openNotification( 'success', 'Alguien ha ganado!', `El carton que ingresó ha ganado esta partida de loteria.` )
+    } )
 
     this.props.onLoadGame()
   }
@@ -348,7 +355,8 @@ const mapDispatchToProps = dispatch => {
     onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
     onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) ),
-    onGenerateConectionId: () => dispatch( generateConectionId() )
+    onGenerateConectionId: () => dispatch( generateConectionId() ),
+    onResetGame: () => dispatch( resetGame() ),
   }
 }
 
