@@ -6,9 +6,29 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
     
     if ( isWinnerRow ) {
       console.log( isWinnerRow, cardboardFormatted[i] )
+      let winnerPattern = ''
+
+      switch ( cardboardFormatted.length ) {
+        case 4:
+          winnerPattern = 'SINGLE_LINE'
+          break;
+
+        case 7:
+          winnerPattern = 'DOUBLE_LINE'
+          break
+      
+        default:
+          winnerPattern = 'SINLGE_LINE'
+          break;
+      }
+      const winnerInfo = { isWinner: true, pattern: winnerPattern, winnerRow: cardboardFormatted[i] }
+      console.log( winnerInfo )
       return true
     }
   }
+  const winnerInfo = { isWinner: false }
+  console.log(winnerInfo)
+  return false
 }
 
 const formatCardboard = ( cardboard, gameType ) => {
@@ -16,14 +36,16 @@ const formatCardboard = ( cardboard, gameType ) => {
   
   switch( gameType ) {
   	case 'LINEA':
-			return formatLinealCrdboard( cardboard )	
+      //return formatLinealCrdboard( cardboard )	
+      return formatDoubleLineal()
     	break
       
     case 'DOBLE LINEA':
     	return formatDoubleLineal()
   
   	default:
-			return formatLinealCrdboard( cardboard )	
+			//return formatLinealCrdboard( cardboard )	
+			return formatDoubleLineal()	
     	break
   }
   
@@ -45,16 +67,16 @@ const formatLinealCrdboard = ( cardboard ) => {
 
 const formatDoubleLineal = () => {
 	return [
-      // [ 0, 1, 2, 3],
-      // [ 4, 5, 6, 7 ],
-      // [ 8, 9, 10, 11 ],
-      // [ 12, 13, 14, 15 ],
-      // [ 0, 4, 8, 12 ],
-      // [ 1, 5, 9, 13 ],
-      // [ 2, 6, 10, 14 ],
-      // [ 3, 7, 11, 15 ],
-      // [ 0, 5, 10, 15 ],
-      // [ 3, 6, 9, 12 ],
+      [ 0, 1, 2, 3],
+      [ 4, 5, 6, 7 ],
+      [ 8, 9, 10, 11 ],
+      [ 12, 13, 14, 15 ],
+      [ 0, 4, 8, 12 ],
+      [ 1, 5, 9, 13 ],
+      [ 2, 6, 10, 14 ],
+      [ 3, 7, 11, 15 ],
+      [ 0, 5, 10, 15 ],
+      [ 3, 6, 9, 12 ],
       [ 0, 1, 2, 3, 4, 8, 12 ],
       [ 0, 1, 2, 3, 5, 9, 13 ],
       [ 0, 1, 2, 3, 6, 10, 14 ],
