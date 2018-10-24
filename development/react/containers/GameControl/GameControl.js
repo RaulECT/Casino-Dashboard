@@ -53,11 +53,11 @@ class GameControl extends Component {
       this.props.onSetGame( data.cardboards, data.currentGame )
     } )
 
-    socket.on( 'DRAW_CARD', (turn) => {
-      //this.onChangeCard( turn.turn.card, turn.turn.cardList )
-      turn.turn.conectionId !== this.props.conectionId ? 
-        this.props.onDrawCard( turn.turn.card, turn.turn.cardList, this.props.gameHistory ) : null
-    } )
+    // socket.on( 'DRAW_CARD', (turn) => {
+    //   //this.onChangeCard( turn.turn.card, turn.turn.cardList )
+    //   turn.turn.conectionId !== this.props.conectionId ? 
+    //     this.props.onDrawCard( turn.turn.card, turn.turn.cardList, this.props.gameHistory ) : null
+    // } )
 
     this.props.onLoadGame()
   }
