@@ -181,11 +181,24 @@ export const validateFolio = ( folio, hist, gameType, callback ) => {
           //const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
           // const t = 'DOBLE LINEA'
           // console.log(t)
-          const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
+          const carboardInfo = validateCardboard( response.data.result.items[0].card, gameType, hist )
           dispatch( validateFolioSuccess() )
 
-          if ( isWinner ) {
-            callback()
+          if ( carboardInfo.isWinner ) {
+            switch ( carboardInfo.winnerPattern ) {
+              case 'SINGLE_LINE':
+                //TODO: IMPLEMENT single_line function
+                openNotification( 'Success', 'Carton ganador por linea simple', 'El folio que ha ingresad ha llenado una  linea simple' )
+                break;
+
+              case 'DOUBLE_LINE':
+                callback()
+                break;
+            
+              default:
+                break;
+            }
+
           } else {
             openNotification( 'warning', 'Carton no ganador', 'El folio que ha ingresado no ganado la partida de bingo' )
           }

@@ -23,12 +23,14 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
       }
       const winnerInfo = { isWinner: true, pattern: winnerPattern, winnerRow: cardboardFormatted[i] }
       console.log( winnerInfo )
-      return true
+      return winnerInfo
+      //return true
     }
   }
   const winnerInfo = { isWinner: false }
   console.log(winnerInfo)
-  return false
+  return winnerInfo
+  //return false
 }
 
 const formatCardboard = ( cardboard, gameType ) => {

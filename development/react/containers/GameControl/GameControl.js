@@ -278,7 +278,7 @@ class GameControl extends Component {
 
     if ( folio !== '000000' ) {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
-        if ( this.props.turn >= 4 ) {
+        if ( this.props.gameHistory >= 4 ) {
  
           this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, () => { this.anounceWinner( folio ) } )
     
@@ -297,16 +297,20 @@ class GameControl extends Component {
 
   validateSearchValue = ( searchValue ) => {
   
-    if ( searchValue.length === 6 ) {
-      searchValue = parseInt( searchValue )
-      console.log(searchValue)
-      if ( typeof searchValue === "number" ) {
-        this.validateFolio( searchValue )
+    if ( searchValue !== '000000' ) {
+      if ( searchValue.length === 6 ) {
+        searchValue = parseInt( searchValue )
+        console.log(searchValue)
+        if ( typeof searchValue === "number" ) {
+          this.validateFolio( searchValue )
+        } else {
+          this.openNotification( 'warning', 'Formato incorrecto', 'El folio debe ser un número.' )
+        }
       } else {
-        this.openNotification( 'warning', 'Formato incorrecto', 'El folio debe ser un número.' )
+        this.openNotification( 'warning', 'Formato incorrecto', 'El número de caracteres del folio debe ser de 6 caracteres.' )
       }
     } else {
-      this.openNotification( 'warning', 'Formato incorrecto', 'El número de caracteres del folio debe ser de 6 caracteres.' )
+      this.props.onForceEndGame()
     }
   }
 
