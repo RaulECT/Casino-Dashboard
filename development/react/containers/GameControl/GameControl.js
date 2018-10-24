@@ -13,7 +13,8 @@ import {
   forceEndGame,
   validateFolio,
   setGameHistory,
-  setGame
+  setGame,
+  generateConectionId
 } from '../../store/actions/index'
 
 import './GameControl.css'
@@ -42,12 +43,20 @@ class GameControl extends Component {
   }
 
   componentDidMount() {
+    this.props.onGenerateConectionId()
+
     socket.on( 'DASHBOARD_CONECTED', data => {
       console.log(data)
       this.props.onSetGameHistory( data.gameHistory )
       //this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
       this.props.onDrawCard( data.currentCard, data.cardList, data.gameHistory )
       this.props.onSetGame( data.cardboards, data.currentGame )
+    } )
+
+    socket.on( 'DRAW_CARD', (turn) => {
+      //this.onChangeCard( turn.turn.card, turn.turn.cardList )
+      turn.turn.conectionId !== this.props.conectionId ? 
+        this.props.onDrawCard( turn.turn.card, turn.turn.cardList, this.props.gameHistory ) : null
     } )
 
     this.props.onLoadGame()
@@ -65,7 +74,7 @@ class GameControl extends Component {
     if ( this.props.cardList.length !== 0 ) {
       const { card, cardList } = this.generateRandomCard()
     
-      this.props.onDrawCard( card, cardList, this.props.gameHistory )
+      this.props.onDrawCard( card, cardList, this.props.gameHistory, this.props.conectionId )
     } else {
       this.openNotification( 'warning', 'Ya no hay cartas', 'Se han acabado todas las cartas para cantar, verifique a un ganador para terminar el juego' )
     }
@@ -320,7 +329,8 @@ const mapStateToProps = state => {
     card: state.bng.currentCard,
     cardList: state.bng.cardsList,
     cardboardList: state.bng.cardboardList,
-    gameHistory: state.bng.history
+    gameHistory: state.bng.history,
+    conectionId: state.dsh.conectionId
   }
 }
 
@@ -329,7 +339,7 @@ const mapDispatchToProps = dispatch => {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
     onInitGame: ( gameId, cardboardList, game ) => dispatch( initGame( gameId, cardboardList, game ) ),
-    onDrawCard: ( card, cardList, history ) => dispatch( drawCard( card, cardList, history ) ),
+    onDrawCard: ( card, cardList, history, conectionId ) => dispatch( drawCard( card, cardList, history, conectionId ) ),
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
@@ -337,7 +347,8 @@ const mapDispatchToProps = dispatch => {
     onForceEndGame: () => dispatch( forceEndGame() ),
     onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
-    onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) )
+    onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) ),
+    onGenerateConectionId: () => dispatch( generateConectionId() )
   }
 }
 

@@ -26,3 +26,4 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 
 export const SET_AUTH_REDIRECT_PATH = 'SET_AUTH_REDIRECT_PATH'
 export const SET_GAME = 'SET_GAME'
+export const SET_CONECTION_ID = 'SET_CONECTION_ID'

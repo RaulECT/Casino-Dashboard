@@ -4,7 +4,8 @@ const initialState = {
   isGameStart: false,
   turn: 0,
   error: null,
-  loading: false
+  loading: false,
+  conectionId: null
 }
 
 const reducer = ( state = initialState, action ) => {
@@ -18,6 +19,7 @@ const reducer = ( state = initialState, action ) => {
     VALIDATE_FOLIO_START,
     VALIDATE_FOLIO_SUCCESS,
     VALIDATE_FOLIO_FAIL,
+    SET_CONECTION_ID
   } = actionsTypes
 
   switch ( action.type ) {
@@ -83,6 +85,12 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         loading: false,
         error: action.error
+      }
+
+    case SET_CONECTION_ID:
+      return {
+        ...state,
+        conectionId: action.conectionId
       }
 
     default:

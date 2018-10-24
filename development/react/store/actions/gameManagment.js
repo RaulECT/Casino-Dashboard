@@ -1,4 +1,4 @@
-import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL } from './actions'
+import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID } from './actions'
 import { socket } from '../../../socket'
 import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
@@ -51,9 +51,9 @@ export const endGame = () => {
   }
 }
 
-export const drawCard = ( card, cardList, history ) => {
+export const drawCard = ( card, cardList, history, conectionId ) => {
   return ( dispatch ) => {
-    socket.emit( 'DRAW_CARD_RQ', { card: card, cardList:cardList, gameHistory: history } )
+    socket.emit( 'DRAW_CARD_RQ', { card: card, cardList:cardList, gameHistory: history, conectionId: conectionId } )
     dispatch( incrementTurn() )
     dispatch( changeCard(card, cardList) )
   }
@@ -218,6 +218,20 @@ export const validateFolioFail = ( error ) => {
   return {
     type: VALIDATE_FOLIO_FAIL,
     error: error
+  }
+}
+
+export const setConectionId = ( conectionId ) => {
+  return {
+    type: SET_CONECTION_ID,
+    conectionId: conectionId
+  }
+}
+
+export const generateConectionId = () => {
+  return dispatch => {
+    const conection = Math.floor((Math.random() * 1000) + 1)
+    dispatch( setConectionId( conection ) )
   }
 }
 

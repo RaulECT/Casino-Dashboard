@@ -19,7 +19,8 @@ export {
   startGameSuccess,
   startGameFail,
   forceEndGame,
-  validateFolio
+  validateFolio,
+  generateConectionId
 } from './gameManagment'
 
 export {
