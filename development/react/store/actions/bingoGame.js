@@ -83,10 +83,35 @@ const getNextGame = ( games ) => {
   return game
 }
 
-export const addCardboard = ( cardboard ) => {
+export const addCardboardToGame = ( cardboard ) => {
   return {
     type: ADD_CARDBOARD,
     cardboard: cardboard
+  }
+}
+
+export const addCardboard = ( cardboard ) => {
+  return dispatch => {
+    axios.post( '/cardboards/get', {
+      numcode: parseInt( cardboard )
+    } )
+    .then( response => {
+      console.log( response )
+      if ( response.status === 200 ) {
+        if ( response.data.result.totalFound !== 0 ) {
+          dispatch( addCardboardToGame( cardboard ) )  
+        } else {
+          openNotification( 'warning', 'No se ha podido agregar el carton', 'Verifique que el carton que acaba de ingresar este registrado' )
+        }
+        
+      } else {
+        openNotification( 'warning', 'No se ha podido agregar el carton', 'Verifique que el carton que acaba de ingresar este registrado' )
+      }
+    } )
+    .catch( err => {
+      console.log( err )
+      openNotification( 'error', 'Ha ocurrido un error agregando el carton', 'No se ha podido agregar el carton, por favor vuelva a intentar.' )
+    } )
   }
 }
 

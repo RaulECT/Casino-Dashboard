@@ -180,6 +180,7 @@ class GameControl extends Component {
               rules: [{ 
                 required: true, 
                 message: 'Este campo no puede estar vacio! y debe estar compuesto por 6 numeros', }],
+                len: 6
             })(
               <InputNumber
                 style={ { width: '100%' } }
