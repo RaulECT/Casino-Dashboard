@@ -55,7 +55,7 @@ class GlobalHeader extends Component {
           <Modal
             title="Cerrar Sesión"
             visible={this.state.isLogOutModalShowing}
-            onOk={this.props.onLogout}
+            onOk={() => this.props.onLogout( this.props.history.push ) }
             onCancel={this.showLogOutModal}
           >
             <p>¿Deseas cerrar sesión?</p>
@@ -68,7 +68,7 @@ class GlobalHeader extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogout: () => dispatch( logout() )
+    onLogout: ( push ) => dispatch( logout( push ) )
   }
 }
 

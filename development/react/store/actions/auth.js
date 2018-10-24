@@ -1,5 +1,7 @@
 import { AUTH_FAIL, AUTH_START, AUTH_LOGOUT, AUTH_SUCCESS, SET_AUTH_REDIRECT_PATH } from './actions'
 import axios from '../../../axios-bingo'
+import React from 'react'
+import {Redirect} from 'react-router-dom'
 
 export const authsStart = () => {
   return {
@@ -22,13 +24,20 @@ export const authFail = ( error ) => {
   }
 }
 
-export const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
+export const logout = ( push ) => {
 
-  return {
-    type: AUTH_LOGOUT
+  return dispatch => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    //return <Redirect to="/login" />
+    push( '/' )
+    location.reload()
+    // return {
+    //   type: AUTH_LOGOUT
+    // }
   }
+
 }
 
 export const auth = ( email, password ) => {
@@ -73,7 +82,7 @@ export const authCheckState = () => {
     const user = localStorage.getItem('user')
 
     if ( !token && !user ) {
-      dispatch( logout() )
+      //dispatch( logout() )
     } else {
       dispatch( authSuccess( token, user ) )
     }
