@@ -185,10 +185,9 @@ export const validateFolio = ( folio, hist, gameType, callback ) => {
           dispatch( validateFolioSuccess() )
 
           if ( carboardInfo.isWinner ) {
-            switch ( carboardInfo.winnerPattern ) {
-              case 'SINGLE_LINE':
-                //TODO: IMPLEMENT single_line function
-                openNotification( 'Success', 'Carton ganador por linea simple', 'El folio que ha ingresad ha llenado una  linea simple' )
+            switch ( carboardInfo.pattern ) {
+              case 'SINLGE_LINE':
+                anounceSingleLineWinner( response.data.result.items[0].card )
                 break;
 
               case 'DOUBLE_LINE':
@@ -213,6 +212,11 @@ export const validateFolio = ( folio, hist, gameType, callback ) => {
         dispatch( validateFolioFail( err ) )
       } )
   }
+}
+
+export const anounceSingleLineWinner = ( cardboard ) => {
+  openNotification( 'success', 'Carton ganador por linea simple', 'El folio que ha ingresad ha llenado una  linea simple' )
+
 }
 
 export const startValidateFolio = () => {

@@ -8,7 +8,7 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
       console.log( isWinnerRow, cardboardFormatted[i] )
       let winnerPattern = ''
 
-      switch ( cardboardFormatted.length ) {
+      switch ( cardboardFormatted[i].length ) {
         case 4:
           winnerPattern = 'SINGLE_LINE'
           break;
@@ -69,16 +69,6 @@ const formatLinealCrdboard = ( cardboard ) => {
 
 const formatDoubleLineal = () => {
 	return [
-      [ 0, 1, 2, 3],
-      [ 4, 5, 6, 7 ],
-      [ 8, 9, 10, 11 ],
-      [ 12, 13, 14, 15 ],
-      [ 0, 4, 8, 12 ],
-      [ 1, 5, 9, 13 ],
-      [ 2, 6, 10, 14 ],
-      [ 3, 7, 11, 15 ],
-      [ 0, 5, 10, 15 ],
-      [ 3, 6, 9, 12 ],
       [ 0, 1, 2, 3, 4, 8, 12 ],
       [ 0, 1, 2, 3, 5, 9, 13 ],
       [ 0, 1, 2, 3, 6, 10, 14 ],
@@ -106,7 +96,17 @@ const formatDoubleLineal = () => {
       [ 0, 1, 2, 3, 8, 9, 10, 11 ],
       [ 0, 1, 2, 3, 12, 13, 14, 15 ],
       [ 4, 5, 6, 7, 8, 9 , 10, 11 ],
-      [ 4, 5, 6, 7, 12, 13, 14, 15 ]
+      [ 4, 5, 6, 7, 12, 13, 14, 15 ],
+      [ 0, 1, 2, 3],
+      [ 4, 5, 6, 7 ],
+      [ 8, 9, 10, 11 ],
+      [ 12, 13, 14, 15 ],
+      [ 0, 4, 8, 12 ],
+      [ 1, 5, 9, 13 ],
+      [ 2, 6, 10, 14 ],
+      [ 3, 7, 11, 15 ],
+      [ 0, 5, 10, 15 ],
+      [ 3, 6, 9, 12 ],
     ]
 }
 
