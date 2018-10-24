@@ -46,7 +46,7 @@ export const loadCurrentGame = () => {
         if ( response.status === 200 ) {  
           //const game = getNextGame( response.data.result.items )
           let game = response.data.result.items[0]
-
+          console.log(game)
           if (game.endedOn){ game = null }
 
           dispatch( setCurrentGame( game ) )

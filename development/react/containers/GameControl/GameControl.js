@@ -291,7 +291,7 @@ class GameControl extends Component {
       }
 
     } else {
-      this.props.onForceEndGame()
+      this.props.onForceEndGame( this.props.game.id )
     }
 
   }
@@ -311,7 +311,7 @@ class GameControl extends Component {
         this.openNotification( 'warning', 'Formato incorrecto', 'El número de caracteres del folio debe ser de 6 caracteres.' )
       }
     } else {
-      this.props.onForceEndGame()
+      this.props.onForceEndGame( this.props.game.id )
     }
   }
 
@@ -356,7 +356,7 @@ const mapDispatchToProps = dispatch => {
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
-    onForceEndGame: () => dispatch( forceEndGame() ),
+    onForceEndGame: ( gameId ) => dispatch( forceEndGame( gameId ) ),
     onValidateFolio: ( folio, hist, gametType, gameId, callback ) => dispatch( validateFolio(folio, hist, gametType, gameId, callback) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
     onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) ),

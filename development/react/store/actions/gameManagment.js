@@ -157,12 +157,28 @@ export const createGame = ( gameInfo, onResetFields ) => {
   }
 }
 
-export const forceEndGame = () => {
+export const forceEndGame = ( gameId ) => {
   return dispatch => {
-    openNotification( 'warning', 'Fin del Juego', 'Se ha forzado el fin del juego.' )
-    dispatch( endGame() )
-    dispatch( resetGame() )  
-    socket.emit( 'FORCE_END_GAME_RQ' )
+
+    axios.post( '/games/end', {
+      id: gameId,
+      cards: [],
+      winnerCardboard: parseInt('000000')
+    } )
+    .then( response => {
+      if ( response.status === 200 ) {
+        openNotification( 'warning', 'Fin del Juego', 'Se ha forzado el fin del juego.' )
+        dispatch( endGame() )
+        dispatch( resetGame() )  
+        socket.emit( 'FORCE_END_GAME_RQ' )
+      } else {
+        openNotification( 'error', 'No se ha podido cerrar el juego', 'Ha ocurrido un error y no se ha podido cerrar el juego, por favor intente de nuevo.' )
+      }
+    } )
+    .catch( err => {
+      console.log( err )
+      openNotification( 'error', 'No se ha podido cerrar el juego', 'Ha ocurrido un error y no se ha podido cerrar el juego, por favor intente de nuevo.' )
+    } )
   }
 }
 
