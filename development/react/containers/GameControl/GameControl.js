@@ -280,7 +280,7 @@ class GameControl extends Component {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
         if ( this.props.gameHistory.length >= 4 ) {
  
-          this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, () => { this.anounceWinner( folio ) } )
+          this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } )
     
         } else {
           this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
@@ -356,7 +356,7 @@ const mapDispatchToProps = dispatch => {
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
     onForceEndGame: () => dispatch( forceEndGame() ),
-    onValidateFolio: ( folio, hist, gametType, callback ) => dispatch( validateFolio(folio, hist, gametType, callback) ),
+    onValidateFolio: ( folio, hist, gametType, gameId, callback ) => dispatch( validateFolio(folio, hist, gametType, gameId, callback) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
     onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) ),
     onGenerateConectionId: () => dispatch( generateConectionId() ),

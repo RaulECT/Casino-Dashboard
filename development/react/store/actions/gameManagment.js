@@ -166,7 +166,7 @@ export const forceEndGame = () => {
   }
 }
 
-export const validateFolio = ( folio, hist, gameType, callback ) => {
+export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
   console.log(hist)
   return dispatch => {
     dispatch( startValidateFolio() )
@@ -186,8 +186,9 @@ export const validateFolio = ( folio, hist, gameType, callback ) => {
 
           if ( carboardInfo.isWinner ) {
             switch ( carboardInfo.pattern ) {
-              case 'SINLGE_LINE':
-                anounceSingleLineWinner( response.data.result.items[0].card )
+              case 'SINGLE_LINE':
+                console.log('holi')
+                anounceSingleLineWinner( response.data.result.items[0].card, gameId )
                 break;
 
               case 'DOUBLE_LINE':
@@ -214,8 +215,31 @@ export const validateFolio = ( folio, hist, gameType, callback ) => {
   }
 }
 
-export const anounceSingleLineWinner = ( cardboard ) => {
-  openNotification( 'success', 'Carton ganador por linea simple', 'El folio que ha ingresad ha llenado una  linea simple' )
+export const anounceSingleLineWinner = ( cardboard, gameId ) => {
+  console.log( cardboard, gameId )
+  axios.post('/games/singleWinner', {
+    singleWinner: parseInt( cardboard ),
+    id: gameId
+  })
+  .then( response => {
+    console.log(response)
+    if (response.status === 200) {
+      if ( response.data.result === 'Game already has singleWinner' ) {
+        openNotification( 'success', 'Carton ganador por linea simple', 'El folio que ha ingresad ha llenado una  linea simple' )
+
+      } else {
+        openNotification( 'warning', 'Ya hay un ganador por linea simple', 'Ya hay un ganador registrador por linea simple.' )
+      }
+    } else {
+      console.log( response.data )
+      validateFolioFail( response.data )
+    }
+  } )
+  .catch( err => {
+    console.log( err )
+    validateFolioFail( err )
+  } )
+
 
 }
 
