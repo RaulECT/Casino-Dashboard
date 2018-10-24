@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { socket } from '../../../socket'
+import { openConnection } from '../../../socket'
 import { 
   startGame, 
   endGame, 
@@ -36,6 +36,7 @@ import {
 
 
 const Search = Input.Search
+let socket = null
 
 class GameControl extends Component {
 
@@ -45,6 +46,7 @@ class GameControl extends Component {
 
   componentDidMount() {
     this.props.onGenerateConectionId()
+    socket = openConnection()
 
     socket.on( 'DASHBOARD_CONECTED', data => {
       console.log(data)
@@ -67,6 +69,10 @@ class GameControl extends Component {
     } )
 
     this.props.onLoadGame()
+  }
+
+  componentWillUnmount() {
+    socket.close()
   }
 
   handleOnInitGame = () => {

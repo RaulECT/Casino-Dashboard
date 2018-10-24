@@ -7,3 +7,7 @@ import openSocket from 'socket.io-client'
 const socketURL = 'http://104.192.4.252:3000' // PRODUCTION
 
 export const socket = openSocket( socketURL )
+
+export const openConnection = () => {
+  return openSocket( socketURL )
+}
