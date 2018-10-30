@@ -28,7 +28,7 @@ class App extends Component {
       routes = [
         <Route key="test_screen" exact path="/Test" component={Test} />,
         <Route key="dashboard_screen" path="/dashboard" component={Dashboard} />,
-        <Route key="main_screen" exact path="/" component={Dashboard} />
+        <Route key="main_screen" exact path="/" component={Dashboard} />,
       ]
     } else {
       routes = [

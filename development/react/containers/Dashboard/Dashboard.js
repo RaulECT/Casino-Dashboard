@@ -23,6 +23,8 @@ import GameControl from '../GameControl/GameControl'
 import './Dashboard.css'
 import Sider from 'antd/lib/layout/Sider';
 import CreateGame from '../CreateGame/CreateGame'
+import CardboardManagment from '../CardboardManagment/CardboardManagment'
+
 
 const SubMenu = Menu.SubMenu
 
@@ -39,7 +41,8 @@ class Dashboard extends Component {
 
     this.titlesDictionary = {
       bingo_submenu_control: 'Control de Partida',
-      bingo_submenu_create: 'Crear Partida'
+      bingo_submenu_create: 'Crear Partida',
+      bingo_menu_cardboards: 'Manejo de cartones'
     }
   }
 
@@ -88,6 +91,13 @@ class Dashboard extends Component {
               <Menu.Item key="bingo_submenu_create"><Link to="/dashboard/create_game">Crear partida</Link></Menu.Item> 
             </SubMenu>
 
+            <Menu.Item key="bingo_menu_cardboards">
+              <Link to="/dashboard/cardboard_managment">
+                <Icon type="barcode" />
+                <span>Cartones</span>
+              </Link>
+            </Menu.Item>
+
           </Menu>
         </Sider>
 
@@ -106,6 +116,7 @@ class Dashboard extends Component {
           <div className="dashboard-content">
             <Route exact path="/dashboard/game_control" component={GameControl} />
             <Route exact path="/dashboard/create_game" component={CreateGame} />
+            <Route exact path="/dashboard/cardboard_managment" component={CardboardManagment} />
             <Route exact path="/" component={GameControl} />
           </div>
         </Layout>
