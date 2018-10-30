@@ -1,0 +1,14 @@
+.cardboardManagment__sub-header {
+  color: rgba(0, 0, 0, .4);
+}
+
+.cardboardManagment__cardboard-num {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.cardboardManagment__options-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem;
+}
