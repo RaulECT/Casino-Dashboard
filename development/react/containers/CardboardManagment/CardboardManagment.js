@@ -1,4 +1,8 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import {
+  createCardboard
+} from '../../store/actions/index'
 
 import {
   Row,
@@ -8,6 +12,7 @@ import {
   Select,
   Button,
   Modal,
+  Spin
 } from 'antd'
 import CardboardCard from '../../components/CardboardCard/CardboardCard'
 
@@ -19,6 +24,10 @@ const confirm = Modal.confirm
 import './CardboardManagment.css'
 
 class CardboardManagment extends Component {
+
+  state = {
+    cardboardType: null
+  }
 
   showConfirm = ( title, content, onOk ) => {
     confirm( {
@@ -33,7 +42,17 @@ class CardboardManagment extends Component {
     } )
   }
 
+  handleOnCardboardTypeChange = e => {
+    this.setState( { cardboardType: e } )
+  }
+
+  handleOnCreateCardboard = () => {
+    this.showConfirm( 'Crear nuevo carton', '¿Desea crear un nuevo cartón?', () => { this.props.onCreateCardboard( this.state.cardboardType ) } )
+  }
+
   render() {
+    const isCardboardTypeSelected = this.state.cardboardType ? false : true
+
     return(
       <div>
         <h3 className="cardboardManagment__sub-header">Existen <span className="cardboardManagment__cardboard-num">XX</span> cartones registrados en la base de datos.</h3>
@@ -45,49 +64,56 @@ class CardboardManagment extends Component {
           <Col
             span={12}  
           >
-            <FormItem
-              label="Búsqueda de cartones:"
-            >
-              <Search 
-                placeholder="Ingrese el número del carton que desee buscar..."
-                enterButton
-                onSearch={ value => console.log(value) }
-                size="large"
-              />
-            </FormItem>
-
-            <FormItem
-              label="Crear nuevo carton:"
-            >
-              <Select 
-                size="large" 
-                style={ { width: '65%', marginRight: '1rem' } }
-                placeholder="Tipo de carton"
+            <Spin spinning={this.props.loading}>
+              <FormItem
+                label="Búsqueda de cartones:"
               >
-                <Option value="SINGLE">Carton Simple</Option>
-              </Select>
-              <Button
-                size="large"
-                type="primary"
-                icon="plus"
-                onClick={ () => { this.showConfirm( '¿Desea crear este cartón?', '¿Esta seguro que quiere crear este cartón?', () => { console.log('holiii') } ) } }
-              >
-                Crear carton
-              </Button>
-            </FormItem>
+                <Search 
+                  placeholder="Ingrese el número del carton que desee buscar..."
+                  enterButton
+                  onSearch={ value => console.log(value) }
+                  size="large"
+                />
+              </FormItem>
 
-            <div className="cardboardManagment__options-group">
-              <Button size="large" ghost type="primary" icon="picture">Ver todos los cartones</Button>
-              <Button size="large" ghost type="primary" icon="download">Descargar todos los cartones</Button>
-            </div>
+              <FormItem
+                label="Crear nuevo carton:"
+              >
+                <Select 
+                  size="large" 
+                  style={ { width: '65%', marginRight: '1rem' } }
+                  placeholder="Tipo de carton"
+                  onChange={this.handleOnCardboardTypeChange}
+                >
+                  <Option value="SINGLE">Carton Simple</Option>
+                </Select>
+                <Button
+                  size="large"
+                  type="primary"
+                  icon="plus"
+                  onClick={ this.handleOnCreateCardboard }
+                  disabled={isCardboardTypeSelected}
+                >
+                  Crear carton
+                </Button>
+              </FormItem>
+
+              <div className="cardboardManagment__options-group">
+                <Button size="large" ghost type="primary" icon="picture">Ver todos los cartones</Button>
+                <Button size="large" ghost type="primary" icon="download">Descargar todos los cartones</Button>
+              </div>
+            </Spin>
           </Col>
 
           <Col
             span={12}
           >
-            <CardboardCard 
-              onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { console.log('Holii') } ) } }
-            />
+            <Spin spinning={ this.props.loading }>
+              <CardboardCard 
+                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { console.log('Holii') } ) } }
+              />
+            </Spin>
+            
           </Col>
         </Row>
       </div>
@@ -95,4 +121,16 @@ class CardboardManagment extends Component {
   }
 }
 
-export default CardboardManagment
+const mapStateToProps = state => {
+  return {
+    loading: state.crd.loading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onCreateCardboard: ( cardboardType ) => dispatch( createCardboard( cardboardType ) )
+  }
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )(CardboardManagment)
