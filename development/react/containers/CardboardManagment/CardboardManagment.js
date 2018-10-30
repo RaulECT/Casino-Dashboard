@@ -12,7 +12,8 @@ import {
   Select,
   Button,
   Modal,
-  Spin
+  Spin,
+  notification
 } from 'antd'
 import CardboardCard from '../../components/CardboardCard/CardboardCard'
 
@@ -50,6 +51,25 @@ class CardboardManagment extends Component {
     this.showConfirm( 'Crear nuevo carton', '¿Desea crear un nuevo cartón?', () => { this.props.onCreateCardboard( this.state.cardboardType ) } )
   }
 
+  openNotification = ( type, title, description ) => {
+    notification[type]({
+      message: title,
+      description: description
+    })
+  }
+
+  validateSearchValue = ( searchValue ) => {
+    if ( searchValue.length === 6 ) {
+      if ( typeof searchValue === 'number' ) {
+        
+      } else {
+        this.openNotification( 'warning', 'Folio Incorrecto', 'El folio debe ser un número.' )
+      }
+    } else {
+      this.openNotification( 'warning', 'Folio Incorrecto', 'El folio del cartón debe ser de 6 dígitos.' )
+    }
+  }
+
   render() {
     const isCardboardTypeSelected = this.state.cardboardType ? false : true
 
@@ -71,7 +91,7 @@ class CardboardManagment extends Component {
                 <Search 
                   placeholder="Ingrese el número del carton que desee buscar..."
                   enterButton
-                  onSearch={ value => console.log(value) }
+                  onSearch={ value => this.validateSearchValue( value ) }
                   size="large"
                 />
               </FormItem>

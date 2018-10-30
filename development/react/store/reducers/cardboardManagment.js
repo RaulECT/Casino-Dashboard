@@ -6,7 +6,14 @@ const initialState = {
 }
 
 const reducer = ( state = initialState, action ) => {
-  const { CREATE_CARDBOARD_START, CREATE_CARDBOARD_SUCCESS, CREATE_CARDBOARD_FAIL } = actionsTypes
+  const { 
+    CREATE_CARDBOARD_START, 
+    CREATE_CARDBOARD_SUCCESS, 
+    CREATE_CARDBOARD_FAIL,
+    SEARCH_CARDBOARD_START,
+    SEARCH_CARDBOARD_SUCCESS,
+    SEARCH_CARDBOARD_FAIL 
+  } = actionsTypes
 
   switch ( action.type ) {
     case CREATE_CARDBOARD_START:
@@ -24,6 +31,27 @@ const reducer = ( state = initialState, action ) => {
       }
 
     case CREATE_CARDBOARD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+
+    case SEARCH_CARDBOARD_START:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      }
+
+    case SEARCH_CARDBOARD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null
+      }
+
+    case SEARCH_CARDBOARD_FAIL:
       return {
         ...state,
         loading: false,
