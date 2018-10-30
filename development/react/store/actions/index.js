@@ -32,3 +32,7 @@ export {
   authCheckState,
   logout
 } from './auth'
+
+export {
+  createCardboard
+} from './cardboardManagment'
