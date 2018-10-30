@@ -64,7 +64,7 @@ class CardboardManagment extends Component {
                 style={ { width: '65%', marginRight: '1rem' } }
                 placeholder="Tipo de carton"
               >
-                <Option value="single">Carton Simple</Option>
+                <Option value="SINGLE">Carton Simple</Option>
               </Select>
               <Button
                 size="large"
