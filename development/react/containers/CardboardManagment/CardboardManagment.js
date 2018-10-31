@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {
-  createCardboard
+  createCardboard,
+  searchCardboard
 } from '../../store/actions/index'
 
 import {
@@ -60,8 +61,10 @@ class CardboardManagment extends Component {
 
   validateSearchValue = ( searchValue ) => {
     if ( searchValue.length === 6 ) {
+      searchValue = parseInt( searchValue )
+
       if ( typeof searchValue === 'number' ) {
-        
+        this.props.onSearchCardboard( searchValue )
       } else {
         this.openNotification( 'warning', 'Folio Incorrecto', 'El folio debe ser un número.' )
       }
@@ -149,7 +152,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCreateCardboard: ( cardboardType ) => dispatch( createCardboard( cardboardType ) )
+    onCreateCardboard: ( cardboardType ) => dispatch( createCardboard( cardboardType ) ),
+    onSearchCardboard: ( carboardId ) => dispatch( searchCardboard( carboardId ) )
   }
 }
 

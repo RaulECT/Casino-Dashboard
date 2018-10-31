@@ -34,5 +34,6 @@ export {
 } from './auth'
 
 export {
-  createCardboard
+  createCardboard,
+  searchCardboard
 } from './cardboardManagment'
