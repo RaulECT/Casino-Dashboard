@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {
   createCardboard,
-  searchCardboard
+  searchCardboard,
+  getCardboardsTotal
 } from '../../store/actions/index'
 
 import {
@@ -29,6 +30,10 @@ class CardboardManagment extends Component {
 
   state = {
     cardboardType: null
+  }
+
+  componentDidMount() {
+    this.props.onGetCardboardsTotal()
   }
 
   showConfirm = ( title, content, onOk ) => {
@@ -78,15 +83,10 @@ class CardboardManagment extends Component {
 
     return(
       <div>
-        <h3 className="cardboardManagment__sub-header">Existen <span className="cardboardManagment__cardboard-num">XX</span> cartones registrados en la base de datos.</h3>
+        <h3 className="cardboardManagment__sub-header">Existen <span className="cardboardManagment__cardboard-num">{this.props.cardboardsTotal}</span> cartones registrados en la base de datos.</h3>
       
-        <Row 
-          align="middle"
-          gutter={20}
-        >
-          <Col
-            span={12}  
-          >
+        <Row  align="middle" gutter={20} >
+          <Col span={12} >
             <Spin spinning={this.props.loading}>
               <FormItem
                 label="Búsqueda de cartones:"
@@ -146,14 +146,16 @@ class CardboardManagment extends Component {
 
 const mapStateToProps = state => {
   return {
-    loading: state.crd.loading
+    loading: state.crd.loading,
+    cardboardsTotal: state.crd.cardboardsTotal
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     onCreateCardboard: ( cardboardType ) => dispatch( createCardboard( cardboardType ) ),
-    onSearchCardboard: ( carboardId ) => dispatch( searchCardboard( carboardId ) )
+    onSearchCardboard: ( carboardId ) => dispatch( searchCardboard( carboardId ) ),
+    onGetCardboardsTotal: () => dispatch( getCardboardsTotal() )
   }
 }
 

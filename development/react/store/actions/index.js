@@ -35,5 +35,6 @@ export {
 
 export {
   createCardboard,
-  searchCardboard
+  searchCardboard,
+  getCardboardsTotal
 } from './cardboardManagment'

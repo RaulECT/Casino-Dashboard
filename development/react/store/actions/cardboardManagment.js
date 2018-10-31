@@ -4,10 +4,17 @@ import {
   CREATE_CARDBOARD_FAIL,
   SEARCH_CARDBOARD_START,
   SEARCH_CARDBOARD_SUCCESS,
-  SEARCH_CARDBOARD_FAIL
+  SEARCH_CARDBOARD_FAIL,
+  GET_CARDBOARDS_TOTAL_FAIL,
+  GET_CARDBOARDS_TOTAL_START,
+  GET_CARDBOARDS_TOTAL_SUCCESS
 } from './actions'
 import axios from '../../../axios-bingo'
 import { notification } from 'antd'
+
+/**
+ * MARK: - CREATE CARDBOARDS ACTIONS
+ */
 
 export const createCardboardStart = () => {
   return {
@@ -44,6 +51,7 @@ export const createCardboard = ( cardboardType ) => {
 
       if ( response.status === 200 ) {
         dispatch( createCardboardSuccess() )
+        dispatch( getCardboardsTotal() )
       } else {
         dispatch( createCardboardFail( response.data.error ) )
       }
@@ -54,6 +62,10 @@ export const createCardboard = ( cardboardType ) => {
     } )
   }
 }
+
+/**
+ * MARK: - SEARCH CARDBOARD ACTIONS
+ */
 
 export const searchCardboardStart = () => {
   return {
@@ -100,6 +112,52 @@ export const searchCardboard = ( cardboardId ) => {
     } )
     .catch( err => {
       dispatch( searchCardboardFail( err ) )
+    } )
+  }
+}
+
+/**
+ * MARK: - GET CARDBOARDS TOTAL
+ */
+
+export const getCardboardsTotalStart = () => {
+  return {
+    type: GET_CARDBOARDS_TOTAL_START
+  }
+}
+
+export const getCardboardsTotalSuccess = ( cardboardsTotal ) => {
+  return {
+    type: GET_CARDBOARDS_TOTAL_SUCCESS,
+    cardboardsTotal: cardboardsTotal
+  }
+}
+
+export const getCardboardsTotalFail = ( error ) => {
+  return {
+    type: GET_CARDBOARDS_TOTAL_FAIL,
+    error: error
+  }
+}
+
+export const getCardboardsTotal = () => {
+  return dispatch => {
+    dispatch( getCardboardsTotalStart() )
+
+    axios.post( '/cardboards/get' )
+    .then( response => {
+      console.log( response )
+  
+      if ( response.status === 200 ) {
+        dispatch( getCardboardsTotalSuccess( response.data.result.totalFound ) )
+      } else {
+        dispatch( getCardboardsTotalFail( response.data.error ) )     
+      }
+  
+    } )
+    .catch( err => {
+      console.log( err )
+      dispatch( getCardboardsTotalFail( err ) )
     } )
   }
 }
