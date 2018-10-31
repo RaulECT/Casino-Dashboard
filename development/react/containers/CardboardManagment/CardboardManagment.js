@@ -134,6 +134,7 @@ class CardboardManagment extends Component {
             <Spin spinning={ this.props.loading }>
               <CardboardCard 
                 onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { console.log('Holii') } ) } }
+                cardboard={this.props.cardboardSelected}
               />
             </Spin>
             
