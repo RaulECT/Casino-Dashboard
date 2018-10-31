@@ -73,9 +73,10 @@ export const searchCardboardStart = () => {
   }
 }
 
-export const searchCardboardSuccess = () => {
+export const searchCardboardSuccess = ( cardboard ) => {
   return {
-    type: SEARCH_CARDBOARD_SUCCESS
+    type: SEARCH_CARDBOARD_SUCCESS,
+    cardboard: cardboard
   }
 }
 
@@ -101,7 +102,7 @@ export const searchCardboard = ( cardboardId ) => {
       if ( response.status === 200 ) {
         
         if ( response.data.result.totalFound !== 0 ) {
-          dispatch( searchCardboardSuccess() )  
+          dispatch( searchCardboardSuccess( response.data.result.items[0] ) )  
         } else {
           dispatch( searchCardboardFail( `El carton con folio ${cardboardId} NO existe.` ) )
         }

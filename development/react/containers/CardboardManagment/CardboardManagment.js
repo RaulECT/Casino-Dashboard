@@ -147,7 +147,8 @@ class CardboardManagment extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.crd.loading,
-    cardboardsTotal: state.crd.cardboardsTotal
+    cardboardsTotal: state.crd.cardboardsTotal,
+    cardboardSelected: state.crd.cardboardSelected,
   }
 }
 

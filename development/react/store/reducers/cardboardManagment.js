@@ -3,7 +3,8 @@ import * as actionsTypes from '../actions/actions'
 const initialState = {
   loading: false,
   error: null,
-  cardboardsTotal: 0
+  cardboardsTotal: 0,
+  cardboardSelected: null
 }
 
 const reducer = ( state = initialState, action ) => {
@@ -52,14 +53,16 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         loading: false,
-        error: null
+        error: null,
+        cardboardSelected: action.cardboard
       }
 
     case SEARCH_CARDBOARD_FAIL:
       return {
         ...state,
         loading: false,
-        error: action.error
+        error: action.error,
+        cardboardSelected: null
       }
 
     case GET_CARDBOARDS_TOTAL_START:
