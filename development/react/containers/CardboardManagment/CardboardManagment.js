@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import {
   createCardboard,
   searchCardboard,
-  getCardboardsTotal
+  getCardboardsTotal,
+  deleteCardboard
 } from '../../store/actions/index'
 
 import {
@@ -56,6 +57,8 @@ class CardboardManagment extends Component {
   handleOnCreateCardboard = () => {
     this.showConfirm( 'Crear nuevo carton', '¿Desea crear un nuevo cartón?', () => { this.props.onCreateCardboard( this.state.cardboardType ) } )
   }
+
+  handleOnDeleteCardboard = () => {}
 
   openNotification = ( type, title, description ) => {
     notification[type]({
@@ -133,7 +136,7 @@ class CardboardManagment extends Component {
           >
             <Spin spinning={ this.props.loading }>
               <CardboardCard 
-                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { console.log('Holii') } ) } }
+                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { this.props.onDeleteCardboard( this.props.cardboardSelected.id ) } ) } }
                 cardboard={this.props.cardboardSelected}
               />
             </Spin>
@@ -157,7 +160,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onCreateCardboard: ( cardboardType ) => dispatch( createCardboard( cardboardType ) ),
     onSearchCardboard: ( carboardId ) => dispatch( searchCardboard( carboardId ) ),
-    onGetCardboardsTotal: () => dispatch( getCardboardsTotal() )
+    onGetCardboardsTotal: () => dispatch( getCardboardsTotal() ),
+    onDeleteCardboard: ( cardboardId ) => dispatch( deleteCardboard( cardboardId ) ),
   }
 }
 

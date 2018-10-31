@@ -17,7 +17,10 @@ const reducer = ( state = initialState, action ) => {
     SEARCH_CARDBOARD_FAIL,
     GET_CARDBOARDS_TOTAL_FAIL,
     GET_CARDBOARDS_TOTAL_START,
-    GET_CARDBOARDS_TOTAL_SUCCESS
+    GET_CARDBOARDS_TOTAL_SUCCESS,
+    DELETE_CARDBOARD_FAIL,
+    DELETE_CARDBOARD_START,
+    DELETE_CARDBOARD_SUCCESS
   } = actionsTypes
 
   switch ( action.type ) {
@@ -85,6 +88,28 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         loading: false,
         cardboardsTotal: action.cardboardsTotal
+      }
+
+    case DELETE_CARDBOARD_START: 
+      return {
+        ...state,
+        loading: true,
+        error: null
+      }
+
+    case DELETE_CARDBOARD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        cardboardSelected: null
+      }
+
+    case DELETE_CARDBOARD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
       }
   
     default:

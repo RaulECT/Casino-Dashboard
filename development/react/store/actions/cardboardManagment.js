@@ -7,7 +7,10 @@ import {
   SEARCH_CARDBOARD_FAIL,
   GET_CARDBOARDS_TOTAL_FAIL,
   GET_CARDBOARDS_TOTAL_START,
-  GET_CARDBOARDS_TOTAL_SUCCESS
+  GET_CARDBOARDS_TOTAL_SUCCESS,
+  DELETE_CARDBOARD_FAIL,
+  DELETE_CARDBOARD_START,
+  DELETE_CARDBOARD_SUCCESS
 } from './actions'
 import axios from '../../../axios-bingo'
 import { notification } from 'antd'
@@ -135,6 +138,8 @@ export const getCardboardsTotalSuccess = ( cardboardsTotal ) => {
 }
 
 export const getCardboardsTotalFail = ( error ) => {
+  openNotification( 'error', 'Ha ocurrido un error', `No se ha podido completar la operación. Error: ${error}` )
+
   return {
     type: GET_CARDBOARDS_TOTAL_FAIL,
     error: error
@@ -159,6 +164,57 @@ export const getCardboardsTotal = () => {
     .catch( err => {
       console.log( err )
       dispatch( getCardboardsTotalFail( err ) )
+    } )
+  }
+}
+
+/**
+ * MARK: -DELETE CARDBOARD ACTIONS
+ */
+
+export const deleteCardboardStart = () => {
+  return {
+    type: DELETE_CARDBOARD_START
+  }
+}
+
+export const deleteCardboardFail = ( error ) => {
+  openNotification( 'error', 'Ha ocurrido un error', `No se ha podido terminar la operación. Error: ${error}`)
+
+  return {
+    type: DELETE_CARDBOARD_FAIL,
+    error: error
+  }
+}
+
+export const deleteCardboardSuccess = () => {
+  openNotification( 'success', 'Se ha borrado con éxito el cartón.' )
+
+  return {
+    type: DELETE_CARDBOARD_SUCCESS
+  }
+}
+
+export const deleteCardboard = ( cardboardId ) => {
+  return dispatch => {
+    dispatch( deleteCardboardStart() )
+
+    axios.post( '/cardboards/edit', {
+      active: false,
+      id: cardboardId
+    } )
+    .then( response => {
+      console.log( response )
+
+      if ( response.status === 200 ) {
+        dispatch( deleteCardboardSuccess() )
+      } else {
+        dispatch( deleteCardboardFail( response.data.error ) )
+      }
+    } )
+    .catch( err => {
+      console.log( err )
+      dispatch( deleteCardboardFail( err ) )
     } )
   }
 }
