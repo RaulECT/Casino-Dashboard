@@ -154,7 +154,9 @@ class BingoGame extends Component {
           label="Patrón ganador:"
           customContent={ ( 
             <div style={ { width: '23rem', height: '23rem', background: 'rgba(0, 0, 0, .26)' } }>
-              <CardboardPattern />
+              <CardboardPattern 
+                gameType={this.props.game ? this.props.game.linePattern : 'LINEA'}
+              />
             </div> 
           ) }
         />

@@ -18,7 +18,8 @@ class CardboardPattern extends Component {
       [ 3, 6, 9, 12 ],
 
     ],
-    currentPosition: [ 0, 1, 2, 3 ]
+    currentPosition: [ 0, 1, 2, 3 ],
+    currentIndex: 0
   }
   interval = null
 
@@ -27,7 +28,7 @@ class CardboardPattern extends Component {
     let patterns = [...positions]
 
     switch ( this.props.gameType ) {
-      case 'DOBLE LINEA':
+      case 'DOBLE LINEA', 'LINEA':
         patterns = [
           ...positions,
           [ 0, 1, 2, 3, 4, 8, 12 ],
@@ -70,14 +71,21 @@ class CardboardPattern extends Component {
   }
 
   componentWillUnmount() {
-    console.log( this.interval )
     clearInterval( this.interval )
   }
 
   changePattern = () => {
     const randomNumber = Math.floor(Math.random() * this.state.positions.length);
-    console.log(randomNumber)
-    this.setState( { currentPosition: this.state.positions[randomNumber] } )
+    this.setState( prevState => {
+      const newIndex = (prevState.currentIndex + 1) < prevState.positions.length ? ( prevState.currentIndex + 1 ) : 0
+      const newPosition = prevState.positions[prevState.currentIndex]
+
+      return {
+        currentPosition: newPosition,
+        currentIndex: newIndex
+      }
+    } )
+    // this.setState( { currentPosition: this.state.positions[randomNumber] } )
   }
 
   render() {
@@ -88,25 +96,25 @@ class CardboardPattern extends Component {
         <svg width="100%" height="100%">
   
           <g id="Capa_2" data-name="Capa 2">
-            <rect class={ currentPosition.indexOf( 0 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="0" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 1 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="0" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 2 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="0" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 3 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="0" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 0 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="0" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 1 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="0" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 2 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="0" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 3 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="0" width="25%" height="25%"/>
 
-            <rect class={ currentPosition.indexOf( 4 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="25%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 5 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="25%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 6 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="25%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 7 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="25%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 4 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="25%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 5 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="25%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 6 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="25%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 7 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="25%" width="25%" height="25%"/>
 
-            <rect class={ currentPosition.indexOf( 8 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="50%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 9 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="50%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 10 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="50%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 11 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="50%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 8 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="50%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 9 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="50%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 10 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="50%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 11 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="50%" width="25%" height="25%"/>
             
-            <rect class={ currentPosition.indexOf( 12 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="75%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 13 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="75%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 14 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="75%" width="25%" height="25%"/>
-            <rect class={ currentPosition.indexOf( 15 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="75%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 12 ) !== -1 ? 'cls-1' : 'cls-2' } x="0" y="75%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 13 ) !== -1 ? 'cls-1' : 'cls-2' } x="25%" y="75%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 14 ) !== -1 ? 'cls-1' : 'cls-2' } x="50%" y="75%" width="25%" height="25%"/>
+            <rect className={ currentPosition.indexOf( 15 ) !== -1 ? 'cls-1' : 'cls-2' } x="75%" y="75%" width="25%" height="25%"/>
           </g>
         </svg>
       </div>
