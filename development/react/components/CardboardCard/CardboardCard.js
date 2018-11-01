@@ -14,7 +14,7 @@ const cardboardCard = props => {
   const actions = props.cardboard ? [
     <Aux>
       <Icon style={ { marginRight: '0.5rem' } } type="printer" /> 
-      <span>Imprimir</span>
+      <span onClick={props.onPrint}>Imprimir</span>
     </Aux>, 
     <Aux>
       <Icon style={ { marginRight: '0.5rem' } } type="delete" /> 

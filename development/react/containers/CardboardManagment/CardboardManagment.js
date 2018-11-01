@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
+import jsPDF from 'jspdf'
+import moment from 'moment'
 import {
   createCardboard,
   searchCardboard,
@@ -24,6 +27,10 @@ const Search = Input.Search
 const FormItem = Form.Item
 const Option = Select.Option
 const confirm = Modal.confirm
+const pdfConfig = {
+  unit: 'in',
+	format: [8.27, 11.69]
+}
 
 import './CardboardManagment.css'
 
@@ -58,7 +65,16 @@ class CardboardManagment extends Component {
     this.showConfirm( 'Crear nuevo carton', '¿Desea crear un nuevo cartón?', () => { this.props.onCreateCardboard( this.state.cardboardType ) } )
   }
 
-  handleOnDeleteCardboard = () => {}
+  handleOnPrintSingleCarboard = () => {
+    console.log( ReactDOM.findDOMNode(  ) )
+    const pdf = new jsPDF( pdfConfig )
+    const canvas = document.getElementById( `cardboard_${this.props.cardboardSelected.numcode}` )
+    const imgData = canvas.toDataURL('image/jpeg', 1.0)
+    const fileName = `${moment(new Date).format('DD-MM-YYYY HH:mm:ss')}.pdf`
+
+    pdf.addImage( imgData, 'JPEG', 0, 0, 8.27, 11.69 )
+    pdf.save( fileName )
+  }
 
   openNotification = ( type, title, description ) => {
     notification[type]({
@@ -137,6 +153,7 @@ class CardboardManagment extends Component {
             <Spin spinning={ this.props.loading }>
               <CardboardCard 
                 onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { this.props.onDeleteCardboard( this.props.cardboardSelected.barcode ) } ) } }
+                onPrint={ this.handleOnPrintSingleCarboard }
                 cardboard={this.props.cardboardSelected}
                 cardboardImg={this.props.cardboardImg}
               />

@@ -127,10 +127,10 @@ class Canvas extends React.Component {
 			height: this.multiplier * 11.69 + 'in',
 			margin: '10px auto'
 		}
-
+		console.log(this.props)
 		return (
 			<div style={style}>
-				<canvas ref={node => this.node = node} width={this.multiplier * 793.92 + 'px'} height={this.multiplier * 1122.24 + 'px'} style={{border:'1px solid #d3d3d3', background: 'white'}}/>
+				<canvas id={`cardboard_${this.props.folio}`} ref={node => this.node = node} width={this.multiplier * 793.92 + 'px'} height={this.multiplier * 1122.24 + 'px'} style={{border:'1px solid #d3d3d3', background: 'white'}}/>
 				{/* <canvas ref={node => this.node = node} width={this.multiplier * 793.92 + 'px'} height={this.multiplier * 1122.24 + 'px'} style={{border:'1px solid #d3d3d3', background: 'white'}}/> */}
 			</div>
 		)
