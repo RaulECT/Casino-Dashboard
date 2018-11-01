@@ -50,7 +50,9 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
+        cardboardImg: null,
+        cardboardSelected: null
       }
 
     case SEARCH_CARDBOARD_SUCCESS:
