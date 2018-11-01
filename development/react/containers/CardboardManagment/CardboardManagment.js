@@ -136,8 +136,9 @@ class CardboardManagment extends Component {
           >
             <Spin spinning={ this.props.loading }>
               <CardboardCard 
-                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { this.props.onDeleteCardboard( this.props.cardboardSelected.id ) } ) } }
+                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { this.props.onDeleteCardboard( this.props.cardboardSelected.barcode ) } ) } }
                 cardboard={this.props.cardboardSelected}
+                cardboardImg={this.props.cardboardImg}
               />
             </Spin>
             
@@ -153,6 +154,7 @@ const mapStateToProps = state => {
     loading: state.crd.loading,
     cardboardsTotal: state.crd.cardboardsTotal,
     cardboardSelected: state.crd.cardboardSelected,
+    cardboardImg: state.crd.cardboardImg
   }
 }
 

@@ -4,7 +4,8 @@ const initialState = {
   loading: false,
   error: null,
   cardboardsTotal: 0,
-  cardboardSelected: null
+  cardboardSelected: null,
+  cardboardImg: null
 }
 
 const reducer = ( state = initialState, action ) => {
@@ -57,7 +58,8 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         loading: false,
         error: null,
-        cardboardSelected: action.cardboard
+        cardboardSelected: action.cardboard,
+        cardboardImg: action.cardboardImg
       }
 
     case SEARCH_CARDBOARD_FAIL:

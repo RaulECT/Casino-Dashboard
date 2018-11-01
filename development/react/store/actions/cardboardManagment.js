@@ -13,7 +13,9 @@ import {
   DELETE_CARDBOARD_SUCCESS
 } from './actions'
 import axios from '../../../axios-bingo'
+import Canvas from '../../components/Canvas/Canvas'
 import { notification } from 'antd'
+import React from 'react'
 
 /**
  * MARK: - CREATE CARDBOARDS ACTIONS
@@ -76,10 +78,11 @@ export const searchCardboardStart = () => {
   }
 }
 
-export const searchCardboardSuccess = ( cardboard ) => {
+export const searchCardboardSuccess = ( cardboard, cardboardImg ) => {
   return {
     type: SEARCH_CARDBOARD_SUCCESS,
-    cardboard: cardboard
+    cardboard: cardboard,
+    cardboardImg: cardboardImg
   }
 }
 
@@ -105,7 +108,10 @@ export const searchCardboard = ( cardboardId ) => {
       if ( response.status === 200 ) {
         
         if ( response.data.result.totalFound !== 0 ) {
-          dispatch( searchCardboardSuccess( response.data.result.items[0] ) )  
+          const cardboard = response.data.result.items[0]
+          const cardboardImg = generateCardboardImage( cardboard.card, cardboard.id, cardboard.numcode )
+
+          dispatch( searchCardboardSuccess( response.data.result.items[0], cardboardImg ) )  
         } else {
           dispatch( searchCardboardFail( `El carton con folio ${cardboardId} NO existe.` ) )
         }
@@ -133,7 +139,7 @@ export const getCardboardsTotalStart = () => {
 export const getCardboardsTotalSuccess = ( cardboardsTotal ) => {
   return {
     type: GET_CARDBOARDS_TOTAL_SUCCESS,
-    cardboardsTotal: cardboardsTotal
+    cardboardsTotal: cardboardsTotal,
   }
 }
 
@@ -201,7 +207,8 @@ export const deleteCardboard = ( cardboardId ) => {
 
     axios.post( '/cardboards/edit', {
       active: false,
-      id: cardboardId
+      barcode: cardboardId,
+      '..id': cardboardId
     } )
     .then( response => {
       console.log( response )
@@ -224,4 +231,8 @@ const openNotification = ( type, title, description ) => {
     message: title,
     description: description
   })
+}
+
+const generateCardboardImage = ( cards, barcode, folio, key = 0 ) => {
+  return <Canvas type="card" key={key} card={cards} barcode={barcode} folio={folio} />
 }

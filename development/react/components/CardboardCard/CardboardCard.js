@@ -10,7 +10,7 @@ import Aux from '../Aux'
 const {Meta} = Card
 
 const cardboardCard = props => {
-  const cardboardImg = props.cardboard ? <span>HOLI</span> : <img style={ { height: '28rem' } } alt="example" src="/static/assets/placeholder.png" />
+  const cardboardImg = props.cardboardImg ? props.cardboardImg : <img style={ { height: '28rem' } } alt="example" src="/static/assets/placeholder.png" />
   const actions = props.cardboard ? [
     <Aux>
       <Icon style={ { marginRight: '0.5rem' } } type="printer" /> 
@@ -30,7 +30,7 @@ const cardboardCard = props => {
       actions={ actions }
     >
       <Meta
-        title="Carton #123456"
+        title={`Cartón #${props.cardboard ? props.cardboard.numcode : '0'}`}
       />
     </Card>
   )
