@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom/server'
 import { connect } from 'react-redux'
 import jsPDF from 'jspdf'
 import moment from 'moment'
