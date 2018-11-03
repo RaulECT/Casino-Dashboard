@@ -136,10 +136,11 @@ export const getCardboardsTotalStart = () => {
   }
 }
 
-export const getCardboardsTotalSuccess = ( cardboardsTotal ) => {
+export const getCardboardsTotalSuccess = ( cardboardsTotal, allCardboards ) => {
   return {
     type: GET_CARDBOARDS_TOTAL_SUCCESS,
     cardboardsTotal: cardboardsTotal,
+    allCardboards: allCardboards
   }
 }
 
@@ -161,7 +162,7 @@ export const getCardboardsTotal = () => {
       console.log( response )
   
       if ( response.status === 200 ) {
-        dispatch( getCardboardsTotalSuccess( response.data.result.totalFound ) )
+        dispatch( getCardboardsTotalSuccess( response.data.result.totalFound, response.data.result.items ) )
       } else {
         dispatch( getCardboardsTotalFail( response.data.error ) )     
       }

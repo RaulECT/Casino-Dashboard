@@ -12,8 +12,7 @@
   "author": "Raul canul",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.2",
-    "jspdf": "^1.4.1"
+    "express": "^4.16.2"
   },
   "devDependencies": {
     "antd": "^3.9.2",

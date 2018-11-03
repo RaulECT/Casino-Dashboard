@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/server'
 import { connect } from 'react-redux'
 import jsPDF from 'jspdf'
 import moment from 'moment'
@@ -22,6 +22,7 @@ import {
   notification
 } from 'antd'
 import CardboardCard from '../../components/CardboardCard/CardboardCard'
+import Canvas from '../../components/Canvas/Canvas'
 
 const Search = Input.Search
 const FormItem = Form.Item
@@ -66,14 +67,41 @@ class CardboardManagment extends Component {
   }
 
   handleOnPrintSingleCarboard = () => {
-    console.log( ReactDOM.findDOMNode(  ) )
     const pdf = new jsPDF( pdfConfig )
     const canvas = document.getElementById( `cardboard_${this.props.cardboardSelected.numcode}` )
     const imgData = canvas.toDataURL('image/jpeg', 1.0)
-    const fileName = `${moment(new Date).format('DD-MM-YYYY HH:mm:ss')}.pdf`
+    const fileName = `Carton_No.${this.props.cardboardSelected.numcode}.pdf`
 
     pdf.addImage( imgData, 'JPEG', 0, 0, 8.27, 11.69 )
     pdf.save( fileName )
+  }
+
+  handleOnPrintAllCarboards = () => {
+    console.log(this)
+    const pdf = new jsPDF( pdfConfig )
+    const fileName = `${ moment( new Date ).format( 'DD-MM-YYYY HH:mm:ss' ) }.pdf`
+
+    for (let index = 0; index < this.props.allCardboards.length; index++) {
+      const canvas = this[`canvas${this.props.allCardboards[index].numcode}`].node
+      const imgData = canvas.toDataURL( 'image/jpeg', 1.0 )
+      
+      pdf.addImage(imgData, 'JPEG', 0, 0, 8.27, 11.69)
+      pdf.addPage()
+    }
+
+    pdf.save( fileName )
+  }
+
+  formatCardboards = ( cardboards ) => {
+    const elements = []
+
+    cardboards ? cardboards.map( cardboard => {
+      const canvas = <Canvas ref={node => {this['canvas' + cardboard.numcode] = node}} key={ cardboard.numcode } card={ cardboard.card } barcode={ cardboard.barcode } folio={ cardboard.numcode } />
+      elements.push( canvas )
+      
+    } ) : null
+
+    return elements
   }
 
   openNotification = ( type, title, description ) => {
@@ -142,7 +170,7 @@ class CardboardManagment extends Component {
 
               <div className="cardboardManagment__options-group">
                 <Button size="large" ghost type="primary" icon="picture">Ver todos los cartones</Button>
-                <Button size="large" ghost type="primary" icon="download">Descargar todos los cartones</Button>
+                <Button onClick={ this.handleOnPrintAllCarboards } size="large" ghost type="primary" icon="download">Descargar todos los cartones</Button>
               </div>
             </Spin>
           </Col>
@@ -161,6 +189,10 @@ class CardboardManagment extends Component {
             
           </Col>
         </Row>
+
+        <div style={ { display: 'none' } }>
+          { this.formatCardboards( this.props.allCardboards ) }
+        </div>
       </div>
     )
   }
@@ -171,7 +203,8 @@ const mapStateToProps = state => {
     loading: state.crd.loading,
     cardboardsTotal: state.crd.cardboardsTotal,
     cardboardSelected: state.crd.cardboardSelected,
-    cardboardImg: state.crd.cardboardImg
+    cardboardImg: state.crd.cardboardImg,
+    allCardboards: state.crd.allCardboards
   }
 }
 

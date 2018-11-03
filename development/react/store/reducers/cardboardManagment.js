@@ -1,11 +1,11 @@
 import * as actionsTypes from '../actions/actions'
-
 const initialState = {
   loading: false,
   error: null,
   cardboardsTotal: 0,
   cardboardSelected: null,
-  cardboardImg: null
+  cardboardImg: null,
+  allCardboards: null
 }
 
 const reducer = ( state = initialState, action ) => {
@@ -84,6 +84,7 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         loading: false,
         cardboardsTotal: -1,
+        allCardboards: null,
         error: action.error
       }
 
@@ -91,7 +92,8 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         loading: false,
-        cardboardsTotal: action.cardboardsTotal
+        cardboardsTotal: action.cardboardsTotal,
+        allCardboards: action.allCardboards
       }
 
     case DELETE_CARDBOARD_START: 

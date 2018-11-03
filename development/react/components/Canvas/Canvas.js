@@ -35,7 +35,6 @@ class Canvas extends React.Component {
 			})
 		})
 		this.multiplier = 0.5;
-		console.log(this.props.barcode.length);
 	}
 
 	componentDidMount() {
@@ -58,6 +57,12 @@ class Canvas extends React.Component {
 		});
 
 
+		var iW = this.multiplier * 160;
+		var iH = this.multiplier * 235;
+		var iXSpace = this.multiplier * 10;
+		var iYSpace = this.multiplier * 10;
+		var iX = this.multiplier * 60;
+		var iY = this.multiplier * 70;
 		var cont = 0;
 		for (var r = 0; r < 4; r++) {
 			for (var c = 0; c < 4; c ++) {
@@ -74,17 +79,7 @@ class Canvas extends React.Component {
 				// img.setAttribute( 'width', '5px' )
 				// img.setAttribute( 'height', '7px' )
 				img.onload = () => {
-					const multiplier = 0.5
-
-					var iW = multiplier * 160;
-					var iH = multiplier * 235;
-					var iXSpace = multiplier * 10;
-					var iYSpace = multiplier * 10;
-					var iX = multiplier * 60;
-					var iY = multiplier * 70;
-
 					ctx.drawImage(img, ((iW + iXSpace) * col) + iX, ((iH + iYSpace) * row) + iY, iW, iH);
-					
 				}
 
 				img.setAttribute( 'src', cardImg )
@@ -127,7 +122,7 @@ class Canvas extends React.Component {
 			height: this.multiplier * 11.69 + 'in',
 			margin: '10px auto'
 		}
-		console.log(this.props)
+
 		return (
 			<div style={style}>
 				<canvas id={`cardboard_${this.props.folio}`} ref={node => this.node = node} width={this.multiplier * 793.92 + 'px'} height={this.multiplier * 1122.24 + 'px'} style={{border:'1px solid #d3d3d3', background: 'white'}}/>
