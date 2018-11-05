@@ -5,7 +5,9 @@ const initialState = {
   turn: 0,
   error: null,
   loading: false,
-  conectionId: null
+  conectionId: null,
+  cardboardsToValidate: [],
+  carboadsValidated: []
 }
 
 const reducer = ( state = initialState, action ) => {
@@ -19,7 +21,8 @@ const reducer = ( state = initialState, action ) => {
     VALIDATE_FOLIO_START,
     VALIDATE_FOLIO_SUCCESS,
     VALIDATE_FOLIO_FAIL,
-    SET_CONECTION_ID
+    SET_CONECTION_ID,
+    ADD_CARDBOARD_TO_VALIDATE
   } = actionsTypes
 
   switch ( action.type ) {
@@ -91,6 +94,12 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         conectionId: action.conectionId
+      }
+
+    case ADD_CARDBOARD_TO_VALIDATE:
+      return {
+        ...state,
+        cardboardsToValidate: state.cardboardsToValidate.concat( action.cardboard )
       }
 
     default:

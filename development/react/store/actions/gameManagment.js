@@ -1,4 +1,4 @@
-import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID } from './actions'
+import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID, ADD_CARDBOARD_TO_VALIDATE } from './actions'
 import { socket } from '../../../socket'
 import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
@@ -289,6 +289,13 @@ export const generateConectionId = () => {
   return dispatch => {
     const conection = Math.floor((Math.random() * 1000) + 1)
     dispatch( setConectionId( conection ) )
+  }
+}
+
+export const addCardboardToValidate = ( cardboard ) => {
+  return {
+    type: ADD_CARDBOARD_TO_VALIDATE,
+    cardboard: cardboard
   }
 }
 

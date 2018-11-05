@@ -20,7 +20,8 @@ export {
   startGameFail,
   forceEndGame,
   validateFolio,
-  generateConectionId
+  generateConectionId,
+  addCardboardToValidate
 } from './gameManagment'
 
 export {
