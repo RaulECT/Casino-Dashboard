@@ -22,6 +22,7 @@ import {
 import './GameControl.css'
 import Aux from '../../components/Aux'
 import Card from '../../components/Card'
+import ValidateList from '../../components/ValidateList/ValidateList'
 import {
   Button,
   Input,
@@ -229,6 +230,10 @@ class GameControl extends Component {
           size="large"
           onSearch={value => this.validateSearchValue(value)}
         />
+        
+        <ValidateList 
+          cardboardsToValidate={this.props.cardboardsToValidate}
+        />
 
         <Row>
           <Col className="gameControl__game-info" span={12}>
@@ -287,8 +292,8 @@ class GameControl extends Component {
     if ( folio !== '000000' ) {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
         if ( this.props.gameHistory.length >= 4 ) {
- 
-          this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } )
+          this.props.onAddCardboardToValidate( folio )
+          //this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } )
     
         } else {
           this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
