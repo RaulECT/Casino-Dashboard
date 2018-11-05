@@ -227,13 +227,14 @@ class GameControl extends Component {
       <div>
         <Search 
           placeholder="Ingrese el folio del carton a validar"
-          enterButton="Validar"
+          enterButton="Agregar Cartón"
           size="large"
           onSearch={value => this.validateSearchValue(value)}
         />
         
         <ValidateList 
           cardboardsToValidate={this.props.cardboardsToValidate}
+          cardboardsValidated={this.props.cardboardsValidated}
           onRemoveCardboard={this.props.onRemoveCardboardsToValidate}
         />
 
@@ -357,7 +358,8 @@ const mapStateToProps = state => {
     cardboardList: state.bng.cardboardList,
     gameHistory: state.bng.history,
     conectionId: state.dsh.conectionId,
-    cardboardsToValidate: state.dsh.cardboardsToValidate
+    cardboardsToValidate: state.dsh.cardboardsToValidate,
+    cardboardsValidated: state.dsh.carboadsValidated
   }
 }
 

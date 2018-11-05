@@ -8,19 +8,22 @@ import {
 const { Panel } = Collapse
 
 const validateList = props => {
-  const cardboardsToValidate = [ ...props.cardboardsToValidate ]
-  const cardboardsToValidateTags = cardboardsToValidate.map( ( cardboard, index ) => 
-    <Tag key={`${cardboard}_${index}`} closable afterClose={ () => props.onRemoveCardboard( cardboard ) }> { `Cartón No. ${cardboard}` } </Tag> 
+
+  const cardboardsToValidateTags = props.cardboardsToValidate.map( ( cardboard, index ) => 
+    <Tag key={`${cardboard}_${index}_toV`} closable afterClose={ () => props.onRemoveCardboard( cardboard ) }> { `Cartón No. ${cardboard}` } </Tag> 
+  )
+  const cardboardsValidatedTags = props.cardboardsValidated.map( ( cardboard, index ) => 
+    <Tag key={`${cardboard}_${index}_V`} color="green">{`Cartón No. ${cardboard}`}</Tag>
   )
 
   return (
     <Collapse bordered={false} defaultActiveKey={ [ '1' ] }>
-      <Panel header={`${cardboardsToValidate.length} cartón(es) para validar.`} key='1'>
+      <Panel header={`${props.cardboardsToValidate.length} cartón(es) para validar.`} key='1'>
         { cardboardsToValidateTags }
       </Panel>
       
-      <Panel header='Hey i`am a header 2' key='2'>
-        
+      <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es).`} key='2'>
+        { cardboardsValidatedTags }
       </Panel>
     </Collapse>
   )
