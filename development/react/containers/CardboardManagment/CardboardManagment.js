@@ -86,7 +86,11 @@ class CardboardManagment extends Component {
       const imgData = canvas.toDataURL( 'image/jpeg', 1.0 )
       
       pdf.addImage(imgData, 'JPEG', 0, 0, 8.27, 11.69)
-      pdf.addPage()
+      
+      if (( index + 1 ) !== this.props.allCardboards.length) {
+        pdf.addPage()    
+      }
+    
     }
 
     pdf.save( fileName )
