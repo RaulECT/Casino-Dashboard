@@ -79,8 +79,6 @@ class Dashboard extends Component {
             theme="dark"
             mode="inline"
             style={{ padding: '16px 0', width: '100%' }}
-            defaultSelectedKeys={['bingo_submenu_control']}
-            defaultOpenKeys={['bingo_submenu']}
             onSelect={ this.changePanelHeader }
           >
             <SubMenu
