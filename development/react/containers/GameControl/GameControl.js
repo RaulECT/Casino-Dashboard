@@ -15,7 +15,8 @@ import {
   setGameHistory,
   setGame,
   generateConectionId,
-  resetGame
+  resetGame,
+  addCardboardToValidate
 } from '../../store/actions/index'
 
 import './GameControl.css'
@@ -348,7 +349,8 @@ const mapStateToProps = state => {
     cardList: state.bng.cardsList,
     cardboardList: state.bng.cardboardList,
     gameHistory: state.bng.history,
-    conectionId: state.dsh.conectionId
+    conectionId: state.dsh.conectionId,
+    cardboardsToValidate: state.dsh.cardboardsToValidate
   }
 }
 
@@ -368,6 +370,7 @@ const mapDispatchToProps = dispatch => {
     onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) ),
     onGenerateConectionId: () => dispatch( generateConectionId() ),
     onResetGame: () => dispatch( resetGame() ),
+    onAddCardboardToValidate: ( cardboard ) => dispatch( addCardboardToValidate( cardboard ) ),
   }
 }
 
