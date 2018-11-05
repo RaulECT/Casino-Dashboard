@@ -18,7 +18,8 @@ import {
   Button,
   Modal,
   Spin,
-  notification
+  notification,
+  Icon
 } from 'antd'
 import CardboardCard from '../../components/CardboardCard/CardboardCard'
 import Canvas from '../../components/Canvas/Canvas'
@@ -168,7 +169,7 @@ class CardboardManagment extends Component {
               </FormItem>
 
               <div className="cardboardManagment__options-group">
-                <Button size="large" ghost type="primary" icon="picture">Ver todos los cartones</Button>
+                <a href="http://104.192.4.252:3001/#/" target="_blank"> <Icon type="picture" /> Ver todos los catones</a>
                 <Button onClick={ this.handleOnPrintAllCarboards } size="large" ghost type="primary" icon="download">Descargar todos los cartones</Button>
               </div>
             </Spin>
