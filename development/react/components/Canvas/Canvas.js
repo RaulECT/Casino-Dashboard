@@ -34,7 +34,7 @@ class Canvas extends React.Component {
 				this.card.push(x)
 			})
 		})
-		this.multiplier = 0.5;
+		this.multiplier = 2;
 	}
 
 	componentDidMount() {
@@ -120,7 +120,8 @@ class Canvas extends React.Component {
 			// height: '11.69in',
 			width: this.multiplier * 8.27 + 'in',
 			height: this.multiplier * 11.69 + 'in',
-			margin: '10px auto'
+			margin: '10px auto',
+			zoom: 0.3
 		}
 
 		return (

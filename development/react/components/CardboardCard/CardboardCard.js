@@ -10,7 +10,7 @@ import Aux from '../Aux'
 const {Meta} = Card
 
 const cardboardCard = props => {
-  const cardboardImg = props.cardboardImg ? props.cardboardImg : <img style={ { height: '28rem' } } alt="example" src="/static/assets/placeholder.png" />
+  const cardboardImg = props.cardboardImg ?  props.cardboardImg : <img style={ { height: '28rem' } } alt="example" src="/static/assets/placeholder.png" />
   const actions = props.cardboard ? [
     <Aux>
       <Icon style={ { marginRight: '0.5rem' } } type="printer" /> 
