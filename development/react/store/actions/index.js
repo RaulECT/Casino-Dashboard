@@ -21,7 +21,8 @@ export {
   forceEndGame,
   validateFolio,
   generateConectionId,
-  addCardboardToValidate
+  addCardboardToValidate,
+  removeCardboardToValidate
 } from './gameManagment'
 
 export {

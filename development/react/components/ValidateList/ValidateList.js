@@ -10,7 +10,7 @@ const { Panel } = Collapse
 const validateList = props => {
   const cardboardsToValidate = [ ...props.cardboardsToValidate ]
   const cardboardsToValidateTags = cardboardsToValidate.map( ( cardboard, index ) => 
-    <Tag key={`${cardboard}_${index}`} closable afterClose={ () => console.log(cardboard) }> { `Cartón No. ${cardboard}` } </Tag> 
+    <Tag key={`${cardboard}_${index}`} closable afterClose={ () => props.onRemoveCardboard( cardboard ) }> { `Cartón No. ${cardboard}` } </Tag> 
   )
 
   return (

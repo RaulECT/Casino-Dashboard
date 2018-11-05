@@ -16,7 +16,8 @@ import {
   setGame,
   generateConectionId,
   resetGame,
-  addCardboardToValidate
+  addCardboardToValidate,
+  removeCardboardToValidate
 } from '../../store/actions/index'
 
 import './GameControl.css'
@@ -233,6 +234,7 @@ class GameControl extends Component {
         
         <ValidateList 
           cardboardsToValidate={this.props.cardboardsToValidate}
+          onRemoveCardboard={this.props.onRemoveCardboardsToValidate}
         />
 
         <Row>
@@ -376,6 +378,7 @@ const mapDispatchToProps = dispatch => {
     onGenerateConectionId: () => dispatch( generateConectionId() ),
     onResetGame: () => dispatch( resetGame() ),
     onAddCardboardToValidate: ( cardboard ) => dispatch( addCardboardToValidate( cardboard ) ),
+    onRemoveCardboardsToValidate: ( cardboard ) => dispatch( removeCardboardToValidate( cardboard ) )
   }
 }
 
