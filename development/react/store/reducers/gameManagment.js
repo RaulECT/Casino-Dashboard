@@ -7,7 +7,7 @@ const initialState = {
   loading: false,
   conectionId: null,
   cardboardsToValidate: [],
-  carboadsValidated: [ 123456, 234567, 456789, 98765, 876543 ]
+  carboadsValidated: []
 }
 
 const reducer = ( state = initialState, action ) => {
