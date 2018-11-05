@@ -41,8 +41,17 @@ class CreateGame extends Component {
         console.log('Received values of form: ', values);
         const dateString = values.gameDate.format('YYYY-DD-MM') 
         const hourString = values.gameHour.format('HH:mm:ss') 
-        values.gameDate = moment( `${dateString} ${hourString}`, 'YYYY-DD-MM h:mm:ss Z' ).format()
         
+        values.gameDate = moment( `${dateString} ${hourString}`, 'YYYY-DD-MM h:mm:ss Z' ).format()
+        values.doublePrice = values.doublePrice * 100
+        values.electronicPrice = values.electronicPrice * 100
+        values.lineConsPrize = values.lineConsPrize * 100
+        values.linePrize = values.linePrize * 100
+        values.lotteryConsoPrize = values.lotteryConsoPrize * 100
+        values.lotteryPrize = values.lotteryPrize * 100
+        values.singlePrice = values.singlePrice * 100
+        values.triplePrice = values.triplePrice * 100
+ 
         this.props.onCreateGame( values, this.props.form.resetFields )
       }
     })

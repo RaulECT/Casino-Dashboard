@@ -146,8 +146,8 @@ class GameControl extends Component {
             </div>
         
             <div>
-              <p><b>Premio Linea:</b> ${this.props.game ? this.props.game.linePrize : ''}</p>
-              <p><b>Premio Loteria:</b> ${this.props.game ? this.props.game.lotteryPrize : ''}</p>
+              <p><b>Premio Linea:</b> ${this.props.game ? (this.props.game.linePrize * 100) : ''}</p>
+              <p><b>Premio Loteria:</b> ${this.props.game ? (this.props.game.lotteryPrize * 100) : ''}</p>
               <p><b>Cartones registrados: </b> { this.props.cardboardList.length }</p>
             </div>
           </div>
@@ -233,8 +233,8 @@ class GameControl extends Component {
           <Col className="gameControl__game-info" span={12}>
             <h3 className="gameControl__game-name"> {this.props.game ? `#${this.props.game.index} - ${this.props.game.gameName}` : ''}</h3>
             <p><span>ID:</span> {this.props.game ? this.props.game.id : ''}</p>
-            <p><span>Premio Linea:</span> ${this.props.game ? this.props.game.linePrize : ''}</p>
-            <p><span>Prmeio Loteria:</span> ${this.props.game ? this.props.game.lotteryPrize: ''}</p>
+            <p><span>Premio Linea:</span> ${this.props.game ? (this.props.game.linePrize / 100) : ''}</p>
+            <p><span>Prmeio Loteria:</span> ${this.props.game ? (this.props.game.lotteryPrize / 100): ''}</p>
             <p><span>Cartones Registrados:</span> { this.props.cardboardList.length }</p>
           </Col>
 
