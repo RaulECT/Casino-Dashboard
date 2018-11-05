@@ -183,7 +183,7 @@ export const forceEndGame = ( gameId ) => {
 }
 
 export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
-  console.log(hist)
+  
   return dispatch => {
     dispatch( startValidateFolio() )
 
@@ -203,7 +203,7 @@ export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
           if ( carboardInfo.isWinner ) {
             switch ( carboardInfo.pattern ) {
               case 'SINGLE_LINE':
-                console.log('holi')
+             
                 anounceSingleLineWinner( response.data.result.items[0].card, gameId )
                 break;
 
