@@ -12,6 +12,7 @@ class CardsSection extends Component {
 
   componentDidMount() {
     socket.on( 'BINGO_CONECTED', ( data ) => {
+      console.log(data)
       this.props.onSetGameHistory( data.gameHistory )
     } )
 
@@ -33,7 +34,7 @@ class CardsSection extends Component {
       for (let index = 0; index < endIndex; index++) {
         const card = gameHistory[index]
 
-        const imageRef = cardList[ card - 1 ].image
+        const imageRef = cardList[ card ].image
         cards.push(
           <Card 
             key={ `card_img_${index}` }
@@ -46,13 +47,12 @@ class CardsSection extends Component {
       }
     }
 
-    console.log( cards )
     return cards
   }
 
   render() {
     const cards = this.renderCards()
-    
+  
     return(
       <Background>
         <div className="cards-section">

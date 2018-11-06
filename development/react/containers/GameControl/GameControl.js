@@ -249,7 +249,7 @@ class GameControl extends Component {
         />
 
         <Divider style={{ marginTop: '40px' }} orientation="left">Control de Partida</Divider>
-        <Row>
+        <Row justify="center">
           <Col className="gameControl__game-info" span={12}>
             <h3 className="gameControl__game-name"> {this.props.game ? `Partida: ${this.props.game.gameName}` : ''}</h3>
             <p><span>ID:</span> {this.props.game ? this.props.game.id : ''}</p>
