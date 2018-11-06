@@ -3,7 +3,9 @@ import React from 'react'
 import {
   Collapse,
   Tag,
-  Button
+  Button, 
+  Row,
+  Col
 } from 'antd'
 
 const { Panel } = Collapse
@@ -18,16 +20,25 @@ const validateList = props => {
   )
 
   return (
-    <Collapse bordered={false} defaultActiveKey={ [ '1' ] }>
-      <Panel header={`${props.cardboardsToValidate.length} cartón(es) para validar.`} key='1'>
-        { cardboardsToValidateTags }
-        <Button onClick={props.onValidateCardboards} disabled={isDissabled} type='primary' ghost>Validar {`(${props.cardboardsToValidate.length})`} cartón(es)</Button>
-      </Panel>
+    <Row gutter={30}>
+      <Col span={12}>
+        <Collapse bordered={false} defaultActiveKey={ [ '1' ] }>
+          <Panel header={`${props.cardboardsToValidate.length} cartón(es) para validar.`} key='1'>
+            { cardboardsToValidateTags }
+            <Button onClick={props.onValidateCardboards} disabled={isDissabled} type='primary' ghost>Validar {`(${props.cardboardsToValidate.length})`} cartón(es)</Button>
+          </Panel>
+        </Collapse>      
+      </Col>
       
-      <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es).`} key='2'>
-        { cardboardsValidatedTags }
-      </Panel>
-    </Collapse>
+      <Col span={12}>
+        <Collapse bordered={false}>
+          <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es).`} key='2'>
+            { cardboardsValidatedTags }
+          </Panel>
+        </Collapse>
+      </Col>
+
+    </Row>
   )
 }
 
