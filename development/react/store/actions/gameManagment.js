@@ -201,7 +201,7 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
 
           cardboards.map( cardboard => {
             const validation = handleCardboardValidation( cardboard.card, gameType, hist )
-            console.log(cardboard)
+
             validation.isWinner ? validationResults.winners[validation.pattern].push(cardboard.numcode) : validationResults.loosers.push(cardboard.numcode)
           } )
 
@@ -366,7 +366,7 @@ const openNotification = ( type, title, description ) => {
 const handleCardboardValidation = ( cardboard, gameType, hist ) => {
  
   const result = validateCardboard( cardboard,gameType, hist )
-  console.log(result)
+
   return result
 }
 

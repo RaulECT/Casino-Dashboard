@@ -6,7 +6,7 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
   	const isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory, cards )
     
     if ( isWinnerRow ) {
-      console.log( isWinnerRow, cardboardFormatted[i] )
+    
       let winnerPattern = ''
 
       switch ( cardboardFormatted[i].length ) {
@@ -27,9 +27,8 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
           break;
       }
       const winnerInfo = { isWinner: true, pattern: winnerPattern, winnerRow: cardboardFormatted[i] }
-      console.log( winnerInfo )
+   
       return winnerInfo
-      //return true
     }
   }
   const winnerInfo = { isWinner: false }
