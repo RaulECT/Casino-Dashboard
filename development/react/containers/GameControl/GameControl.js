@@ -24,6 +24,7 @@ import './GameControl.css'
 import Aux from '../../components/Aux'
 import Card from '../../components/Card'
 import ValidateList from '../../components/ValidateList/ValidateList'
+import CardControl from '../../components/CardControl/CardControl'
 import {
   Button,
   Input,
@@ -34,9 +35,11 @@ import {
   Modal,
   Form,
   Icon,
-  InputNumber
+  Divider,
+  InputNumber,
+  Tooltip,
+  Progress,
 } from 'antd'
-
 
 const Search = Input.Search
 let socket = null
@@ -222,9 +225,15 @@ class GameControl extends Component {
   getPlayingGameSection = () => {
     const cardImage = this.props.card ? this.props.card.image : 'Nuevas Figuras_1.png'
     const currentHref = window.location.href.split('dashboard')[0]
+    const actions = [
+      <Tooltip title="Sacar carta."><Icon onClick={ this.handleOnChangeCard } style={ { fontSize: '3rem' } } type="redo" /></Tooltip>,
+      <Tooltip title="Ver juego de bingo."> <a target="_blank" href={`${currentHref}game`}><Icon style={ { fontSize: '3rem' } } type="eye" /></a></Tooltip>,
+      <Tooltip title="Ver historial de cartas"><a target="_blank" href={`${currentHref}history`}><Icon style={ { fontSize: '3rem' } } type="bars" /></a></Tooltip>,
+    ]
 
     return(
       <div>
+        <Divider orientation="left">Verificar Ganadores</Divider>
         <Search 
           placeholder="Ingrese el folio del carton a validar"
           enterButton="Agregar Cartón"
@@ -239,42 +248,37 @@ class GameControl extends Component {
           onValidateCardboards={ () => this.props.onValidateFolio( this.props.cardboardsToValidate, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } ) }
         />
 
+        <Divider style={{ marginTop: '40px' }} orientation="left">Control de Partida</Divider>
         <Row>
           <Col className="gameControl__game-info" span={12}>
-            <h3 className="gameControl__game-name"> {this.props.game ? `#${this.props.game.index} - ${this.props.game.gameName}` : ''}</h3>
+            <h3 className="gameControl__game-name"> {this.props.game ? `Partida: ${this.props.game.gameName}` : ''}</h3>
             <p><span>ID:</span> {this.props.game ? this.props.game.id : ''}</p>
             <p><span>Premio Linea:</span> ${this.props.game ? (this.props.game.linePrize / 100) : ''}</p>
             <p><span>Prmeio Loteria:</span> ${this.props.game ? (this.props.game.lotteryPrize / 100): ''}</p>
             <p><span>Cartones Registrados:</span> { this.props.cardboardList.length }</p>
+
+            <p><span>Progreso de la partida:</span></p>
+            <div style={ { width: '80%' } }>
+              <Tooltip title={ `${this.props.gameHistory.length} cartas cantadas de 54` }>
+                <Progress percent={ parseInt(( this.props.gameHistory.length / 54 ) * 100) } />
+              </Tooltip>
+            </div>
           </Col>
 
           <Col className="gameControl__game-info" span={12}>
-            <h3 className="gameControl__turn-label">
-              Turno: <span>{this.props.gameHistory.length}</span>
-            </h3>
-
-            <div className="gameControl__card-section">
-              <p>Carta actual:</p>
-              <Card 
-                img={`/static/assets/${cardImage}`}
-                width="16rem"
-                height="25rem"
-                cover="contain"
-              />
-            </div>            
-
-            <Button 
-              onClick={ this.handleOnChangeCard }
-              type="primary"
-              size="large"
-              icon="redo"
-            >
-              Sacar carta
-            </Button>
-
-            <a href={`${currentHref}game`} style={ { marginLeft: 20 } } target="_blanc">Ver Juego de Bingo</a>
-            <a href={`${currentHref}history`} style={ { marginLeft: 20 } } target="_blanc">Ver historial de cartas</a>
-
+            <CardControl 
+              card={ (
+                <Card 
+                  img={`/static/assets/${cardImage}`}
+                  width="25rem"
+                  height="auto"
+                  cover="contain"
+                />
+              ) }
+              actions={actions}
+              turn={this.props.gameHistory.length}
+            />
+        
           </Col>
         </Row>
         

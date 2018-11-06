@@ -9,6 +9,9 @@ import {
 } from 'antd'
 
 const { Panel } = Collapse
+const styles = {
+  marginTop: '10px'
+}
 
 const validateList = props => {
   const isDissabled = props.cardboardsToValidate.length === 0
@@ -22,7 +25,7 @@ const validateList = props => {
   return (
     <Row gutter={30}>
       <Col span={12}>
-        <Collapse bordered={false} defaultActiveKey={ [ '1' ] }>
+        <Collapse style={styles} defaultActiveKey={ [ '1' ] }>
           <Panel header={`${props.cardboardsToValidate.length} cartón(es) para validar.`} key='1'>
             { cardboardsToValidateTags }
             <Button onClick={props.onValidateCardboards} disabled={isDissabled} type='primary' ghost>Validar {`(${props.cardboardsToValidate.length})`} cartón(es)</Button>
@@ -31,7 +34,7 @@ const validateList = props => {
       </Col>
       
       <Col span={12}>
-        <Collapse bordered={false}>
+        <Collapse style={styles}>
           <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es).`} key='2'>
             { cardboardsValidatedTags }
           </Panel>
