@@ -128,7 +128,7 @@ class BingoGame extends Component {
           gridRow="3/4"
           gridColumn="1/3"
           label="Premio:"
-          text={ `$${this.props.game ? this.props.game.linePrize: ''}` }
+          text={ `$${this.props.game ? ( this.props.game.linePrize / 100 ) : ''}` }
           type="regular-salmon"
         />
 
@@ -144,7 +144,7 @@ class BingoGame extends Component {
           gridRow="4/5"
           gridColumn="1/3"
           label="Bingo:"
-          text={`$${this.props.game ? this.props.game.lotteryPrize : ''}`}
+          text={`$${this.props.game ? ( this.props.game.lotteryPrize / 100 ) : ''}`}
           type="regular-green"
         />
 
