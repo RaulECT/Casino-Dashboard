@@ -236,6 +236,7 @@ class GameControl extends Component {
           cardboardsToValidate={this.props.cardboardsToValidate}
           cardboardsValidated={this.props.cardboardsValidated}
           onRemoveCardboard={this.props.onRemoveCardboardsToValidate}
+          onValidateCardboards={ () => this.props.onValidateFolio( this.props.cardboardsToValidate, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } ) }
         />
 
         <Row>

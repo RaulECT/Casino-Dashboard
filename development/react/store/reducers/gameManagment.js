@@ -23,7 +23,8 @@ const reducer = ( state = initialState, action ) => {
     VALIDATE_FOLIO_FAIL,
     SET_CONECTION_ID,
     ADD_CARDBOARD_TO_VALIDATE,
-    REMOVE_CARDBOARD_TO_VALIDATE
+    REMOVE_CARDBOARD_TO_VALIDATE,
+    ADD_CARDBOARD_SINGLE_LINE_WINNER
   } = actionsTypes
 
   switch ( action.type ) {
@@ -107,6 +108,13 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         cardboardsToValidate: state.cardboardsToValidate.filter( cardboard => cardboard !== action.cardboard )
+      }
+
+    case ADD_CARDBOARD_SINGLE_LINE_WINNER:
+      return {
+        ...state,
+        carboadsValidated: state.carboadsValidated.concat( action.cardboards ),
+        cardboardsToValidate: []
       }
 
     default:

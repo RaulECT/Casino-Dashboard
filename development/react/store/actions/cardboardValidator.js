@@ -1,8 +1,9 @@
 export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
 	const cardboardFormatted = formatCardboard( cardboard, gameType )
-  
+  const cards = [...cardboard[0], ...cardboard[1], ...cardboard[2], ...cardboard[3]]
+
   for( let i = 0; i < cardboardFormatted.length; i++ ) {
-  	const isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory )
+  	const isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory, cards )
     
     if ( isWinnerRow ) {
       console.log( isWinnerRow, cardboardFormatted[i] )
@@ -16,6 +17,10 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
         case 7:
           winnerPattern = 'DOUBLE_LINE'
           break
+
+        case 8:
+          winnerPattern = 'DOUBLE_LINE'
+          break;
       
         default:
           winnerPattern = 'SINLGE_LINE'
@@ -39,11 +44,11 @@ const formatCardboard = ( cardboard, gameType ) => {
   switch( gameType ) {
   	case 'LINEA':
       //return formatLinealCrdboard( cardboard )	
-      return formatDoubleLineal()
+      return formatDoubleLineal( cardboard )
     	break
       
     case 'DOBLE LINEA':
-    	return formatDoubleLineal()
+    	return formatDoubleLineal( cardboard )
   
   	default:
 			//return formatLinealCrdboard( cardboard )	
@@ -67,7 +72,7 @@ const formatLinealCrdboard = ( cardboard ) => {
     return cardboardFormatted
 }
 
-const formatDoubleLineal = () => {
+const formatDoubleLineal = ( cardboard ) => {
 	return [
       [ 0, 1, 2, 3, 4, 8, 12 ],
       [ 0, 1, 2, 3, 5, 9, 13 ],
@@ -110,11 +115,13 @@ const formatDoubleLineal = () => {
     ]
 }
 
-const verifyRow = ( row, cardHistory ) => {
+const verifyRow = ( row, cardHistory, cardboard ) => {
 	let cardsDrawed = []
   
   row.map( element => {
-  	cardHistory.indexOf( element ) !== -1 ? cardsDrawed.push( element ) : null
+    const cardboardElement = cardboard[element]
+ 
+  	cardHistory.indexOf( cardboardElement ) !== -1 ? cardsDrawed.push( element ) : null
   } )
   
   return row.length === cardsDrawed.length

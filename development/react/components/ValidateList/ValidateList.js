@@ -21,7 +21,7 @@ const validateList = props => {
     <Collapse bordered={false} defaultActiveKey={ [ '1' ] }>
       <Panel header={`${props.cardboardsToValidate.length} cartón(es) para validar.`} key='1'>
         { cardboardsToValidateTags }
-        <Button disabled={isDissabled} type='primary' ghost>Validar {`(${props.cardboardsToValidate.length})`} cartón(es)</Button>
+        <Button onClick={props.onValidateCardboards} disabled={isDissabled} type='primary' ghost>Validar {`(${props.cardboardsToValidate.length})`} cartón(es)</Button>
       </Panel>
       
       <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es).`} key='2'>

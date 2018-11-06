@@ -1,4 +1,4 @@
-import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID, ADD_CARDBOARD_TO_VALIDATE, REMOVE_CARDBOARD_TO_VALIDATE } from './actions'
+import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID, ADD_CARDBOARD_TO_VALIDATE, REMOVE_CARDBOARD_TO_VALIDATE, ADD_CARDBOARD_SINGLE_LINE_WINNER } from './actions'
 import { socket } from '../../../socket'
 import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
@@ -182,45 +182,38 @@ export const forceEndGame = ( gameId ) => {
   }
 }
 
-export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
-  
+export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
   return dispatch => {
-    dispatch( startValidateFolio() )
+    console.log( folios )
+    let validationResults = {
+      winners: {
+        SINGLE_LINE: [],
+        DOUBLE_LINE: []
+      },
+      loosers: []
+    }
 
-    axios.post( '/cardboards/get', {
-      numcode: parseInt(folio)
-    } )
+    axios.post( '/cardboards/get', {} )
       .then( response => {
-        console.log( response )
+   
         if ( response.status === 200 ) {
-          //const isWinner = verifyWinner( response.data.result.items[0].card, hist )
-          //const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
-          // const t = 'DOBLE LINEA'
-          // console.log(t)
-          const carboardInfo = validateCardboard( response.data.result.items[0].card, gameType, hist )
-          dispatch( validateFolioSuccess() )
+          const cardboards = response.data.result.items.filter( data => folios.indexOf( data.numcode ) !== -1 )
 
-          if ( carboardInfo.isWinner ) {
-            switch ( carboardInfo.pattern ) {
-              case 'SINGLE_LINE':
-             
-                anounceSingleLineWinner( response.data.result.items[0].card, gameId )
-                break;
+          cardboards.map( cardboard => {
+            const validation = handleCardboardValidation( cardboard.card, gameType, hist )
+            console.log(cardboard)
+            validation.isWinner ? validationResults.winners[validation.pattern].push(cardboard.numcode) : validationResults.loosers.push(cardboard.numcode)
+          } )
 
-              case 'DOUBLE_LINE':
-                callback()
-                break;
-            
-              default:
-                break;
-            }
-
-          } else {
-            openNotification( 'warning', 'Carton no ganador', 'El folio que ha ingresado no ganado la partida de bingo' )
+          console.log(validationResults)
+          if ( validationResults.winners.DOUBLE_LINE.length !== 0 ) {
+            // TODO: IMPLEMENT END GAME
+            console.log('Hay ganadores de doble linea', validationResults.winners.DOUBLE_LINE)
+          } else if ( validationResults.winners.SINGLE_LINE.length !== 0 ) {
+            dispatch( addCardboardsSingleLineWinner( validationResults.winners.SINGLE_LINE ) )
           }
-          
         } else {
-          dispatch( validateFolioFail( response.data ) )
+          
         }
       } )
       .catch( err => {
@@ -228,8 +221,65 @@ export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
         openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${err}` )
         dispatch( validateFolioFail( err ) )
       } )
+      
   }
 }
+
+export const addCardboardsSingleLineWinner = ( cardboards ) => {
+  return {
+    type: ADD_CARDBOARD_SINGLE_LINE_WINNER,
+    cardboards: cardboards
+  }
+}
+
+// export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
+  
+//   return dispatch => {
+//     dispatch( startValidateFolio() )
+
+//     axios.post( '/cardboards/get', {
+//       numcode: parseInt(folio)
+//     } )
+//       .then( response => {
+//         console.log( response )
+//         if ( response.status === 200 ) {
+//           //const isWinner = verifyWinner( response.data.result.items[0].card, hist )
+//           //const isWinner = validateCardboard( response.data.result.items[0].card, gameType, hist )
+//           // const t = 'DOBLE LINEA'
+//           // console.log(t)
+//           const carboardInfo = validateCardboard( response.data.result.items[0].card, gameType, hist )
+//           dispatch( validateFolioSuccess() )
+
+//           if ( carboardInfo.isWinner ) {
+//             switch ( carboardInfo.pattern ) {
+//               case 'SINGLE_LINE':
+             
+//                 anounceSingleLineWinner( response.data.result.items[0].card, gameId )
+//                 break;
+
+//               case 'DOUBLE_LINE':
+//                 callback()
+//                 break;
+            
+//               default:
+//                 break;
+//             }
+
+//           } else {
+//             openNotification( 'warning', 'Carton no ganador', 'El folio que ha ingresado no ganado la partida de bingo' )
+//           }
+          
+//         } else {
+//           dispatch( validateFolioFail( response.data ) )
+//         }
+//       } )
+//       .catch( err => {
+//         console.log( err )
+//         openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${err}` )
+//         dispatch( validateFolioFail( err ) )
+//       } )
+//   }
+// }
 
 export const anounceSingleLineWinner = ( cardboard, gameId ) => {
   console.log( cardboard, gameId )
@@ -311,6 +361,13 @@ const openNotification = ( type, title, description ) => {
     message: title,
     description: description
   })
+}
+
+const handleCardboardValidation = ( cardboard, gameType, hist ) => {
+ 
+  const result = validateCardboard( cardboard,gameType, hist )
+  console.log(result)
+  return result
 }
 
 /**
