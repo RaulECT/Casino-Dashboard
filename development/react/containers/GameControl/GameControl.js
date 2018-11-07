@@ -299,7 +299,8 @@ class GameControl extends Component {
 
     if ( folio !== '000000' ) {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
-        if ( this.props.cardboardsToValidate.indexOf( parseInt( folio ) ) !== -1 ) {
+        console.log(this.props.cardboardsToValidate.indexOf( parseInt( folio ) ))
+        if ( this.props.cardboardsToValidate.indexOf( parseInt( folio ) ) === -1 ) {
           if ( this.props.gameHistory.length >= 4 ) {
             this.props.onAddCardboardToValidate( folio )
             //this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } )

@@ -185,6 +185,8 @@ export const forceEndGame = ( gameId ) => {
 export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
   return dispatch => {
     console.log( folios )
+    dispatch( startValidateFolio() )
+
     let validationResults = {
       winners: {
         SINGLE_LINE: [],
@@ -200,7 +202,7 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
           const cardboards = response.data.result.items.filter( data => folios.indexOf( data.numcode ) !== -1 )
 
           cardboards.map( cardboard => {
-            const validation = handleCardboardValidation( cardboard.card, gameType, hist )
+            const validation = handleCardboardValidation( cardboard.card, gameType, [5, 27, 7, 46] )
 
             validation.isWinner ? validationResults.winners[validation.pattern].push(cardboard.numcode) : validationResults.loosers.push(cardboard.numcode)
           } )
@@ -210,7 +212,7 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
             // TODO: IMPLEMENT END GAME
             console.log('Hay ganadores de doble linea', validationResults.winners.DOUBLE_LINE)
           } else if ( validationResults.winners.SINGLE_LINE.length !== 0 ) {
-            dispatch( addCardboardsSingleLineWinner( validationResults.winners.SINGLE_LINE ) )
+            // dispatch( addCardboardsSingleLineWinner( validationResults.winners.SINGLE_LINE ) )   dispatch( registerSingleLineWinners( validationResults.winners.SINGLE_LINE, gameId ) )
           } else {
             dispatch( removeAllCardboardsToValidate() )
           }
@@ -228,9 +230,35 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
 }
 
 export const addCardboardsSingleLineWinner = ( cardboards ) => {
+  
   return {
     type: ADD_CARDBOARD_SINGLE_LINE_WINNER,
     cardboards: cardboards
+  }
+}
+
+export const registerSingleLineWinners = ( cardboards, gameId ) => {
+  return dispatch => {
+    axios.post( '/games/singleWinner', {
+      id: gameId,
+      singleWinner: cardboards
+    } )
+    .then( response => {
+      console.log( response )
+      if (response.status === 200) {
+        dispatch( addCardboardsSingleLineWinner( cardboards ) )
+        dispatch( validateFolioSuccess() )
+      } else {
+        console.log(response.data)
+        openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${response.data.error}` )
+        dispatch( validateFolioFail( response.data ) )
+      }
+    } )
+    .catch( err => {
+      console.log( err )
+      openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${err}` )
+      dispatch( validateFolioFail( err ) )
+    } )
   }
 }
 

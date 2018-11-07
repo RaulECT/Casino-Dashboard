@@ -209,7 +209,6 @@ export const deleteCardboard = ( cardboardId ) => {
     axios.post( '/cardboards/edit', {
       active: false,
       barcode: cardboardId,
-      '..id': cardboardId
     } )
     .then( response => {
       console.log( response )
