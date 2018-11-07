@@ -173,7 +173,7 @@ class CardboardManagment extends Component {
               </FormItem>
 
               <div className="cardboardManagment__options-group">
-                <a href="http://104.192.4.252:3001/#/" target="_blank"> <Icon type="picture" /> Ver todos los catones</a>
+                <a href="http://104.192.4.252:3001/#/" target="_blank"> <Icon type="picture" /> Ver todos los cartones</a>
                 <Button onClick={ this.handleOnPrintAllCarboards } size="large" ghost type="primary" icon="download">Descargar todos los cartones</Button>
               </div>
             </Spin>
