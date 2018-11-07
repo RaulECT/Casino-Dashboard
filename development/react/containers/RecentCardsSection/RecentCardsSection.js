@@ -15,7 +15,7 @@ class RecentCardsSection extends Component {
     for (let index = startIndex; index < cards.length - 1; index++) {
       const card = cards[index]
 
-      const imageRef = cardList[ card - 1 ].image
+      const imageRef = cardList[ card ].image
       cardsImages.push(
         <Card 
           key={ `card_img_${index}` }
