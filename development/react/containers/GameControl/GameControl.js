@@ -245,7 +245,7 @@ class GameControl extends Component {
           cardboardsToValidate={this.props.cardboardsToValidate}
           cardboardsValidated={this.props.cardboardsValidated}
           onRemoveCardboard={this.props.onRemoveCardboardsToValidate}
-          onValidateCardboards={ () => this.props.onValidateFolio( this.props.cardboardsToValidate, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } ) }
+          onValidateCardboards={ () => this.props.onValidateFolio( this.props.cardboardsToValidate, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, ( winners ) => { this.anounceWinner( winners ) } ) }
         />
 
         <Divider style={{ marginTop: '40px' }} orientation="left">Control de Partida</Divider>
@@ -340,10 +340,10 @@ class GameControl extends Component {
     }
   }
 
-  anounceWinner = ( winner ) => {
+  anounceWinner = ( winners ) => {
     //console.log( `GameID: ${this.props.game.id} - Winner: ${winner} - Cards: `, this.props.gameHistory )
     //this.openNotification( 'success', '!Alguien ha ganado¡', 'El folio ingresado corresponde al folio ganador' )
-    this.props.onAnounceWinner( this.props.game.id, this.props.gameHistory, parseInt(winner) )
+    this.props.onAnounceWinner( this.props.game.id, this.props.gameHistory, winners )
   }
 
   render() {

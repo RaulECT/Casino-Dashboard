@@ -66,16 +66,16 @@ export const incrementTurn = () => {
   }
 }
 
-export const anounceWinner = ( gameId, cards, winner ) => {
+export const anounceWinner = ( gameId, cards, winners ) => {
   return ( dispatch ) => {
 
     axios.post( '/games/end', {
       id: gameId,
       cards: cards,
-      winnerCardboard: winner   
+      doubleWinner: winners 
     } )
       .then( response => {
-    
+        console.log(response)
         if ( response.status === 200 ) {
           socket.emit( 'USER_WON_RQ' )
           // dispatch( endGame() )
@@ -183,6 +183,7 @@ export const forceEndGame = ( gameId ) => {
 }
 
 export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
+  
   return dispatch => {
     console.log( folios )
     dispatch( startValidateFolio() )
@@ -202,7 +203,7 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
           const cardboards = response.data.result.items.filter( data => folios.indexOf( data.numcode ) !== -1 )
 
           cardboards.map( cardboard => {
-            const validation = handleCardboardValidation( cardboard.card, gameType, [5, 27, 7, 46] )
+            const validation = handleCardboardValidation( cardboard.card, gameType, hist )
 
             validation.isWinner ? validationResults.winners[validation.pattern].push(cardboard.numcode) : validationResults.loosers.push(cardboard.numcode)
           } )
@@ -211,8 +212,10 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
           if ( validationResults.winners.DOUBLE_LINE.length !== 0 ) {
             // TODO: IMPLEMENT END GAME
             console.log('Hay ganadores de doble linea', validationResults.winners.DOUBLE_LINE)
-          } else if ( validationResults.winners.SINGLE_LINE.length !== 0 ) {
-            // dispatch( addCardboardsSingleLineWinner( validationResults.winners.SINGLE_LINE ) )   dispatch( registerSingleLineWinners( validationResults.winners.SINGLE_LINE, gameId ) )
+            dispatch( validateFolioSuccess() )
+            callback( validationResults.winners.DOUBLE_LINE )
+          } else if ( validationResults.winners.SINGLE_LINE.length !== 0 ) {  
+            dispatch( registerSingleLineWinners( validationResults.winners.SINGLE_LINE, gameId ) )
           } else {
             dispatch( removeAllCardboardsToValidate() )
           }
@@ -246,6 +249,7 @@ export const registerSingleLineWinners = ( cardboards, gameId ) => {
     .then( response => {
       console.log( response )
       if (response.status === 200) {
+        openNotification( 'success', 'Ganador(es) de una linea simple', `${cardboards.length} cartón(es) han completado una linea simple.` )
         dispatch( addCardboardsSingleLineWinner( cardboards ) )
         dispatch( validateFolioSuccess() )
       } else {
@@ -261,6 +265,32 @@ export const registerSingleLineWinners = ( cardboards, gameId ) => {
     } )
   }
 }
+
+// export const registerDoubleLineWinners = ( cardboards, hist, gameId, callback ) => {
+//   return dispatch => {
+//     axios.post( '/games/end', {
+//       id: gameId,
+//       cards: hist,
+//       doubleWinner: cardboards
+//     } )
+//     .then( response => {
+//       console.log('[REGISTER_DOUBLE_LINE_WINNERS]:',response)
+//       if ( response.status === 200 ) {
+//         dispatch( validateFolioSuccess() )
+//         callback()
+//       } else {
+//         console.log(response.data)
+//         openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${response.data.error}` )
+//         dispatch( validateFolioFail( response.data ) )
+//       }
+//     } )
+//     .catch( err => {
+//       console.log( err )
+//       openNotification( 'error', 'Algo ha salido mal', `Ha ocurrido un error durante la validación del folio, favor de intentar de nuevo. Error: ${err}` )
+//       dispatch( validateFolioFail( err ) )
+//     } )
+//   }
+// }
 
 // export const validateFolio = ( folio, hist, gameType, gameId, callback ) => {
   
