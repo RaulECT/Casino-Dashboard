@@ -108,6 +108,7 @@ const reducer = ( state = initialState, action ) => {
         ...state,
         loading: false,
         error: null,
+        cardboardImg: null,
         cardboardSelected: null
       }
 

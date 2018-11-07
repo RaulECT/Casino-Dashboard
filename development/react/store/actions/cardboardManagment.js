@@ -215,6 +215,7 @@ export const deleteCardboard = ( cardboardId ) => {
 
       if ( response.status === 200 ) {
         dispatch( deleteCardboardSuccess() )
+        dispatch( getCardboardsTotal() )
       } else {
         dispatch( deleteCardboardFail( response.data.error ) )
       }
