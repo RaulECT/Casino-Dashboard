@@ -1,4 +1,4 @@
-import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID, ADD_CARDBOARD_TO_VALIDATE, REMOVE_CARDBOARD_TO_VALIDATE, ADD_CARDBOARD_SINGLE_LINE_WINNER } from './actions'
+import { START_GAME, END_GAME, INCREMENT_TURN, CREATE_GAME_START, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, VALIDATE_FOLIO_SUCCESS, VALIDATE_FOLIO_START, VALIDATE_FOLIO_FAIL, SET_CONECTION_ID, ADD_CARDBOARD_TO_VALIDATE, REMOVE_CARDBOARD_TO_VALIDATE, ADD_CARDBOARD_SINGLE_LINE_WINNER, REMOVE_ALL_CARDBOARDS_TO_VALIDATE } from './actions'
 import { socket } from '../../../socket'
 import { changeCard, resetGame } from './bingoGame'
 import {notification} from 'antd'
@@ -211,6 +211,8 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
             console.log('Hay ganadores de doble linea', validationResults.winners.DOUBLE_LINE)
           } else if ( validationResults.winners.SINGLE_LINE.length !== 0 ) {
             dispatch( addCardboardsSingleLineWinner( validationResults.winners.SINGLE_LINE ) )
+          } else {
+            dispatch( removeAllCardboardsToValidate() )
           }
         } else {
           
@@ -353,6 +355,14 @@ export const removeCardboardToValidate = ( cardboard ) => {
   return {
     type: REMOVE_CARDBOARD_TO_VALIDATE,
     cardboard: cardboard
+  }
+}
+
+export const removeAllCardboardsToValidate = () => {
+  openNotification( 'error', 'Ningún cartón ha completado una linea.', 'Ninguno de los cartones ha completado una linea simple.' )
+
+  return {
+    type: REMOVE_ALL_CARDBOARDS_TO_VALIDATE
   }
 }
 

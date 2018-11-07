@@ -299,12 +299,16 @@ class GameControl extends Component {
 
     if ( folio !== '000000' ) {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
-        if ( this.props.gameHistory.length >= 4 ) {
-          this.props.onAddCardboardToValidate( folio )
-          //this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } )
-    
+        if ( this.props.cardboardsToValidate.indexOf( parseInt( folio ) ) !== -1 ) {
+          if ( this.props.gameHistory.length >= 4 ) {
+            this.props.onAddCardboardToValidate( folio )
+            //this.props.onValidateFolio( folio, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, () => { this.anounceWinner( folio ) } )
+      
+          } else {
+            this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
+          }           
         } else {
-          this.openNotification( 'warning', 'Hey! Todavía estamos iniciando', 'No han pasado los turnos suficientes para poder elegir a un ganador.' )
+          this.openNotification( 'warning', 'Folio repetido', 'El folio ya se ha ingresado para validar.' )
         } 
       } else {
         this.openNotification( 'warning', 'Folio no encontrado', 'El folio que ingresó no se encuentra registrado para esta partida.' )

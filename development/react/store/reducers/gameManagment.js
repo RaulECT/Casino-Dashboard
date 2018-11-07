@@ -24,7 +24,8 @@ const reducer = ( state = initialState, action ) => {
     SET_CONECTION_ID,
     ADD_CARDBOARD_TO_VALIDATE,
     REMOVE_CARDBOARD_TO_VALIDATE,
-    ADD_CARDBOARD_SINGLE_LINE_WINNER
+    ADD_CARDBOARD_SINGLE_LINE_WINNER,
+    REMOVE_ALL_CARDBOARDS_TO_VALIDATE
   } = actionsTypes
 
   switch ( action.type ) {
@@ -114,6 +115,12 @@ const reducer = ( state = initialState, action ) => {
       return {
         ...state,
         carboadsValidated: state.carboadsValidated.concat( action.cardboards ),
+        cardboardsToValidate: []
+      }
+
+    case REMOVE_ALL_CARDBOARDS_TO_VALIDATE:
+      return {
+        ...state,
         cardboardsToValidate: []
       }
 
