@@ -42,7 +42,9 @@ const reducer = ( state = initialState, action ) => {
         isGameStart: false,
         turn: 0,
         error: null,
-        loading: false
+        loading: false,
+        cardboardsToValidate: [],
+        carboadsValidated: []
       }
 
     case INCREMENT_TURN:
