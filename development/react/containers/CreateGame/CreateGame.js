@@ -164,6 +164,7 @@ class CreateGame extends Component {
           })(
            <InputNumber 
               min={10}
+              max={1000}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -182,6 +183,7 @@ class CreateGame extends Component {
           })(
             <InputNumber 
               min={15}
+              max={1000}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -200,6 +202,7 @@ class CreateGame extends Component {
           })(
             <InputNumber 
               min={1}
+              max={1000}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -214,10 +217,11 @@ class CreateGame extends Component {
         >
           {getFieldDecorator('electronicPrice', {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
-            initialValue: 1
+            initialValue: 10
           })(
             <InputNumber 
-              min={1}
+              min={10}
+              max={1000}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -270,6 +274,7 @@ class CreateGame extends Component {
           })(
             <InputNumber 
               min={1}
+              max={1000}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -286,9 +291,8 @@ class CreateGame extends Component {
             rules: [{ required: true, message: 'Este campo no puede estar vacio!' }],
           })(
            <InputNumber 
-            min={0}
+            min={1}
             max={100}
-            formatter={value => `%${value}`}
             style={ styles.input }
             size="large"
             disabled={this.props.loading}
@@ -305,6 +309,7 @@ class CreateGame extends Component {
           })(
             <InputNumber 
               min={1}
+              max={1000}
               formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               parser={value => value.replace(/\$\s?|(,*)/g, '')}
               style={ styles.input }
@@ -323,7 +328,6 @@ class CreateGame extends Component {
             <InputNumber 
               min={0}
               max={100}
-              formatter={value => `%${value}`}
               style={ styles.input }
               size="large"
               disabled={this.props.loading}
