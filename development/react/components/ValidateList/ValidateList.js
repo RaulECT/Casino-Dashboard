@@ -34,8 +34,8 @@ const validateList = props => {
       </Col>
       
       <Col span={12}>
-        <Collapse style={styles}>
-          <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es).`} key='2'>
+        <Collapse style={styles} defaultActiveKey={ [ '2' ] }>
+          <Panel header={`Hay ${props.cardboardsValidated.length} cartón(es) ganador(es) de línea simple.`} key='2'>
             { cardboardsValidatedTags }
           </Panel>
         </Collapse>
