@@ -87,7 +87,7 @@ export const searchCardboardSuccess = ( cardboard, cardboardImg ) => {
 }
 
 export const searchCardboardFail = ( error ) => {
-  openNotification( 'error', 'Ha ocurrido un error.', `No se puedo completar la operación. Error: ${error}`  )
+  openNotification( 'error', 'Cartón Inexistente.', `${error}`  )
 
   return {
     type: SEARCH_CARDBOARD_FAIL,

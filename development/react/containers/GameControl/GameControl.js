@@ -207,7 +207,7 @@ class GameControl extends Component {
       </Aux>
     ) 
     
-    const section = this.props.game ? gameInfo : ( <h2 className="gameControl__sub-header">No se ha encontrado una próxima partida de loteria, verifique que el juego existe o favor de crear uno.</h2> )
+    const section = this.props.game ? gameInfo : ( <h2 className="gameControl__sub-header">No se ha encontrado una próxima partida de lotería, verifique que el juego existe o favor de crear uno.</h2> )
     
     return (
       <Aux>
