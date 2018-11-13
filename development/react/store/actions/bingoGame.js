@@ -90,7 +90,7 @@ export const addCardboardToGame = ( cardboard ) => {
   }
 }
 
-export const addCardboard = ( cardboard ) => {
+export const addCardboard = ( cardboard, cardboardList ) => {
   return dispatch => {
     axios.post( '/cardboards/get', {
       numcode: parseInt( cardboard )
@@ -99,13 +99,17 @@ export const addCardboard = ( cardboard ) => {
       console.log( response )
       if ( response.status === 200 ) {
         if ( response.data.result.totalFound !== 0 ) {
-          dispatch( addCardboardToGame( cardboard ) )  
+          if ( cardboardList.indexOf( parseInt( cardboard ) ) === -1 ) {
+            dispatch( addCardboardToGame( cardboard ) ) 
+          } else {
+           openNotification( 'warning', 'No se ha podido agregar el cartón', 'Ya se ha a gregado este cartón a la partida.' ) 
+          }
         } else {
-          openNotification( 'warning', 'No se ha podido agregar el carton', 'Verifique que el carton que acaba de ingresar este registrado' )
+          openNotification( 'warning', 'No se ha podido agregar el cartón', 'Verifique que el carton que acaba de ingresar este registrado' )
         }
         
       } else {
-        openNotification( 'warning', 'No se ha podido agregar el carton', 'Verifique que el carton que acaba de ingresar este registrado' )
+        openNotification( 'warning', 'No se ha podido agregar el cartón', 'Verifique que el carton que acaba de ingresar este registrado' )
       }
     } )
     .catch( err => {

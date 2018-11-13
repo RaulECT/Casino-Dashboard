@@ -111,7 +111,7 @@ class GameControl extends Component {
 
     this.props.form.validateFields( ( err, values ) => {
       if ( !err ) {
-        this.props.onAddCardboard( values.playerCardboard )
+        this.props.onAddCardboard( values.playerCardboard, this.props.cardboardList )
         this.handleAddCardboardModal()
         this.props.form.resetFields()
       }
@@ -382,7 +382,7 @@ const mapDispatchToProps = dispatch => {
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: () => dispatch( loadCurrentGame() ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
-    onAddCardboard: ( cardboard ) => dispatch( addCardboard( cardboard ) ),
+    onAddCardboard: ( cardboard, cardboardList ) => dispatch( addCardboard( cardboard, cardboardList ) ),
     onForceEndGame: ( gameId ) => dispatch( forceEndGame( gameId ) ),
     onValidateFolio: ( folio, hist, gametType, gameId, callback ) => dispatch( validateFolio(folio, hist, gametType, gameId, callback) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
