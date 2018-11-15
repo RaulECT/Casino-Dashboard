@@ -163,9 +163,10 @@ export const forceEndGame = ( gameId ) => {
     axios.post( '/games/end', {
       id: gameId,
       cards: [],
-      winnerCardboard: parseInt('000000')
+      doubleWinner: [ parseInt( '000000' ) ]
     } )
     .then( response => {
+   
       if ( response.status === 200 ) {
         openNotification( 'warning', 'Fin del Juego', 'Se ha forzado el fin del juego.' )
         dispatch( endGame() )
