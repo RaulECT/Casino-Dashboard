@@ -153,7 +153,7 @@ class BingoGame extends Component {
           gridColumn="1/3"
           label="Patrón ganador:"
           customContent={ ( 
-            <div style={ { width: '23rem', height: '23rem', background: 'rgba(0, 0, 0, .26)' } }>
+            <div className="pattern-responsive" style={ { width: '23rem', height: '23rem', background: 'rgba(0, 0, 0, .26)' } }>
               <CardboardPattern 
                 gameType={this.props.game ? this.props.game.linePattern : 'LINEA'}
               />
@@ -165,7 +165,7 @@ class BingoGame extends Component {
           gridRow="4/-1"
           gridColumn="3/-1"
           label="Carta actual:"
-          customContent={ ( <Card cover="contain" width='20rem' height='31rem' img={ `/static/assets/${this.props.card.image}` } />  ) }
+          customContent={ ( <Card isResponsive cover="contain" width='20rem' height='31rem' img={ `/static/assets/${this.props.card.image}` } />  ) }
         />
 
       </Panel>

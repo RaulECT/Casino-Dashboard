@@ -38,4 +38,9 @@
     font-size: 3rem;
     margin: -1rem 0;
   }
+
+  .pattern-responsive {
+    width: 20rem !important;
+    height: 20rem !important;
+  }
 }

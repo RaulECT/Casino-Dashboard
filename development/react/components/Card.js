@@ -4,18 +4,20 @@ import './Card.css'
 
 const card = ( props ) => {
 
+  const classes = [ 'card-item' ]
   const styles = {
     width: props ? props.width : '200px',
     height: props ? props.height : '400px',
-   
   }
+
+  props.isResponsive ? classes.push( 'card-item-responsive' ) : null
 
   return(
     <img 
       src={props.img} 
       alt="Bingo Card"
       style={ styles }
-      className="card-item"
+      className={ classes.join( ' ' ) }
     />
   )
 }
