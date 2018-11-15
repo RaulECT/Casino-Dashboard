@@ -47,7 +47,7 @@ class BingoGame extends Component {
      } )
 
      socket.on( 'START_GAME', ( game ) => {
-       this.props.game ? null : this.props.onSetCurrentGame( game )
+       this.props.game ? null : this.props.onSetCurrentGame( game.game )
      } )
 
      socket.on( 'FORCE_END_GAME', () => {
