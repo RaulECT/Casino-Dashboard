@@ -12,6 +12,7 @@ var cardList = null
 var currentGame = null
 var gameHistory = null
 var cardboards = null
+var cardboardsRegistered = []
 
 app.use( '/static/', express.static( 'production' ) )
 
@@ -36,6 +37,11 @@ io.on( "connect", ( client ) => {
       cardboards: cardboards
     } )
   }
+
+  client.on( 'REGISTER_CARDBOARD_RQ', ( cardboard ) => {
+    cardboardsRegistered.push( cardboard )
+    io.emit( 'REGISTER_CARDBOARD', cardboard )
+  } )
 
   client.on( 'START_GAME_RQ', ( game ) => {
     currentGame = game.game

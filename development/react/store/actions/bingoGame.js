@@ -3,6 +3,7 @@ import { startGame } from './gameManagment'
 import axios from '../../../axios-bingo'
 import moment from 'moment'
 import { notification } from 'antd'
+import { socket } from '../../../socket';
 
 export const changeCard = ( card, cardList ) => {
   return {
@@ -100,6 +101,8 @@ export const addCardboard = ( cardboard, cardboardList ) => {
       if ( response.status === 200 ) {
         if ( response.data.result.totalFound !== 0 ) {
           if ( cardboardList.indexOf( parseInt( cardboard ) ) === -1 ) {
+            console.log(response)
+            socket.emit( 'REGISTER_CARDBOARD_RQ', { numcode: response.data.result.items[0].numcode, type: response.data.result.items[0].type } )
             dispatch( addCardboardToGame( cardboard ) ) 
           } else {
            openNotification( 'warning', 'No se ha podido agregar el cartón', 'Ya se ha a gregado este cartón a la partida.' ) 

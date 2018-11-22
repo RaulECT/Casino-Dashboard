@@ -6,15 +6,15 @@ const cardboardItem = props => {
   const classes = [ 'cardboard-item' ]
 
   switch ( props.type ) {
-    case 'single':
+    case 'SINGLE':
       classes.push( 'cardboard-item__single' )
       break;
     
-    case 'double':
+    case 'DOUBLE':
       classes.push( 'cardboard-item__double' )
       break;
     
-    case 'triple':
+    case 'TRIPLE':
       classes.push( 'cardboard-item__triple' )
       break;
   
