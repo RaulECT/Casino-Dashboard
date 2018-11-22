@@ -17,13 +17,22 @@
 }
 
 .cardboard-figure__single-line {
-  background: rgba(255, 217, 125, .8);
+  /* background: rgba(255, 217, 125, .8); */
+
+  /*OPT 1*/
+  background: rgba(247, 219, 167, 1); 
 }
 
 .cardboard-figure__double-line {
-  background: rgba(238, 96, 85, .8);
+  /* background: rgba(238, 96, 85, .8); */
+
+  /*OPT 1*/
+  background: rgba(37, 22, 5, 1);
 }
 
 .cardboard-figure__triple-line {
-  background: rgba(170, 246, 131, .5);
+  /* background: rgba(170, 246, 131, .5); */
+
+  /*OPT 1*/
+  background: rgba(197, 123, 67, 1); 
 }

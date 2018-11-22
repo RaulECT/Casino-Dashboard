@@ -16,9 +16,9 @@ var cardboardsRegistered = []
 var cardboardsPagesConnected = []
 
 function pageCardboards( cardboardsRegistered, index ) {
-  const cardboardsPerPage = 100
+  const cardboardsPerPage = 154
 
- if ( cardboardsRegistered.length >= 100 ) {
+ if ( cardboardsRegistered.length >= 154 ) {
   const limitSup = index * cardboardsPerPage
   const limitInf = limitSup - cardboardsPerPage
   const cardboardsPaged = cardboardsRegistered.slice( limitInf, limitSup )
@@ -31,9 +31,14 @@ function pageCardboards( cardboardsRegistered, index ) {
 
 // TODO: DELETE
 const types = [ 'SINGLE', 'DOUBLE', 'TRIPLE' ]
-for (let index = 0; index < 220; index++) {
+for (let index = 0; index < 154; index++) {
   const randomType = types[ Math.floor(Math.random() * (types.length - 0)) + 0 ]
-  const randomNumcode = parseInt(`66666${Math.floor(Math.random() * (6 - 0)) + 0}`)
+  const first = Math.floor((Math.random() * 9) + 1)
+  const second = Math.floor((Math.random() * 9) + 1)
+  const third = Math.floor((Math.random() * 9) + 1)
+  const fourth = Math.floor((Math.random() * 9) + 1)
+
+  const randomNumcode = parseInt(`${first}${second}${third}${fourth}`)
   
   cardboardsRegistered.push( { numcode: randomNumcode, type: randomType } )
 }

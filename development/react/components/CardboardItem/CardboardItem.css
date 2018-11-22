@@ -7,18 +7,54 @@
 }
 
 .cardboard-item__single {
-  color: rgba(0,0,0, .5);
-  background: rgba(255, 217, 125, .8);
+  /* color: rgba(0,0,0, .5);
+  background: rgba(255, 217, 125, .8); */
+
+  /*OPT 1*/
+  color: rgba(0, 0, 0, .8);
+  background: rgba(247, 219, 167, 1);
+
+  /*OPT 2*/
+      /* color: rgba(255, 255, 255, .9);
+    background: rgba(195, 156, 167, 1); */
+
+  /*OPT 3*/
+  /* color: rgba(0, 0, 0, .8);
+  background: rgba(247, 219, 167, 1); */
 }
 
 .cardboard-item__double {
-  color: rgba(255,255,255,.8);
-  background: rgba(238, 96, 85, .8);
+  /* color: rgba(255,255,255,.8);
+  background: rgba(238, 96, 85, .8); */
+
+  /*OPT 1*/
+  color: rgba(255,255,255,1);
+  background: rgba(37, 22, 5, 1);
+
+  /*OPT 2*/
+  /* color: rgba(0,0,0,.9);
+    background: rgba(255, 241, 196, 1); */
+
+  /*OPT 3*/
+  /* color: rgba(0,0,0,.8);
+  background: rgba(255, 255, 255, .9); */
 }
 
 .cardboard-item__triple {
-  color: rgba(0,0,0,.5);
-  background: rgba(170, 246, 131, .5);
+  /* color: rgba(0,0,0,.5);
+  background: rgba(170, 246, 131, .5); */
+
+  /*OPT 1*/
+  color: rgba(255,255,255,1);
+    background: rgba(197, 123, 67, 1);
+
+  /*OPT 2*/
+  /* color: rgba(255,255,255,1);
+    background: rgba(118, 106, 91, 1); */
+  
+  /*OPT 3*/
+  /* color: rgba(255,255,255,1);
+  background: rgba(118, 78, 45, 1); */
 }
 
 @media only screen and ( max-width: 1400px ) {

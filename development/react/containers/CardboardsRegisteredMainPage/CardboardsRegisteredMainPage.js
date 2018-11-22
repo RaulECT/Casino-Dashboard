@@ -10,9 +10,9 @@ let socket = null
 let fakeData = []
 const types = [ 'single', 'double', 'triple' ]
 
-for (let index = 0; index < 100; index++) {
+for (let index = 0; index < 154; index++) {
   const randomNumber = Math.floor(Math.random() * (types.length - 0)) + 0;
-  fakeData.push( { numcode: 323232, type: types[randomNumber] } )
+  fakeData.push( { numcode: 1234, type: types[randomNumber] } )
 }
 
 class CardboardsRegisteredMainPage extends Component {
