@@ -39,9 +39,11 @@ class CardsSection extends Component {
           <Card 
             key={ `card_img_${index}` }
             cover="contain" 
-            width='10rem' 
-            height='15rem'
+            width='12rem' 
+            height='17rem'
             img={ `/static/assets/${imageRef}` }
+            scale={1}
+            isRecentCard
           />
         )
       }

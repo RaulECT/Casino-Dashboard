@@ -8,6 +8,8 @@ const card = ( props ) => {
   const styles = {
     width: props ? props.width : '200px',
     height: props ? props.height : '400px',
+    transform: props.scale ? `scale(${props.scale})` :  'scale(1)',
+    transform: props.scale ? `scale(${props.scale})` :  'scale(1)'
   }
 
   props.isResponsive ? classes.push( 'card-item-responsive' ) : null
