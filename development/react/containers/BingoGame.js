@@ -11,13 +11,15 @@ import GridItem from '../components/GridItem/GridItem'
 import GameLabel from '../components/GameLabel/GameLabel'
 import RecentCardsSection from './RecentCardsSection/RecentCardsSection'
 import CardboardPattern from '../components/CardboardPattern/CardboardPattern'
-import { socket } from '../../socket'
+import { openConnection } from '../../socket'
 import './BingoGame.css'
 
+let socket = null
 
 class BingoGame extends Component {
 
   componentDidMount() {
+    socket = openConnection()
 
     //TODO: REPLACE WITH SOCKETIO
     addEventListener( "keypress", (e) => { 
@@ -53,6 +55,10 @@ class BingoGame extends Component {
      socket.on( 'FORCE_END_GAME', () => {
        this.props.onEndGame()
      } )
+  }
+
+  componentWillUnmount() {
+    socket.close()
   }
 
   onChangeCard = ( card, cardList ) => {
@@ -153,7 +159,7 @@ class BingoGame extends Component {
           gridColumn="1/3"
           label="Patrón ganador:"
           customContent={ ( 
-            <div className="pattern-responsive" style={ { width: '23rem', height: '23rem', background: 'rgba(0, 0, 0, .26)' } }>
+            <div className="pattern-responsive" style={ { width: '23rem', height: '20rem', background: 'rgba(0, 0, 0, .26)' } }>
               <CardboardPattern 
                 gameType={this.props.game ? this.props.game.linePattern : 'LINEA'}
               />

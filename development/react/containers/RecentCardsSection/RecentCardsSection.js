@@ -20,9 +20,11 @@ class RecentCardsSection extends Component {
         <Card 
           key={ `card_img_${index}` }
           cover="contain" 
-          width='10rem' 
-          height='15rem'
+          width='12.5rem' 
+          height='19rem'
           img={ `/static/assets/${imageRef}` }
+          isResponsive
+          isRecentCard
         />
       )
     }

@@ -29,6 +29,15 @@ function pageCardboards( cardboardsRegistered, index ) {
  } 
 }
 
+// TODO: DELETE
+const types = [ 'SINGLE', 'DOUBLE', 'TRIPLE' ]
+for (let index = 0; index < 220; index++) {
+  const randomType = types[ Math.floor(Math.random() * (types.length - 0)) + 0 ]
+  const randomNumcode = parseInt(`66666${Math.floor(Math.random() * (6 - 0)) + 0}`)
+  
+  cardboardsRegistered.push( { numcode: randomNumcode, type: randomType } )
+}
+
 app.use( '/static/', express.static( 'production' ) )
 
 // Express Server

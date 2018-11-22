@@ -11,6 +11,7 @@ const card = ( props ) => {
   }
 
   props.isResponsive ? classes.push( 'card-item-responsive' ) : null
+  props.isRecentCard ? classes.push( 'card-item--recent-card' ) : null
 
   return(
     <img 
