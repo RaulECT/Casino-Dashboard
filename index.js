@@ -38,6 +38,8 @@ io.on( "connect", ( client ) => {
     } )
   }
 
+  client.emit( 'CARDBOARDS_PAGE_CONNECTED', { cardboardsRegistered } )
+
   client.on( 'REGISTER_CARDBOARD_RQ', ( cardboard ) => {
     cardboardsRegistered.push( cardboard )
     io.emit( 'REGISTER_CARDBOARD', cardboard )

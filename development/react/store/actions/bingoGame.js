@@ -101,7 +101,7 @@ export const addCardboard = ( cardboard, cardboardList ) => {
       if ( response.status === 200 ) {
         if ( response.data.result.totalFound !== 0 ) {
           if ( cardboardList.indexOf( parseInt( cardboard ) ) === -1 ) {
-            console.log(response)
+          
             socket.emit( 'REGISTER_CARDBOARD_RQ', { numcode: response.data.result.items[0].numcode, type: response.data.result.items[0].type } )
             dispatch( addCardboardToGame( cardboard ) ) 
           } else {
