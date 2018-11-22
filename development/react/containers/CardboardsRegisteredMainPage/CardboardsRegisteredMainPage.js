@@ -23,15 +23,15 @@ class CardboardsRegisteredMainPage extends Component {
 
   componentDidMount() {
     socket = openConnection()
-
+  
+    socket.emit( 'CONNECT_CARDBOARDS_PAGE', {} )
+  
     socket.on( 'CARDBOARDS_PAGE_CONNECTED', res => {
       this.setState( { cardboards: res.cardboardsRegistered } )
     } )
 
-    socket.on( 'REGISTER_CARDBOARD', cardboard => {
-      this.setState( prevState => {
-        return { cardboards: prevState.cardboards.concat( cardboard ) }
-      } )
+    socket.on( 'REGISTER_CARDBOARD', cardboards => {
+      this.setState( { cardboards } )
     } )
   }
 

@@ -13,6 +13,21 @@ var currentGame = null
 var gameHistory = null
 var cardboards = null
 var cardboardsRegistered = []
+var cardboardsPagesConnected = []
+
+function pageCardboards( cardboardsRegistered, index ) {
+  const cardboardsPerPage = 100
+
+ if ( cardboardsRegistered.length >= 100 ) {
+  const limitSup = index * cardboardsPerPage
+  const limitInf = limitSup - cardboardsPerPage
+  const cardboardsPaged = cardboardsRegistered.slice( limitInf, limitSup )
+
+  return cardboardsPaged
+ } else {
+   return cardboardsRegistered
+ } 
+}
 
 app.use( '/static/', express.static( 'production' ) )
 
@@ -38,11 +53,24 @@ io.on( "connect", ( client ) => {
     } )
   }
 
-  client.emit( 'CARDBOARDS_PAGE_CONNECTED', { cardboardsRegistered } )
+  client.on( 'CONNECT_CARDBOARDS_PAGE', ( data ) => {
+    cardboardsPagesConnected.push( client.id )
+    const cardboards = pageCardboards( cardboardsRegistered, cardboardsPagesConnected.length )
+    client.emit( 'CARDBOARDS_PAGE_CONNECTED', { cardboardsRegistered: cardboards } )
+  } )
+
+
 
   client.on( 'REGISTER_CARDBOARD_RQ', ( cardboard ) => {
     cardboardsRegistered.push( cardboard )
-    io.emit( 'REGISTER_CARDBOARD', cardboard )
+
+    cardboardsPagesConnected.map( ( page, index ) => {
+      const cardboards = pageCardboards( cardboardsRegistered, (index + 1) )
+    
+      client.broadcast.to( page ).emit( 'REGISTER_CARDBOARD', cardboards )
+    } )
+
+    // io.emit( 'REGISTER_CARDBOARD', cardboardsRegistered )
   } )
 
   client.on( 'START_GAME_RQ', ( game ) => {
@@ -76,6 +104,10 @@ io.on( "connect", ( client ) => {
     cardboards = null
 
     io.emit( 'FORCE_END_GAME' )
+  } )
+
+  client.on( 'disconnect', data => {
+    cardboardsPagesConnected = cardboardsPagesConnected.filter( page => page !== client.id )
   } )
 
 } )
