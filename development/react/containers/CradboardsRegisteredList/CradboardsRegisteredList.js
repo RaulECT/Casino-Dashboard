@@ -6,7 +6,7 @@ class CradboardsRegisteredList extends Component {
 
   render() {
     return (
-      <CradboardsRegisteredList />
+      <CardboardsRegisteredMainPage />
     )
   }
 }

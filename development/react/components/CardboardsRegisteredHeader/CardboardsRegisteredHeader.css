@@ -1,0 +1,31 @@
+.cardboards-registered__header {
+  background: rgba(0,0,0,.15);
+  display: flex;
+  align-items: center;
+  border-radius: 9px;
+  padding-left: 5rem;
+}
+
+.cardboards-registered__header h1 {
+  color: #ffffff;
+  font-size: 7rem;
+  font-weight: 100;  
+  margin-bottom: 0;
+}
+
+.cardboards-registered__header h2 {
+  color: #ffffff;
+  font-size: 6.2rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.cardboards-registered__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardboards-registered__description {
+  margin-left: 12rem;
+}
+

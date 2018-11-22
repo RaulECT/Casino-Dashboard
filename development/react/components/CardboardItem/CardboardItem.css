@@ -1,0 +1,28 @@
+.cardboard-item {
+  margin-right: 2rem;
+  font-size: 3.26rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  border-radius: 9px;
+}
+
+.cardboard-item__single {
+  color: rgba(0,0,0, .5);
+  background: rgba(249, 194, 46, .4);
+}
+
+.cardboard-item__double {
+  color: rgba(0,0,0,.5);
+  background: rgba(8, 72, 135, .5);
+}
+
+.cardboard-item__triple {
+  color: rgba(0,0,0,.5);
+  background: rgba(97, 139, 74, .5);
+}
+
+@media only screen and ( max-width: 1200px ) {
+  .cardboard-item {
+    font-size: 2.6rem;
+  }
+}
