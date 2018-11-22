@@ -8,7 +8,7 @@ const cardboardLabel = props => {
 
   switch ( props.type ) {
     case 'singleLine':
-      text = 'Sencilla'
+      text = 'Sencillo'
       figureClass.push( 'cardboard-figure__single-line')
       break;
 

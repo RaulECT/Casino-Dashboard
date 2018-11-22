@@ -10,7 +10,7 @@ const cardboardsRegisteredHeader = props => {
       <h1>¡Lotería Bingo!</h1>
 
       <div className="cardboards-registered__description">
-        <h2>Cartillas Registradas</h2>
+        <h2>Cartones Registrados</h2>
         
         <div className="cardboards-registered__info">
           <CardboardLabel type="singleLine" />
