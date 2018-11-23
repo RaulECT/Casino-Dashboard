@@ -31,7 +31,7 @@ function pageCardboards( cardboardsRegistered, index ) {
 
 // TODO: DELETE
 const types = [ 'SINGLE', 'DOUBLE', 'TRIPLE' ]
-for (let index = 0; index < 154; index++) {
+for (let index = 0; index < 30; index++) {
   const randomType = types[ Math.floor(Math.random() * (types.length - 0)) + 0 ]
   const first = Math.floor((Math.random() * 9) + 1)
   const second = Math.floor((Math.random() * 9) + 1)

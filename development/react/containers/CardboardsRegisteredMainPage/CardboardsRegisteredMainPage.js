@@ -18,7 +18,8 @@ for (let index = 0; index < 154; index++) {
 class CardboardsRegisteredMainPage extends Component {
 
   state = {
-    cardboards: [] //fakeData
+    cardboards: [], //fakeData,
+    test: true
   }
 
   componentDidMount() {
