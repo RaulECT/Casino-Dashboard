@@ -7,7 +7,7 @@ module.exports = {
   entry: path.join( devPath, 'app.jsx' ),
   output: {
     path: prodPath,
-    filename: 'app.js'
+    filename: 'app.js',
   },
   module: {
     rules: [
