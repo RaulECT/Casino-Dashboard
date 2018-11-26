@@ -11,7 +11,7 @@ module.exports = {
     path: prodPath,
     publicPath: '/static/',
     filename: '[name].js',
-    chunkFilename: '[name].[chunkhash].js',
+    chunkFilename: '[name].js',
   },
   module: {
     rules: [

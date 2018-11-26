@@ -1,4 +1,4 @@
-webpackJsonp([8],{
+webpackJsonp([0],{
 
 /***/ "+d8z":
 /***/ (function(module, exports, __webpack_require__) {
@@ -264,7 +264,7 @@ var Card = function (_Component) {
   _createClass(Card, [{
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps, nextState) {
-      console.log(nextProps.img !== this.props.img);
+
       return nextProps.img !== this.props.img;
     }
   }, {
@@ -2393,6 +2393,11 @@ var GlobalHeader = function (_Component) {
   }
 
   _createClass(GlobalHeader, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      return nextState.isLogOutModalShowing !== this.state.isLogOutModalShowing;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;

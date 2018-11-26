@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([2],{
 
 /***/ "2QdF":
 /***/ (function(module, exports, __webpack_require__) {
@@ -419,6 +419,21 @@ exports.push([module.i, ".cardboards-list {\n  display: flex;\n  align-items: ce
 
 /***/ }),
 
+/***/ "X1Fc":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".bingo-background {\n  width: 100vw;\n  height: 100vh;\n  background: url('/static/assets/background.svg');\n  background-size: cover;\n  padding: 2rem 4.5rem;\n  display: flex;\n}\n\n.bingo-background__panel {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n  display: grid;\n  grid-auto-columns: 1fr;\n  grid-template-columns: 1fr 1fr;\n}\n\n.bingo-background__panel--without-grid {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "avoj":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -530,6 +545,57 @@ exports.default = CradboardsRegisteredList;
 
 /***/ }),
 
+/***/ "iQcD":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__("X1Fc");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__("MTIv")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Background.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Background.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "nCQZ":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -542,6 +608,40 @@ exports.push([module.i, ".cardboard-label__container {\n  display: flex;\n  alig
 
 // exports
 
+
+/***/ }),
+
+/***/ "prCc":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("iQcD");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var background = function background(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'bingo-background' },
+    _react2.default.createElement(
+      'div',
+      { className: props.grid ? 'bingo-background__panel' : 'bingo-background__panel--without-grid' },
+      props.children
+    )
+  );
+};
+
+exports.default = background;
 
 /***/ }),
 

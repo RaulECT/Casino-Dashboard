@@ -1,4 +1,4 @@
-webpackJsonp([11],{
+webpackJsonp([3],{
 
 /***/ "6f/o":
 /***/ (function(module, exports, __webpack_require__) {
@@ -10,6 +10,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
@@ -20,27 +22,53 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var card = function card(props) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  var classes = ['card-item'];
-  var styles = _defineProperty({
-    width: props ? props.width : '200px',
-    height: props ? props.height : '400px',
-    transform: props.scale ? 'scale(' + props.scale + ')' : 'scale(1)'
-  }, 'transform', props.scale ? 'scale(' + props.scale + ')' : 'scale(1)');
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  props.isResponsive ? classes.push('card-item-responsive') : null;
-  props.isRecentCard ? classes.push('card-item--recent-card') : null;
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  return _react2.default.createElement('img', {
-    src: props.img,
-    alt: 'Bingo Card',
-    style: styles,
-    className: classes.join(' ')
-  });
-};
+var Card = function (_Component) {
+  _inherits(Card, _Component);
 
-exports.default = card;
+  function Card() {
+    _classCallCheck(this, Card);
+
+    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+  }
+
+  _createClass(Card, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+
+      return nextProps.img !== this.props.img;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var classes = ['card-item'];
+      var styles = _defineProperty({
+        width: this.props ? this.props.width : '200px',
+        height: this.props ? this.props.height : '400px',
+        transform: this.props.scale ? 'scale(' + this.props.scale + ')' : 'scale(1)'
+      }, 'transform', this.props.scale ? 'scale(' + this.props.scale + ')' : 'scale(1)');
+
+      this.props.isResponsive ? classes.push('card-item-responsive') : null;
+      this.props.isRecentCard ? classes.push('card-item--recent-card') : null;
+
+      return _react2.default.createElement('img', {
+        src: this.props.img,
+        alt: 'Bingo Card',
+        style: styles,
+        className: classes.join(' ')
+      });
+    }
+  }]);
+
+  return Card;
+}(_react.Component);
+
+exports.default = Card;
 
 /***/ }),
 

@@ -22,6 +22,10 @@ class GlobalHeader extends Component {
     isLogOutModalShowing: false
   }
 
+  shouldComponentUpdate( nextProps, nextState ) {
+    return nextState.isLogOutModalShowing !== this.state.isLogOutModalShowing
+  }
+
   showLogOutModal = () => {
     this.setState( {
       isLogOutModalShowing: !this.state.isLogOutModalShowing

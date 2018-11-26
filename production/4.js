@@ -1,4 +1,4 @@
-webpackJsonp([12],{
+webpackJsonp([4],{
 
 /***/ "6f/o":
 /***/ (function(module, exports, __webpack_require__) {
@@ -39,8 +39,9 @@ var Card = function (_Component) {
 
   _createClass(Card, [{
     key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate() {
-      return false;
+    value: function shouldComponentUpdate(nextProps, nextState) {
+
+      return nextProps.img !== this.props.img;
     }
   }, {
     key: 'render',
@@ -67,9 +68,7 @@ var Card = function (_Component) {
   return Card;
 }(_react.Component);
 
-var card = function card(props) {};
-
-exports.default = card;
+exports.default = Card;
 
 /***/ }),
 
