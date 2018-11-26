@@ -1,4 +1,6 @@
 const path = require('path')
+const package = require('./package.json')
+const webpack = require('webpack')
 
 var devPath = path.join( __dirname, 'development' )
 var prodPath = path.join( __dirname, 'production' )
@@ -7,7 +9,9 @@ module.exports = {
   entry: path.join( devPath, 'app.jsx' ),
   output: {
     path: prodPath,
-    filename: 'app.js',
+    publicPath: '/static/',
+    filename: '[name].js',
+    chunkFilename: '[name].[chunkhash].js',
   },
   module: {
     rules: [
@@ -21,5 +25,15 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.HashedModuleIdsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name:'vendor',
+      filename: 'vendor.[chunkhash].js'
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name:'manifest'
+    })
+  ]
 
 }

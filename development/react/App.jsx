@@ -1,20 +1,18 @@
-import React, {Component} from 'react'
-import { HashRouter, Route, Redirect } from 'react-router-dom'
+import React, { Component, Fragment } from 'react'
+import { HashRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CSSTransition from 'react-transition-group/CSSTransition'
 
-import Aux from './components/Aux'
-import BingoGame from './containers/BingoGame'
-import Login from './containers/Login/Login'
-import Dashboard from './containers/Dashboard/Dashboard'
-import WinnerSection from './containers/WinnerSection/WinnerSection'
-import CardsSection from './containers/CardsSection/CardsSection'
-import CradboardsRegisteredList from './containers/CradboardsRegisteredList/CradboardsRegisteredList'
-import { authCheckState } from './store/actions/index'
-
-import Test from './containers/Test'
-
 import './App.css'
+import { authCheckState } from './store/actions/index'
+import {
+  Dashboard,
+  Login,
+  BingoGame,
+  WinnerSection,
+  CardsSection,
+  CradboardsRegisteredList
+} from './routes'
 
 class App extends Component {
 
@@ -24,10 +22,8 @@ class App extends Component {
 
   render() {
     let routes = []
-
     if ( this.props.isAuthenticated ) {
       routes = [
-        <Route key="test_screen" exact path="/Test" component={Test} />,
         <Route key="dashboard_screen" path="/dashboard" component={Dashboard} />,
         <Route key="main_screen" exact path="/" component={Dashboard} />,
       ]
@@ -39,7 +35,7 @@ class App extends Component {
     }
 
     return(
-      <Aux>
+      <Fragment>
         <CSSTransition
           in={this.props.isAuthenticated}
           timeout={300}
@@ -56,7 +52,7 @@ class App extends Component {
           </HashRouter>
         </CSSTransition>
         
-      </Aux>
+      </Fragment>
     )
   }
 }
