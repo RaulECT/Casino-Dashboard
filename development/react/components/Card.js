@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import './Card.css'
 
 class Card extends Component {
-  shouldComponentUpdate() {
-    return false
+  shouldComponentUpdate( nextProps, nextState ) {
+
+    return nextProps.img !== this.props.img
   }
 
   render() {
