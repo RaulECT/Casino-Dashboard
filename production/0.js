@@ -1438,58 +1438,85 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
 var _antd = __webpack_require__("nFWT");
 
-var _Aux = __webpack_require__("GoDk");
-
-var _Aux2 = _interopRequireDefault(_Aux);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Meta = _antd.Card.Meta;
 
+var CardboardCard = function (_Component) {
+  _inherits(CardboardCard, _Component);
 
-var cardboardCard = function cardboardCard(props) {
-  var cardboardImg = props.cardboardImg ? props.cardboardImg : _react2.default.createElement('img', { style: { height: '28rem' }, alt: 'example', src: '/static/assets/placeholder.png' });
-  var actions = props.cardboard ? [_react2.default.createElement(
-    _Aux2.default,
-    null,
-    _react2.default.createElement(_antd.Icon, { style: { marginRight: '0.5rem' }, type: 'printer' }),
-    _react2.default.createElement(
-      'span',
-      { onClick: props.onPrint },
-      'Imprimir'
-    )
-  ), _react2.default.createElement(
-    _Aux2.default,
-    null,
-    _react2.default.createElement(_antd.Icon, { style: { marginRight: '0.5rem' }, type: 'delete' }),
-    _react2.default.createElement(
-      'span',
-      { onClick: props.onDelete },
-      'Borrar'
-    )
-  )] : null;
+  function CardboardCard() {
+    _classCallCheck(this, CardboardCard);
 
-  return _react2.default.createElement(
-    _antd.Card,
-    {
-      hoverable: true,
-      style: { width: '100%' },
-      cover: cardboardImg,
-      actions: actions
-    },
-    _react2.default.createElement(Meta, {
-      title: 'Cart\xF3n #' + (props.cardboard ? props.cardboard.numcode : '0')
-    })
-  );
-};
+    return _possibleConstructorReturn(this, (CardboardCard.__proto__ || Object.getPrototypeOf(CardboardCard)).apply(this, arguments));
+  }
 
-exports.default = cardboardCard;
+  _createClass(CardboardCard, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      if (nextProps.cardboard !== null && this.props.cardboard !== null) {
+        return nextProps.cardboard.barcode !== this.props.cardboard.barcode;
+      } else {
+        return true;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var cardboardImg = this.props.cardboardImg ? this.props.cardboardImg : _react2.default.createElement('img', { style: { height: '28rem' }, alt: 'example', src: '/static/assets/placeholder.png' });
+      var actions = this.props.cardboard ? [_react2.default.createElement(
+        _react.Fragment,
+        null,
+        _react2.default.createElement(_antd.Icon, { style: { marginRight: '0.5rem' }, type: 'printer' }),
+        _react2.default.createElement(
+          'span',
+          { onClick: this.props.onPrint },
+          'Imprimir'
+        )
+      ), _react2.default.createElement(
+        _react.Fragment,
+        null,
+        _react2.default.createElement(_antd.Icon, { style: { marginRight: '0.5rem' }, type: 'delete' }),
+        _react2.default.createElement(
+          'span',
+          { onClick: this.props.onDelete },
+          'Borrar'
+        )
+      )] : null;
+
+      return _react2.default.createElement(
+        _antd.Card,
+        {
+          hoverable: true,
+          style: { width: '100%' },
+          cover: cardboardImg,
+          actions: actions
+        },
+        _react2.default.createElement(Meta, {
+          title: 'Cart\xF3n #' + (this.props.cardboard ? this.props.cardboard.numcode : '0')
+        })
+      );
+    }
+  }]);
+
+  return CardboardCard;
+}(_react.Component);
+
+exports.default = CardboardCard;
 
 /***/ }),
 
