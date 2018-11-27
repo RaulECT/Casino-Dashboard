@@ -1,0 +1,9 @@
+module.exports = {
+  CARDBOARDS_PER_PAGE: 154,
+  SOCKET_PRODUCTION_URL: 'http://104.192.4.252:3000',
+  SOCKET_DEV_URL: 'http://localhost:3000',
+  APP_PORT: 3000,
+  CARDBOARDS_NUMCODE_LENGTH: 6,
+  API_URL: 'http://104.192.4.252:3002/loteriabingo/api',
+  SOCKET_TIMEOUT: 100000
+}

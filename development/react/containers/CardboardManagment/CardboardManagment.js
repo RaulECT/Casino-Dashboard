@@ -8,6 +8,7 @@ import {
   getCardboardsTotal,
   deleteCardboard
 } from '../../store/actions/index'
+import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config'
 
 import {
   Row,
@@ -116,7 +117,7 @@ class CardboardManagment extends Component {
   }
 
   validateSearchValue = ( searchValue ) => {
-    if ( searchValue.length === 6 ) {
+    if ( searchValue.length === CARDBOARDS_NUMCODE_LENGTH ) {
       searchValue = parseInt( searchValue )
 
       if ( typeof searchValue === 'number' ) {
@@ -125,7 +126,7 @@ class CardboardManagment extends Component {
         this.openNotification( 'warning', 'Folio Incorrecto', 'El folio debe ser un número.' )
       }
     } else {
-      this.openNotification( 'warning', 'Folio Incorrecto', 'El folio del cartón debe ser de 6 dígitos.' )
+      this.openNotification( 'warning', 'Folio Incorrecto', `El folio del cartón debe ser de ${CARDBOARDS_NUMCODE_LENGTH} dígitos.` )
     }
   }
 

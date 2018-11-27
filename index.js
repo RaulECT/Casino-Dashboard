@@ -1,6 +1,7 @@
 var express = require( 'express' )
 var path = require( 'path' )
 var http = require('http')
+var config = require( './config' )
 
 var devPath = path.join( __dirname, 'development' )
 var app = express()
@@ -16,9 +17,9 @@ var cardboardsRegistered = []
 var cardboardsPagesConnected = []
 
 function pageCardboards( cardboardsRegistered, index ) {
-  const cardboardsPerPage = 154
+  const cardboardsPerPage = config.CARDBOARDS_PER_PAGE
 
- if ( cardboardsRegistered.length >= 154 ) {
+ if ( cardboardsRegistered.length >= config.CARDBOARDS_PER_PAGE ) {
   const limitSup = index * cardboardsPerPage
   const limitInf = limitSup - cardboardsPerPage
   const cardboardsPaged = cardboardsRegistered.slice( limitInf, limitSup )
@@ -54,7 +55,7 @@ app.get( '/', function( req, res ) {
  * SOCKET IO
  */
 const io = require('socket.io')()
-io.on( "connect", ( client ) => {
+io.on( "connect",( client ) => {
   if ( currentCard !== null && cardList !== null ) {
     io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
     
@@ -127,4 +128,4 @@ io.on( "connect", ( client ) => {
 } )
 io.listen(server)
 
-server.listen( 3000 )
+server.listen( config.APP_PORT )

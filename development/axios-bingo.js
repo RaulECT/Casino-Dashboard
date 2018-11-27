@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { API_URL } from '../config'
 
 const instance = axios.create( {
-  baseURL: 'http://104.192.4.252:3002/loteriabingo/api',
+  baseURL: API_URL,
   validateStatus: function (status) {
     return status <= 500; // Reject only if the status code is greater than or equal to 500
   },

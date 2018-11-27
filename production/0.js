@@ -324,6 +324,8 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _index = __webpack_require__("cl7k");
 
+var _config = __webpack_require__("aSYM");
+
 var _antd = __webpack_require__("nFWT");
 
 var _CardboardCard = __webpack_require__("PTwP");
@@ -428,7 +430,7 @@ var CardboardManagment = function (_Component) {
         description: description
       });
     }, _this.validateSearchValue = function (searchValue) {
-      if (searchValue.length === 6) {
+      if (searchValue.length === _config.CARDBOARDS_NUMCODE_LENGTH) {
         searchValue = parseInt(searchValue);
 
         if (typeof searchValue === 'number') {
@@ -437,7 +439,7 @@ var CardboardManagment = function (_Component) {
           _this.openNotification('warning', 'Folio Incorrecto', 'El folio debe ser un número.');
         }
       } else {
-        _this.openNotification('warning', 'Folio Incorrecto', 'El folio del cartón debe ser de 6 dígitos.');
+        _this.openNotification('warning', 'Folio Incorrecto', 'El folio del cart\xF3n debe ser de ' + _config.CARDBOARDS_NUMCODE_LENGTH + ' d\xEDgitos.');
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -721,6 +723,8 @@ var _reactRedux = __webpack_require__("RH2O");
 
 var _socket = __webpack_require__("ITBa");
 
+var _config = __webpack_require__("aSYM");
+
 var _index = __webpack_require__("cl7k");
 
 __webpack_require__("LZtk");
@@ -959,8 +963,8 @@ var GameControl = function (_Component) {
             getFieldDecorator('playerCardboard', {
               rules: [{
                 required: true,
-                message: 'Este campo no puede estar vacio! y debe estar compuesto por 6 numeros' }],
-              len: 6
+                message: 'Este campo no puede estar vacio! y debe estar compuesto por ' + _config.CARDBOARDS_NUMCODE_LENGTH + ' numeros' }],
+              len: _config.CARDBOARDS_NUMCODE_LENGTH
             })(_react2.default.createElement(_antd.InputNumber, {
               style: { width: '100%' },
               size: 'large',
@@ -1167,7 +1171,7 @@ var GameControl = function (_Component) {
     }, _this.validateSearchValue = function (searchValue) {
 
       if (searchValue !== '000000') {
-        if (searchValue.length === 6) {
+        if (searchValue.length === _config.CARDBOARDS_NUMCODE_LENGTH) {
           searchValue = parseInt(searchValue);
           console.log(searchValue);
           if (typeof searchValue === "number") {
@@ -1176,7 +1180,7 @@ var GameControl = function (_Component) {
             _this.openNotification('warning', 'Formato incorrecto', 'El folio debe ser un número.');
           }
         } else {
-          _this.openNotification('warning', 'Formato incorrecto', 'El número de caracteres del folio debe ser de 6 caracteres.');
+          _this.openNotification('warning', 'Formato incorrecto', 'El n\xFAmero de caracteres del folio debe ser de ' + _config.CARDBOARDS_NUMCODE_LENGTH + ' caracteres.');
         }
       } else {
         _this.props.onForceEndGame(_this.props.game.id);

@@ -1,12 +1,11 @@
 import openSocket from 'socket.io-client'
-
+import { SOCKET_DEV_URL, SOCKET_PRODUCTION_URL, SOCKET_TIMEOUT } from '../config'
 /**
  * CHANGE ON PRODUCTION SERVER
  */
-const socketURL = 'http://localhost:3000' // DEVELOPMENT
-// const socketURL = 'http://104.192.4.252:3000' // PRODUCTION
+const socketURL = SOCKET_DEV_URL // SOCKET_PRODUCTION_URL
 
-export const socket = openSocket( socketURL )
+export const socket = openSocket( socketURL,{ timeout: SOCKET_TIMEOUT } )
 
 export const openConnection = () => {
   return openSocket( socketURL )

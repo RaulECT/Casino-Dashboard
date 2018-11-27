@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { openConnection } from '../../../socket'
+import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config'
 import { 
   startGame, 
   endGame, 
@@ -191,8 +192,8 @@ class GameControl extends Component {
             {getFieldDecorator('playerCardboard', {
               rules: [{ 
                 required: true, 
-                message: 'Este campo no puede estar vacio! y debe estar compuesto por 6 numeros', }],
-                len: 6
+                message: `Este campo no puede estar vacio! y debe estar compuesto por ${CARDBOARDS_NUMCODE_LENGTH} numeros`, }],
+                len: CARDBOARDS_NUMCODE_LENGTH
             })(
               <InputNumber
                 style={ { width: '100%' } }
@@ -324,7 +325,7 @@ class GameControl extends Component {
   validateSearchValue = ( searchValue ) => {
   
     if ( searchValue !== '000000' ) {
-      if ( searchValue.length === 6 ) {
+      if ( searchValue.length === CARDBOARDS_NUMCODE_LENGTH ) {
         searchValue = parseInt( searchValue )
         console.log(searchValue)
         if ( typeof searchValue === "number" ) {
@@ -333,7 +334,7 @@ class GameControl extends Component {
           this.openNotification( 'warning', 'Formato incorrecto', 'El folio debe ser un número.' )
         }
       } else {
-        this.openNotification( 'warning', 'Formato incorrecto', 'El número de caracteres del folio debe ser de 6 caracteres.' )
+        this.openNotification( 'warning', 'Formato incorrecto', `El número de caracteres del folio debe ser de ${CARDBOARDS_NUMCODE_LENGTH} caracteres.` )
       }
     } else {
       this.props.onForceEndGame( this.props.game.id )
