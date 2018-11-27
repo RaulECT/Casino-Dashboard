@@ -46,6 +46,36 @@ class CardboardManagment extends Component {
     this.props.onGetCardboardsTotal()
   }
 
+  shouldComponentUpdate( nextProps, nextState ) {
+    const isCardboardImgNotNull = nextProps.cardboardImg !== null
+    const isCardboardSelectedNotNull = nextProps.cardboardSelected !== null
+    const areCardboardsChange = nextProps.cardboardsTotal !== 0
+
+     
+    if (nextProps.loading !== this.props.loading) {
+      return true
+    }
+
+    if ( isCardboardImgNotNull || isCardboardSelectedNotNull || areCardboardsChange ) {
+      const isCardboardSelectedChange = nextProps.cardboardSelected ? this.props.cardboardSelected ? nextProps.cardboardSelected.id !== this.props.cardboardSelected.id : true : false //nextProps.cardboardSelected !== null && (nextProps.cardboardSelected.id !== this.props.cardboardSelected.id)
+      const isCardboardsNumberDifferent = nextProps.cardboardsTotal !== this.props.cardboardsTotal
+
+      if ( isCardboardSelectedChange || isCardboardsNumberDifferent ) {
+        return true
+      } else {
+        if( nextState.cardboardType !== this.state.cardboardType ) { return true }
+
+        return false
+      }
+ 
+    } else {
+      if( nextState.cardboardType !== this.state.cardboardType ) { return true }
+
+      return false
+    }
+    
+  }
+
   showConfirm = ( title, content, onOk ) => {
     confirm( {
       title,

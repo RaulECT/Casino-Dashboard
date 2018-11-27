@@ -450,6 +450,38 @@ var CardboardManagment = function (_Component) {
       this.props.onGetCardboardsTotal();
     }
   }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      var isCardboardImgNotNull = nextProps.cardboardImg !== null;
+      var isCardboardSelectedNotNull = nextProps.cardboardSelected !== null;
+      var areCardboardsChange = nextProps.cardboardsTotal !== 0;
+
+      if (nextProps.loading !== this.props.loading) {
+        return true;
+      }
+
+      if (isCardboardImgNotNull || isCardboardSelectedNotNull || areCardboardsChange) {
+        var isCardboardSelectedChange = nextProps.cardboardSelected ? this.props.cardboardSelected ? nextProps.cardboardSelected.id !== this.props.cardboardSelected.id : true : false; //nextProps.cardboardSelected !== null && (nextProps.cardboardSelected.id !== this.props.cardboardSelected.id)
+        var isCardboardsNumberDifferent = nextProps.cardboardsTotal !== this.props.cardboardsTotal;
+
+        if (isCardboardSelectedChange || isCardboardsNumberDifferent) {
+          return true;
+        } else {
+          if (nextState.cardboardType !== this.state.cardboardType) {
+            return true;
+          }
+
+          return false;
+        }
+      } else {
+        if (nextState.cardboardType !== this.state.cardboardType) {
+          return true;
+        }
+
+        return false;
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
