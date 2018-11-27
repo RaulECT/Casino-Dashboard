@@ -1,5 +1,6 @@
 import { CHANGE_CARD, GET_CURRENT_GAME, GET_CURRENT_GAME_SUCCESS, GET_CURRENT_GAME_FAIL, RESTART_GAME, ADD_CARDBOARD, SET_GAME_HISTORY, SET_GAME } from './actions'
 import { startGame } from './gameManagment'
+import { logout } from './auth'
 import axios from '../../../axios-bingo'
 import moment from 'moment'
 import { notification } from 'antd'
@@ -37,7 +38,7 @@ export const getCurrentGameFail = ( error ) => {
   }
 }
 
-export const loadCurrentGame = () => {
+export const loadCurrentGame = ( push ) => {
   return dispatch => {
     dispatch( getCurrentGameStart() )
 
@@ -47,11 +48,12 @@ export const loadCurrentGame = () => {
         if ( response.status === 200 ) {  
           //const game = getNextGame( response.data.result.items )
           let game = response.data.result.items[0]
-          console.log(game)
           if (game.endedOn){ game = null }
 
           dispatch( setCurrentGame( game ) )
-        } else {
+        } else if( response.data.error === 'InvalidToken' ) {
+          dispatch( logout( push ) )
+        } else {   
           dispatch( getCurrentGameFail( response.data ) )
         }
         

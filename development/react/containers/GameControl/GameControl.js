@@ -74,7 +74,7 @@ class GameControl extends Component {
       this.openNotification( 'success', 'Alguien ha ganado!', `El carton que ingresó ha ganado esta partida de loteria.` )
     } )
 
-    this.props.onLoadGame()
+    this.props.onLoadGame( this.props.history.push )
   }
 
   componentWillUnmount() {
@@ -380,7 +380,7 @@ const mapDispatchToProps = dispatch => {
     onInitGame: ( gameId, cardboardList, game ) => dispatch( initGame( gameId, cardboardList, game ) ),
     onDrawCard: ( card, cardList, history, conectionId ) => dispatch( drawCard( card, cardList, history, conectionId ) ),
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
-    onLoadGame: () => dispatch( loadCurrentGame() ),
+    onLoadGame: ( push ) => dispatch( loadCurrentGame( push ) ),
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard, cardboardList ) => dispatch( addCardboard( cardboard, cardboardList ) ),
     onForceEndGame: ( gameId ) => dispatch( forceEndGame( gameId ) ),

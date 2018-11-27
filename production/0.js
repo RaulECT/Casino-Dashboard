@@ -1215,7 +1215,7 @@ var GameControl = function (_Component) {
         _this2.openNotification('success', 'Alguien ha ganado!', 'El carton que ingres\xF3 ha ganado esta partida de loteria.');
       });
 
-      this.props.onLoadGame();
+      this.props.onLoadGame(this.props.history.push);
     }
   }, {
     key: 'componentWillUnmount',
@@ -1271,8 +1271,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     onAnounceWinner: function onAnounceWinner(gameId, cards, winner) {
       return dispatch((0, _index.anounceWinner)(gameId, cards, winner));
     },
-    onLoadGame: function onLoadGame() {
-      return dispatch((0, _index.loadCurrentGame)());
+    onLoadGame: function onLoadGame(push) {
+      return dispatch((0, _index.loadCurrentGame)(push));
     },
     onChangeCard: function onChangeCard(card, cardList) {
       return dispatch((0, _index.changeCard)(card, cardList));
