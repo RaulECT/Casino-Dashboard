@@ -60,6 +60,13 @@ export const drawCard = ( card, cardList, history, conectionId ) => {
   
 }
 
+export const drawCardWithoutSocket = (card, cardList, history, conectionId) => {
+  return ( dispatch ) => {
+    dispatch( incrementTurn() )
+    dispatch( changeCard(card, cardList) )
+  }
+}
+
 export const incrementTurn = () => {
   return {
     type: INCREMENT_TURN

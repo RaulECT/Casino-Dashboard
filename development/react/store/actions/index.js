@@ -22,7 +22,8 @@ export {
   validateFolio,
   generateConectionId,
   addCardboardToValidate,
-  removeCardboardToValidate
+  removeCardboardToValidate,
+  drawCardWithoutSocket,
 } from './gameManagment'
 
 export {

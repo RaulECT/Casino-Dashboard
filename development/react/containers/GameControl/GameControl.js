@@ -18,7 +18,8 @@ import {
   generateConectionId,
   resetGame,
   addCardboardToValidate,
-  removeCardboardToValidate
+  removeCardboardToValidate,
+  drawCardWithoutSocket
 } from '../../store/actions/index'
 
 import './GameControl.css'
@@ -59,7 +60,7 @@ class GameControl extends Component {
       console.log(data)
       this.props.onSetGameHistory( data.gameHistory )
       //this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
-      this.props.onDrawCard( data.currentCard, data.cardList, data.gameHistory )
+      this.props.onDrawCardWithoutSocket( data.currentCard, data.cardList, data.gameHistory )
       this.props.onSetGame( data.cardboards, data.currentGame )
     } )
 
@@ -391,7 +392,9 @@ const mapDispatchToProps = dispatch => {
     onGenerateConectionId: () => dispatch( generateConectionId() ),
     onResetGame: () => dispatch( resetGame() ),
     onAddCardboardToValidate: ( cardboard ) => dispatch( addCardboardToValidate( cardboard ) ),
-    onRemoveCardboardsToValidate: ( cardboard ) => dispatch( removeCardboardToValidate( cardboard ) )
+    onRemoveCardboardsToValidate: ( cardboard ) => dispatch( removeCardboardToValidate( cardboard ) ),
+    onDrawCardWithoutSocket: ( card, cardList, history, conectionId ) => dispatch( drawCardWithoutSocket( card, cardList, history, conectionId ) ),
+
   }
 }
 

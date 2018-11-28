@@ -1236,7 +1236,7 @@ var GameControl = function (_Component) {
         console.log(data);
         _this2.props.onSetGameHistory(data.gameHistory);
         //this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
-        _this2.props.onDrawCard(data.currentCard, data.cardList, data.gameHistory);
+        _this2.props.onDrawCardWithoutSocket(data.currentCard, data.cardList, data.gameHistory);
         _this2.props.onSetGame(data.cardboards, data.currentGame);
       });
 
@@ -1339,7 +1339,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     onRemoveCardboardsToValidate: function onRemoveCardboardsToValidate(cardboard) {
       return dispatch((0, _index.removeCardboardToValidate)(cardboard));
+    },
+    onDrawCardWithoutSocket: function onDrawCardWithoutSocket(card, cardList, history, conectionId) {
+      return dispatch((0, _index.drawCardWithoutSocket)(card, cardList, history, conectionId));
     }
+
   };
 };
 
