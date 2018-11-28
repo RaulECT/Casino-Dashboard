@@ -67,6 +67,11 @@ var PageHeader = function (_Component) {
   }
 
   _createClass(PageHeader, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return nextProps.title !== this.props.title;
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(

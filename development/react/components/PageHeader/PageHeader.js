@@ -4,6 +4,11 @@ import {Breadcrumb} from 'antd'
 import './PageHeader.css'
 
 class PageHeader extends Component {
+
+  shouldComponentUpdate( nextProps ) {
+    return nextProps.title !== this.props.title
+  }
+
   render() {
     return(
       <div className="page-header">
