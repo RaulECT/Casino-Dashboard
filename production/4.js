@@ -459,6 +459,14 @@ var GameControl = function (_Component) {
           { target: '_blank', href: currentHref + 'history' },
           _react2.default.createElement(_antd.Icon, { style: { fontSize: '3rem' }, type: 'bars' })
         )
+      ), _react2.default.createElement(
+        _antd.Tooltip,
+        { title: 'Ver Cartones' },
+        _react2.default.createElement(
+          'a',
+          { target: '_blank', href: currentHref + 'cardboards' },
+          _react2.default.createElement(_antd.Icon, { style: { fontSize: '3rem' }, type: 'qrcode' })
+        )
       )];
 
       return _react2.default.createElement(

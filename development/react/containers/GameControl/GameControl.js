@@ -231,6 +231,7 @@ class GameControl extends Component {
       <Tooltip title="Sacar carta."><Icon onClick={ this.handleOnChangeCard } style={ { fontSize: '3rem' } } type="redo" /></Tooltip>,
       <Tooltip title="Ver juego de bingo."> <a target="_blank" href={`${currentHref}game`}><Icon style={ { fontSize: '3rem' } } type="eye" /></a></Tooltip>,
       <Tooltip title="Ver historial de cartas"><a target="_blank" href={`${currentHref}history`}><Icon style={ { fontSize: '3rem' } } type="bars" /></a></Tooltip>,
+      <Tooltip title="Ver Cartones"><a target="_blank" href={`${currentHref}cardboards`}><Icon style={ { fontSize: '3rem' } } type="qrcode" /></a></Tooltip>,
     ]
 
     return(
