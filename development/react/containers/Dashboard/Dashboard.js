@@ -4,26 +4,17 @@ import {
   Layout, 
   Menu, 
   Icon, 
-  Avatar, 
-  Divider, 
-  Select, 
-  Modal, 
-  Tooltip, 
-  Dropdown, 
-  InputNumber,
-  Row, 
-  Button,
-  Form,
-  Col
 } from 'antd'
 
 import GlobalHeader from '../../components/GlobalHeader/GlobalHeader'
 import PageHeader from '../../components/PageHeader/PageHeader'
-import GameControl from '../GameControl/GameControl'
 import './Dashboard.css'
 import Sider from 'antd/lib/layout/Sider';
-import CreateGame from '../CreateGame/CreateGame'
-import CardboardManagment from '../CardboardManagment/CardboardManagment'
+import { 
+  GameControl,
+  CreateGame,
+  CardboardManagment 
+} from '../../routes'
 
 
 const SubMenu = Menu.SubMenu

@@ -30,3 +30,18 @@ export const CardsSection = Loadable( {
   loader: () => import( './containers/CardsSection/CardsSection' ),
   loading: Loading
 } )
+
+export const GameControl = Loadable( {
+  loader: () => import( './containers/GameControl/GameControl' ),
+  loading: Loading
+} )
+
+export const CreateGame = Loadable( {
+  loader: () => import( './containers/CreateGame/CreateGame' ),
+  loading: Loading
+} )
+
+export const CardboardManagment = Loadable( {
+  loader: () => import( './containers/CardboardManagment/CardboardManagment' ),
+  loading: Loading
+} )
