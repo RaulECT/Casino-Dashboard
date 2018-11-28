@@ -1,23 +1,18 @@
 import React, {Component} from 'react'
-import {Route, Link} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import {
-  Layout, 
-  Menu, 
-  Icon, 
+  Layout
 } from 'antd'
 
 import GlobalHeader from '../../components/GlobalHeader/GlobalHeader'
 import PageHeader from '../../components/PageHeader/PageHeader'
+import Sidebar from '../../components/Sidebar/Sidebar'
 import './Dashboard.css'
-import Sider from 'antd/lib/layout/Sider';
 import { 
   GameControl,
   CreateGame,
   CardboardManagment 
 } from '../../routes'
-
-
-const SubMenu = Menu.SubMenu
 
 class Dashboard extends Component {
 
@@ -54,41 +49,11 @@ class Dashboard extends Component {
 
     return(
       <Layout className="dashboard-layout">
-        <Sider
-          trigger={null}
-          breakpoint="lg"
-          width={256}
-          collapsible
-          collapsed = { this.state.collapsed }
-          className={ this.state.collapsed ? `sider drawer drawer-hide` : `sider drawer drawer-expanded` }
-        >
-          <div className="logo">
-            <h1>Bingo</h1>
-          </div>
 
-          <Menu
-            theme="dark"
-            mode="inline"
-            style={{ padding: '16px 0', width: '100%' }}
-            onSelect={ this.changePanelHeader }
-          >
-            <SubMenu
-              key="bingo_submenu"
-              title={<span><Icon type="crown" /><span>Bingo</span></span>}
-            >
-              <Menu.Item key="bingo_submenu_control"><Link to="/dashboard/game_control">Control de partida</Link></Menu.Item>
-              <Menu.Item key="bingo_submenu_create"><Link to="/dashboard/create_game">Crear partida</Link></Menu.Item> 
-            </SubMenu>
-
-            <Menu.Item key="bingo_menu_cardboards">
-              <Link to="/dashboard/cardboard_managment">
-                <Icon type="barcode" />
-                <span>Cartones</span>
-              </Link>
-            </Menu.Item>
-
-          </Menu>
-        </Sider>
+        <Sidebar 
+          collapsed={this.state.collapsed}
+          onChangePanelHeader={this.changePanelHeader}
+        />
 
         <Layout>
           <GlobalHeader 

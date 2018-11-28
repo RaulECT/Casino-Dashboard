@@ -851,11 +851,11 @@ var _PageHeader = __webpack_require__("6Tso");
 
 var _PageHeader2 = _interopRequireDefault(_PageHeader);
 
+var _Sidebar = __webpack_require__("uWnz");
+
+var _Sidebar2 = _interopRequireDefault(_Sidebar);
+
 __webpack_require__("o9VT");
-
-var _Sider = __webpack_require__("Q3ZY");
-
-var _Sider2 = _interopRequireDefault(_Sider);
 
 var _routes = __webpack_require__("dth0");
 
@@ -866,8 +866,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SubMenu = _antd.Menu.SubMenu;
 
 var Dashboard = function (_Component) {
   _inherits(Dashboard, _Component);
@@ -911,83 +909,10 @@ var Dashboard = function (_Component) {
       return _react2.default.createElement(
         _antd.Layout,
         { className: 'dashboard-layout' },
-        _react2.default.createElement(
-          _Sider2.default,
-          {
-            trigger: null,
-            breakpoint: 'lg',
-            width: 256,
-            collapsible: true,
-            collapsed: this.state.collapsed,
-            className: this.state.collapsed ? 'sider drawer drawer-hide' : 'sider drawer drawer-expanded'
-          },
-          _react2.default.createElement(
-            'div',
-            { className: 'logo' },
-            _react2.default.createElement(
-              'h1',
-              null,
-              'Bingo'
-            )
-          ),
-          _react2.default.createElement(
-            _antd.Menu,
-            {
-              theme: 'dark',
-              mode: 'inline',
-              style: { padding: '16px 0', width: '100%' },
-              onSelect: this.changePanelHeader
-            },
-            _react2.default.createElement(
-              SubMenu,
-              {
-                key: 'bingo_submenu',
-                title: _react2.default.createElement(
-                  'span',
-                  null,
-                  _react2.default.createElement(_antd.Icon, { type: 'crown' }),
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    'Bingo'
-                  )
-                )
-              },
-              _react2.default.createElement(
-                _antd.Menu.Item,
-                { key: 'bingo_submenu_control' },
-                _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '/dashboard/game_control' },
-                  'Control de partida'
-                )
-              ),
-              _react2.default.createElement(
-                _antd.Menu.Item,
-                { key: 'bingo_submenu_create' },
-                _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '/dashboard/create_game' },
-                  'Crear partida'
-                )
-              )
-            ),
-            _react2.default.createElement(
-              _antd.Menu.Item,
-              { key: 'bingo_menu_cardboards' },
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/dashboard/cardboard_managment' },
-                _react2.default.createElement(_antd.Icon, { type: 'barcode' }),
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  'Cartones'
-                )
-              )
-            )
-          )
-        ),
+        _react2.default.createElement(_Sidebar2.default, {
+          collapsed: this.state.collapsed,
+          onChangePanelHeader: this.changePanelHeader
+        }),
         _react2.default.createElement(
           _antd.Layout,
           null,
@@ -1119,6 +1044,144 @@ if(false) {
 
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ "uWnz":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__("F8kA");
+
+var _Sider = __webpack_require__("Q3ZY");
+
+var _Sider2 = _interopRequireDefault(_Sider);
+
+var _antd = __webpack_require__("nFWT");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SubMenu = _antd.Menu.SubMenu;
+
+var Sidebar = function (_Component) {
+  _inherits(Sidebar, _Component);
+
+  function Sidebar() {
+    _classCallCheck(this, Sidebar);
+
+    return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).apply(this, arguments));
+  }
+
+  _createClass(Sidebar, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      return nextProps.collapsed !== this.props.collapsed;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _Sider2.default,
+        {
+          trigger: null,
+          breakpoint: 'lg',
+          width: 256,
+          collapsible: true,
+          collapsed: this.props.collapsed,
+          className: this.props.collapsed ? 'sider drawer drawer-hide' : 'sider drawer drawer-expanded'
+        },
+        _react2.default.createElement(
+          'div',
+          { className: 'logo' },
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Bingo'
+          )
+        ),
+        _react2.default.createElement(
+          _antd.Menu,
+          {
+            theme: 'dark',
+            mode: 'inline',
+            style: { padding: '16px 0', width: '100%' },
+            onSelect: this.props.onChangePanelHeader
+          },
+          _react2.default.createElement(
+            SubMenu,
+            {
+              key: 'bingo_submenu',
+              title: _react2.default.createElement(
+                'span',
+                null,
+                _react2.default.createElement(_antd.Icon, { type: 'crown' }),
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  'Bingo'
+                )
+              )
+            },
+            _react2.default.createElement(
+              _antd.Menu.Item,
+              { key: 'bingo_submenu_control' },
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/dashboard/game_control' },
+                'Control de partida'
+              )
+            ),
+            _react2.default.createElement(
+              _antd.Menu.Item,
+              { key: 'bingo_submenu_create' },
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/dashboard/create_game' },
+                'Crear partida'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            _antd.Menu.Item,
+            { key: 'bingo_menu_cardboards' },
+            _react2.default.createElement(
+              _reactRouterDom.Link,
+              { to: '/dashboard/cardboard_managment' },
+              _react2.default.createElement(_antd.Icon, { type: 'barcode' }),
+              _react2.default.createElement(
+                'span',
+                null,
+                'Cartones'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Sidebar;
+}(_react.Component);
+
+exports.default = Sidebar;
 
 /***/ }),
 
