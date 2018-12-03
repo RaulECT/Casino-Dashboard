@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 
 import Background from '../../components/Background/Background'
-import Panel from '../../components/Panel/Panel'
+import NextGameInfo from '../NextGameInfo/NextGameInfo'
+import RandomGame from '../RandomGame/RandomGame'
 
 class WaitingGameSection extends Component {
 
   render() {
     return(
-      <Background grid>
-
+      <Background>
+        <div>
+          <NextGameInfo />
+        </div>
+        
+        <div>
+          <RandomGame />
+        </div>
       </Background>
     )
   }
