@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { openConnection } from '../../../socket'
-import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config'
+import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config/config'
 import { 
   startGame, 
   endGame, 

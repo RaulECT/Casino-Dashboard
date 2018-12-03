@@ -8,7 +8,7 @@ import {
   getCardboardsTotal,
   deleteCardboard
 } from '../../store/actions/index'
-import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config'
+import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config/config'
 
 import {
   Row,
