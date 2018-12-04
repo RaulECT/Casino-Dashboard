@@ -108,7 +108,7 @@ var GameInfo = function (_Component) {
           { className: 'next-game__text-label' },
           'Tiempo de espera:'
         ),
-        _react2.default.createElement(_Chronometer2.default, null)
+        _react2.default.createElement(_Chronometer2.default, { timeStart: 180 })
       );
     }
   }]);
@@ -206,6 +206,10 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _moment = __webpack_require__("PJh5");
+
+var _moment2 = _interopRequireDefault(_moment);
+
 __webpack_require__("u1JV");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -220,18 +224,57 @@ var Chronometer = function (_Component) {
   _inherits(Chronometer, _Component);
 
   function Chronometer() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Chronometer);
 
-    return _possibleConstructorReturn(this, (Chronometer.__proto__ || Object.getPrototypeOf(Chronometer)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Chronometer.__proto__ || Object.getPrototypeOf(Chronometer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      time: _this.props.timeStart
+    }, _this.tick = function () {
+
+      if (_this.state.time > 0) {
+        _this.setState(function (prevState) {
+          return {
+            time: prevState.time - 1
+          };
+        });
+      } else {
+        clearInterval(_this.interval);
+      }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Chronometer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.interval = setInterval(function () {
+        return _this2.tick();
+      }, 1000);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var time = this.state.time;
+
+      var minutes = (0, _moment2.default)(time * 1000).format('mm:ss');
+
       return _react2.default.createElement(
         'p',
         { className: 'chronometer__time' },
-        '3:00'
+        minutes
       );
     }
   }]);

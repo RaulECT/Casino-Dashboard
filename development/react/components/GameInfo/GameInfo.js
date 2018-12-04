@@ -23,7 +23,7 @@ class GameInfo extends Component {
         </ul>
 
         <span className="next-game__text-label">Tiempo de espera:</span>
-        <Chronometer />
+        <Chronometer timeStart={ 180 } />
       </Fragment>
     )
   }
