@@ -55,6 +55,10 @@ var GameInfo = function (_Component) {
   _createClass(GameInfo, [{
     key: 'render',
     value: function render() {
+      var simpleCardboardPrice = this.props.game.singlePrice / 100;
+      var doubleCardboardPrice = this.props.game.doublePrice / 100;
+      var tripleCardboardPrice = this.props.game.triplePrice / 100;
+
       return _react2.default.createElement(
         _react.Fragment,
         null,
@@ -71,7 +75,9 @@ var GameInfo = function (_Component) {
         _react2.default.createElement(
           'p',
           { className: 'next-game__game-type' },
-          'DOBLE LINEA'
+          ' ',
+          this.props.game.gameName,
+          ' '
         ),
         _react2.default.createElement(
           'span',
@@ -84,17 +90,17 @@ var GameInfo = function (_Component) {
           _react2.default.createElement(
             'li',
             { className: 'next-game__cardboards-prices--item' },
-            '$10 Cartilla Simple'
+            '$' + simpleCardboardPrice + ' Cartilla Simple'
           ),
           _react2.default.createElement(
             'li',
             { className: 'next-game__cardboards-prices--item' },
-            '$15 Cartilla Doble'
+            '$' + doubleCardboardPrice + ' Cartilla Doble'
           ),
           _react2.default.createElement(
             'li',
             { className: 'next-game__cardboards-prices--item' },
-            '$20 Cartilla Triple'
+            '$' + tripleCardboardPrice + ' Cartilla Triple'
           )
         ),
         _react2.default.createElement(
@@ -245,7 +251,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 3.2rem;\n  margin-bottom: 3rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 2.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 5rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 3rem;\n  margin-top: -1rem;\n}\n\n.next-game__error-msg {\n  display: flex;\n  justify-content: center;\n}\n\n.next-game__error-icon {\n  color: #fff;\n  font-size: 10rem;\n  margin-right: 2rem;\n}", ""]);
+exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 3.2rem;\n  margin-bottom: 3rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 2.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 5rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n  text-transform: uppercase;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 3rem;\n  margin-top: -1rem;\n}\n\n.next-game__error-msg {\n  display: flex;\n  justify-content: center;\n}\n\n.next-game__error-icon {\n  color: #fff;\n  font-size: 10rem;\n  margin-right: 2rem;\n}", ""]);
 
 // exports
 
@@ -319,6 +325,10 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__("RH2O");
+
+var _actions = __webpack_require__("cl7k");
+
 var _Background = __webpack_require__("prCc");
 
 var _Background2 = _interopRequireDefault(_Background);
@@ -349,6 +359,13 @@ var WaitingGameSection = function (_Component) {
   }
 
   _createClass(WaitingGameSection, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.onLoadGame(function (path) {
+        return console.log(path);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -356,7 +373,8 @@ var WaitingGameSection = function (_Component) {
         { display: 'flexRow' },
         _react2.default.createElement(_NextGameInfo2.default, {
           flex: '1.8',
-          opacity: .15
+          opacity: .15,
+          game: this.props.game
         }),
         _react2.default.createElement(_RandomGame2.default, {
           flex: '1'
@@ -368,7 +386,21 @@ var WaitingGameSection = function (_Component) {
   return WaitingGameSection;
 }(_react.Component);
 
-exports.default = WaitingGameSection;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    game: state.bng.currentGame
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    onLoadGame: function onLoadGame(push) {
+      return dispatch((0, _actions.loadCurrentGame)(push));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(WaitingGameSection);
 
 /***/ }),
 
@@ -592,7 +624,7 @@ var NextGameInfo = function (_Component) {
   _createClass(NextGameInfo, [{
     key: 'render',
     value: function render() {
-      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, null) : this.renderGameNotFoundMessage();
+      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, { game: this.props.game }) : this.renderGameNotFoundMessage();
       var style = {
         flex: this.props.flex ? this.props.flex : '0',
         background: this.props.opacity ? 'rgba(0,0,0,' + this.props.opacity + ')' : 'rgba(0,0,0,0)'

@@ -9,7 +9,7 @@ import {
 class NextGameInfo extends Component {
   
   render() {
-    const component = this.props.game ? <GameInfo /> : this.renderGameNotFoundMessage()
+    const component = this.props.game ? <GameInfo game={ this.props.game } /> : this.renderGameNotFoundMessage()
     const style = {
       flex: this.props.flex ? this.props.flex : '0',
       background: this.props.opacity ? `rgba(0,0,0,${this.props.opacity})` : `rgba(0,0,0,0)`
