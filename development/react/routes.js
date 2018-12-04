@@ -45,3 +45,8 @@ export const CardboardManagment = Loadable( {
   loader: () => import( './containers/CardboardManagment/CardboardManagment' ),
   loading: Loading
 } )
+
+export const WaitingGameSection = Loadable( {
+  loader: () => import( './containers/WaitingGameSection/WaitingGameSection' ),
+  loading: Loading
+} )

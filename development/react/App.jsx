@@ -11,7 +11,8 @@ import {
   BingoGame,
   WinnerSection,
   CardsSection,
-  CradboardsRegisteredList
+  CradboardsRegisteredList, 
+  WaitingGameSection
 } from './routes'
 
 class App extends Component {
@@ -47,6 +48,7 @@ class App extends Component {
               <Route key="winner_screen" exact path="/winner" component={WinnerSection} />
               <Route key="cards_screen" exact path="/history" component={CardsSection} />
               <Route key="cardboards_screen" exact path="/cardboards" component={CradboardsRegisteredList} />
+              <Route key="next_screen" exact path="/next_game" component={WaitingGameSection} />
               {routes}
             </div>
           </HashRouter>

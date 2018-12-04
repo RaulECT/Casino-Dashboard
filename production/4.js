@@ -164,7 +164,7 @@ var _reactRedux = __webpack_require__("RH2O");
 
 var _socket = __webpack_require__("ITBa");
 
-var _config = __webpack_require__("aSYM");
+var _config = __webpack_require__("1wn0");
 
 var _index = __webpack_require__("cl7k");
 

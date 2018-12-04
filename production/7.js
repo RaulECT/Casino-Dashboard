@@ -1,21 +1,78 @@
 webpackJsonp([7],{
 
-/***/ "1oJF":
+/***/ "6f/o":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("FZ+f")(false);
-// imports
+"use strict";
 
 
-// module
-exports.push([module.i, ".ant-row{\n  flex-grow: 1;\n}\n\n.login-background{\n  min-height: 100vh;\n  min-height: 100vh;\n  background-color: #F0F2F5;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-image: url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg);\n  background-repeat: no-repeat;\n  background-position: center 110px;\n  background-size: 100%;\n}\n\n.login-title{\n  font-size: 33px;\n  color: #242425;\n  font-family: Myriad Pro,Helvetica Neue,Arial,Helvetica,sans-serif;\n  font-weight: 600;\n  position: relative;\n  top: 2px;\n}\n\n.login-subtitle {\n  font-size: 14px;\n  color: rgba(0,0,0,.45);\n  margin-top: 12px;\n  margin-bottom: 40px;\n}\n\n.form-section {\n  background-color: #ffffff;\n  text-align: center;\n  color: rgba(0,0,0, .25);\n  padding: 50px 40px 50px 40px;\n  margin: auto;\n  width: 457px;\n}\n\n.login-form-button{\n  margin-top: 60px;\n  width: 100%;\n}\n\n.loading-section {\n  background: #999;\n  width: 33.5%;\n  height: 100%;\n  position: absolute;\n  opacity: .2;\n  top: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 999;\n  margin-left: -40px;\n  animation: anim 0.2s ease;\n}\n\n.loading-icon {\n  font-size: 40px;\n  line-height: 64px;\n  transition: all .3s, padding 0s;\n}\n\n.finger-img {\n  width: 30%;\n  margin-bottom: 15px;\n}\n\n@keyframes anim {\n  0% {\n    transform: scaleY(0);\n  }\n  100% {\n    transform: scaleY(1);\n  }\n}", ""]);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-// exports
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("prum");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Card = function (_Component) {
+  _inherits(Card, _Component);
+
+  function Card() {
+    _classCallCheck(this, Card);
+
+    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+  }
+
+  _createClass(Card, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+
+      return nextProps.img !== this.props.img;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var classes = ['card-item'];
+      var styles = _defineProperty({
+        width: this.props ? this.props.width : '200px',
+        height: this.props ? this.props.height : '400px',
+        transform: this.props.scale ? 'scale(' + this.props.scale + ')' : 'scale(1)'
+      }, 'transform', this.props.scale ? 'scale(' + this.props.scale + ')' : 'scale(1)');
+
+      this.props.isResponsive ? classes.push('card-item-responsive') : null;
+      this.props.isRecentCard ? classes.push('card-item--recent-card') : null;
+
+      return _react2.default.createElement('img', {
+        src: this.props.img,
+        alt: 'Bingo Card',
+        style: styles,
+        className: classes.join(' ')
+      });
+    }
+  }]);
+
+  return Card;
+}(_react.Component);
+
+exports.default = Card;
 
 /***/ }),
 
-/***/ "Mk3s":
+/***/ "WXOX":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33,11 +90,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("RH2O");
 
-var _antd = __webpack_require__("nFWT");
+var _Card = __webpack_require__("6f/o");
 
-__webpack_require__("fje+");
-
-var _index = __webpack_require__("cl7k");
+var _Card2 = _interopRequireDefault(_Card);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,151 +102,52 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var FormItem = _antd.Form.Item;
-var styles = {
-  img: { width: '100%' },
-  icon: { color: 'rgba(0,0,0,.25)' }
-};
+var WinnerSection = function (_Component) {
+  _inherits(WinnerSection, _Component);
 
-var Login = function (_Component) {
-  _inherits(Login, _Component);
+  function WinnerSection() {
+    _classCallCheck(this, WinnerSection);
 
-  function Login() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, Login);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Login.__proto__ || Object.getPrototypeOf(Login)).call.apply(_ref, [this].concat(args))), _this), _this.onHandleLogin = function (e) {
-      e.preventDefault();
-
-      _this.props.form.validateFields(function (error, values) {
-        if (!error) {
-          _this.props.onAuth(values.userName, values.password);
-        }
-      });
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (WinnerSection.__proto__ || Object.getPrototypeOf(WinnerSection)).apply(this, arguments));
   }
 
-  _createClass(Login, [{
+  _createClass(WinnerSection, [{
     key: 'render',
     value: function render() {
-      var getFieldDecorator = this.props.form.getFieldDecorator;
-
-      var errorAlert = this.props.error ? _react2.default.createElement(_antd.Alert, {
-        message: 'Usuario y/o contrase\xF1a incorrectos',
-        description: 'Ingrese un email y correo validos.',
-        type: 'error',
-        showIcon: true
-      }) : null;
-
+      console.log(this.props);
       return _react2.default.createElement(
-        _antd.Row,
+        'div',
         null,
         _react2.default.createElement(
-          _antd.Col,
-          {
-            span: 12,
-            offset: 6,
-            xs: { span: 24, offset: 0 }
-          },
-          _react2.default.createElement(
-            'div',
-            { className: 'form-section' },
-            _react2.default.createElement(
-              'h1',
-              { className: 'login-title' },
-              'Bingo Dashboard'
-            ),
-            _react2.default.createElement(
-              _antd.Form,
-              {
-                className: 'login-form',
-                onSubmit: this.onHandleLogin
-              },
-              _react2.default.createElement(
-                FormItem,
-                null,
-                getFieldDecorator('userName', {
-                  rules: [{ required: true, message: 'Ingrese su e-mail!' }]
-                })(_react2.default.createElement(_antd.Input, {
-                  size: 'large',
-                  placeholder: 'E-mail',
-                  disabled: this.props.loading,
-                  prefix: _react2.default.createElement(_antd.Icon, { type: 'user', style: styles.icon })
-                }))
-              ),
-              _react2.default.createElement(
-                FormItem,
-                null,
-                getFieldDecorator('password', {
-                  rules: [{ required: true, message: 'Ingrese su contraseña!' }]
-                })(_react2.default.createElement(_antd.Input, {
-                  size: 'large',
-                  placeholder: 'Password',
-                  disabled: this.props.loading,
-                  prefix: _react2.default.createElement(_antd.Icon, { type: 'lock', style: styles.icon }),
-                  type: 'password'
-                }))
-              ),
-              errorAlert,
-              _react2.default.createElement(
-                FormItem,
-                null,
-                _react2.default.createElement(
-                  _antd.Button,
-                  {
-                    size: 'large',
-                    type: 'primary',
-                    htmlType: 'submit',
-                    className: 'login-form-button',
-                    loading: this.props.loading
-                  },
-                  'Iniciar Sesi\xF3n'
-                )
-              )
-            )
-          )
-        )
+          'h1',
+          null,
+          '!FELICIDADES! HAY UN GANADOR'
+        ),
+        _react2.default.createElement(_Card2.default, {
+          img: '/static/assets/' + this.props.history.location.state.card.image
+        })
       );
     }
   }]);
 
-  return Login;
+  return WinnerSection;
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    loading: state.auth.loading,
-    error: state.auth.error,
-    isAuthenticated: state.auth.token !== null,
-    authRedirectPath: state.auth.authRedirectPath
+    card: state.bng.currentCard
   };
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    onAuth: function onAuth(email, password) {
-      return dispatch((0, _index.auth)(email, password));
-    }
-  };
-};
-
-var WrappedNormalLoginForm = _antd.Form.create()(Login);
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(WrappedNormalLoginForm);
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(WinnerSection);
 
 /***/ }),
 
-/***/ "fje+":
+/***/ "prum":
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__("1oJF");
+var content = __webpack_require__("viWZ");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -210,8 +166,8 @@ var update = __webpack_require__("MTIv")(content, options);
 if(content.locals) module.exports = content.locals;
 
 if(false) {
-	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Login.css", function() {
-		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Login.css");
+	module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!./Card.css", function() {
+		var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!./Card.css");
 
 		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -235,6 +191,21 @@ if(false) {
 
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ "viWZ":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".card-item {\n  border: 0.5rem solid #fff;\n  border-radius: 9px;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .card-item-responsive {\n    /* width: 18rem !important;\n    height: 27rem !important; */\n  }\n\n  .card-item--recent-card {\n    width: 10rem !important;\n    height: 15rem !important;\n  }\n}", ""]);
+
+// exports
+
 
 /***/ })
 

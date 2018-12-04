@@ -8,14 +8,15 @@ class WaitingGameSection extends Component {
 
   render() {
     return(
-      <Background>
-        <div>
-          <NextGameInfo />
-        </div>
+      <Background display="flexRow" >
+        <NextGameInfo 
+          flex="1.8"
+          opacity={.15}
+        />
         
-        <div>
-          <RandomGame />
-        </div>
+        <RandomGame 
+          flex="1"
+        />
       </Background>
     )
   }

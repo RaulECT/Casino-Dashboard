@@ -1024,12 +1024,33 @@ __webpack_require__("iQcD");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var background = function background(props) {
+
+  var style = void 0;
+
+  switch (props.display) {
+    case 'flexRow':
+      style = { display: 'flex', flexDirection: 'row' };
+      break;
+
+    case 'flexColumn':
+      style = { display: 'flex', flexDirection: 'column' };
+      break;
+
+    case 'flex':
+      style = { display: 'flex' };
+      break;
+
+    default:
+      style = {};
+      break;
+  }
+
   return _react2.default.createElement(
     'div',
     { className: 'bingo-background' },
     _react2.default.createElement(
       'div',
-      { className: props.grid ? 'bingo-background__panel' : 'bingo-background__panel--without-grid' },
+      { style: style, className: props.grid ? 'bingo-background__panel' : 'bingo-background__panel--without-grid' },
       props.children
     )
   );

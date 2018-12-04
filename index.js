@@ -1,7 +1,7 @@
 var express = require( 'express' )
 var path = require( 'path' )
 var http = require('http')
-var config = require( './config' )
+var config = require( './config/config' )
 
 var devPath = path.join( __dirname, 'development' )
 var app = express()

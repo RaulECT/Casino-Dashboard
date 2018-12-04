@@ -79,7 +79,7 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _index = __webpack_require__("cl7k");
 
-var _config = __webpack_require__("aSYM");
+var _config = __webpack_require__("1wn0");
 
 var _antd = __webpack_require__("nFWT");
 
