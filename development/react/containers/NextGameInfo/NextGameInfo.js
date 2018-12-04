@@ -9,7 +9,19 @@ class NextGameInfo extends Component {
 
     return(
       <div style={style}>
-        NextGameInfo...
+        <h1>Proxima Partida:</h1>
+
+        <span>Tipo de Juego:</span>
+        <p>DOBLE LINEA</p>
+
+        <span>Precios de Inscripción:</span>
+        <ul>
+          <li>$10 Cartilla Simple</li>
+          <li>$15 Cartilla Doble</li>
+          <li>$20 Cartilla Triple</li>
+        </ul>
+
+        <span>Tiempo de espera:</span>
       </div>
     )
   }

@@ -289,7 +289,50 @@ var NextGameInfo = function (_Component) {
       return _react2.default.createElement(
         'div',
         { style: style },
-        'NextGameInfo...'
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Proxima Partida:'
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          'Tipo de Juego:'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'DOBLE LINEA'
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          'Precios de Inscripci\xF3n:'
+        ),
+        _react2.default.createElement(
+          'ul',
+          null,
+          _react2.default.createElement(
+            'li',
+            null,
+            '$10 Cartilla Simple'
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            '$15 Cartilla Doble'
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            '$20 Cartilla Triple'
+          )
+        ),
+        _react2.default.createElement(
+          'span',
+          null,
+          'Tiempo de espera:'
+        )
       );
     }
   }]);
