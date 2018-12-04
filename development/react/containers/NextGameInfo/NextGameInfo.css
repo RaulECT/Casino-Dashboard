@@ -36,3 +36,14 @@
   font-size: 3rem;
   margin-top: -1rem;
 }
+
+.next-game__error-msg {
+  display: flex;
+  justify-content: center;
+}
+
+.next-game__error-icon {
+  color: #fff;
+  font-size: 10rem;
+  margin-right: 2rem;
+}

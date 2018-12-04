@@ -1,6 +1,21 @@
 webpackJsonp([3],{
 
-/***/ "6f/o":
+/***/ "6wPf":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".chronometer__time {\n  color: #F1DB4B;\n  font-weight: bold;\n  font-size: 17rem;\n  margin-top: -7rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "JyPB":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16,11 +31,11 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
-__webpack_require__("prum");
+var _Chronometer = __webpack_require__("XgnC");
+
+var _Chronometer2 = _interopRequireDefault(_Chronometer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -28,51 +43,133 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Card = function (_Component) {
-  _inherits(Card, _Component);
+var GameInfo = function (_Component) {
+  _inherits(GameInfo, _Component);
 
-  function Card() {
-    _classCallCheck(this, Card);
+  function GameInfo() {
+    _classCallCheck(this, GameInfo);
 
-    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (GameInfo.__proto__ || Object.getPrototypeOf(GameInfo)).apply(this, arguments));
   }
 
-  _createClass(Card, [{
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps, nextState) {
-
-      return nextProps.img !== this.props.img;
-    }
-  }, {
+  _createClass(GameInfo, [{
     key: 'render',
     value: function render() {
-      var classes = ['card-item'];
-      var styles = _defineProperty({
-        width: this.props ? this.props.width : '200px',
-        height: this.props ? this.props.height : '400px',
-        transform: this.props.scale ? 'scale(' + this.props.scale + ')' : 'scale(1)'
-      }, 'transform', this.props.scale ? 'scale(' + this.props.scale + ')' : 'scale(1)');
-
-      this.props.isResponsive ? classes.push('card-item-responsive') : null;
-      this.props.isRecentCard ? classes.push('card-item--recent-card') : null;
-
-      return _react2.default.createElement('img', {
-        src: this.props.img,
-        alt: 'Bingo Card',
-        style: styles,
-        className: classes.join(' ')
-      });
+      return _react2.default.createElement(
+        _react.Fragment,
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Proxima Partida:'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'next-game__text-label' },
+          'Tipo de Juego:'
+        ),
+        _react2.default.createElement(
+          'p',
+          { className: 'next-game__game-type' },
+          'DOBLE LINEA'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'next-game__text-label' },
+          'Precios de Inscripci\xF3n:'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'next-game__cardboards-prices' },
+          _react2.default.createElement(
+            'li',
+            { className: 'next-game__cardboards-prices--item' },
+            '$10 Cartilla Simple'
+          ),
+          _react2.default.createElement(
+            'li',
+            { className: 'next-game__cardboards-prices--item' },
+            '$15 Cartilla Doble'
+          ),
+          _react2.default.createElement(
+            'li',
+            { className: 'next-game__cardboards-prices--item' },
+            '$20 Cartilla Triple'
+          )
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'next-game__text-label' },
+          'Tiempo de espera:'
+        ),
+        _react2.default.createElement(_Chronometer2.default, null)
+      );
     }
   }]);
 
-  return Card;
+  return GameInfo;
 }(_react.Component);
 
-exports.default = Card;
+exports.default = GameInfo;
 
 /***/ }),
 
-/***/ "8RW9":
+/***/ "PtzZ":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var RandomGame = function (_Component) {
+  _inherits(RandomGame, _Component);
+
+  function RandomGame() {
+    _classCallCheck(this, RandomGame);
+
+    return _possibleConstructorReturn(this, (RandomGame.__proto__ || Object.getPrototypeOf(RandomGame)).apply(this, arguments));
+  }
+
+  _createClass(RandomGame, [{
+    key: 'render',
+    value: function render() {
+      var style = {
+        flex: this.props.flex ? this.props.flex : '0'
+      };
+
+      return _react2.default.createElement(
+        'div',
+        { style: style },
+        'RandomGame...'
+      );
+    }
+  }]);
+
+  return RandomGame;
+}(_react.Component);
+
+exports.default = RandomGame;
+
+/***/ }),
+
+/***/ "X1Fc":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("FZ+f")(false);
@@ -80,18 +177,86 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".cards-section {\n  width: 100%;\n  height: 100%;\n  display: grid;\n  grid-template-columns: repeat( 10, minmax(min-content, max-content) );\n  row-gap: 0.5rem;\n  column-gap: 0.5rem;\n  margin: auto;\n  padding: 1.5rem;\n  align-content: center;\n  justify-content: center;\n}\n\n.test {\n  width: 14rem;\n  height: 20rem;\n  background: rgba(0, 0, 0, .5);\n}", ""]);
+exports.push([module.i, ".bingo-background {\n  width: 100vw;\n  height: 100vh;\n  background: url('/static/assets/background.svg');\n  background-size: cover;\n  padding: 2rem 4.5rem;\n  display: flex;\n}\n\n.bingo-background__panel {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n  display: grid;\n  grid-auto-columns: 1fr;\n  grid-template-columns: 1fr 1fr;\n}\n\n.bingo-background__panel--without-grid {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n}", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "S7kE":
+/***/ "XgnC":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("u1JV");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Chronometer = function (_Component) {
+  _inherits(Chronometer, _Component);
+
+  function Chronometer() {
+    _classCallCheck(this, Chronometer);
+
+    return _possibleConstructorReturn(this, (Chronometer.__proto__ || Object.getPrototypeOf(Chronometer)).apply(this, arguments));
+  }
+
+  _createClass(Chronometer, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'p',
+        { className: 'chronometer__time' },
+        '3:00'
+      );
+    }
+  }]);
+
+  return Chronometer;
+}(_react.Component);
+
+exports.default = Chronometer;
+
+/***/ }),
+
+/***/ "Yc6E":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 3.2rem;\n  margin-bottom: 3rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 2.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 5rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 3rem;\n  margin-top: -1rem;\n}\n\n.next-game__error-msg {\n  display: flex;\n  justify-content: center;\n}\n\n.next-game__error-icon {\n  color: #fff;\n  font-size: 10rem;\n  margin-right: 2rem;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "h6Oo":
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__("8RW9");
+var content = __webpack_require__("Yc6E");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -110,8 +275,8 @@ var update = __webpack_require__("MTIv")(content, options);
 if(content.locals) module.exports = content.locals;
 
 if(false) {
-	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardsSection.css", function() {
-		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardsSection.css");
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./NextGameInfo.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./NextGameInfo.css");
 
 		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -138,22 +303,7 @@ if(false) {
 
 /***/ }),
 
-/***/ "X1Fc":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("FZ+f")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".bingo-background {\n  width: 100vw;\n  height: 100vh;\n  background: url('/static/assets/background.svg');\n  background-size: cover;\n  padding: 2rem 4.5rem;\n  display: flex;\n}\n\n.bingo-background__panel {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n  display: grid;\n  grid-auto-columns: 1fr;\n  grid-template-columns: 1fr 1fr;\n}\n\n.bingo-background__panel--without-grid {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "XwLF":
+/***/ "hrD2":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -169,23 +319,17 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__("RH2O");
-
-var _index = __webpack_require__("cl7k");
-
-var _socket = __webpack_require__("ITBa");
-
-var _cards = __webpack_require__("gx/J");
-
-__webpack_require__("S7kE");
-
 var _Background = __webpack_require__("prCc");
 
 var _Background2 = _interopRequireDefault(_Background);
 
-var _Card = __webpack_require__("6f/o");
+var _NextGameInfo = __webpack_require__("yYNF");
 
-var _Card2 = _interopRequireDefault(_Card);
+var _NextGameInfo2 = _interopRequireDefault(_NextGameInfo);
+
+var _RandomGame = __webpack_require__("PtzZ");
+
+var _RandomGame2 = _interopRequireDefault(_RandomGame);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -195,108 +339,36 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CardsSection = function (_Component) {
-  _inherits(CardsSection, _Component);
+var WaitingGameSection = function (_Component) {
+  _inherits(WaitingGameSection, _Component);
 
-  function CardsSection() {
-    var _ref;
+  function WaitingGameSection() {
+    _classCallCheck(this, WaitingGameSection);
 
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, CardsSection);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CardsSection.__proto__ || Object.getPrototypeOf(CardsSection)).call.apply(_ref, [this].concat(args))), _this), _this.renderCards = function () {
-      var cards = [];
-      var gameHistory = _this.props.gameHistory;
-
-      var endIndex = gameHistory.length > 16 ? gameHistory.length - 16 : 0;
-
-      if (gameHistory.length > 16) {
-        for (var index = 0; index < endIndex; index++) {
-          var card = gameHistory[index];
-
-          var imageRef = _cards.cardList[card].image;
-          cards.push(_react2.default.createElement(_Card2.default, {
-            key: 'card_img_' + index,
-            cover: 'contain',
-            width: '12rem',
-            height: '17rem',
-            img: '/static/assets/' + imageRef,
-            scale: 1,
-            isRecentCard: true
-          }));
-        }
-      }
-
-      return cards;
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (WaitingGameSection.__proto__ || Object.getPrototypeOf(WaitingGameSection)).apply(this, arguments));
   }
 
-  _createClass(CardsSection, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      _socket.socket.on('BINGO_CONECTED', function (data) {
-        console.log(data);
-        _this2.props.onSetGameHistory(data.gameHistory);
-      });
-
-      _socket.socket.on('DRAW_CARD', function (data) {
-        _this2.props.onSetGameHistory(data.turn.gameHistory);
-      });
-
-      _socket.socket.on('USER_WON', function () {
-        _this2.props.onSetGameHistory([]);
-      });
-    }
-  }, {
+  _createClass(WaitingGameSection, [{
     key: 'render',
     value: function render() {
-      var cards = this.renderCards();
-
       return _react2.default.createElement(
         _Background2.default,
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: 'cards-section' },
-          cards
-        )
+        { display: 'flexRow' },
+        _react2.default.createElement(_NextGameInfo2.default, {
+          flex: '1.8',
+          opacity: .15
+        }),
+        _react2.default.createElement(_RandomGame2.default, {
+          flex: '1'
+        })
       );
     }
   }]);
 
-  return CardsSection;
+  return WaitingGameSection;
 }(_react.Component);
 
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    gameHistory: state.bng.history
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    onSetGameHistory: function onSetGameHistory(gameHistory) {
-      return dispatch((0, _index.setGameHistory)(gameHistory));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CardsSection);
-
-// TV SIZE
-//width='13rem' 
-//height='20rem'
-
-// LAPTOP SIZE 
-//width='10rem' 
-//height='15rem'
+exports.default = WaitingGameSection;
 
 /***/ }),
 
@@ -406,11 +478,11 @@ exports.default = background;
 
 /***/ }),
 
-/***/ "prum":
+/***/ "u1JV":
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__("viWZ");
+var content = __webpack_require__("6wPf");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -429,8 +501,8 @@ var update = __webpack_require__("MTIv")(content, options);
 if(content.locals) module.exports = content.locals;
 
 if(false) {
-	module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!./Card.css", function() {
-		var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!./Card.css");
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Chronometer.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Chronometer.css");
 
 		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -457,18 +529,90 @@ if(false) {
 
 /***/ }),
 
-/***/ "viWZ":
+/***/ "yYNF":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("FZ+f")(false);
-// imports
+"use strict";
 
 
-// module
-exports.push([module.i, ".card-item {\n  border: 0.5rem solid #fff;\n  border-radius: 9px;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .card-item-responsive {\n    /* width: 18rem !important;\n    height: 27rem !important; */\n  }\n\n  .card-item--recent-card {\n    width: 10rem !important;\n    height: 15rem !important;\n  }\n}", ""]);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-// exports
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("h6Oo");
+
+var _GameInfo = __webpack_require__("JyPB");
+
+var _GameInfo2 = _interopRequireDefault(_GameInfo);
+
+var _antd = __webpack_require__("nFWT");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NextGameInfo = function (_Component) {
+  _inherits(NextGameInfo, _Component);
+
+  function NextGameInfo() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, NextGameInfo);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NextGameInfo.__proto__ || Object.getPrototypeOf(NextGameInfo)).call.apply(_ref, [this].concat(args))), _this), _this.renderGameNotFoundMessage = function () {
+      return _react2.default.createElement(
+        'div',
+        { className: 'next-game__error-msg' },
+        _react2.default.createElement(_antd.Icon, { className: 'next-game__error-icon', type: 'exclamation-circle' }),
+        _react2.default.createElement(
+          'h1',
+          { className: 'next-game__error-text' },
+          'No se encontr\xF3 un siguiente juego, verifique que existe una partida creada.'
+        )
+      );
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(NextGameInfo, [{
+    key: 'render',
+    value: function render() {
+      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, null) : this.renderGameNotFoundMessage();
+      var style = {
+        flex: this.props.flex ? this.props.flex : '0',
+        background: this.props.opacity ? 'rgba(0,0,0,' + this.props.opacity + ')' : 'rgba(0,0,0,0)'
+      };
+
+      return _react2.default.createElement(
+        'div',
+        {
+          className: 'next-game__section',
+          style: style
+        },
+        component
+      );
+    }
+  }]);
+
+  return NextGameInfo;
+}(_react.Component);
+
+exports.default = NextGameInfo;
 
 /***/ })
 
