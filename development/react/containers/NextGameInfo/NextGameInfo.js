@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 
+import './NextGameInfo.css'
+import Chronometer from '../../components/Chronometer/Chronometer'
+
 class NextGameInfo extends Component {
   render() {
     const style = {
@@ -8,20 +11,24 @@ class NextGameInfo extends Component {
     }
 
     return(
-      <div style={style}>
+      <div 
+        className="next-game__section" 
+        style={style}
+      >
         <h1>Proxima Partida:</h1>
 
-        <span>Tipo de Juego:</span>
-        <p>DOBLE LINEA</p>
+        <span className="next-game__text-label">Tipo de Juego:</span>
+        <p className="next-game__game-type">DOBLE LINEA</p>
 
-        <span>Precios de Inscripción:</span>
-        <ul>
-          <li>$10 Cartilla Simple</li>
-          <li>$15 Cartilla Doble</li>
-          <li>$20 Cartilla Triple</li>
+        <span className="next-game__text-label">Precios de Inscripción:</span>
+        <ul className="next-game__cardboards-prices">
+          <li className="next-game__cardboards-prices--item">$10 Cartilla Simple</li>
+          <li className="next-game__cardboards-prices--item">$15 Cartilla Doble</li>
+          <li className="next-game__cardboards-prices--item">$20 Cartilla Triple</li>
         </ul>
 
-        <span>Tiempo de espera:</span>
+        <span className="next-game__text-label">Tiempo de espera:</span>
+        <Chronometer />
       </div>
     )
   }

@@ -1,5 +1,20 @@
 webpackJsonp([6],{
 
+/***/ "6wPf":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".chronometer__time {\n  color: #F1DB4B;\n  font-weight: bold;\n  font-size: 17rem;\n  margin-top: -7rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "PtzZ":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -67,6 +82,125 @@ exports.push([module.i, ".bingo-background {\n  width: 100vw;\n  height: 100vh;\
 
 // exports
 
+
+/***/ }),
+
+/***/ "XgnC":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("u1JV");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Chronometer = function (_Component) {
+  _inherits(Chronometer, _Component);
+
+  function Chronometer() {
+    _classCallCheck(this, Chronometer);
+
+    return _possibleConstructorReturn(this, (Chronometer.__proto__ || Object.getPrototypeOf(Chronometer)).apply(this, arguments));
+  }
+
+  _createClass(Chronometer, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'p',
+        { className: 'chronometer__time' },
+        '3:00'
+      );
+    }
+  }]);
+
+  return Chronometer;
+}(_react.Component);
+
+exports.default = Chronometer;
+
+/***/ }),
+
+/***/ "Yc6E":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 3.2rem;\n  margin-bottom: 3rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 2.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 5rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 3rem;\n  margin-top: -1rem;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "h6Oo":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__("Yc6E");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__("MTIv")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./NextGameInfo.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./NextGameInfo.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 
@@ -245,6 +379,57 @@ exports.default = background;
 
 /***/ }),
 
+/***/ "u1JV":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__("6wPf");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__("MTIv")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Chronometer.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Chronometer.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
 /***/ "yYNF":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -260,6 +445,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("h6Oo");
+
+var _Chronometer = __webpack_require__("XgnC");
+
+var _Chronometer2 = _interopRequireDefault(_Chronometer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -288,7 +479,10 @@ var NextGameInfo = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { style: style },
+        {
+          className: 'next-game__section',
+          style: style
+        },
         _react2.default.createElement(
           'h1',
           null,
@@ -296,43 +490,44 @@ var NextGameInfo = function (_Component) {
         ),
         _react2.default.createElement(
           'span',
-          null,
+          { className: 'next-game__text-label' },
           'Tipo de Juego:'
         ),
         _react2.default.createElement(
           'p',
-          null,
+          { className: 'next-game__game-type' },
           'DOBLE LINEA'
         ),
         _react2.default.createElement(
           'span',
-          null,
+          { className: 'next-game__text-label' },
           'Precios de Inscripci\xF3n:'
         ),
         _react2.default.createElement(
           'ul',
-          null,
+          { className: 'next-game__cardboards-prices' },
           _react2.default.createElement(
             'li',
-            null,
+            { className: 'next-game__cardboards-prices--item' },
             '$10 Cartilla Simple'
           ),
           _react2.default.createElement(
             'li',
-            null,
+            { className: 'next-game__cardboards-prices--item' },
             '$15 Cartilla Doble'
           ),
           _react2.default.createElement(
             'li',
-            null,
+            { className: 'next-game__cardboards-prices--item' },
             '$20 Cartilla Triple'
           )
         ),
         _react2.default.createElement(
           'span',
-          null,
+          { className: 'next-game__text-label' },
           'Tiempo de espera:'
-        )
+        ),
+        _react2.default.createElement(_Chronometer2.default, null)
       );
     }
   }]);
