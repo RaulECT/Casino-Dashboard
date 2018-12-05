@@ -3,6 +3,7 @@ import React from 'react'
 
 import NextGameInfo from './NextGameInfo'
 import GameInfo from '../../components/GameInfo/GameInfo'
+import GameNotFoundMessage from '../../components/GameNotFoundMessage/GameNotFoundMessage'
 
 describe( '<NextGameInfo />', () => {
   let wrapper
@@ -16,7 +17,7 @@ describe( '<NextGameInfo />', () => {
   } )
 
   it( 'should render game not fount message when game is not passed as a prop', () => {
-    expect( wrapper.find( '.next-game__error-msg' ) ).toHaveLength( 1 )
+    expect( wrapper.find( GameNotFoundMessage ) ).toEqual( 1 )
   } )
 
   it( 'should render <GameInfo /> component when current game prop is setted', () => {

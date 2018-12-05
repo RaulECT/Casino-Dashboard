@@ -1,5 +1,42 @@
 webpackJsonp([3],{
 
+/***/ "/4IX":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _antd = __webpack_require__("nFWT");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var gameNotFoundMessage = function gameNotFoundMessage(props) {
+  var message = props.message ? props.message : 'No se encontró una siguiente partida, verifique que existe una partida creada.';
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'next-game__error-msg' },
+    _react2.default.createElement(_antd.Icon, { className: 'next-game__error-icon', type: 'exclamation-circle' }),
+    _react2.default.createElement(
+      'h1',
+      { style: { color: '#fff' }, className: 'next-game__error-text' },
+      message
+    )
+  );
+};
+
+exports.default = gameNotFoundMessage;
+
+/***/ }),
+
 /***/ "6wPf":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -136,6 +173,10 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _GameNotFoundMessage = __webpack_require__("/4IX");
+
+var _GameNotFoundMessage2 = _interopRequireDefault(_GameNotFoundMessage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -156,6 +197,7 @@ var RandomGame = function (_Component) {
   _createClass(RandomGame, [{
     key: 'render',
     value: function render() {
+      var component = this.props.games ? 'RandomGame...' : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se encontraron partidas activas.' });
       var style = {
         flex: this.props.flex ? this.props.flex : '0'
       };
@@ -163,7 +205,7 @@ var RandomGame = function (_Component) {
       return _react2.default.createElement(
         'div',
         { style: style },
-        'RandomGame...'
+        component
       );
     }
   }]);
@@ -626,7 +668,9 @@ var _GameInfo = __webpack_require__("JyPB");
 
 var _GameInfo2 = _interopRequireDefault(_GameInfo);
 
-var _antd = __webpack_require__("nFWT");
+var _GameNotFoundMessage = __webpack_require__("/4IX");
+
+var _GameNotFoundMessage2 = _interopRequireDefault(_GameNotFoundMessage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -640,34 +684,15 @@ var NextGameInfo = function (_Component) {
   _inherits(NextGameInfo, _Component);
 
   function NextGameInfo() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
     _classCallCheck(this, NextGameInfo);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NextGameInfo.__proto__ || Object.getPrototypeOf(NextGameInfo)).call.apply(_ref, [this].concat(args))), _this), _this.renderGameNotFoundMessage = function () {
-      return _react2.default.createElement(
-        'div',
-        { className: 'next-game__error-msg' },
-        _react2.default.createElement(_antd.Icon, { className: 'next-game__error-icon', type: 'exclamation-circle' }),
-        _react2.default.createElement(
-          'h1',
-          { className: 'next-game__error-text' },
-          'No se encontr\xF3 un siguiente juego, verifique que existe una partida creada.'
-        )
-      );
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (NextGameInfo.__proto__ || Object.getPrototypeOf(NextGameInfo)).apply(this, arguments));
   }
 
   _createClass(NextGameInfo, [{
     key: 'render',
     value: function render() {
-      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, { game: this.props.game }) : this.renderGameNotFoundMessage();
+      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, { game: this.props.game }) : _react2.default.createElement(_GameNotFoundMessage2.default, null);
       var style = {
         flex: this.props.flex ? this.props.flex : '0',
         background: this.props.opacity ? 'rgba(0,0,0,' + this.props.opacity + ')' : 'rgba(0,0,0,0)'
