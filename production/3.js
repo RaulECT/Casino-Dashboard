@@ -145,7 +145,7 @@ var GameInfo = function (_Component) {
           { className: 'next-game__text-label' },
           'Tiempo de espera:'
         ),
-        _react2.default.createElement(_Chronometer2.default, { timeStart: 180 })
+        _react2.default.createElement(_Chronometer2.default, { onEndTime: this.props.onEndTime, timeStart: 30 })
       );
     }
   }]);
@@ -288,6 +288,7 @@ var Chronometer = function (_Component) {
         });
       } else {
         clearInterval(_this.interval);
+        _this.props.onEndTime();
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
@@ -662,6 +663,8 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _socket = __webpack_require__("ITBa");
+
 __webpack_require__("h6Oo");
 
 var _GameInfo = __webpack_require__("JyPB");
@@ -684,15 +687,35 @@ var NextGameInfo = function (_Component) {
   _inherits(NextGameInfo, _Component);
 
   function NextGameInfo() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, NextGameInfo);
 
-    return _possibleConstructorReturn(this, (NextGameInfo.__proto__ || Object.getPrototypeOf(NextGameInfo)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NextGameInfo.__proto__ || Object.getPrototypeOf(NextGameInfo)).call.apply(_ref, [this].concat(args))), _this), _this.sendGameStartNotiication = function () {
+      _this.socket.emit('SHOW_START_GAME_NOTIFICATION_RQ');
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(NextGameInfo, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.socket = (0, _socket.openConnection)();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.socket.close();
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, { game: this.props.game }) : _react2.default.createElement(_GameNotFoundMessage2.default, null);
+      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, { onEndTime: this.sendGameStartNotiication, game: this.props.game }) : _react2.default.createElement(_GameNotFoundMessage2.default, null);
       var style = {
         flex: this.props.flex ? this.props.flex : '0',
         background: this.props.opacity ? 'rgba(0,0,0,' + this.props.opacity + ')' : 'rgba(0,0,0,0)'

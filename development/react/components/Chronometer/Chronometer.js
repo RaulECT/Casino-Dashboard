@@ -25,6 +25,7 @@ class Chronometer extends Component {
       } ) )
     } else {
       clearInterval( this.interval )
+      this.props.onEndTime()
     }
   }
 

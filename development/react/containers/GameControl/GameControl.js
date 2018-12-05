@@ -76,6 +76,11 @@ class GameControl extends Component {
       this.openNotification( 'success', 'Alguien ha ganado!', `El carton que ingresó ha ganado esta partida de loteria.` )
     } )
 
+    socket.on( 'SHOW_START_GAME_NOTIFICATION', () => {
+
+      this.openNotification( 'warning', 'Favor de iniciar la partida', 'El tiempo de espera se ha terminado, por favor inicie la partida.' )
+    } )
+
     this.props.onLoadGame( this.props.history.push )
   }
 

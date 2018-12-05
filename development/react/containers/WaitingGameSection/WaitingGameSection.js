@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { openConnection } from '../../../socket'
 import { loadCurrentGame } from '../../store/actions'
 
 import Background from '../../components/Background/Background'
@@ -9,7 +10,16 @@ import RandomGame from '../RandomGame/RandomGame'
 class WaitingGameSection extends Component {
 
   componentDidMount() {
+    this.socket = openConnection()
     this.props.onLoadGame( ( path ) => console.log(path) )
+
+    this.socket.on( 'START_GAME', ( game ) => {
+      this.props.history.push( '/game' )
+    } )
+  }
+
+  componentWillUnmount() {
+    this.socket.close()
   }
 
   render() {

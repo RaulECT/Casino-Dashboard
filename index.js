@@ -31,18 +31,18 @@ function pageCardboards( cardboardsRegistered, index ) {
 }
 
 // TODO: DELETE
-const types = [ 'SINGLE', 'DOUBLE', 'TRIPLE' ]
-for (let index = 0; index < 30; index++) {
-  const randomType = types[ Math.floor(Math.random() * (types.length - 0)) + 0 ]
-  const first = Math.floor((Math.random() * 9) + 1)
-  const second = Math.floor((Math.random() * 9) + 1)
-  const third = Math.floor((Math.random() * 9) + 1)
-  const fourth = Math.floor((Math.random() * 9) + 1)
+// const types = [ 'SINGLE', 'DOUBLE', 'TRIPLE' ]
+// for (let index = 0; index < 30; index++) {
+//   const randomType = types[ Math.floor(Math.random() * (types.length - 0)) + 0 ]
+//   const first = Math.floor((Math.random() * 9) + 1)
+//   const second = Math.floor((Math.random() * 9) + 1)
+//   const third = Math.floor((Math.random() * 9) + 1)
+//   const fourth = Math.floor((Math.random() * 9) + 1)
 
-  const randomNumcode = parseInt(`${first}${second}${third}${fourth}`)
+//   const randomNumcode = parseInt(`${first}${second}${third}${fourth}`)
   
-  cardboardsRegistered.push( { numcode: randomNumcode, type: randomType } )
-}
+//   cardboardsRegistered.push( { numcode: randomNumcode, type: randomType } )
+// }
 
 app.use( '/static/', express.static( 'production' ) )
 
@@ -74,7 +74,9 @@ io.on( "connect",( client ) => {
     client.emit( 'CARDBOARDS_PAGE_CONNECTED', { cardboardsRegistered: cardboards } )
   } )
 
-
+  client.on( 'SHOW_START_GAME_NOTIFICATION_RQ', () => {
+    io.emit( 'SHOW_START_GAME_NOTIFICATION' )
+  } )
 
   client.on( 'REGISTER_CARDBOARD_RQ', ( cardboard ) => {
     cardboardsRegistered.push( cardboard )

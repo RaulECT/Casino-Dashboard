@@ -668,6 +668,11 @@ var GameControl = function (_Component) {
         _this2.openNotification('success', 'Alguien ha ganado!', 'El carton que ingres\xF3 ha ganado esta partida de loteria.');
       });
 
+      socket.on('SHOW_START_GAME_NOTIFICATION', function () {
+
+        _this2.openNotification('warning', 'Favor de iniciar la partida', 'El tiempo de espera se ha terminado, por favor inicie la partida.');
+      });
+
       this.props.onLoadGame(this.props.history.push);
     }
   }, {
