@@ -45,7 +45,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".chronometer__time {\n  color: #F1DB4B;\n  font-weight: bold;\n  font-size: 17rem;\n  margin-top: -7rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n}", ""]);
+exports.push([module.i, ".chronometer__time {\n  color: #F1DB4B;\n  font-weight: bold;\n  font-size: 20rem;\n  margin-top: -7rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .chronometer__time {\n    font-size: 17rem;\n  }\n}", ""]);
 
 // exports
 
@@ -336,7 +336,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 3.2rem;\n  margin-bottom: 3rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 2.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 5rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n  text-transform: uppercase;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 3rem;\n  margin-top: -1rem;\n}\n\n.next-game__error-msg {\n  display: flex;\n  justify-content: center;\n}\n\n.next-game__error-icon {\n  color: #fff;\n  font-size: 10rem;\n  margin-right: 2rem;\n}", ""]);
+exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 4.2rem;\n  margin-bottom: 4rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 3.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 6rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n  text-transform: uppercase;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 4rem;\n  margin-top: -1rem;\n}\n\n.next-game__error-msg {\n  display: flex;\n  justify-content: center;\n}\n\n.next-game__error-icon {\n  color: #fff;\n  font-size: 10rem;\n  margin-right: 2rem;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .next-game__section h1 {\n    font-size: 3.2rem;\n    margin-bottom: 3rem;\n  }\n\n  .next-game__text-label {\n    font-size: 2.8rem;\n  }\n\n  .next-game__game-type {\n    font-size: 5rem;\n  }\n\n  .next-game__cardboards-prices--item {\n    font-size: 3rem;\n  }\n}", ""]);
 
 // exports
 
