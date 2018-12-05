@@ -335,7 +335,7 @@ var GameControl = function (_Component) {
                 _react2.default.createElement(
                   'b',
                   null,
-                  'Premio Linea:'
+                  'Premio L\xEDnea:'
                 ),
                 ' $',
                 _this.props.game ? _this.props.game.linePrize / 100 : ''
@@ -346,7 +346,7 @@ var GameControl = function (_Component) {
                 _react2.default.createElement(
                   'b',
                   null,
-                  'Premio Loteria:'
+                  'Premio Loter\xEDa:'
                 ),
                 ' $',
                 _this.props.game ? _this.props.game.lotteryPrize / 100 : ''

@@ -154,8 +154,8 @@ class GameControl extends Component {
             </div>
         
             <div>
-              <p><b>Premio Linea:</b> ${this.props.game ? (this.props.game.linePrize / 100) : ''}</p>
-              <p><b>Premio Loteria:</b> ${this.props.game ? (this.props.game.lotteryPrize / 100) : ''}</p>
+              <p><b>Premio Línea:</b> ${this.props.game ? (this.props.game.linePrize / 100) : ''}</p>
+              <p><b>Premio Lotería:</b> ${this.props.game ? (this.props.game.lotteryPrize / 100) : ''}</p>
               <p><b>Cartones registrados: </b> { this.props.cardboardList.length }</p>
             </div>
           </div>
