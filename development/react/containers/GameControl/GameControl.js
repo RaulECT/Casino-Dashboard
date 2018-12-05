@@ -299,8 +299,8 @@ class GameControl extends Component {
   }
 
   validateFolio = ( folio ) => {
-
-    if ( folio !== '000000' ) {
+  
+    if ( folio !== '0000' ) {
       if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
         console.log(this.props.cardboardsToValidate.indexOf( parseInt( folio ) ))
         if ( this.props.cardboardsToValidate.indexOf( parseInt( folio ) ) === -1 ) {
@@ -326,7 +326,7 @@ class GameControl extends Component {
 
   validateSearchValue = ( searchValue ) => {
   
-    if ( searchValue !== '000000' ) {
+    if ( searchValue !== '0000' ) {
       if ( searchValue.length === CARDBOARDS_NUMCODE_LENGTH ) {
         searchValue = parseInt( searchValue )
         console.log(searchValue)

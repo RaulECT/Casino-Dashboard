@@ -598,7 +598,7 @@ var GameControl = function (_Component) {
       });
     }, _this.validateFolio = function (folio) {
 
-      if (folio !== '000000') {
+      if (folio !== '0000') {
         if (_this.props.cardboardList.indexOf(parseInt(folio)) !== -1) {
           console.log(_this.props.cardboardsToValidate.indexOf(parseInt(folio)));
           if (_this.props.cardboardsToValidate.indexOf(parseInt(folio)) === -1) {
@@ -619,7 +619,7 @@ var GameControl = function (_Component) {
       }
     }, _this.validateSearchValue = function (searchValue) {
 
-      if (searchValue !== '000000') {
+      if (searchValue !== '0000') {
         if (searchValue.length === _config.CARDBOARDS_NUMCODE_LENGTH) {
           searchValue = parseInt(searchValue);
           console.log(searchValue);
