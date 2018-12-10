@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { openConnection } from '../../../socket'
+import { Link } from 'react-router-dom'
 import { CARDBOARDS_NUMCODE_LENGTH } from '../../../../config/config'
 import { 
   startGame, 
@@ -49,7 +50,8 @@ let socket = null
 class GameControl extends Component {
 
   state = {
-    isAddCardboardsModalShowing: false
+    isAddCardboardsModalShowing: false,
+    isCountdownStarted: false
   }
 
   componentDidMount() {
@@ -62,6 +64,10 @@ class GameControl extends Component {
       //this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
       this.props.onDrawCardWithoutSocket( data.currentCard, data.cardList, data.gameHistory )
       this.props.onSetGame( data.cardboards, data.currentGame )
+    } )
+
+    socket.on( 'COUNTDOWN_STARTED', () => {
+      this.setState( { isCountdownStarted: true } )
     } )
 
     socket.on( 'DRAW_CARD', (turn) => {
@@ -134,6 +140,12 @@ class GameControl extends Component {
     } ) )
   }
 
+  handleOnStartCountdown = () => {
+    socket.emit( 'START_COUNTDOWN' )
+
+    this.setState( { isCountdownStarted: true } )
+  }
+
   generateRandomCard = () => {
     //TODO: REPLACE WITH RANDOM FUNCTION LATELY
     const randomNumber = Math.floor(Math.random() * (this.props.cardList.length )) + 0; 
@@ -184,6 +196,18 @@ class GameControl extends Component {
             >
               Iniciar Partida
             </Button>
+
+            <Link 
+              to="/next_game" 
+              innerRef={ node => this.countdownLink = node } 
+              disabled={this.state.isCountdownStarted} 
+              target="_blank" 
+              onClick={ this.handleOnStartCountdown }
+              className="countdown-link"
+            >
+              <Icon type="hourglass" />
+              Iniciar Contador
+            </Link>
           </div>
           
         </section>

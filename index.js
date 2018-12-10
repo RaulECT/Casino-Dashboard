@@ -15,6 +15,7 @@ var gameHistory = null
 var cardboards = null
 var cardboardsRegistered = []
 var cardboardsPagesConnected = []
+var isCountdownStarted = false
 
 function pageCardboards( cardboardsRegistered, index ) {
   const cardboardsPerPage = config.CARDBOARDS_PER_PAGE
@@ -59,13 +60,18 @@ io.on( "connect",( client ) => {
   if ( currentCard !== null && cardList !== null ) {
     io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
     
-    client.emit( 'DASHBOARD_CONECTED', {
+    io.emit( 'DASHBOARD_CONECTED', {
       currentCard: currentCard,
       cardList: cardList,
       currentGame: currentGame,
       gameHistory: gameHistory,
-      cardboards: cardboards
+      cardboards: cardboards,
+      isCountdownStarted: isCountdownStarted
     } )
+  }
+
+  if ( isCountdownStarted ) {
+    io.emit( 'COUNTDOWN_STARTED' )
   }
 
   client.on( 'CONNECT_CARDBOARDS_PAGE', ( data ) => {
@@ -76,6 +82,11 @@ io.on( "connect",( client ) => {
 
   client.on( 'SHOW_START_GAME_NOTIFICATION_RQ', () => {
     io.emit( 'SHOW_START_GAME_NOTIFICATION' )
+  } )
+
+  client.on( 'START_COUNTDOWN', () => {
+    isCountdownStarted = true
+    io.emit( 'COUNTDOWN_STARTED' )
   } )
 
   client.on( 'REGISTER_CARDBOARD_RQ', ( cardboard ) => {
@@ -109,6 +120,7 @@ io.on( "connect",( client ) => {
     cardList = null
     currentGame = null
     gameHistory = null
+    isCountdownStarted = false
 
     io.emit( 'USER_WON' )
   } )
@@ -119,6 +131,7 @@ io.on( "connect",( client ) => {
     currentGame = null
     gameHistory = null
     cardboards = null
+    isCountdownStarted = false
 
     io.emit( 'FORCE_END_GAME' )
   } )

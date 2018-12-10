@@ -48,7 +48,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".gameControl__sub-header {\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__info {\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.gameControl__wating-section {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__button--init {\n  margin-left: 1rem;\n}\n\n.gameControl__game-name {\n  margin-bottom: 3rem;\n  font-size: 2rem;\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__game-info {\n  margin-top: 1.5rem;\n}\n\n.gameControl__game-info > p {\n  margin-bottom: 0.3rem;\n  display: flex;\n  justify-content: space-between;\n  padding-right: 10rem;\n  box-sizing: border-box;\n}\n\n.gameControl__game-info > p > span {\n  font-weight: bold;\n}\n\n.gameControl__turn-label {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__turn-label > span {\n  font-size: 2rem;\n}\n\n.gameControl__card-section {\n  margin-bottom: 1.5rem;\n}\n\n.gameControl__card-section > p {\n  margin-bottom: 0.3rem;\n}\n\n.gameControl__button-group {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}", ""]);
+exports.push([module.i, ".gameControl__sub-header {\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__info {\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.gameControl__wating-section {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__button--init {\n  margin-left: 1rem;\n}\n\n.gameControl__game-name {\n  margin-bottom: 3rem;\n  font-size: 2rem;\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__game-info {\n  margin-top: 1.5rem;\n}\n\n.gameControl__game-info > p {\n  margin-bottom: 0.3rem;\n  display: flex;\n  justify-content: space-between;\n  padding-right: 10rem;\n  box-sizing: border-box;\n}\n\n.gameControl__game-info > p > span {\n  font-weight: bold;\n}\n\n.gameControl__turn-label {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__turn-label > span {\n  font-size: 2rem;\n}\n\n.gameControl__card-section {\n  margin-bottom: 1.5rem;\n}\n\n.gameControl__card-section > p {\n  margin-bottom: 0.3rem;\n}\n\n.gameControl__button-group {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.countdown-link {\n  margin-left: 1rem;\n}", ""]);
 
 // exports
 
@@ -164,6 +164,8 @@ var _reactRedux = __webpack_require__("RH2O");
 
 var _socket = __webpack_require__("ITBa");
 
+var _reactRouterDom = __webpack_require__("F8kA");
+
 var _config = __webpack_require__("1wn0");
 
 var _index = __webpack_require__("cl7k");
@@ -216,7 +218,8 @@ var GameControl = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = GameControl.__proto__ || Object.getPrototypeOf(GameControl)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isAddCardboardsModalShowing: false
+      isAddCardboardsModalShowing: false,
+      isCountdownStarted: false
     }, _this.handleOnInitGame = function () {
       //TODO: DELETE AFTER TEST
       _this.props.game.cardboards = _this.props.cardboardList;
@@ -262,6 +265,10 @@ var GameControl = function (_Component) {
         },
         onCancel: function onCancel() {}
       });
+    }, _this.handleOnStartCountdown = function () {
+      socket.emit('START_COUNTDOWN');
+
+      _this.setState({ isCountdownStarted: true });
     }, _this.generateRandomCard = function () {
       //TODO: REPLACE WITH RANDOM FUNCTION LATELY
       var randomNumber = Math.floor(Math.random() * _this.props.cardList.length) + 0;
@@ -387,6 +394,21 @@ var GameControl = function (_Component) {
                 onClick: _this.showStartGameModal
               },
               'Iniciar Partida'
+            ),
+            _react2.default.createElement(
+              _reactRouterDom.Link,
+              {
+                to: '/next_game',
+                innerRef: function innerRef(node) {
+                  return _this.countdownLink = node;
+                },
+                disabled: _this.state.isCountdownStarted,
+                target: '_blank',
+                onClick: _this.handleOnStartCountdown,
+                className: 'countdown-link'
+              },
+              _react2.default.createElement(_antd.Icon, { type: 'hourglass' }),
+              'Iniciar Contador'
             )
           )
         ),
@@ -655,6 +677,10 @@ var GameControl = function (_Component) {
         //this.props.onInitGame( data.currentGame.id, data.currentGame.cardboards, data.currentGame )
         _this2.props.onDrawCardWithoutSocket(data.currentCard, data.cardList, data.gameHistory);
         _this2.props.onSetGame(data.cardboards, data.currentGame);
+      });
+
+      socket.on('COUNTDOWN_STARTED', function () {
+        _this2.setState({ isCountdownStarted: true });
       });
 
       socket.on('DRAW_CARD', function (turn) {
