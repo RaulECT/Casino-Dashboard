@@ -68,9 +68,15 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _socket = __webpack_require__("ITBa");
+
 var _Chronometer = __webpack_require__("XgnC");
 
 var _Chronometer2 = _interopRequireDefault(_Chronometer);
+
+var _GameNotFoundMessage = __webpack_require__("/4IX");
+
+var _GameNotFoundMessage2 = _interopRequireDefault(_GameNotFoundMessage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84,17 +90,44 @@ var GameInfo = function (_Component) {
   _inherits(GameInfo, _Component);
 
   function GameInfo() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, GameInfo);
 
-    return _possibleConstructorReturn(this, (GameInfo.__proto__ || Object.getPrototypeOf(GameInfo)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = GameInfo.__proto__ || Object.getPrototypeOf(GameInfo)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      isCountdownStarted: false
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(GameInfo, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.socket = (0, _socket.openConnection)();
+
+      this.socket.on('COUNTDOWN_STARTED', function () {
+        _this2.setState({ isCountdownStarted: true });
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.socket.close();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var simpleCardboardPrice = this.props.game.singlePrice / 100;
       var doubleCardboardPrice = this.props.game.doublePrice / 100;
       var tripleCardboardPrice = this.props.game.triplePrice / 100;
+      var chronometerSection = this.state.isCountdownStarted ? _react2.default.createElement(_Chronometer2.default, { onEndTime: this.props.onEndTime, timeStart: 30 }) : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se ha iniciado la cuenta para la partida.' });
 
       return _react2.default.createElement(
         _react.Fragment,
@@ -145,7 +178,7 @@ var GameInfo = function (_Component) {
           { className: 'next-game__text-label' },
           'Tiempo de espera:'
         ),
-        _react2.default.createElement(_Chronometer2.default, { onEndTime: this.props.onEndTime, timeStart: 30 })
+        chronometerSection
       );
     }
   }]);

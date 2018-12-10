@@ -1,12 +1,32 @@
 import React, { Component, Fragment } from 'react'
+import { openConnection } from '../../../socket'
 
 import Chronometer from '../Chronometer/Chronometer'
+import GameNotFoundMessage from '../../components/GameNotFoundMessage/GameNotFoundMessage'
 
 class GameInfo extends Component {
+
+  state = {
+    isCountdownStarted: false
+  }
+
+  componentDidMount() {
+    this.socket = openConnection()
+
+    this.socket.on( 'COUNTDOWN_STARTED', () => {
+      this.setState( { isCountdownStarted: true } )
+    } )
+  }
+
+  componentWillUnmount() {
+    this.socket.close()
+  }
+
   render() {
     const simpleCardboardPrice = this.props.game.singlePrice / 100
     const doubleCardboardPrice = this.props.game.doublePrice / 100
     const tripleCardboardPrice = this.props.game.triplePrice / 100
+    const chronometerSection = this.state.isCountdownStarted ? <Chronometer onEndTime={this.props.onEndTime} timeStart={ 30 } /> : <GameNotFoundMessage message="No se ha iniciado la cuenta para la partida." />
 
     return (
       <Fragment>
@@ -23,7 +43,7 @@ class GameInfo extends Component {
         </ul>
 
         <span className="next-game__text-label">Tiempo de espera:</span>
-        <Chronometer onEndTime={this.props.onEndTime} timeStart={ 30 } />
+        { chronometerSection }
       </Fragment>
     )
   }
