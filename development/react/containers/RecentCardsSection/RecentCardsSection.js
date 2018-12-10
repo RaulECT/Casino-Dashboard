@@ -11,7 +11,7 @@ class RecentCardsSection extends Component {
     const cardsImages = []
 
     const startIndex = cards.length < 17 ? 0 : cards.length - 17
-
+ 
     for (let index = startIndex; index < cards.length - 1; index++) {
       const card = cards[index]
 

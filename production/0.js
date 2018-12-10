@@ -58,6 +58,8 @@ var _CardboardPattern2 = _interopRequireDefault(_CardboardPattern);
 
 var _socket = __webpack_require__("ITBa");
 
+var _routes = __webpack_require__("dth0");
+
 __webpack_require__("KFtZ");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -211,7 +213,8 @@ var BingoGame = function (_Component) {
       var _this2 = this;
 
       socket = (0, _socket.openConnection)();
-
+      console.log(this.props);
+      this.props.history.location.state ? this.props.onSetCurrentGame(this.props.history.location.state.game.game) : console.log('What is this wea');
       //TODO: REPLACE WITH SOCKETIO
       addEventListener("keypress", function (e) {
         if (e.which === 13 || e.keyCode === 13) {

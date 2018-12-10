@@ -413,6 +413,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__("RH2O");
 
+var _socket = __webpack_require__("ITBa");
+
 var _actions = __webpack_require__("cl7k");
 
 var _Background = __webpack_require__("prCc");
@@ -447,9 +449,28 @@ var WaitingGameSection = function (_Component) {
   _createClass(WaitingGameSection, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
+      this.socket = (0, _socket.openConnection)();
       this.props.onLoadGame(function (path) {
         return console.log(path);
       });
+
+      this.socket.on('START_GAME', function (game) {
+        _this2.props.history.push({
+          pathname: '/game',
+          state: { game: game }
+        });
+      });
+
+      this.socket.on('BINGO_CONECTED', function (data) {
+        _this2.props.history.push('/game');
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.socket.close();
     }
   }, {
     key: 'render',

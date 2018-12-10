@@ -14,6 +14,13 @@ class WaitingGameSection extends Component {
     this.props.onLoadGame( ( path ) => console.log(path) )
 
     this.socket.on( 'START_GAME', ( game ) => {
+      this.props.history.push( {
+        pathname: '/game',
+        state: { game }
+      } )
+    } )
+
+    this.socket.on( 'BINGO_CONECTED', ( data ) => {
       this.props.history.push( '/game' )
     } )
   }

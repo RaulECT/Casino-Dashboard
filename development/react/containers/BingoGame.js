@@ -12,6 +12,7 @@ import GameLabel from '../components/GameLabel/GameLabel'
 import RecentCardsSection from './RecentCardsSection/RecentCardsSection'
 import CardboardPattern from '../components/CardboardPattern/CardboardPattern'
 import { openConnection } from '../../socket'
+import { WaitingGameSection } from '../routes'
 import './BingoGame.css'
 
 let socket = null
@@ -20,7 +21,8 @@ class BingoGame extends Component {
 
   componentDidMount() {
     socket = openConnection()
-
+    console.log( this.props )
+    this.props.history.location.state ? this.props.onSetCurrentGame( this.props.history.location.state.game.game ) : console.log( 'What is this wea' )
     //TODO: REPLACE WITH SOCKETIO
     addEventListener( "keypress", (e) => { 
       if ( e.which === 13 || e.keyCode === 13 ) {
