@@ -16,7 +16,7 @@ var cardboards = null
 var cardboardsRegistered = []
 var cardboardsPagesConnected = []
 var isCountdownStarted = false
-var countdownTime = 30
+var countdownTime = config.COUNTDOWN_START_TIME
 var conutdownInterval
 
 function pageCardboards( cardboardsRegistered, index ) {

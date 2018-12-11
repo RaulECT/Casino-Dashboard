@@ -70,6 +70,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _socket = __webpack_require__("ITBa");
 
+var _config = __webpack_require__("1wn0");
+
 var _Chronometer = __webpack_require__("XgnC");
 
 var _Chronometer2 = _interopRequireDefault(_Chronometer);
@@ -127,7 +129,7 @@ var GameInfo = function (_Component) {
       var simpleCardboardPrice = this.props.game.singlePrice / 100;
       var doubleCardboardPrice = this.props.game.doublePrice / 100;
       var tripleCardboardPrice = this.props.game.triplePrice / 100;
-      var chronometerSection = this.state.isCountdownStarted ? _react2.default.createElement(_Chronometer2.default, { type: 'global', onEndTime: this.props.onEndTime, timeStart: 30 }) : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se ha iniciado la cuenta para la partida.' });
+      var chronometerSection = this.state.isCountdownStarted ? _react2.default.createElement(_Chronometer2.default, { type: 'global', onEndTime: this.props.onEndTime, timeStart: _config.COUNTDOWN_START_TIME }) : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se ha iniciado la cuenta para la partida.' });
 
       return _react2.default.createElement(
         _react.Fragment,
