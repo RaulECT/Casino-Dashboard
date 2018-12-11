@@ -127,7 +127,7 @@ var GameInfo = function (_Component) {
       var simpleCardboardPrice = this.props.game.singlePrice / 100;
       var doubleCardboardPrice = this.props.game.doublePrice / 100;
       var tripleCardboardPrice = this.props.game.triplePrice / 100;
-      var chronometerSection = this.state.isCountdownStarted ? _react2.default.createElement(_Chronometer2.default, { onEndTime: this.props.onEndTime, timeStart: 30 }) : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se ha iniciado la cuenta para la partida.' });
+      var chronometerSection = this.state.isCountdownStarted ? _react2.default.createElement(_Chronometer2.default, { type: 'global', onEndTime: this.props.onEndTime, timeStart: 30 }) : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se ha iniciado la cuenta para la partida.' });
 
       return _react2.default.createElement(
         _react.Fragment,
@@ -285,6 +285,8 @@ var _moment = __webpack_require__("PJh5");
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _socket = __webpack_require__("ITBa");
+
 __webpack_require__("u1JV");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -311,6 +313,31 @@ var Chronometer = function (_Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Chronometer.__proto__ || Object.getPrototypeOf(Chronometer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       time: _this.props.timeStart
+    }, _this.handleOnGlobalConfiguration = function () {
+      _this.socket = (0, _socket.openConnection)();
+
+      _this.socket.on('COUNTDOWN_CONNECTED', function (data) {
+        console.log(data);
+        var time = data.time >= 0 ? data.time : 0;
+
+        _this.setState({ time: time });
+      });
+
+      _this.socket.on('UPDATE_COUNTDOWN', function (data) {
+        var isNotEndTime = _this.state.time > 0;
+
+        if (isNotEndTime) {
+          _this.setState({ time: data.time });
+        } else {
+          _this.socket.emit('STOP_COUNTDOWN');
+
+          _this.props.onEndTime();
+        }
+      });
+    }, _this.handleOnLocalConfiguration = function () {
+      _this.interval = setInterval(function () {
+        return _this.tick();
+      }, 1000);
     }, _this.tick = function () {
 
       if (_this.state.time > 0) {
@@ -321,6 +348,7 @@ var Chronometer = function (_Component) {
         });
       } else {
         clearInterval(_this.interval);
+
         _this.props.onEndTime();
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -329,16 +357,36 @@ var Chronometer = function (_Component) {
   _createClass(Chronometer, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
+      switch (this.props.type) {
+        case 'global':
+          this.handleOnGlobalConfiguration();
+          break;
 
-      this.interval = setInterval(function () {
-        return _this2.tick();
-      }, 1000);
+        case 'local':
+          this.handleOnLocalConfiguration();
+          break;
+
+        default:
+          this.handleOnLocalConfiguration();
+          break;
+      }
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      clearInterval(this.interval);
+      switch (this.props.type) {
+        case 'global':
+          this.socket.close();
+          break;
+
+        case 'local':
+          clearInterval(this.interval);
+          break;
+
+        default:
+          clearInterval(this.interval);
+          break;
+      }
     }
   }, {
     key: 'render',

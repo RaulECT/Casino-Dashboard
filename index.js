@@ -16,6 +16,8 @@ var cardboards = null
 var cardboardsRegistered = []
 var cardboardsPagesConnected = []
 var isCountdownStarted = false
+var countdownTime = 30
+var conutdownInterval
 
 function pageCardboards( cardboardsRegistered, index ) {
   const cardboardsPerPage = config.CARDBOARDS_PER_PAGE
@@ -71,6 +73,7 @@ io.on( "connect",( client ) => {
   }
 
   if ( isCountdownStarted ) {
+    io.emit( 'COUNTDOWN_CONNECTED', { time: countdownTime } )
     io.emit( 'COUNTDOWN_STARTED' )
   }
 
@@ -86,7 +89,13 @@ io.on( "connect",( client ) => {
 
   client.on( 'START_COUNTDOWN', () => {
     isCountdownStarted = true
+    conutdownInterval = setInterval( () => updateTime(), 1000 )
+
     io.emit( 'COUNTDOWN_STARTED' )
+  } )
+
+  client.on( 'STOP_COUNTDOWN', () => {
+    clearInterval( conutdownInterval )
   } )
 
   client.on( 'REGISTER_CARDBOARD_RQ', ( cardboard ) => {
@@ -141,6 +150,12 @@ io.on( "connect",( client ) => {
   } )
 
 } )
+
+function updateTime() {
+  countdownTime--
+  io.emit( 'UPDATE_COUNTDOWN', { time: countdownTime } )
+}
+
 io.listen(server)
 
 server.listen( config.APP_PORT )

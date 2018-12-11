@@ -26,7 +26,7 @@ class GameInfo extends Component {
     const simpleCardboardPrice = this.props.game.singlePrice / 100
     const doubleCardboardPrice = this.props.game.doublePrice / 100
     const tripleCardboardPrice = this.props.game.triplePrice / 100
-    const chronometerSection = this.state.isCountdownStarted ? <Chronometer onEndTime={this.props.onEndTime} timeStart={ 30 } /> : <GameNotFoundMessage message="No se ha iniciado la cuenta para la partida." />
+    const chronometerSection = this.state.isCountdownStarted ? <Chronometer type="global" onEndTime={this.props.onEndTime} timeStart={ 30 } /> : <GameNotFoundMessage message="No se ha iniciado la cuenta para la partida." />
 
     return (
       <Fragment>
