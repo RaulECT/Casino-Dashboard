@@ -11,12 +11,16 @@ import Card from '../../components/Card'
 class CardsSection extends Component {
 
   componentDidMount() {
-    socket.on( 'BINGO_CONECTED', ( data ) => {
-      console.log(data)
+
+    socket.on( 'BINGO_CONECTED', data => {
+      data.gameHistory.push( data.card.num )
+
       this.props.onSetGameHistory( data.gameHistory )
     } )
 
     socket.on( 'DRAW_CARD', ( data ) => {
+      data.turn.gameHistory.push( data.turn.card.num )
+      
       this.props.onSetGameHistory( data.turn.gameHistory )
     } )
 
@@ -30,7 +34,7 @@ class CardsSection extends Component {
     const { gameHistory } = this.props
     const endIndex = gameHistory.length
     
-    if ( gameHistory.length > 16 ) {
+    if ( /*gameHistory.length > 16*/ true ) {
       for (let index = 0; index < endIndex; index++) {
         const card = gameHistory[index]
 

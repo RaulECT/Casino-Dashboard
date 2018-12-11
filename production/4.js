@@ -215,7 +215,7 @@ var CardsSection = function (_Component) {
 
       var endIndex = gameHistory.length;
 
-      if (gameHistory.length > 16) {
+      if ( /*gameHistory.length > 16*/true) {
         for (var index = 0; index < endIndex; index++) {
           var card = gameHistory[index];
 
@@ -242,11 +242,14 @@ var CardsSection = function (_Component) {
       var _this2 = this;
 
       _socket.socket.on('BINGO_CONECTED', function (data) {
-        console.log(data);
+        data.gameHistory.push(data.card.num);
+
         _this2.props.onSetGameHistory(data.gameHistory);
       });
 
       _socket.socket.on('DRAW_CARD', function (data) {
+        data.turn.gameHistory.push(data.turn.card.num);
+
         _this2.props.onSetGameHistory(data.turn.gameHistory);
       });
 

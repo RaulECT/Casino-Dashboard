@@ -60,6 +60,7 @@ app.get( '/', function( req, res ) {
 const io = require('socket.io')()
 io.on( "connect",( client ) => {
   if ( currentCard !== null && cardList !== null ) {
+   
     io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
     
     io.emit( 'DASHBOARD_CONECTED', {
