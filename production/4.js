@@ -80,7 +80,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".cards-section {\n  width: 100%;\n  height: 100%;\n  display: grid;\n  grid-template-columns: repeat( 10, minmax(min-content, max-content) );\n  row-gap: 0.5rem;\n  column-gap: 0.5rem;\n  margin: auto;\n  padding: 1.5rem;\n  align-content: center;\n  justify-content: center;\n}\n\n.test {\n  width: 14rem;\n  height: 20rem;\n  background: rgba(0, 0, 0, .5);\n}", ""]);
+exports.push([module.i, ".cards-section {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: wrap;\n  padding: 1rem;\n  align-content: center;\n  justify-content: center;\n}\n\n/* .cards-section {\n  width: 100%;\n  height: 100%;\n  display: grid;\n  grid-template-columns: repeat( 10, minmax(min-content, max-content) );\n  row-gap: 0.5rem;\n  column-gap: 0.5rem;\n  margin: auto;\n  padding: 1.5rem;\n  align-content: center;\n  justify-content: center;\n} */\n\n.test {\n  width: 14rem;\n  height: 20rem;\n  background: rgba(0, 0, 0, .5);\n}", ""]);
 
 // exports
 
@@ -213,7 +213,7 @@ var CardsSection = function (_Component) {
       var cards = [];
       var gameHistory = _this.props.gameHistory;
 
-      var endIndex = gameHistory.length > 16 ? gameHistory.length - 16 : 0;
+      var endIndex = gameHistory.length;
 
       if (gameHistory.length > 16) {
         for (var index = 0; index < endIndex; index++) {
@@ -465,7 +465,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".card-item {\n  border: 0.5rem solid #fff;\n  border-radius: 9px;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .card-item-responsive {\n    /* width: 18rem !important;\n    height: 27rem !important; */\n  }\n\n  .card-item--recent-card {\n    width: 10rem !important;\n    height: 15rem !important;\n  }\n}", ""]);
+exports.push([module.i, ".card-item {\n  border: 0.5rem solid #fff;\n  border-radius: 9px;\n}\n\n.card-item--recent-card {\n  margin-top: 1rem;\n  width: 10rem !important;\n  height: 15rem !important;\n}\n\n.card-item--recent-card:not( :last-child ) {\n  margin-right: 0.9rem;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .card-item-responsive {\n    /* width: 18rem !important;\n    height: 27rem !important; */\n  }\n\n  .card-item--recent-card {\n    width: 8rem !important;\n    height: 12rem !important;\n    margin-top: 1rem;\n  }\n\n  .card-item--recent-card:not( :last-child ) {\n    margin-right: 0.9rem;\n  }\n\n  /* .card-item--recent-card {\n    width: 10rem !important;\n    height: 15rem !important;\n  } */\n}", ""]);
 
 // exports
 

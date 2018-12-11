@@ -28,7 +28,7 @@ class CardsSection extends Component {
   renderCards = () => {
     const cards = []
     const { gameHistory } = this.props
-    const endIndex = gameHistory.length > 16 ? gameHistory.length - 16 : 0
+    const endIndex = gameHistory.length
     
     if ( gameHistory.length > 16 ) {
       for (let index = 0; index < endIndex; index++) {

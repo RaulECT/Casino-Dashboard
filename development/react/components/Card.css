@@ -3,6 +3,16 @@
   border-radius: 9px;
 }
 
+.card-item--recent-card {
+  margin-top: 1rem;
+  width: 10rem !important;
+  height: 15rem !important;
+}
+
+.card-item--recent-card:not( :last-child ) {
+  margin-right: 0.9rem;
+}
+
 @media screen and ( max-width: 1400px ) {
   .card-item-responsive {
     /* width: 18rem !important;
@@ -10,7 +20,17 @@
   }
 
   .card-item--recent-card {
+    width: 8rem !important;
+    height: 12rem !important;
+    margin-top: 1rem;
+  }
+
+  .card-item--recent-card:not( :last-child ) {
+    margin-right: 0.9rem;
+  }
+
+  /* .card-item--recent-card {
     width: 10rem !important;
     height: 15rem !important;
-  }
+  } */
 }

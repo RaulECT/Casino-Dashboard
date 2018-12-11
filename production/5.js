@@ -998,7 +998,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".card-item {\n  border: 0.5rem solid #fff;\n  border-radius: 9px;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .card-item-responsive {\n    /* width: 18rem !important;\n    height: 27rem !important; */\n  }\n\n  .card-item--recent-card {\n    width: 10rem !important;\n    height: 15rem !important;\n  }\n}", ""]);
+exports.push([module.i, ".card-item {\n  border: 0.5rem solid #fff;\n  border-radius: 9px;\n}\n\n.card-item--recent-card {\n  margin-top: 1rem;\n  width: 10rem !important;\n  height: 15rem !important;\n}\n\n.card-item--recent-card:not( :last-child ) {\n  margin-right: 0.9rem;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .card-item-responsive {\n    /* width: 18rem !important;\n    height: 27rem !important; */\n  }\n\n  .card-item--recent-card {\n    width: 8rem !important;\n    height: 12rem !important;\n    margin-top: 1rem;\n  }\n\n  .card-item--recent-card:not( :last-child ) {\n    margin-right: 0.9rem;\n  }\n\n  /* .card-item--recent-card {\n    width: 10rem !important;\n    height: 15rem !important;\n  } */\n}", ""]);
 
 // exports
 
