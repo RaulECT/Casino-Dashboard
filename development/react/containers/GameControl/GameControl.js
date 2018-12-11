@@ -285,8 +285,8 @@ class GameControl extends Component {
           <Col className="gameControl__game-info" span={12}>
             <h3 className="gameControl__game-name"> {this.props.game ? `Partida: ${this.props.game.gameName}` : ''}</h3>
             <p><span>ID:</span> {this.props.game ? this.props.game.id : ''}</p>
-            <p><span>Premio Linea:</span> ${this.props.game ? (this.props.game.linePrize / 100) : ''}</p>
-            <p><span>Prmeio Loteria:</span> ${this.props.game ? (this.props.game.lotteryPrize / 100): ''}</p>
+            <p><span>Premio Línea:</span> ${this.props.game ? (this.props.game.linePrize / 100) : ''}</p>
+            <p><span>Prmeio Lotería:</span> ${this.props.game ? (this.props.game.lotteryPrize / 100): ''}</p>
             <p><span>Cartones Registrados:</span> { this.props.cardboardList.length }</p>
 
             <p><span>Progreso de la partida:</span></p>
