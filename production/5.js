@@ -48,7 +48,7 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".gameControl__sub-header {\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__info {\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.gameControl__wating-section {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__button--init {\n  margin-left: 1rem;\n}\n\n.gameControl__game-name {\n  margin-bottom: 3rem;\n  font-size: 2rem;\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__game-info {\n  margin-top: 1.5rem;\n}\n\n.gameControl__game-info > p {\n  margin-bottom: 0.3rem;\n  display: flex;\n  justify-content: space-between;\n  padding-right: 10rem;\n  box-sizing: border-box;\n}\n\n.gameControl__game-info > p > span {\n  font-weight: bold;\n}\n\n.gameControl__turn-label {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__turn-label > span {\n  font-size: 2rem;\n}\n\n.gameControl__card-section {\n  margin-bottom: 1.5rem;\n}\n\n.gameControl__card-section > p {\n  margin-bottom: 0.3rem;\n}\n\n.gameControl__button-group {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.countdown-link {\n  margin-left: 1rem;\n}", ""]);
+exports.push([module.i, ".gameControl__sub-header {\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__info {\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n}\n\n.gameControl__wating-section {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__button--init {\n  margin-left: 1rem;\n}\n\n.gameControl__game-name {\n  margin-bottom: 3rem;\n  font-size: 2rem;\n  color: rgba(0, 0, 0, .4);\n}\n\n.gameControl__game-info {\n  margin-top: 1.5rem;\n}\n\n.gameControl__game-info > p {\n  margin-bottom: 0.3rem;\n  display: flex;\n  justify-content: space-between;\n  padding-right: 10rem;\n  box-sizing: border-box;\n}\n\n.gameControl__game-info > p > span {\n  font-weight: bold;\n}\n\n.gameControl__turn-label {\n  display: flex;\n  flex-direction: column;\n}\n\n.gameControl__turn-label > span {\n  font-size: 2rem;\n}\n\n.gameControl__card-section {\n  margin-bottom: 1.5rem;\n}\n\n.gameControl__card-section > p {\n  margin-bottom: 0.3rem;\n}\n\n.gameControl__button-group {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.countdown-link {\n  margin-left: 4rem;\n}", ""]);
 
 // exports
 
@@ -409,6 +409,15 @@ var GameControl = function (_Component) {
               },
               _react2.default.createElement(_antd.Icon, { type: 'hourglass' }),
               'Iniciar Contador'
+            ),
+            _react2.default.createElement(
+              _reactRouterDom.Link,
+              {
+                to: '/next_game',
+                className: 'countdown-link',
+                target: '_blank'
+              },
+              'Ver contador'
             )
           )
         ),

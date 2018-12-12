@@ -208,6 +208,14 @@ class GameControl extends Component {
               <Icon type="hourglass" />
               Iniciar Contador
             </Link>
+
+            <Link
+              to="/next_game" 
+              className="countdown-link"
+              target="_blank" 
+            >
+              Ver contador
+            </Link>
           </div>
           
         </section>
