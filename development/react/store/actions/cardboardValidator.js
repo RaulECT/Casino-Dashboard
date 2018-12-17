@@ -16,13 +16,12 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
     do {
       // TODO: VERIFY COMBINATION
       isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory, cardboardCards )
-
       i++
       isInRange = i < cardboardFormatted.length
     } while ( !isWinnerRow && isInRange );
 
     if ( isWinnerRow ) {
-    
+      i--
       let winnerPattern = ''
 
       switch ( cardboardFormatted[i].length ) {
@@ -43,7 +42,7 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
           break;
       }
       const winnerInfo = { isWinner: true, pattern: winnerPattern, winnerRow: cardboardFormatted[i] }
-   
+
       return winnerInfo
     }
 
@@ -169,15 +168,15 @@ const formatDoubleLineal = ( cardboard ) => {
     ]
 }
 
-const verifyRow = ( row, cardHistory, cardboard ) => {
+export const verifyRow = ( row, cardHistory, cardboard ) => {
 	let cardsDrawed = []
   
   row.map( element => {
     const cardboardElement = cardboard[element]
- 
+    
   	cardHistory.indexOf( cardboardElement ) !== -1 ? cardsDrawed.push( element ) : null
   } )
-  
+
   return row.length === cardsDrawed.length
 }
 
