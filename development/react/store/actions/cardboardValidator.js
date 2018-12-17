@@ -1,10 +1,26 @@
 export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
-	const cardboardFormatted = formatCardboard( cardboard, gameType )
-  const cards = [...cardboard[0], ...cardboard[1], ...cardboard[2], ...cardboard[3]]
 
-  for( let i = 0; i < cardboardFormatted.length; i++ ) {
-  	const isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory, cards )
+  // TODO: LOOP cardboard
+
+  for (let index = 0; index < cardboard.length; index++) {
+    const currentCardboard = cardboard[index];
     
+    // TODO: FORMAT CURRENT CARDBOARD
+    const cardboardFormatted = formatCardboard( currentCardboard, gameType )
+    const cardboardCards = [ ...currentCardboard[0], ...currentCardboard[1], ...currentCardboard[2], ...currentCardboard[3] ]
+    let i = 0
+    let isWinnerRow = false
+    let isInRange = true 
+
+    // TODO: LOOP THROUGH ALL COMBINATIONS
+    do {
+      // TODO: VERIFY COMBINATION
+      isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory, cardboardCards )
+
+      i++
+      isInRange = i < cardboardFormatted.length
+    } while ( !isWinnerRow && isInRange );
+
     if ( isWinnerRow ) {
     
       let winnerPattern = ''
@@ -30,11 +46,50 @@ export const validateCardboard = ( cardboard, gameType, cardsHistory ) => {
    
       return winnerInfo
     }
+
   }
+
   const winnerInfo = { isWinner: false }
   console.log(winnerInfo)
   return winnerInfo
-  //return false
+
+
+	// const cardboardFormatted = formatCardboard( cardboard, gameType )
+  // const cards = [...cardboard[0], ...cardboard[1], ...cardboard[2], ...cardboard[3]]
+
+  // for( let i = 0; i < cardboardFormatted.length; i++ ) {
+  // 	const isWinnerRow = verifyRow( cardboardFormatted[i], cardsHistory, cards )
+    
+  //   if ( isWinnerRow ) {
+    
+  //     let winnerPattern = ''
+
+  //     switch ( cardboardFormatted[i].length ) {
+  //       case 4:
+  //         winnerPattern = 'SINGLE_LINE'
+  //         break;
+
+  //       case 7:
+  //         winnerPattern = 'DOUBLE_LINE'
+  //         break
+
+  //       case 8:
+  //         winnerPattern = 'DOUBLE_LINE'
+  //         break;
+      
+  //       default:
+  //         winnerPattern = 'SINLGE_LINE'
+  //         break;
+  //     }
+  //     const winnerInfo = { isWinner: true, pattern: winnerPattern, winnerRow: cardboardFormatted[i] }
+   
+  //     return winnerInfo
+  //   }
+  // }
+  // const winnerInfo = { isWinner: false }
+  // console.log(winnerInfo)
+  // return winnerInfo
+  // //return false
 }
 
 const formatCardboard = ( cardboard, gameType ) => {
