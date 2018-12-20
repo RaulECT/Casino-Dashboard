@@ -194,6 +194,8 @@ class CardboardManagment extends Component {
                   onChange={this.handleOnCardboardTypeChange}
                 >
                   <Option value="SINGLE">Carton Simple</Option>
+                  <Option value="DOUBLE">Carton Doble</Option>
+                  <Option value="TRIPLE">Carton Triple</Option>
                 </Select>
                 <Button
                   size="large"

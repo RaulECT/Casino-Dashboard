@@ -299,6 +299,16 @@ var CardboardManagment = function (_Component) {
                     Option,
                     { value: 'SINGLE' },
                     'Carton Simple'
+                  ),
+                  _react2.default.createElement(
+                    Option,
+                    { value: 'DOUBLE' },
+                    'Carton Doble'
+                  ),
+                  _react2.default.createElement(
+                    Option,
+                    { value: 'TRIPLE' },
+                    'Carton Triple'
                   )
                 ),
                 _react2.default.createElement(
