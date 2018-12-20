@@ -98,29 +98,32 @@ class CardboardManagment extends Component {
   }
 
   handleOnPrintSingleCarboard = () => {
-    const pdf = new jsPDF( pdfConfig )
-    const canvas = document.getElementById( `cardboard_${this.props.cardboardSelected.numcode}` )
-    const imgData = canvas.toDataURL('image/jpeg', 1.0)
-    const fileName = `Carton_No.${this.props.cardboardSelected.numcode}.pdf`
 
-    pdf.addImage( imgData, 'JPEG', 0, 0, 8.27, 11.69 )
+    const pdf = new jsPDF()
+    const fileName = `Carton_No.${this.props.cardboardSelected.numcode}.pdf`
+    const canvas = this[`canvas${this.props.cardboardSelected.numcode}`].node
+    const imgData = canvas.toDataURL( 'image/jpeg', 1.0 )
+
+    pdf.deletePage(1)
+    pdf.addPage( [ ( this.props.cardboardSelected.card.length ) * 210, 297 ] )
+    pdf.addImage( imgData, 'JPEG', 0, 0, ( this.props.cardboardSelected.card.length ) * 210, 297 )
+
     pdf.save( fileName )
+
   }
 
   handleOnPrintAllCarboards = () => {
-    console.log(this)
-    const pdf = new jsPDF( pdfConfig )
+    const pdf = new jsPDF()
     const fileName = `${ moment( new Date ).format( 'DD-MM-YYYY HH:mm:ss' ) }.pdf`
+
+    pdf.deletePage(1)
 
     for (let index = 0; index < this.props.allCardboards.length; index++) {
       const canvas = this[`canvas${this.props.allCardboards[index].numcode}`].node
       const imgData = canvas.toDataURL( 'image/jpeg', 1.0 )
-      
-      pdf.addImage(imgData, 'JPEG', 0, 0, 8.27, 11.69)
-      
-      if (( index + 1 ) !== this.props.allCardboards.length) {
-        pdf.addPage()    
-      }
+
+      pdf.addPage([(( this.props.allCardboards[index].card.length )) * 210, 297]);
+			pdf.addImage(imgData, 'JPEG', 0, 0, ( this.props.allCardboards[index].card.length ) * 210, 297);
     
     }
 
@@ -131,7 +134,7 @@ class CardboardManagment extends Component {
     const elements = []
 
     cardboards ? cardboards.map( cardboard => {
-      const canvas = <Canvas ref={node => {this['canvas' + cardboard.numcode] = node}} key={ cardboard.numcode } card={ cardboard.card } barcode={ cardboard.barcode } folio={ cardboard.numcode } />
+      const canvas = <Canvas multiplier={2} ref={node => {this['canvas' + cardboard.numcode] = node}} key={ cardboard.numcode } card={ cardboard.card } barcode={ cardboard.barcode } folio={ cardboard.numcode } />
       elements.push( canvas )
       
     } ) : null

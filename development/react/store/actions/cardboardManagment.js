@@ -235,5 +235,5 @@ const openNotification = ( type, title, description ) => {
 }
 
 const generateCardboardImage = ( cards, barcode, folio, key = 0 ) => {
-  return <Canvas key={folio} card={cards} barcode={barcode} folio={folio} />
+  return <Canvas multiplier={0.4} key={folio} card={cards} barcode={barcode} folio={folio} />
 }

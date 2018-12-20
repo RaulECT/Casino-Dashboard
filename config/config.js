@@ -4,7 +4,8 @@ module.exports = {
   SOCKET_DEV_URL: 'http://localhost:3000',
   APP_PORT: 3000,
   CARDBOARDS_NUMCODE_LENGTH: 4,
-  API_URL: 'http://104.192.4.252:3002/loteriabingo/api',
+  // API_URL: 'http://104.192.4.252:3002/loteriabingo/api',
+  API_URL: 'http://74.208.217.139:5002/loteriabingo/api',
   SOCKET_TIMEOUT: 100000,
   COUNTDOWN_START_TIME: 180
 }

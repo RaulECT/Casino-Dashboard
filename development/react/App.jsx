@@ -14,6 +14,7 @@ import {
   CradboardsRegisteredList, 
   WaitingGameSection
 } from './routes'
+import Test from './Test'
 
 class App extends Component {
 
@@ -49,6 +50,7 @@ class App extends Component {
               <Route key="cards_screen" exact path="/history" component={CardsSection} />
               <Route key="cardboards_screen" exact path="/cardboards" component={CradboardsRegisteredList} />
               <Route key="next_screen" exact path="/next_game" component={WaitingGameSection} />
+              <Route key="test" exact path="/t" component={Test} />
               {routes}
             </div>
           </HashRouter>

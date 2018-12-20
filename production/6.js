@@ -144,27 +144,29 @@ var CardboardManagment = function (_Component) {
         _this.props.onCreateCardboard(_this.state.cardboardType);
       });
     }, _this.handleOnPrintSingleCarboard = function () {
-      var pdf = new _jspdf2.default(pdfConfig);
-      var canvas = document.getElementById('cardboard_' + _this.props.cardboardSelected.numcode);
-      var imgData = canvas.toDataURL('image/jpeg', 1.0);
-      var fileName = 'Carton_No.' + _this.props.cardboardSelected.numcode + '.pdf';
 
-      pdf.addImage(imgData, 'JPEG', 0, 0, 8.27, 11.69);
+      var pdf = new _jspdf2.default();
+      var fileName = 'Carton_No.' + _this.props.cardboardSelected.numcode + '.pdf';
+      var canvas = _this['canvas' + _this.props.cardboardSelected.numcode].node;
+      var imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+      pdf.deletePage(1);
+      pdf.addPage([_this.props.cardboardSelected.card.length * 210, 297]);
+      pdf.addImage(imgData, 'JPEG', 0, 0, _this.props.cardboardSelected.card.length * 210, 297);
+
       pdf.save(fileName);
     }, _this.handleOnPrintAllCarboards = function () {
-      console.log(_this);
-      var pdf = new _jspdf2.default(pdfConfig);
+      var pdf = new _jspdf2.default();
       var fileName = (0, _moment2.default)(new Date()).format('DD-MM-YYYY HH:mm:ss') + '.pdf';
+
+      pdf.deletePage(1);
 
       for (var index = 0; index < _this.props.allCardboards.length; index++) {
         var canvas = _this['canvas' + _this.props.allCardboards[index].numcode].node;
         var imgData = canvas.toDataURL('image/jpeg', 1.0);
 
-        pdf.addImage(imgData, 'JPEG', 0, 0, 8.27, 11.69);
-
-        if (index + 1 !== _this.props.allCardboards.length) {
-          pdf.addPage();
-        }
+        pdf.addPage([_this.props.allCardboards[index].card.length * 210, 297]);
+        pdf.addImage(imgData, 'JPEG', 0, 0, _this.props.allCardboards[index].card.length * 210, 297);
       }
 
       pdf.save(fileName);
@@ -172,7 +174,7 @@ var CardboardManagment = function (_Component) {
       var elements = [];
 
       cardboards ? cardboards.map(function (cardboard) {
-        var canvas = _react2.default.createElement(_Canvas2.default, { ref: function ref(node) {
+        var canvas = _react2.default.createElement(_Canvas2.default, { multiplier: 2, ref: function ref(node) {
             _this['canvas' + cardboard.numcode] = node;
           }, key: cardboard.numcode, card: cardboard.card, barcode: cardboard.barcode, folio: cardboard.numcode });
         elements.push(canvas);
