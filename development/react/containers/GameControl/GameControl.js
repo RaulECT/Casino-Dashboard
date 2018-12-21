@@ -338,7 +338,7 @@ class GameControl extends Component {
   validateFolio = ( folio ) => {
   
     if ( folio !== '0000' ) {
-      if ( this.props.cardboardList.indexOf( parseInt(folio) ) !== -1 ) {
+      if ( /*this.props.cardboardList.indexOf( parseInt(folio) ) !== -1*/ true ) {
         console.log(this.props.cardboardsToValidate.indexOf( parseInt( folio ) ))
         if ( this.props.cardboardsToValidate.indexOf( parseInt( folio ) ) === -1 ) {
           if ( this.props.gameHistory.length >= 4 ) {

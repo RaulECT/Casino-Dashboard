@@ -352,7 +352,7 @@ var CardboardManagment = function (_Component) {
               _react2.default.createElement(_CardboardCard2.default, {
                 onDelete: function onDelete() {
                   _this2.showConfirm('¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', function () {
-                    _this2.props.onDeleteCardboard(_this2.props.cardboardSelected.barcode);
+                    _this2.props.onDeleteCardboard(_this2.props.cardboardSelected.numcode[0]);
                   });
                 },
                 onPrint: this.handleOnPrintSingleCarboard,

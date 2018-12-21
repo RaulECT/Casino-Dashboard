@@ -220,7 +220,7 @@ class CardboardManagment extends Component {
           >
             <Spin spinning={ this.props.loading }>
               <CardboardCard 
-                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { this.props.onDeleteCardboard( this.props.cardboardSelected.barcode ) } ) } }
+                onDelete={ () => { this.showConfirm( '¿Desea borrar este carton?', 'Una vez que se elimine este carton no se puede volver a recuperar', () => { this.props.onDeleteCardboard( this.props.cardboardSelected.numcode[0] ) } ) } }
                 onPrint={ this.handleOnPrintSingleCarboard }
                 cardboard={this.props.cardboardSelected}
                 cardboardImg={this.props.cardboardImg}

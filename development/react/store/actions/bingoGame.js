@@ -104,7 +104,7 @@ export const addCardboard = ( cardboard, cardboardList ) => {
         if ( response.data.result.totalFound !== 0 ) {
           if ( cardboardList.indexOf( parseInt( cardboard ) ) === -1 ) {
           
-            socket.emit( 'REGISTER_CARDBOARD_RQ', { numcode: response.data.result.items[0].numcode, type: response.data.result.items[0].type } )
+            socket.emit( 'REGISTER_CARDBOARD_RQ', { numcode: cardboard, type: response.data.result.items[0].type } )
             dispatch( addCardboardToGame( cardboard ) ) 
           } else {
            openNotification( 'warning', 'No se ha podido agregar el cartón', 'Ya se ha a gregado este cartón a la partida.' ) 

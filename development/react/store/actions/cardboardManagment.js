@@ -205,17 +205,31 @@ export const deleteCardboardSuccess = () => {
 export const deleteCardboard = ( cardboardId ) => {
   return dispatch => {
     dispatch( deleteCardboardStart() )
-
-    axios.post( '/cardboards/edit', {
-      active: false,
-      barcode: cardboardId,
+    console.log(cardboardId)
+    axios.post( '/cardboards/get', {
+      numcode: parseInt( cardboardId )
     } )
     .then( response => {
-      console.log( response )
-
+      
       if ( response.status === 200 ) {
-        dispatch( deleteCardboardSuccess() )
-        dispatch( getCardboardsTotal() )
+       
+        const barcode = response.data.result.items[0].id
+        axios.post( '/cardboards/delete', { barcode: barcode } )
+          .then( second_res => {
+            
+            if ( second_res.status === 200 ) {
+              dispatch( deleteCardboardSuccess() )
+              dispatch( getCardboardsTotal() )
+            } else {
+              dispatch( deleteCardboardFail( second_res.data.error ) )
+            }
+          } )
+          .catch( err => {
+            console.log( err )
+            dispatch( deleteCardboardFail( err ) )
+          } )
+
+        
       } else {
         dispatch( deleteCardboardFail( response.data.error ) )
       }

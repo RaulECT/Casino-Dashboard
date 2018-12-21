@@ -630,7 +630,7 @@ var GameControl = function (_Component) {
     }, _this.validateFolio = function (folio) {
 
       if (folio !== '0000') {
-        if (_this.props.cardboardList.indexOf(parseInt(folio)) !== -1) {
+        if ( /*this.props.cardboardList.indexOf( parseInt(folio) ) !== -1*/true) {
           console.log(_this.props.cardboardsToValidate.indexOf(parseInt(folio)));
           if (_this.props.cardboardsToValidate.indexOf(parseInt(folio)) === -1) {
             if (_this.props.gameHistory.length >= 4) {
