@@ -10,16 +10,16 @@ describe( 'validateCardboard shuold validate double cardboards', () => {
     gameType = 'SINGLE_LINE'
     cardbaord = [
       [
-        [ 1, 2, 3, 20 ],
-        [ 4, 5, 6, 7 ],
-        [ 8, 9, 10, 11 ],
-        [ 12, 13, 14, 15 ]
+        [ 48, 5, 53, 1 ],
+        [ 39, 46, 13, 14 ],
+        [ 51, 29, 44, 2 ],
+        [ 25, 23, 26, 45 ]
       ],
       [
-        [ 2, 1, 0, 3 ],
-        [ 5, 7, 4, 6 ],
-        [ 11, 8, 11, 10 ],
-        [ 15, 12, 14, 13 ]
+        [ 7, 49, 12, 24 ],
+        [ 15, 6, 13, 51 ],
+        [ 30, 14, 22, 21 ],
+        [ 43, 27, 41, 31 ]
       ],
     ]
     
@@ -30,30 +30,31 @@ describe( 'validateCardboard shuold validate double cardboards', () => {
   } )
 
   it( 'should return winner cardboard with single line pattern on left place', () => {
-    const result = validateCardboard( cardbaord, gameType , [ 2, 34, 7, 6, 5, 4, 20 ] )
-    const correctAnswer = { isWinner: true, pattern: 'SINGLE_LINE', winnerRow: [ 4, 5, 6, 7 ] }
+    const result = validateCardboard( cardbaord, gameType , [ 1, 9, 3, 13, 5, 12, 15, 29, 1, 7, 25, 19 ] )
+    const correctAnswer = { isWinner: true, pattern: 'SINGLE_LINE', winnerRow: [ 3, 6, 9, 12 ] }
 
     expect( result ).toEqual( correctAnswer )
   } )
 
   it( 'shold return winner carboard with double line pattern on left place', () => {
-    const result = validateCardboard( cardbaord, gameType, [ 1, 2, 3, 20, 4, 5, 6, 7 ] )
-    const correctAnswer = { isWinner: true, pattern: 'DOUBLE_LINE', winnerRow: [ 0, 1, 2, 3, 4, 5, 6, 7 ] }
+    const result = validateCardboard( cardbaord, gameType, [ 10, 25, 9, 23, 6, 26, 28, 45, 33, 1, 11, 14, 41, 2, 37, 40 ] )
+    const correctAnswer = { isWinner: true, pattern: 'DOUBLE_LINE', winnerRow: [ 12, 13, 14, 15, 3, 7, 11 ] }
 
     expect( result ).toEqual( correctAnswer )
   } )
 
   it( 'should return winner cardboard with single line pattern on right place', () => {
-    const result = validateCardboard( cardbaord, gameType, [ 56, 18, 5, 7, 4, 6 ] )
-    const correctAnswer = { isWinner: true, pattern: 'SINGLE_LINE', winnerRow: [ 4, 5, 6, 7 ] }
+    const result = validateCardboard( cardbaord, gameType, [ 1, 24, 11, 13, 33, 14, 29, 43 ] )
+    const correctAnswer = { isWinner: true, pattern: 'SINGLE_LINE', winnerRow: [ 3, 6, 9, 12 ] }
 
     expect( result ).toEqual( correctAnswer )
   } )
 
   it( 'should return winner cardboard with double line pattern on right place', () => {
-    const result = validateCardboard( cardbaord, gameType, [ 2, 5, 11, 15, 1, 0, 3 ] )
-    const correctAnswer = { isWinner: true, pattern: 'DOUBLE_LINE', winnerRow: [0, 1, 2, 3, 4, 8, 12] }
+    const result = validateCardboard( cardbaord, gameType, [ 7, 6, 22, 31, 24, 13, 14, 43 ] )
+    const correctAnswer = { isWinner: true, pattern: 'DOUBLE_LINE', winnerRow: [ 0, 5, 10, 15, 3, 6, 9, 12 ] }
   
+    
     expect( result ).toEqual( correctAnswer )
   } )
 
