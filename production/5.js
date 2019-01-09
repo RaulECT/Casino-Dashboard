@@ -521,7 +521,7 @@ var GameControl = function (_Component) {
           cardboardsValidated: _this.props.cardboardsValidated,
           onRemoveCardboard: _this.props.onRemoveCardboardsToValidate,
           onValidateCardboards: function onValidateCardboards() {
-            return _this.props.onValidateFolio(_this.props.cardboardsToValidate, [].concat(_toConsumableArray(_this.props.gameHistory)), _this.props.game.linePattern, _this.props.game.id, function (winners) {
+            return _this.props.onValidateFolio(_this.props.cardboardsToValidate, [].concat(_toConsumableArray(_this.props.gameHistory)), _this.props.game.linePattern, _this.props.game.id, _this.props.cardboardsValidated, function (winners) {
               _this.anounceWinner(winners);
             });
           }
@@ -776,8 +776,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     onForceEndGame: function onForceEndGame(gameId) {
       return dispatch((0, _index.forceEndGame)(gameId));
     },
-    onValidateFolio: function onValidateFolio(folio, hist, gametType, gameId, callback) {
-      return dispatch((0, _index.validateFolio)(folio, hist, gametType, gameId, callback));
+    onValidateFolio: function onValidateFolio(folio, hist, gametType, gameId, cardboardsValidated, callback) {
+      return dispatch((0, _index.validateFolio)(folio, hist, gametType, gameId, cardboardsValidated, callback));
     },
     onSetGameHistory: function onSetGameHistory(gameHistory) {
       return dispatch((0, _index.setGameHistory)(gameHistory));

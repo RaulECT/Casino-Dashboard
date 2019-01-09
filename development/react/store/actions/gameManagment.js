@@ -190,10 +190,10 @@ export const forceEndGame = ( gameId ) => {
   }
 }
 
-export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
+export const validateFolio = ( folios, hist, gameType, gameId, cardboardsValidated, callback ) => {
   
   return dispatch => {
-    console.log( folios )
+    console.log(cardboardsValidated)
     dispatch( startValidateFolio() )
 
     let validationResults = {
@@ -208,12 +208,30 @@ export const validateFolio = ( folios, hist, gameType, gameId, callback ) => {
       .then( response => {
    
         if ( response.status === 200 ) {
-          const cardboards = response.data.result.items.filter( data => folios.indexOf( data.numcode ) !== -1 )
+          
+          // const cardboards = response.data.result.items.filter( data => folios.indexOf( data.numcode ) !== -1 )
+          const cardboards = []
+          let isValidatedBefore
+          let isInFoliosList
+          
+          response.data.result.items.map( cardboard => {
+            cardboard.numcode.map( num => {
+              isValidatedBefore = cardboardsValidated.indexOf(num) ==! -1
+              isInFoliosList = 
+
+              console.log( `Is validated before: ${ isValidatedBefore }` )
+              folios.indexOf( num ) !== -1 ? cardboards.push( cardboard ) : null
+            } )
+          } )
+
+          console.log( cardboards )
 
           cardboards.map( cardboard => {
+            
             const validation = handleCardboardValidation( cardboard.card, gameType, hist )
+            const numcode = Array.isArray( cardboard.numcode ) ? cardboard.numcode[0] : cardboard.numcode
 
-            validation.isWinner ? validationResults.winners[validation.pattern].push(cardboard.numcode) : validationResults.loosers.push(cardboard.numcode)
+            validation.isWinner ? validationResults.winners[validation.pattern].push(numcode) : validationResults.loosers.push(numcode)
           } )
 
           console.log(validationResults)
@@ -250,6 +268,7 @@ export const addCardboardsSingleLineWinner = ( cardboards ) => {
 
 export const registerSingleLineWinners = ( cardboards, gameId ) => {
   return dispatch => {
+    
     axios.post( '/games/singleWinner', {
       id: gameId,
       singleWinner: cardboards

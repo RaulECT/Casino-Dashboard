@@ -285,7 +285,7 @@ class GameControl extends Component {
           cardboardsToValidate={this.props.cardboardsToValidate}
           cardboardsValidated={this.props.cardboardsValidated}
           onRemoveCardboard={this.props.onRemoveCardboardsToValidate}
-          onValidateCardboards={ () => this.props.onValidateFolio( this.props.cardboardsToValidate, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, ( winners ) => { this.anounceWinner( winners ) } ) }
+          onValidateCardboards={ () => this.props.onValidateFolio( this.props.cardboardsToValidate, [...this.props.gameHistory], this.props.game.linePattern, this.props.game.id, this.props.cardboardsValidated ,( winners ) => { this.anounceWinner( winners ) } ) }
         />
 
         <Divider style={{ marginTop: '40px' }} orientation="left">Control de Partida</Divider>
@@ -424,7 +424,7 @@ const mapDispatchToProps = dispatch => {
     onChangeCard: ( card, cardList ) => dispatch( changeCard( card, cardList ) ),
     onAddCardboard: ( cardboard, cardboardList ) => dispatch( addCardboard( cardboard, cardboardList ) ),
     onForceEndGame: ( gameId ) => dispatch( forceEndGame( gameId ) ),
-    onValidateFolio: ( folio, hist, gametType, gameId, callback ) => dispatch( validateFolio(folio, hist, gametType, gameId, callback) ),
+    onValidateFolio: ( folio, hist, gametType, gameId, cardboardsValidated, callback ) => dispatch( validateFolio(folio, hist, gametType, gameId, cardboardsValidated, callback) ),
     onSetGameHistory: ( gameHistory ) => dispatch( setGameHistory( gameHistory ) ),
     onSetGame: ( cardboards, game ) => dispatch( setGame( cardboards, game ) ),
     onGenerateConectionId: () => dispatch( generateConectionId() ),
