@@ -1,5 +1,77 @@
 webpackJsonp([1],{
 
+/***/ "+U2W":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var protectComponent = function protectComponent(props) {
+  console.log(props);
+  var isModule = props.isModule ? true : false;
+  var component = void 0;
+
+  if (isModule) {
+    component = handleModuleComponent(props.module, props.children);
+  } else {
+    component = handleComponentValidation(props.module, props.perm, props.children);
+    console.log('is not module');
+  }
+
+  return component;
+};
+
+var verifyComponent = function verifyComponent() {};
+
+var handleModuleComponent = function handleModuleComponent(module, component) {
+  var isModuleOnPerm = verifyModule(module);
+
+  if (isModuleOnPerm) {
+    return component;
+  } else {
+    return null;
+  }
+};
+
+var handleComponentValidation = function handleComponentValidation(module, perm, component) {
+  var isModuleOnPerm = verifyModule(module);
+  var isPermOnList = verifyPerm(module, perm);
+
+  if (isModuleOnPerm && isPermOnList) {
+    return component;
+  } else {
+    return null;
+  }
+};
+
+var verifyModule = function verifyModule(module) {
+  var userPermissions = localStorage.getItem('permissions') ? JSON.parse(localStorage.getItem('permissions')) : {};
+  var userModules = Object.keys(userPermissions);
+
+  return userModules.indexOf(module) !== -1;
+};
+
+var verifyPerm = function verifyPerm(module, perm) {
+  var userPerms = localStorage.getItem('permissions') ? JSON.parse(localStorage.getItem('permissions'))[module] ? JSON.parse(localStorage.getItem('permissions'))[module] : [] : [];
+
+  console.log(userPerms.includes(perm));
+  return userPerms.includes(perm);
+};
+
+exports.default = protectComponent;
+
+/***/ }),
+
 /***/ "/lIq":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -855,6 +927,10 @@ var _Sidebar = __webpack_require__("uWnz");
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
+var _ProtectComponent = __webpack_require__("+U2W");
+
+var _ProtectComponent2 = _interopRequireDefault(_ProtectComponent);
+
 __webpack_require__("o9VT");
 
 var _routes = __webpack_require__("dth0");
@@ -897,7 +973,8 @@ var Dashboard = function (_Component) {
     _this.titlesDictionary = {
       bingo_submenu_control: 'Control de Partida',
       bingo_submenu_create: 'Crear Partida',
-      bingo_menu_cardboards: 'Manejo de cartones'
+      bingo_menu_cardboards: 'Manejo de cartones',
+      bingo_casinos: 'Creación de casinos'
     };
     return _this;
   }
@@ -928,7 +1005,14 @@ var Dashboard = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'dashboard-content' },
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/game_control', component: _routes.GameControl }),
+            _react2.default.createElement(
+              _ProtectComponent2.default,
+              {
+                module: 'games',
+                isModule: true
+              },
+              _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/game_control', component: _routes.GameControl })
+            ),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/create_game', component: _routes.CreateGame }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/cardboard_managment', component: _routes.CardboardManagment }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _routes.GameControl })
@@ -1069,6 +1153,12 @@ var _Sider = __webpack_require__("Q3ZY");
 
 var _Sider2 = _interopRequireDefault(_Sider);
 
+var _ProtectComponent = __webpack_require__("+U2W");
+
+var _ProtectComponent2 = _interopRequireDefault(_ProtectComponent);
+
+var _submenus = __webpack_require__("uo1v");
+
 var _antd = __webpack_require__("nFWT");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1085,9 +1175,95 @@ var Sidebar = function (_Component) {
   _inherits(Sidebar, _Component);
 
   function Sidebar() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Sidebar);
 
-    return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call.apply(_ref, [this].concat(args))), _this), _this.renderMenus = function () {
+      var permissions = localStorage.getItem('permissions') ? JSON.parse(localStorage.getItem('permissions')) : {};
+      var modules = Object.keys(permissions);
+      var menus = [];
+
+      modules.map(function (module) {
+        switch (module) {
+          case "games":
+            var options = _this.renderOptions('games', permissions);
+
+            menus.push(_react2.default.createElement(
+              SubMenu,
+              {
+                key: 'bingo_submenu',
+                title: _react2.default.createElement(
+                  'span',
+                  null,
+                  _react2.default.createElement(_antd.Icon, { type: 'crown' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    'Bingo'
+                  )
+                )
+              },
+              options
+            ));
+
+            break;
+
+          case "cardboards":
+            menus.push(_react2.default.createElement(
+              _antd.Menu.Item,
+              { key: 'bingo_menu_cardboards' },
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/dashboard/cardboard_managment' },
+                _react2.default.createElement(_antd.Icon, { type: 'barcode' }),
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  'Cartones'
+                )
+              )
+            ));
+
+          case "casinos":
+            menus.push(_react2.default.createElement(
+              _antd.Menu.Item,
+              { key: 'bingo_casinos' },
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/dashboard/casinos' },
+                _react2.default.createElement(_antd.Icon, { type: 'shop' }),
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  'Creaci\xF3n de Casinos'
+                )
+              )
+            ));
+
+            break;
+
+          default:
+            break;
+        }
+      });
+
+      return menus;
+    }, _this.renderOptions = function (module, permissions) {
+      var options = [];
+
+      permissions[module].map(function (perm) {
+        options.push(_submenus.submenus[perm]);
+      });
+
+      return options;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Sidebar, [{
@@ -1098,6 +1274,9 @@ var Sidebar = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var menus = this.renderMenus();
+      console.log(menus);
+
       return _react2.default.createElement(
         _Sider2.default,
         {
@@ -1125,54 +1304,7 @@ var Sidebar = function (_Component) {
             style: { padding: '16px 0', width: '100%' },
             onSelect: this.props.onChangePanelHeader
           },
-          _react2.default.createElement(
-            SubMenu,
-            {
-              key: 'bingo_submenu',
-              title: _react2.default.createElement(
-                'span',
-                null,
-                _react2.default.createElement(_antd.Icon, { type: 'crown' }),
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  'Bingo'
-                )
-              )
-            },
-            _react2.default.createElement(
-              _antd.Menu.Item,
-              { key: 'bingo_submenu_control' },
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/dashboard/game_control' },
-                'Control de partida'
-              )
-            ),
-            _react2.default.createElement(
-              _antd.Menu.Item,
-              { key: 'bingo_submenu_create' },
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/dashboard/create_game' },
-                'Crear partida'
-              )
-            )
-          ),
-          _react2.default.createElement(
-            _antd.Menu.Item,
-            { key: 'bingo_menu_cardboards' },
-            _react2.default.createElement(
-              _reactRouterDom.Link,
-              { to: '/dashboard/cardboard_managment' },
-              _react2.default.createElement(_antd.Icon, { type: 'barcode' }),
-              _react2.default.createElement(
-                'span',
-                null,
-                'Cartones'
-              )
-            )
-          )
+          menus
         )
       );
     }
@@ -1197,6 +1329,50 @@ exports.push([module.i, "/* DASBOARD STYLE */\n.dashboard-layout{\n  height: 100
 
 // exports
 
+
+/***/ }),
+
+/***/ "uo1v":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.submenus = undefined;
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__("F8kA");
+
+var _antd = __webpack_require__("nFWT");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var submenus = exports.submenus = {
+  createGame: _react2.default.createElement(
+    _antd.Menu.Item,
+    { key: 'bingo_submenu_create' },
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/dashboard/create_game' },
+      'Crear partida'
+    )
+  ),
+  manageGame: _react2.default.createElement(
+    _antd.Menu.Item,
+    { key: 'bingo_submenu_control' },
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/dashboard/game_control' },
+      'Control de partida'
+    )
+  )
+};
 
 /***/ }),
 

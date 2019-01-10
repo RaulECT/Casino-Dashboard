@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import { Link } from 'react-router-dom'
 
 import Sider from 'antd/lib/layout/Sider';
+import ProtectComponent from '../../hoc/ProtectComponent'
+import { submenus } from './submenus'
 import {
   Menu,
   Icon
@@ -16,6 +18,9 @@ class Sidebar extends Component {
   }
 
   render() {
+    const menus = this.renderMenus()
+    console.log(menus)
+    
     return(
       <Sider
           trigger={null}
@@ -35,24 +40,92 @@ class Sidebar extends Component {
             style={{ padding: '16px 0', width: '100%' }}
             onSelect={ this.props.onChangePanelHeader }
           >
-            <SubMenu
+            {/* <SubMenu
               key="bingo_submenu"
               title={<span><Icon type="crown" /><span>Bingo</span></span>}
             >
-              <Menu.Item key="bingo_submenu_control"><Link to="/dashboard/game_control">Control de partida</Link></Menu.Item>
-              <Menu.Item key="bingo_submenu_create"><Link to="/dashboard/create_game">Crear partida</Link></Menu.Item> 
+              <Menu.Item key="bingo_submenu_control">
+                <Link to="/dashboard/game_control">Control de partida</Link>
+              </Menu.Item>
+                       
+              <Menu.Item key="bingo_submenu_create">
+                <Link to="/dashboard/create_game">Crear partida</Link>
+              </Menu.Item> 
             </SubMenu>
+            
 
             <Menu.Item key="bingo_menu_cardboards">
               <Link to="/dashboard/cardboard_managment">
                 <Icon type="barcode" />
                 <span>Cartones</span>
               </Link>
-            </Menu.Item>
-
+            </Menu.Item> */}
+            { menus }
           </Menu>
         </Sider>
     )
+  }
+
+  renderMenus = () => {
+    const permissions = localStorage.getItem( 'permissions' ) ?
+      JSON.parse( localStorage.getItem( 'permissions' ) ) : {}
+    const modules = Object.keys( permissions )
+    const menus = []
+    
+    modules.map( module => {
+      switch ( module ) {
+        case "games":
+          const options = this.renderOptions( 'games', permissions )
+          
+          menus.push(
+            <SubMenu
+              key="bingo_submenu"
+              title={<span><Icon type="crown" /><span>Bingo</span></span>}
+            >
+              { options }
+            </SubMenu>
+          )
+          
+          break;
+
+        case "cardboards":
+          menus.push(
+            <Menu.Item key="bingo_menu_cardboards">
+              <Link to="/dashboard/cardboard_managment">
+                <Icon type="barcode" />
+                <span>Cartones</span>
+              </Link>
+            </Menu.Item>
+          )
+
+        case "casinos":
+          menus.push(
+            <Menu.Item key="bingo_casinos">
+              <Link to="/dashboard/casinos">
+                <Icon type="shop" />
+                <span>Creación de Casinos</span>
+              </Link>
+            </Menu.Item>
+          )
+
+          break
+      
+        default:
+          break;
+      }
+    } )
+
+    return menus
+  }
+
+  renderOptions = ( module, permissions ) => {
+    const options = []
+
+    permissions[module].map( perm => {
+      options.push( submenus[perm] )
+    } )
+
+    return options
   }
 }
 

@@ -50,3 +50,8 @@ export const WaitingGameSection = Loadable( {
   loader: () => import( './containers/WaitingGameSection/WaitingGameSection' ),
   loading: Loading
 } )
+
+export const CasinoControl = Loadable( {
+  loader: () => import( './containers/CasinoControl/CasinoControl' ),
+  loading: Loading
+} )

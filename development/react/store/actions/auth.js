@@ -50,10 +50,18 @@ export const auth = ( email, password ) => {
     } )
     .then( response => {
      
-      if ( response.status !== 404 ) {
+      if ( response.status === 200 ) {
+        const perm = {
+          users: [ 'createUsers' ],
+          games: [ 'createGame', 'manageGame' ],
+          cardboards: [ 'createCardboard', 'printCardboard' ],
+          casinos: [ 'create' ]
+        }
+
         localStorage.setItem( 'token', response.data.result.token )
         localStorage.setItem( 'user', email )
-        localStorage.setItem( 'permissions', response.data.permissions )
+        // localStorage.setItem( 'permissions', response.data.permissions )
+        localStorage.setItem( 'permissions', JSON.stringify( perm ) )
 
         dispatch( authSuccess( response.data.result.token, email ) )
 
