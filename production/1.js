@@ -17,7 +17,7 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var protectComponent = function protectComponent(props) {
-  console.log(props);
+
   var isModule = props.isModule ? true : false;
   var component = void 0;
 
@@ -25,7 +25,6 @@ var protectComponent = function protectComponent(props) {
     component = handleModuleComponent(props.module, props.children);
   } else {
     component = handleComponentValidation(props.module, props.perm, props.children);
-    console.log('is not module');
   }
 
   return component;
@@ -64,7 +63,6 @@ var verifyModule = function verifyModule(module) {
 var verifyPerm = function verifyPerm(module, perm) {
   var userPerms = localStorage.getItem('permissions') ? JSON.parse(localStorage.getItem('permissions'))[module] ? JSON.parse(localStorage.getItem('permissions'))[module] : [] : [];
 
-  console.log(userPerms.includes(perm));
   return userPerms.includes(perm);
 };
 
@@ -1013,6 +1011,7 @@ var Dashboard = function (_Component) {
               },
               _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/game_control', component: _routes.GameControl })
             ),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/casinos', component: _routes.CasinoControl }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/create_game', component: _routes.CreateGame }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/dashboard/cardboard_managment', component: _routes.CardboardManagment }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _routes.GameControl })

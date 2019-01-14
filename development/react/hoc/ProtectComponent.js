@@ -1,7 +1,7 @@
 import React from 'react'
 
 const protectComponent = props => {
-  console.log(props)
+
   const isModule = props.isModule ? true : false
   let component
 
@@ -9,7 +9,6 @@ const protectComponent = props => {
     component = handleModuleComponent( props.module, props.children )
   } else {
     component = handleComponentValidation( props.module, props.perm, props.children )
-    console.log('is not module')
   }
 
   return component
@@ -54,7 +53,6 @@ const verifyPerm = ( module, perm ) => {
       : [] 
     : []
 
-  console.log( userPerms.includes( perm ) )
   return userPerms.includes( perm )
 }
 
