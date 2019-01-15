@@ -98,8 +98,8 @@ class GameControl extends Component {
     //TODO: DELETE AFTER TEST
     this.props.game.cardboards = this.props.cardboardList
 
-    this.props.onInitGame( this.props.game.id, this.props.cardboardList, this.props.game )
-    this.handleOnChangeCard()
+    this.props.onInitGame( this.props.game.id, this.props.cardboardList, this.props.game, this.handleOnChangeCard )
+    // this.handleOnChangeCard()
   }
 
   handleOnChangeCard = () => {
@@ -417,7 +417,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onStartGame: () => dispatch( startGame() ),
     onEndGame: () => dispatch( endGame() ),
-    onInitGame: ( gameId, cardboardList, game ) => dispatch( initGame( gameId, cardboardList, game ) ),
+    onInitGame: ( gameId, cardboardList, game, next ) => dispatch( initGame( gameId, cardboardList, game, next ) ),
     onDrawCard: ( card, cardList, history, conectionId ) => dispatch( drawCard( card, cardList, history, conectionId ) ),
     onAnounceWinner: ( gameId, cards, winner ) => dispatch( anounceWinner( gameId, cards, winner ) ),
     onLoadGame: ( push ) => dispatch( loadCurrentGame( push ) ),

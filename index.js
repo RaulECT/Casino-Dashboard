@@ -7,6 +7,9 @@ var devPath = path.join( __dirname, 'development' )
 var app = express()
 var server = http.createServer(app)
 
+var GamesHandler = require( './models/gamesHandler' )
+var CasinoGame = require( './models/casinoGame' )
+
 // BINGO
 var currentCard = null
 var cardList = null
@@ -18,6 +21,8 @@ var cardboardsPagesConnected = []
 var isCountdownStarted = false
 var countdownTime = config.COUNTDOWN_START_TIME
 var conutdownInterval
+
+var gamesHandler = new GamesHandler()
 
 function pageCardboards( cardboardsRegistered, index ) {
   const cardboardsPerPage = config.CARDBOARDS_PER_PAGE
@@ -59,18 +64,33 @@ app.get( '/', function( req, res ) {
  */
 const io = require('socket.io')()
 io.on( "connect",( client ) => {
+  var casinoId = client.handshake.query.casinoId ? client.handshake.query.casinoId : ''
+  var casinoGame = gamesHandler.searchByCasinoId( casinoId )
+  var currentCasinoGame = casinoGame.length > 0 ? casinoGame[0].game : null
+  
   if ( currentCard !== null && cardList !== null ) {
-   
-    io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
+    // console.log(currentCasinoGame)
+    // console.log('game started')
+    var gameAppInfo = currentCasinoGame.getGameAppInfo()
+    var dashboardInfo = currentCasinoGame.getDashboardInfo()
+
+    // console.log( 'GAME: ', gameAppInfo )
+    // console.log( 'DASH: ', dashboardInfo )
+    // console.log( gamesHandler.games )
+
+    // io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
+    io.emit( 'BINGO_CONECTED', gameAppInfo )
     
-    io.emit( 'DASHBOARD_CONECTED', {
-      currentCard: currentCard,
-      cardList: cardList,
-      currentGame: currentGame,
-      gameHistory: gameHistory,
-      cardboards: cardboards,
-      isCountdownStarted: isCountdownStarted
-    } )
+    // io.emit( 'DASHBOARD_CONECTED', {
+    //   currentCard: currentCard,
+    //   cardList: cardList,
+    //   currentGame: currentGame,
+    //   gameHistory: gameHistory,
+    //   cardboards: cardboards,
+    //   isCountdownStarted: isCountdownStarted
+    // } )
+    
+    io.emit( 'DASHBOARD_CONECTED', dashboardInfo )
   }
 
   if ( isCountdownStarted ) {
@@ -111,7 +131,17 @@ io.on( "connect",( client ) => {
     // io.emit( 'REGISTER_CARDBOARD', cardboardsRegistered )
   } )
 
-  client.on( 'START_GAME_RQ', ( game ) => {
+  client.on( 'START_GAME_RQ', ( game, callback ) => {
+
+    var casinoGame = gamesHandler.searchByCasinoId( casinoId )
+    
+    if ( casinoGame.length === 0 ) {
+      var newGame = new CasinoGame( { gameInfo: game.game, cardboards: game.cardboards } )
+    
+      gamesHandler.addGame( casinoId, newGame )
+    }
+
+    callback()
     currentGame = game.game
     cardboards = game.cardboards
     io.emit( 'START_GAME', game )
@@ -121,6 +151,12 @@ io.on( "connect",( client ) => {
     currentCard = turn.card
     cardList = turn.cardList
     gameHistory = turn.gameHistory
+    
+    var casinoGame = gamesHandler.searchByCasinoId( casinoId )
+    if ( casinoGame.length !== 0 ) {
+      casinoGame[0].game.drawCard( turn.card, turn.cardList, turn.gameHistory )
+      // console.log(casinoGame)
+    }
     
     io.emit( 'DRAW_CARD', {turn: turn} )
   } )

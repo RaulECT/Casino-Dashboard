@@ -10,7 +10,7 @@ const initialState = {
   loading: false,
   error: null,
   cardboardList: [],
-  history: [ 7, 6, 22, 31 ]
+  history: []
 }
 
 const reducer = ( state = initialState, action )=> {

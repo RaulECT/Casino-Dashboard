@@ -19,7 +19,7 @@ export const startGame = () => {
   }
 }
 
-export const initGame = ( gameId, cardboards, game ) => {
+export const initGame = ( gameId, cardboards, game, next ) => {
   return (dispatch) => {
 
     axios.post( '/games/start', {
@@ -29,7 +29,9 @@ export const initGame = ( gameId, cardboards, game ) => {
       .then( response => {
  
         if ( response.status === 200 ) {
-          socket.emit( 'START_GAME_RQ', {game, cardboards} )
+          socket.emit( 'START_GAME_RQ', {game, cardboards}, () => {
+            next()
+          } )
           dispatch( startGame() )
 
         } else {

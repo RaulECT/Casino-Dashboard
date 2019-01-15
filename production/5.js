@@ -224,8 +224,8 @@ var GameControl = function (_Component) {
       //TODO: DELETE AFTER TEST
       _this.props.game.cardboards = _this.props.cardboardList;
 
-      _this.props.onInitGame(_this.props.game.id, _this.props.cardboardList, _this.props.game);
-      _this.handleOnChangeCard();
+      _this.props.onInitGame(_this.props.game.id, _this.props.cardboardList, _this.props.game, _this.handleOnChangeCard);
+      // this.handleOnChangeCard()
     }, _this.handleOnChangeCard = function () {
       if (_this.props.cardList.length !== 0) {
         var _this$generateRandomC = _this.generateRandomCard(),
@@ -755,8 +755,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     onEndGame: function onEndGame() {
       return dispatch((0, _index.endGame)());
     },
-    onInitGame: function onInitGame(gameId, cardboardList, game) {
-      return dispatch((0, _index.initGame)(gameId, cardboardList, game));
+    onInitGame: function onInitGame(gameId, cardboardList, game, next) {
+      return dispatch((0, _index.initGame)(gameId, cardboardList, game, next));
     },
     onDrawCard: function onDrawCard(card, cardList, history, conectionId) {
       return dispatch((0, _index.drawCard)(card, cardList, history, conectionId));
