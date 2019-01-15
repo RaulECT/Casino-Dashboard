@@ -64,38 +64,59 @@ app.get( '/', function( req, res ) {
  */
 const io = require('socket.io')()
 io.on( "connect",( client ) => {
+
   var casinoId = client.handshake.query.casinoId ? client.handshake.query.casinoId : ''
   var casinoGame = gamesHandler.searchByCasinoId( casinoId )
   var currentCasinoGame = casinoGame.length > 0 ? casinoGame[0].game : null
   
+  client.join( casinoId )
+
   if ( currentCard !== null && cardList !== null ) {
-    // console.log(currentCasinoGame)
-    // console.log('game started')
-    var gameAppInfo = currentCasinoGame.getGameAppInfo()
-    var dashboardInfo = currentCasinoGame.getDashboardInfo()
-
-    // console.log( 'GAME: ', gameAppInfo )
-    // console.log( 'DASH: ', dashboardInfo )
-    // console.log( gamesHandler.games )
-
-    // io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
-    io.emit( 'BINGO_CONECTED', gameAppInfo )
     
-    // io.emit( 'DASHBOARD_CONECTED', {
-    //   currentCard: currentCard,
-    //   cardList: cardList,
-    //   currentGame: currentGame,
-    //   gameHistory: gameHistory,
-    //   cardboards: cardboards,
-    //   isCountdownStarted: isCountdownStarted
-    // } )
+    if ( currentCasinoGame !== null ) {
+      // console.log(currentCasinoGame)
+      // console.log('game started')
+      var gameAppInfo = currentCasinoGame.getGameAppInfo()
+      var dashboardInfo = currentCasinoGame.getDashboardInfo()
+
+      // console.log( 'GAME: ', gameAppInfo )
+      // console.log( 'DASH: ', dashboardInfo )
+      // console.log( gamesHandler.games )
+
+      // io.emit( 'BINGO_CONECTED', { card: currentCard, cardList: cardList, game: currentGame, gameHistory: gameHistory } )
     
-    io.emit( 'DASHBOARD_CONECTED', dashboardInfo )
+      // GLOBAL
+      // io.emit( 'BINGO_CONECTED', gameAppInfo )
+    
+      // ROOM
+      io.to( casinoId ).emit( 'BINGO_CONECTED', gameAppInfo )
+    
+      // io.emit( 'DASHBOARD_CONECTED', {
+      //   currentCard: currentCard,
+      //   cardList: cardList,
+      //   currentGame: currentGame,
+      //   gameHistory: gameHistory,
+      //   cardboards: cardboards,
+      //   isCountdownStarted: isCountdownStarted
+      // } )
+    
+      // GLOBAL
+      // io.emit( 'DASHBOARD_CONECTED', dashboardInfo )
+
+      // ROOM
+      io.to( casinoId ).emit( 'DASHBOARD_CONECTED', dashboardInfo ) 
+    }
   }
 
   if ( isCountdownStarted ) {
+
+    // GLOABL
     io.emit( 'COUNTDOWN_CONNECTED', { time: countdownTime } )
     io.emit( 'COUNTDOWN_STARTED' )
+
+    // LOCAL
+    io.to( casinoId ).emit( 'COUNTDOWN_CONNECTED', { time: countdownTime } )
+    io.to( casinoId ).emit( 'COUNTDOWN_STARTED' )
   }
 
   client.on( 'CONNECT_CARDBOARDS_PAGE', ( data ) => {
@@ -105,14 +126,22 @@ io.on( "connect",( client ) => {
   } )
 
   client.on( 'SHOW_START_GAME_NOTIFICATION_RQ', () => {
+    // GLOBAL
     io.emit( 'SHOW_START_GAME_NOTIFICATION' )
+
+    // LOCAL
+    io.to( casinoId ).emitemit( 'SHOW_START_GAME_NOTIFICATION' )
   } )
 
   client.on( 'START_COUNTDOWN', () => {
     isCountdownStarted = true
     conutdownInterval = setInterval( () => updateTime(), 1000 )
 
+    // GLOABL
     io.emit( 'COUNTDOWN_STARTED' )
+
+    // LOCAL
+    io.to( casinoId ).emit( 'COUNTDOWN_STARTED' )
   } )
 
   client.on( 'STOP_COUNTDOWN', () => {
@@ -125,7 +154,9 @@ io.on( "connect",( client ) => {
     cardboardsPagesConnected.map( ( page, index ) => {
       const cardboards = pageCardboards( cardboardsRegistered, (index + 1) )
     
-      client.broadcast.to( page ).emit( 'REGISTER_CARDBOARD', cardboards )
+      // client.broadcast.to( page ).emit( 'REGISTER_CARDBOARD', cardboards )
+    
+      io.to( casinoId ).emit( 'REGISTER_CARDBOARD', cardboards )
     } )
 
     // io.emit( 'REGISTER_CARDBOARD', cardboardsRegistered )
@@ -144,7 +175,9 @@ io.on( "connect",( client ) => {
     callback()
     currentGame = game.game
     cardboards = game.cardboards
-    io.emit( 'START_GAME', game )
+    // io.emit( 'START_GAME', game )
+
+    io.to( casinoId ).emit( 'START_GAME', game )
   } )
 
   client.on( 'DRAW_CARD_RQ', ( turn ) => {
@@ -158,7 +191,9 @@ io.on( "connect",( client ) => {
       // console.log(casinoGame)
     }
     
-    io.emit( 'DRAW_CARD', {turn: turn} )
+    // io.emit( 'DRAW_CARD', {turn: turn} )
+
+    io.to( casinoId ).emit( 'DRAW_CARD', {turn: turn} )
   } )
 
   client.on( 'USER_WON_RQ', () => {
@@ -168,7 +203,11 @@ io.on( "connect",( client ) => {
     gameHistory = null
     isCountdownStarted = false
 
+    gamesHandler.deleteGame( casinoId )
+
     io.emit( 'USER_WON' )
+
+    io.to( casinoId ).emit( 'USER_WON' )
   } )
 
   client.on( 'FORCE_END_GAME_RQ', () => {
@@ -179,7 +218,11 @@ io.on( "connect",( client ) => {
     cardboards = null
     isCountdownStarted = false
 
+    gamesHandler.deleteGame( casinoId )
+
     io.emit( 'FORCE_END_GAME' )
+
+    io.to( casinoId ).emit( 'FORCE_END_GAME' )
   } )
 
   client.on( 'disconnect', data => {
@@ -188,7 +231,7 @@ io.on( "connect",( client ) => {
 
 } )
 
-function updateTime() {
+function updateTime( casinoId ) {
   countdownTime--
   io.emit( 'UPDATE_COUNTDOWN', { time: countdownTime } )
 }

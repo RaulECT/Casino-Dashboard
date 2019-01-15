@@ -9,7 +9,7 @@ module.exports = function GamesHandler() {
   }
 
   this.deleteGame = function( gameId ) {
-    const gamesFilterd = this.games.filter( game => game.id !== gameId )
+    const gamesFilterd = this.games.filter( game => game.casinoId !== gameId )
   
     this.games = gamesFilterd
   }
