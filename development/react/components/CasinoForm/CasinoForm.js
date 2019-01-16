@@ -25,6 +25,12 @@ class CasinoForm extends Component {
       console.log(err)
       if ( !err ) {
         console.log( 'Recived values: ', values )
+        const newCasino = {
+          name: values.casinoName,
+          address: values.casinoAddress,
+          phone: values.casinoPhone
+        }
+        this.props.onCreateCasino( newCasino )
       }
     } )
   }
@@ -55,6 +61,7 @@ class CasinoForm extends Component {
               prefix={<Icon type="shop" style={{ color: 'rgba(0,0,0,.25)' }} />} 
               placeholder="Nombre del casino" 
               size="large"  
+              disabled={this.props.loading}
             />
           ) }
         </Form.Item>
@@ -70,6 +77,7 @@ class CasinoForm extends Component {
               prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)' }} />} 
               placeholder="Dirección del casino" 
               size="large"
+              disabled={this.props.loading}
             /> 
           ) }
         </Form.Item>
@@ -85,6 +93,7 @@ class CasinoForm extends Component {
               prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />} 
               placeholder="Telefono del casino" 
               size="large"
+              disabled={this.props.loading}
             />
           ) }
         </Form.Item>
@@ -95,6 +104,7 @@ class CasinoForm extends Component {
             htmlType="submit"
             size="large"
             disabled={ hasErrors( getFieldsError() ) }
+            loading={this.props.loading}
           >
             Crear Casino
           </Button>

@@ -134,6 +134,12 @@ var CasinoForm = function (_Component) {
         console.log(err);
         if (!err) {
           console.log('Recived values: ', values);
+          var newCasino = {
+            name: values.casinoName,
+            address: values.casinoAddress,
+            phone: values.casinoPhone
+          };
+          _this.props.onCreateCasino(newCasino);
         }
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -180,7 +186,8 @@ var CasinoForm = function (_Component) {
           })(_react2.default.createElement(_antd.Input, {
             prefix: _react2.default.createElement(_antd.Icon, { type: 'shop', style: { color: 'rgba(0,0,0,.25)' } }),
             placeholder: 'Nombre del casino',
-            size: 'large'
+            size: 'large',
+            disabled: this.props.loading
           }))
         ),
         _react2.default.createElement(
@@ -194,7 +201,8 @@ var CasinoForm = function (_Component) {
           })(_react2.default.createElement(_antd.Input, {
             prefix: _react2.default.createElement(_antd.Icon, { type: 'home', style: { color: 'rgba(0,0,0,.25)' } }),
             placeholder: 'Direcci\xF3n del casino',
-            size: 'large'
+            size: 'large',
+            disabled: this.props.loading
           }))
         ),
         _react2.default.createElement(
@@ -208,7 +216,8 @@ var CasinoForm = function (_Component) {
           })(_react2.default.createElement(_antd.Input, {
             prefix: _react2.default.createElement(_antd.Icon, { type: 'phone', style: { color: 'rgba(0,0,0,.25)' } }),
             placeholder: 'Telefono del casino',
-            size: 'large'
+            size: 'large',
+            disabled: this.props.loading
           }))
         ),
         _react2.default.createElement(
@@ -220,7 +229,8 @@ var CasinoForm = function (_Component) {
               type: 'primary',
               htmlType: 'submit',
               size: 'large',
-              disabled: hasErrors(getFieldsError())
+              disabled: hasErrors(getFieldsError()),
+              loading: this.props.loading
             },
             'Crear Casino'
           )

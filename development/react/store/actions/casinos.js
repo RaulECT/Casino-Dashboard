@@ -37,17 +37,21 @@ export const createCasino = ( { name, address, phone } ) => {
       phone
     } )
     .then( response => {
-      console.log( response )
 
-      if ( response === 200 ) {
+      if ( response.status === 200 ) {
         dispatch( createCasinoSuccess() )
+
+        openNotification( 'success', 'Se ha creado el casino', `El casino ${name} se ha creado con éxito` )
       } else {
         console.log( response.data )
+
+        openNotification( 'error', 'Ha ocurrido un error', `No se ha podido crear el casino, ha ocurrido un error. Error: ${response.data.error}` )
         dispatch( createCaisnoFail( response.data.error ) )
       }
     } )
     .catch( err => {
       console.log(err)
+      openNotification( 'error', 'Ha ocurrido un error', `No se ha podido crear el casino, ha ocurrido un error. Error: ${err}` )
     } )
   }
 }
