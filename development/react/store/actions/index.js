@@ -42,3 +42,7 @@ export {
   getCardboardsTotal,
   deleteCardboard
 } from './cardboardManagment'
+
+export {
+  createCasino
+} from './casinos'

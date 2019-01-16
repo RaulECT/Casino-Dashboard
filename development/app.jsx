@@ -9,13 +9,15 @@ import bingoReducer from './react/store/reducers/bingoGame'
 import dashboardReducer from './react/store/reducers/gameManagment'
 import authReducer from './react/store/reducers/auth'
 import cardboardReducer from './react/store/reducers/cardboardManagment'
+import casinoReducer from './react/store/reducers/casinos'
 require( 'antd/dist/antd.css' )
 
 const rootReducer = combineReducers( {
   bng: bingoReducer,
   dsh: dashboardReducer,
   auth: authReducer,
-  crd: cardboardReducer
+  crd: cardboardReducer,
+  cas: casinoReducer,
 } )
 
 const store = createStore( rootReducer, applyMiddleware( thunk ) )
