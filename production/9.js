@@ -16,6 +16,10 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__("RH2O");
+
+var _index = __webpack_require__("cl7k");
+
 var _CasinoForm = __webpack_require__("oxZ7");
 
 var _CasinoForm2 = _interopRequireDefault(_CasinoForm);
@@ -38,13 +42,16 @@ var CasinoControl = function (_Component) {
   }
 
   _createClass(CasinoControl, [{
-    key: "render",
+    key: 'render',
     value: function render() {
 
       return _react2.default.createElement(
         _react.Fragment,
         null,
-        _react2.default.createElement(_CasinoForm2.default, null)
+        _react2.default.createElement(_CasinoForm2.default, {
+          loading: this.props.loading,
+          onCreateCasino: this.props.onCreateCasino
+        })
       );
     }
   }]);
@@ -52,7 +59,25 @@ var CasinoControl = function (_Component) {
   return CasinoControl;
 }(_react.Component);
 
-exports.default = CasinoControl;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loading: state.cas.loading,
+    error: state.cas.error
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    onCreateCasino: function onCreateCasino(_ref) {
+      var name = _ref.name,
+          address = _ref.address,
+          phone = _ref.phone;
+      return dispatch((0, _index.createCasino)({ name: name, phone: phone, address: address }));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CasinoControl);
 
 /***/ }),
 
