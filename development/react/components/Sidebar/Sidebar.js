@@ -19,7 +19,6 @@ class Sidebar extends Component {
 
   render() {
     const menus = this.renderMenus()
-    console.log(menus)
     
     return(
       <Sider
@@ -73,16 +72,17 @@ class Sidebar extends Component {
     const menus = []
     
     modules.map( module => {
+    
       switch ( module ) {
         case "games":
-          const options = this.renderOptions( 'games', permissions )
+          const gamesOptions = this.renderOptions( 'games', permissions )
           
           menus.push(
             <SubMenu
               key="bingo_submenu"
               title={<span><Icon type="crown" /><span>Bingo</span></span>}
             >
-              { options }
+              { gamesOptions }
             </SubMenu>
           )
           
@@ -98,14 +98,26 @@ class Sidebar extends Component {
             </Menu.Item>
           )
 
+          break
+
         case "casinos":
+          const casinoOptions = this.renderOptions( 'casinos', permissions )
+          // menus.push(
+          //   <Menu.Item key="bingo_casinos">
+          //     <Link to="/dashboard/casinos">
+          //       <Icon type="shop" />
+          //       <span>Creación de Casinos</span>
+          //     </Link>
+          //   </Menu.Item>
+          // )
+
           menus.push(
-            <Menu.Item key="bingo_casinos">
-              <Link to="/dashboard/casinos">
-                <Icon type="shop" />
-                <span>Creación de Casinos</span>
-              </Link>
-            </Menu.Item>
+            <SubMenu
+              key="casino_submenu"
+              title={<span><Icon type="shop" /><span>Manejo de Casinos</span></span>}
+            >
+              { casinoOptions }
+            </SubMenu>
           )
 
           break

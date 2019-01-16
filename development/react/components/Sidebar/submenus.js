@@ -16,5 +16,10 @@ export const submenus = {
     <Menu.Item key="bingo_submenu_control">
       <Link to="/dashboard/game_control">Control de partida</Link>
     </Menu.Item>
+  ),
+  create: (
+    <Menu.Item key="bingo_casinos">
+      <Link to="/dashboard/casinos">Creación de Casinos</Link>
+    </Menu.Item>
   )
 }

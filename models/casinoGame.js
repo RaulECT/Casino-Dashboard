@@ -57,4 +57,8 @@ module.exports = function CasinoGame( { gameInfo, cardboards } ) {
     this.isCountdownStarted = false
     clearInterval( this.conutdownInterval )
   }
+
+  this.addCardboard = function( cardboard ) {
+    this.cardboardsRegistered.push( cardboard )
+  }
 }

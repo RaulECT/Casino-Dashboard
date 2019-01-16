@@ -1190,9 +1190,10 @@ var Sidebar = function (_Component) {
       var menus = [];
 
       modules.map(function (module) {
+
         switch (module) {
           case "games":
-            var options = _this.renderOptions('games', permissions);
+            var gamesOptions = _this.renderOptions('games', permissions);
 
             menus.push(_react2.default.createElement(
               SubMenu,
@@ -1209,7 +1210,7 @@ var Sidebar = function (_Component) {
                   )
                 )
               },
-              options
+              gamesOptions
             ));
 
             break;
@@ -1230,20 +1231,35 @@ var Sidebar = function (_Component) {
               )
             ));
 
+            break;
+
           case "casinos":
+            var casinoOptions = _this.renderOptions('casinos', permissions);
+            // menus.push(
+            //   <Menu.Item key="bingo_casinos">
+            //     <Link to="/dashboard/casinos">
+            //       <Icon type="shop" />
+            //       <span>Creación de Casinos</span>
+            //     </Link>
+            //   </Menu.Item>
+            // )
+
             menus.push(_react2.default.createElement(
-              _antd.Menu.Item,
-              { key: 'bingo_casinos' },
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/dashboard/casinos' },
-                _react2.default.createElement(_antd.Icon, { type: 'shop' }),
-                _react2.default.createElement(
+              SubMenu,
+              {
+                key: 'casino_submenu',
+                title: _react2.default.createElement(
                   'span',
                   null,
-                  'Creaci\xF3n de Casinos'
+                  _react2.default.createElement(_antd.Icon, { type: 'shop' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    'Manejo de Casinos'
+                  )
                 )
-              )
+              },
+              casinoOptions
             ));
 
             break;
@@ -1274,7 +1290,6 @@ var Sidebar = function (_Component) {
     key: 'render',
     value: function render() {
       var menus = this.renderMenus();
-      console.log(menus);
 
       return _react2.default.createElement(
         _Sider2.default,
@@ -1369,6 +1384,15 @@ var submenus = exports.submenus = {
       _reactRouterDom.Link,
       { to: '/dashboard/game_control' },
       'Control de partida'
+    )
+  ),
+  create: _react2.default.createElement(
+    _antd.Menu.Item,
+    { key: 'bingo_casinos' },
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/dashboard/casinos' },
+      'Creaci\xF3n de Casinos'
     )
   )
 };
