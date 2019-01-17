@@ -2,6 +2,9 @@ import {
   CREATE_CASINO_START,
   CREATE_CASINO_SUCCESS,
   CREATE_CASINO_FAIL,
+  GET_ALL_CASINOS_START,
+  GET_ALL_CASINOS_SUCCESS,
+  GET_ALL_CASINOS_FAIL
 } from './actions'
 import axios from '../../../axios-bingo'
 import { notification } from 'antd'
@@ -53,6 +56,49 @@ export const createCasino = ( { name, address, phone } ) => {
       console.log(err)
       openNotification( 'error', 'Ha ocurrido un error', `No se ha podido crear el casino, ha ocurrido un error. Error: ${err}` )
     } )
+  }
+}
+
+// MARK: GET ALL CASINOS ACTIONS
+export const getAllCasinosStart = () => {
+  return {
+    type: GET_ALL_CASINOS_START
+  }
+}
+
+export const getAllCasinosSuccess = casinos => {
+  return {
+    type: GET_ALL_CASINOS_SUCCESS,
+    casinos
+  }
+}
+
+export const getAllCasinosFail = error => {
+  return {
+    type: GET_ALL_CASINOS_FAIL,
+    error
+  }
+}
+
+export const getAllCasinos = () => {
+  return dispatch => {
+    dispatch( getAllCasinosStart() )
+
+    axios.post( '/casinos/get', {} )
+      .then( response => {
+        console.log( response )
+        if ( response.status === 200 ) {
+          
+        } else {
+          dispatch( getAllCasinosFail( response.data.error ) )
+          openNotification( 'error', 'Error en obtener casinos', `Ha ocurrido un error y no se ha podido listar los casinos. Error: ${response.data.error}` )
+        }
+      } )
+      .catch( err => {
+        console.log( err )
+        dispatch( getAllCasinosFail( err ) )
+        openNotification( 'error', 'Error en obtener casinos', `Ha ocurrido un error y no se ha podido listar los casinos. Error: ${err}` )
+      } )
   }
 }
 

@@ -44,5 +44,6 @@ export {
 } from './cardboardManagment'
 
 export {
-  createCasino
+  createCasino,
+  getAllCasinos
 } from './casinos'
