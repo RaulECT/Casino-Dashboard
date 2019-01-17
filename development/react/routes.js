@@ -55,3 +55,8 @@ export const CasinoControl = Loadable( {
   loader: () => import( './containers/CasinoControl/CasinoControl' ),
   loading: Loading
 } )
+
+export const CasinoList = Loadable( {
+  loader: () => import( './containers/CasinoList/CasinoList' ),
+  loading: Loading
+} )

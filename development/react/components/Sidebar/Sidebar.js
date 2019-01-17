@@ -116,6 +116,9 @@ class Sidebar extends Component {
               key="casino_submenu"
               title={<span><Icon type="shop" /><span>Manejo de Casinos</span></span>}
             >
+              <Menu.Item key="bingo_casinos_list">
+                <Link to="/dashboard/casinos_list">Lista de Casinos</Link>
+              </Menu.Item>
               { casinoOptions }
             </SubMenu>
           )

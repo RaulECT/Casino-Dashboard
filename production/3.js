@@ -1,58 +1,6 @@
 webpackJsonp([3],{
 
-/***/ "/4IX":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__("GiK3");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _antd = __webpack_require__("nFWT");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var gameNotFoundMessage = function gameNotFoundMessage(props) {
-  var message = props.message ? props.message : 'No se encontró una siguiente partida, verifique que existe una partida creada.';
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'next-game__error-msg' },
-    _react2.default.createElement(_antd.Icon, { className: 'next-game__error-icon', type: 'exclamation-circle' }),
-    _react2.default.createElement(
-      'h1',
-      { style: { color: '#fff' }, className: 'next-game__error-text' },
-      message
-    )
-  );
-};
-
-exports.default = gameNotFoundMessage;
-
-/***/ }),
-
-/***/ "6wPf":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("FZ+f")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".chronometer__time {\n  color: #F1DB4B;\n  font-weight: bold;\n  font-size: 20rem;\n  margin-top: -7rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .chronometer__time {\n    font-size: 17rem;\n  }\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "JyPB":
+/***/ "2QdF":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70,15 +18,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _socket = __webpack_require__("ITBa");
 
-var _config = __webpack_require__("1wn0");
+__webpack_require__("EA78");
 
-var _Chronometer = __webpack_require__("XgnC");
+var _Background = __webpack_require__("prCc");
 
-var _Chronometer2 = _interopRequireDefault(_Chronometer);
+var _Background2 = _interopRequireDefault(_Background);
 
-var _GameNotFoundMessage = __webpack_require__("/4IX");
+var _CardboardsRegisteredHeader = __webpack_require__("vdiZ");
 
-var _GameNotFoundMessage2 = _interopRequireDefault(_GameNotFoundMessage);
+var _CardboardsRegisteredHeader2 = _interopRequireDefault(_CardboardsRegisteredHeader);
+
+var _CardboardItem = __webpack_require__("B7tu");
+
+var _CardboardItem2 = _interopRequireDefault(_CardboardItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -88,186 +40,95 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var GameInfo = function (_Component) {
-  _inherits(GameInfo, _Component);
+var socket = null;
+var fakeData = [];
+var types = ['single', 'double', 'triple'];
 
-  function GameInfo() {
+for (var index = 0; index < 154; index++) {
+  var randomNumber = Math.floor(Math.random() * (types.length - 0)) + 0;
+  fakeData.push({ numcode: 1234, type: types[randomNumber] });
+}
+
+var CardboardsRegisteredMainPage = function (_Component) {
+  _inherits(CardboardsRegisteredMainPage, _Component);
+
+  function CardboardsRegisteredMainPage() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, GameInfo);
+    _classCallCheck(this, CardboardsRegisteredMainPage);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = GameInfo.__proto__ || Object.getPrototypeOf(GameInfo)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      isCountdownStarted: false
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CardboardsRegisteredMainPage.__proto__ || Object.getPrototypeOf(CardboardsRegisteredMainPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      cardboards: [], //fakeData,
+      test: true
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(GameInfo, [{
+  _createClass(CardboardsRegisteredMainPage, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _this2 = this;
 
-      this.socket = (0, _socket.openConnection)();
+      socket = (0, _socket.openConnection)();
 
-      this.socket.on('COUNTDOWN_STARTED', function () {
-        _this2.setState({ isCountdownStarted: true });
+      socket.emit('CONNECT_CARDBOARDS_PAGE', {});
+
+      socket.on('CARDBOARDS_PAGE_CONNECTED', function (res) {
+        _this2.setState({ cardboards: res.cardboardsRegistered });
+      });
+
+      socket.on('REGISTER_CARDBOARD', function (cardboards) {
+        _this2.setState({ cardboards: cardboards });
       });
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.socket.close();
+      socket.close();
     }
   }, {
     key: 'render',
     value: function render() {
-      var simpleCardboardPrice = this.props.game.singlePrice / 100;
-      var doubleCardboardPrice = this.props.game.doublePrice / 100;
-      var tripleCardboardPrice = this.props.game.triplePrice / 100;
-      var chronometerSection = this.state.isCountdownStarted ? _react2.default.createElement(_Chronometer2.default, { type: 'global', onEndTime: this.props.onEndTime, timeStart: _config.COUNTDOWN_START_TIME }) : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se ha iniciado la cuenta para la partida.' });
-
-      return _react2.default.createElement(
-        _react.Fragment,
-        null,
-        _react2.default.createElement(
-          'h1',
-          null,
-          'Proxima Partida:'
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'next-game__text-label' },
-          'Tipo de Juego:'
-        ),
-        _react2.default.createElement(
-          'p',
-          { className: 'next-game__game-type' },
+      var cardboardItems = this.state.cardboards.length !== 0 ? this.state.cardboards.map(function (item, index) {
+        return _react2.default.createElement(
+          _CardboardItem2.default,
+          { key: index, type: item.type },
           ' ',
-          this.props.game.gameName,
+          item.numcode,
           ' '
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'next-game__text-label' },
-          'Precios de Inscripci\xF3n:'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'next-game__cardboards-prices' },
-          _react2.default.createElement(
-            'li',
-            { className: 'next-game__cardboards-prices--item' },
-            '$' + simpleCardboardPrice + ' Cartilla Simple'
-          ),
-          _react2.default.createElement(
-            'li',
-            { className: 'next-game__cardboards-prices--item' },
-            '$' + doubleCardboardPrice + ' Cartilla Doble'
-          ),
-          _react2.default.createElement(
-            'li',
-            { className: 'next-game__cardboards-prices--item' },
-            '$' + tripleCardboardPrice + ' Cartilla Triple'
-          )
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'next-game__text-label' },
-          'Tiempo de espera:'
-        ),
-        chronometerSection
+        );
+      }) : _react2.default.createElement(
+        'p',
+        null,
+        'No hay un juego actualmente'
       );
-    }
-  }]);
-
-  return GameInfo;
-}(_react.Component);
-
-exports.default = GameInfo;
-
-/***/ }),
-
-/***/ "PtzZ":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__("GiK3");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _GameNotFoundMessage = __webpack_require__("/4IX");
-
-var _GameNotFoundMessage2 = _interopRequireDefault(_GameNotFoundMessage);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var RandomGame = function (_Component) {
-  _inherits(RandomGame, _Component);
-
-  function RandomGame() {
-    _classCallCheck(this, RandomGame);
-
-    return _possibleConstructorReturn(this, (RandomGame.__proto__ || Object.getPrototypeOf(RandomGame)).apply(this, arguments));
-  }
-
-  _createClass(RandomGame, [{
-    key: 'render',
-    value: function render() {
-      var component = this.props.games ? 'RandomGame...' : _react2.default.createElement(_GameNotFoundMessage2.default, { message: 'No se encontraron partidas activas.' });
-      var style = {
-        flex: this.props.flex ? this.props.flex : '0'
-      };
 
       return _react2.default.createElement(
-        'div',
-        { style: style },
-        component
+        _Background2.default,
+        null,
+        _react2.default.createElement(_CardboardsRegisteredHeader2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'cardboards-list' },
+          cardboardItems
+        )
       );
     }
   }]);
 
-  return RandomGame;
+  return CardboardsRegisteredMainPage;
 }(_react.Component);
 
-exports.default = RandomGame;
+exports.default = CardboardsRegisteredMainPage;
 
 /***/ }),
 
-/***/ "X1Fc":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("FZ+f")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".bingo-background {\n  width: 100vw;\n  height: 100vh;\n  background: url('/static/assets/background.svg');\n  background-size: cover;\n  padding: 2rem 4.5rem;\n  display: flex;\n}\n\n.bingo-background__panel {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n  display: grid;\n  grid-auto-columns: 1fr;\n  grid-template-columns: 1fr 1fr;\n}\n\n.bingo-background__panel--without-grid {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "XgnC":
+/***/ "B7tu":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -283,13 +144,7 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _moment = __webpack_require__("PJh5");
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _socket = __webpack_require__("ITBa");
-
-__webpack_require__("u1JV");
+__webpack_require__("tTwb");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -299,120 +154,74 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Chronometer = function (_Component) {
-  _inherits(Chronometer, _Component);
+var CardboardItem = function (_Component) {
+  _inherits(CardboardItem, _Component);
 
-  function Chronometer() {
+  function CardboardItem() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, Chronometer);
+    _classCallCheck(this, CardboardItem);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Chronometer.__proto__ || Object.getPrototypeOf(Chronometer)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      time: _this.props.timeStart
-    }, _this.handleOnGlobalConfiguration = function () {
-      _this.socket = (0, _socket.openConnection)();
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CardboardItem.__proto__ || Object.getPrototypeOf(CardboardItem)).call.apply(_ref, [this].concat(args))), _this), _this.getItemClasses = function () {
+      var classes = ['cardboard-item'];
 
-      _this.socket.on('COUNTDOWN_CONNECTED', function (data) {
-        console.log(data);
-        var time = data.time >= 0 ? data.time : 0;
+      switch (_this.props.type) {
+        case 'SINGLE':
+          classes.push('cardboard-item__single');
+          break;
 
-        _this.setState({ time: time });
-      });
+        case 'DOUBLE':
+          classes.push('cardboard-item__double');
+          break;
 
-      _this.socket.on('UPDATE_COUNTDOWN', function (data) {
-        var isNotEndTime = _this.state.time > 0;
+        case 'TRIPLE':
+          classes.push('cardboard-item__triple');
+          break;
 
-        if (isNotEndTime) {
-          _this.setState({ time: data.time });
-        } else {
-          _this.socket.emit('STOP_COUNTDOWN');
-
-          _this.props.onEndTime();
-        }
-      });
-    }, _this.handleOnLocalConfiguration = function () {
-      _this.interval = setInterval(function () {
-        return _this.tick();
-      }, 1000);
-    }, _this.tick = function () {
-
-      if (_this.state.time > 0) {
-        _this.setState(function (prevState) {
-          return {
-            time: prevState.time - 1
-          };
-        });
-      } else {
-        clearInterval(_this.interval);
-
-        _this.props.onEndTime();
+        default:
+          classes.push('cardboard-item__single');
+          break;
       }
+
+      return classes.join(' ');
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(Chronometer, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      switch (this.props.type) {
-        case 'global':
-          this.handleOnGlobalConfiguration();
-          break;
+  _createClass(CardboardItem, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      var currentNumcode = this.props.children[1];
+      var nextNumcode = nextProps.children[1];
 
-        case 'local':
-          this.handleOnLocalConfiguration();
-          break;
-
-        default:
-          this.handleOnLocalConfiguration();
-          break;
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      switch (this.props.type) {
-        case 'global':
-          this.socket.close();
-          break;
-
-        case 'local':
-          clearInterval(this.interval);
-          break;
-
-        default:
-          clearInterval(this.interval);
-          break;
-      }
+      return currentNumcode !== nextNumcode;
     }
   }, {
     key: 'render',
     value: function render() {
-      var time = this.state.time;
-
-      var minutes = (0, _moment2.default)(time * 1000).format('mm:ss');
+      var itemClasses = this.getItemClasses();
 
       return _react2.default.createElement(
         'p',
-        { className: 'chronometer__time' },
-        minutes
+        { className: itemClasses },
+        this.props.children
       );
     }
   }]);
 
-  return Chronometer;
+  return CardboardItem;
 }(_react.Component);
 
-exports.default = Chronometer;
+exports.default = CardboardItem;
 
 /***/ }),
 
-/***/ "Yc6E":
+/***/ "BuVL":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("FZ+f")(false);
@@ -420,18 +229,18 @@ exports = module.exports = __webpack_require__("FZ+f")(false);
 
 
 // module
-exports.push([module.i, ".next-game__section {\n  padding: 3rem 3rem;\n}\n\n.next-game__section h1 {\n  color: #fff;\n  font-weight: 300;\n  font-size: 4.2rem;\n  margin-bottom: 4rem;\n}\n\n.next-game__text-label {\n  color: #fff;\n  font-weight: 200;\n  font-size: 3.8rem;\n  margin-bottom: 0;\n}\n\n.next-game__game-type {\n  color: #fff;\n  font-weight: bold;\n  font-size: 6rem;\n  margin-top: -2rem;\n  margin-left: 3.5rem;\n  margin-bottom: 0;\n  margin-bottom: 3rem;\n  text-transform: uppercase;\n}\n\n.next-game__cardboards-prices {\n  list-style: none;\n  margin-bottom: 3rem;\n}\n\n.next-game__cardboards-prices--item {\n  color: #fff;\n  font-size: 4rem;\n  margin-top: -1rem;\n}\n\n.next-game__error-msg {\n  display: flex;\n  justify-content: center;\n}\n\n.next-game__error-icon {\n  color: #fff;\n  font-size: 10rem;\n  margin-right: 2rem;\n}\n\n@media screen and ( max-width: 1400px ) {\n  .next-game__section h1 {\n    font-size: 3.2rem;\n    margin-bottom: 3rem;\n  }\n\n  .next-game__text-label {\n    font-size: 2.8rem;\n  }\n\n  .next-game__game-type {\n    font-size: 5rem;\n  }\n\n  .next-game__cardboards-prices--item {\n    font-size: 3rem;\n  }\n}", ""]);
+exports.push([module.i, ".cardboard-item {\n  margin-right: 2rem;\n  font-size: 3.26rem;\n  font-weight: bold;\n  margin-bottom: 1.5rem;\n  border-radius: 9px;\n}\n\n.cardboard-item__single {\n  /* color: rgba(0,0,0, .5);\n  background: rgba(255, 217, 125, .8); */\n\n  /*OPT 1*/\n  color: rgba(0, 0, 0, .8);\n  background: rgba(247, 219, 167, 1);\n\n  /*OPT 2*/\n      /* color: rgba(255, 255, 255, .9);\n    background: rgba(195, 156, 167, 1); */\n\n  /*OPT 3*/\n  /* color: rgba(0, 0, 0, .8);\n  background: rgba(247, 219, 167, 1); */\n}\n\n.cardboard-item__double {\n  /* color: rgba(255,255,255,.8);\n  background: rgba(238, 96, 85, .8); */\n\n  /*OPT 1*/\n  color: rgba(255,255,255,1);\n  background: rgba(37, 22, 5, 1);\n\n  /*OPT 2*/\n  /* color: rgba(0,0,0,.9);\n    background: rgba(255, 241, 196, 1); */\n\n  /*OPT 3*/\n  /* color: rgba(0,0,0,.8);\n  background: rgba(255, 255, 255, .9); */\n}\n\n.cardboard-item__triple {\n  /* color: rgba(0,0,0,.5);\n  background: rgba(170, 246, 131, .5); */\n\n  /*OPT 1*/\n  color: rgba(255,255,255,1);\n    background: rgba(197, 123, 67, 1);\n\n  /*OPT 2*/\n  /* color: rgba(255,255,255,1);\n    background: rgba(118, 106, 91, 1); */\n  \n  /*OPT 3*/\n  /* color: rgba(255,255,255,1);\n  background: rgba(118, 78, 45, 1); */\n}\n\n@media only screen and ( max-width: 1400px ) {\n  .cardboard-item {\n    font-size: 2.6rem;\n  }\n}", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "h6Oo":
+/***/ "EA78":
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__("Yc6E");
+var content = __webpack_require__("UzG8");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -450,8 +259,8 @@ var update = __webpack_require__("MTIv")(content, options);
 if(content.locals) module.exports = content.locals;
 
 if(false) {
-	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./NextGameInfo.css", function() {
-		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./NextGameInfo.css");
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardsRegisteredMainPage.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardsRegisteredMainPage.css");
 
 		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -478,7 +287,214 @@ if(false) {
 
 /***/ }),
 
-/***/ "hrD2":
+/***/ "HOkL":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__("TOI7");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__("MTIv")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardsRegisteredHeader.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardsRegisteredHeader.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "TOI7":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".cardboards-registered__header {\n  background: rgba(0,0,0,.15);\n  display: flex;\n  align-items: center;\n  border-radius: 9px;\n  padding-left: 5rem;\n}\n\n.cardboards-registered__header h1 {\n  color: #ffffff;\n  font-size: 5.5rem;\n  font-weight: 100;  \n  margin-bottom: 0;\n}\n\n.cardboards-registered__header h2 {\n  color: #ffffff;\n  font-size: 4.5rem;\n  font-weight: 500;\n  margin-bottom: 0;\n}\n\n.cardboards-registered__info {\n  display: flex;\n  justify-content: space-between;\n}\n\n.cardboards-registered__description {\n  margin-left: 12rem;\n}\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "UP9d":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__("nCQZ");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__("MTIv")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardLabel.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardLabel.css");
+
+		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+		var locals = (function(a, b) {
+			var key, idx = 0;
+
+			for(key in a) {
+				if(!b || a[key] !== b[key]) return false;
+				idx++;
+			}
+
+			for(key in b) idx--;
+
+			return idx === 0;
+		}(content.locals, newContent.locals));
+
+		if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+		update(newContent);
+	});
+
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "UzG8":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".cardboards-list {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap; \n  justify-content: center;\n  margin-top: 2rem;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "X1Fc":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".bingo-background {\n  width: 100vw;\n  height: 100vh;\n  background: url('/static/assets/background.svg');\n  background-size: cover;\n  padding: 2rem 4.5rem;\n  display: flex;\n}\n\n.bingo-background__panel {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n  display: grid;\n  grid-auto-columns: 1fr;\n  grid-template-columns: 1fr 1fr;\n}\n\n.bingo-background__panel--without-grid {\n  background: rgba(0, 0, 0, .20);\n  border-radius: 9px;\n  flex: 1;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "avoj":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__("GiK3");
+
+var _react2 = _interopRequireDefault(_react);
+
+__webpack_require__("UP9d");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var cardboardLabel = function cardboardLabel(props) {
+  var text = '';
+  var figureClass = ['cardboard-figure'];
+
+  switch (props.type) {
+    case 'singleLine':
+      text = 'Sencillo';
+      figureClass.push('cardboard-figure__single-line');
+      break;
+
+    case 'doubleLine':
+      text = 'Doble';
+      figureClass.push('cardboard-figure__double-line');
+      break;
+
+    case 'tripleLine':
+      text = 'Triple';
+      figureClass.push('cardboard-figure__triple-line');
+      break;
+
+    default:
+      text = 'Sencilla';
+      figureClass.push('cardboard-figure__single-line');
+      break;
+  }
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'cardboard-label__container' },
+    _react2.default.createElement('div', { className: figureClass.join(' ') }),
+    _react2.default.createElement(
+      'p',
+      null,
+      text
+    )
+  );
+};
+
+exports.default = cardboardLabel;
+
+/***/ }),
+
+/***/ "hYkQ":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -494,23 +510,9 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__("RH2O");
+var _CardboardsRegisteredMainPage = __webpack_require__("2QdF");
 
-var _socket = __webpack_require__("ITBa");
-
-var _actions = __webpack_require__("cl7k");
-
-var _Background = __webpack_require__("prCc");
-
-var _Background2 = _interopRequireDefault(_Background);
-
-var _NextGameInfo = __webpack_require__("yYNF");
-
-var _NextGameInfo2 = _interopRequireDefault(_NextGameInfo);
-
-var _RandomGame = __webpack_require__("PtzZ");
-
-var _RandomGame2 = _interopRequireDefault(_RandomGame);
+var _CardboardsRegisteredMainPage2 = _interopRequireDefault(_CardboardsRegisteredMainPage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -520,77 +522,26 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var WaitingGameSection = function (_Component) {
-  _inherits(WaitingGameSection, _Component);
+var CradboardsRegisteredList = function (_Component) {
+  _inherits(CradboardsRegisteredList, _Component);
 
-  function WaitingGameSection() {
-    _classCallCheck(this, WaitingGameSection);
+  function CradboardsRegisteredList() {
+    _classCallCheck(this, CradboardsRegisteredList);
 
-    return _possibleConstructorReturn(this, (WaitingGameSection.__proto__ || Object.getPrototypeOf(WaitingGameSection)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CradboardsRegisteredList.__proto__ || Object.getPrototypeOf(CradboardsRegisteredList)).apply(this, arguments));
   }
 
-  _createClass(WaitingGameSection, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      this.socket = (0, _socket.openConnection)();
-      this.props.onLoadGame(function (path) {
-        return console.log(path);
-      });
-
-      this.socket.on('START_GAME', function (game) {
-        _this2.props.history.push({
-          pathname: '/game',
-          state: { game: game }
-        });
-      });
-
-      this.socket.on('BINGO_CONECTED', function (data) {
-        _this2.props.history.push('/game');
-      });
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.socket.close();
-    }
-  }, {
+  _createClass(CradboardsRegisteredList, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        _Background2.default,
-        { display: 'flexRow' },
-        _react2.default.createElement(_NextGameInfo2.default, {
-          flex: '1.8',
-          opacity: .15,
-          game: this.props.game
-        }),
-        _react2.default.createElement(_RandomGame2.default, {
-          flex: '1'
-        })
-      );
+      return _react2.default.createElement(_CardboardsRegisteredMainPage2.default, null);
     }
   }]);
 
-  return WaitingGameSection;
+  return CradboardsRegisteredList;
 }(_react.Component);
 
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    game: state.bng.currentGame
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    onLoadGame: function onLoadGame(push) {
-      return dispatch((0, _actions.loadCurrentGame)(push));
-    }
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(WaitingGameSection);
+exports.default = CradboardsRegisteredList;
 
 /***/ }),
 
@@ -642,6 +593,21 @@ if(false) {
 
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+
+/***/ "nCQZ":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("FZ+f")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".cardboard-label__container {\n  display: flex;\n  align-items: center;\n}\n\n.cardboard-label__container p {\n  color: #fff;\n  font-size: 2.6rem;\n  margin-bottom: 0;\n}\n\n.cardboard-figure {\n  width: 2rem;\n  height: 2rem;\n  border-radius: 100%;\n  margin-right: 0.5rem;\n}\n\n.cardboard-figure__single-line {\n  /* background: rgba(255, 217, 125, .8); */\n\n  /*OPT 1*/\n  background: rgba(247, 219, 167, 1); \n}\n\n.cardboard-figure__double-line {\n  /* background: rgba(238, 96, 85, .8); */\n\n  /*OPT 1*/\n  background: rgba(37, 22, 5, 1);\n}\n\n.cardboard-figure__triple-line {\n  /* background: rgba(170, 246, 131, .5); */\n\n  /*OPT 1*/\n  background: rgba(197, 123, 67, 1); \n}", ""]);
+
+// exports
+
 
 /***/ }),
 
@@ -700,11 +666,11 @@ exports.default = background;
 
 /***/ }),
 
-/***/ "u1JV":
+/***/ "tTwb":
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__("6wPf");
+var content = __webpack_require__("BuVL");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -723,8 +689,8 @@ var update = __webpack_require__("MTIv")(content, options);
 if(content.locals) module.exports = content.locals;
 
 if(false) {
-	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Chronometer.css", function() {
-		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./Chronometer.css");
+	module.hot.accept("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardItem.css", function() {
+		var newContent = require("!!../../../../node_modules/css-loader/index.js??ref--1-1!./CardboardItem.css");
 
 		if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -751,7 +717,7 @@ if(false) {
 
 /***/ }),
 
-/***/ "yYNF":
+/***/ "vdiZ":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -767,17 +733,11 @@ var _react = __webpack_require__("GiK3");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _socket = __webpack_require__("ITBa");
+__webpack_require__("HOkL");
 
-__webpack_require__("h6Oo");
+var _CardboardLabel = __webpack_require__("avoj");
 
-var _GameInfo = __webpack_require__("JyPB");
-
-var _GameInfo2 = _interopRequireDefault(_GameInfo);
-
-var _GameNotFoundMessage = __webpack_require__("/4IX");
-
-var _GameNotFoundMessage2 = _interopRequireDefault(_GameNotFoundMessage);
+var _CardboardLabel2 = _interopRequireDefault(_CardboardLabel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -787,59 +747,55 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var NextGameInfo = function (_Component) {
-  _inherits(NextGameInfo, _Component);
+var CardboardsRegisteredHeader = function (_Component) {
+  _inherits(CardboardsRegisteredHeader, _Component);
 
-  function NextGameInfo() {
-    var _ref;
+  function CardboardsRegisteredHeader() {
+    _classCallCheck(this, CardboardsRegisteredHeader);
 
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, NextGameInfo);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NextGameInfo.__proto__ || Object.getPrototypeOf(NextGameInfo)).call.apply(_ref, [this].concat(args))), _this), _this.sendGameStartNotiication = function () {
-      _this.socket.emit('SHOW_START_GAME_NOTIFICATION_RQ');
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    return _possibleConstructorReturn(this, (CardboardsRegisteredHeader.__proto__ || Object.getPrototypeOf(CardboardsRegisteredHeader)).apply(this, arguments));
   }
 
-  _createClass(NextGameInfo, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.socket = (0, _socket.openConnection)();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.socket.close();
+  _createClass(CardboardsRegisteredHeader, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate() {
+      return false;
     }
   }, {
     key: 'render',
     value: function render() {
-      var component = this.props.game ? _react2.default.createElement(_GameInfo2.default, { onEndTime: this.sendGameStartNotiication, game: this.props.game }) : _react2.default.createElement(_GameNotFoundMessage2.default, null);
-      var style = {
-        flex: this.props.flex ? this.props.flex : '0',
-        background: this.props.opacity ? 'rgba(0,0,0,' + this.props.opacity + ')' : 'rgba(0,0,0,0)'
-      };
-
       return _react2.default.createElement(
         'div',
-        {
-          className: 'next-game__section',
-          style: style
-        },
-        component
+        { className: 'cardboards-registered__header' },
+        _react2.default.createElement(
+          'h1',
+          null,
+          '\xA1Loter\xEDa Bingo!'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'cardboards-registered__description' },
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Cartones Registrados'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'cardboards-registered__info' },
+            _react2.default.createElement(_CardboardLabel2.default, { type: 'singleLine' }),
+            _react2.default.createElement(_CardboardLabel2.default, { type: 'doubleLine' }),
+            _react2.default.createElement(_CardboardLabel2.default, { type: 'tripleLine' })
+          )
+        )
       );
     }
   }]);
 
-  return NextGameInfo;
+  return CardboardsRegisteredHeader;
 }(_react.Component);
 
-exports.default = NextGameInfo;
+exports.default = CardboardsRegisteredHeader;
 
 /***/ })
 

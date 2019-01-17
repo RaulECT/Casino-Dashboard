@@ -13,7 +13,8 @@ import {
   GameControl,
   CreateGame,
   CardboardManagment,
-  CasinoControl
+  CasinoControl,
+  CasinoList
 } from '../../routes'
 
 class Dashboard extends Component {
@@ -31,7 +32,8 @@ class Dashboard extends Component {
       bingo_submenu_control: 'Control de Partida',
       bingo_submenu_create: 'Crear Partida',
       bingo_menu_cardboards: 'Manejo de cartones',
-      bingo_casinos: 'Creación de casinos'
+      bingo_casinos: 'Creación de casinos',
+      bingo_casinos_list: 'Lista de casinos'
     }
   }
 
@@ -80,6 +82,7 @@ class Dashboard extends Component {
             </ProtectComponent>
           
             <Route exact path="/dashboard/casinos" component={CasinoControl} />
+            <Route exact path="/dashboard/casinos_list" component={CasinoList} />
             <Route exact path="/dashboard/create_game" component={CreateGame} />
             <Route exact path="/dashboard/cardboard_managment" component={CardboardManagment} />
             <Route exact path="/" component={GameControl} />
