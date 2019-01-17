@@ -7,6 +7,7 @@ const initalState = {
 }
 
 const reducer = ( state = initalState, action ) => {
+ 
   const { 
     CREATE_CASINO_START, 
     CREATE_CASINO_FAIL, 
@@ -16,7 +17,7 @@ const reducer = ( state = initalState, action ) => {
     GET_ALL_CASINOS_FAIL 
   } = actionsTypes
 
-  switch ( action ) {
+  switch ( action.type ) {
     case CREATE_CASINO_START:
       return {
         ...state,

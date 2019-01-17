@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { getAllCasinos } from '../../store/actions/index'
 
+import CasinosTable from '../../components/CasinosTable/CasinosTable'
+
 class CasinoList extends Component {
 
   componentDidMount() {
@@ -12,7 +14,9 @@ class CasinoList extends Component {
 
     return(
       <Fragment>
-        Casinos List
+        <CasinosTable 
+          casinos={this.props.casinos}
+        />
       </Fragment>
     )
   }

@@ -69,7 +69,7 @@ export const getAllCasinosStart = () => {
 export const getAllCasinosSuccess = casinos => {
   return {
     type: GET_ALL_CASINOS_SUCCESS,
-    casinos
+    casinos: casinos
   }
 }
 
@@ -88,7 +88,7 @@ export const getAllCasinos = () => {
       .then( response => {
         console.log( response )
         if ( response.status === 200 ) {
-          dispatch( getAllCasinos( response.data.result.items ) )
+          dispatch( getAllCasinosSuccess( response.data.result.items ) )
         } else {
           dispatch( getAllCasinosFail( response.data.error ) )
           openNotification( 'error', 'Error en obtener casinos', `Ha ocurrido un error y no se ha podido listar los casinos. Error: ${response.data.error}` )
