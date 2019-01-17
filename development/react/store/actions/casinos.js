@@ -88,7 +88,7 @@ export const getAllCasinos = () => {
       .then( response => {
         console.log( response )
         if ( response.status === 200 ) {
-          
+          dispatch( getAllCasinos( response.data.result.items ) )
         } else {
           dispatch( getAllCasinosFail( response.data.error ) )
           openNotification( 'error', 'Error en obtener casinos', `Ha ocurrido un error y no se ha podido listar los casinos. Error: ${response.data.error}` )
