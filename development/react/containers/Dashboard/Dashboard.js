@@ -73,14 +73,7 @@ class Dashboard extends Component {
           />
 
           <div className="dashboard-content">
-            
-            <ProtectComponent
-              module="games"
-              isModule
-            >
-              <Route exact path="/dashboard/game_control" component={GameControl} />
-            </ProtectComponent>
-          
+            <Route exact path="/dashboard/game_control" component={GameControl} />
             <Route exact path="/dashboard/casinos" component={CasinoControl} />
             <Route exact path="/dashboard/casinos_list" component={CasinoList} />
             <Route exact path="/dashboard/create_game" component={CreateGame} />

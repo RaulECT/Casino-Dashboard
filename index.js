@@ -110,7 +110,7 @@ io.on( "connect",( client ) => {
       io.to( casinoId ).emit( 'DASHBOARD_CONECTED', dashboardInfo ) 
     }
   }
-  console.log( countdownGames[casinoId] )
+
   if ( typeof countdownGames[casinoId] !== 'undefined' ) {
     if ( countdownGames[casinoId].isStarted ) {
 
@@ -135,7 +135,7 @@ io.on( "connect",( client ) => {
     io.emit( 'SHOW_START_GAME_NOTIFICATION' )
 
     // LOCAL
-    io.to( casinoId ).emitemit( 'SHOW_START_GAME_NOTIFICATION' )
+    io.to( casinoId ).emit( 'SHOW_START_GAME_NOTIFICATION' )
   } )
 
   client.on( 'START_COUNTDOWN', () => {
@@ -265,7 +265,10 @@ io.on( "connect",( client ) => {
 
 } )
 
-function updateTime( casinoId, countdownTime ) {
+function updateTime( casinoId ) {
+  var countdownTime = countdownGames[casinoId].time
+
+  countdownGames[casinoId].time = countdownGames[casinoId].time - 1
   io.to(casinoId).emit( 'UPDATE_COUNTDOWN', { time: countdownTime } )
 }
 

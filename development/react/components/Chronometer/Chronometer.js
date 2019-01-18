@@ -55,6 +55,7 @@ class Chronometer extends Component {
     } )
 
     this.socket.on( 'UPDATE_COUNTDOWN', data => {
+      console.log( data )
       const isNotEndTime = this.state.time > 0
 
       if ( isNotEndTime ) {

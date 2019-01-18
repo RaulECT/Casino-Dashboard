@@ -58,11 +58,12 @@ export const auth = ( email, password ) => {
           casinos: [ 'create' ]
         }
 
-        localStorage.setItem( 'casinoId', Math.floor( Math.random() * 3000 ) + 1000 )
+        // localStorage.setItem( 'casinoId', Math.floor( Math.random() * 3000 ) + 1000 )
+        localStorage.setItem( 'casinoId', response.data.result.casinoId )
         localStorage.setItem( 'token', response.data.result.token )
         localStorage.setItem( 'user', email )
-        // localStorage.setItem( 'permissions', response.data.permissions )
-        localStorage.setItem( 'permissions', JSON.stringify( perm ) )
+        localStorage.setItem( 'permissions', JSON.stringify(response.data.result.permissions) )
+        // localStorage.setItem( 'permissions', JSON.stringify( perm ) )
 
         dispatch( authSuccess( response.data.result.token, email ) )
 

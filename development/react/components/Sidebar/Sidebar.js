@@ -39,7 +39,7 @@ class Sidebar extends Component {
             style={{ padding: '16px 0', width: '100%' }}
             onSelect={ this.props.onChangePanelHeader }
           >
-            {/* <SubMenu
+            <SubMenu
               key="bingo_submenu"
               title={<span><Icon type="crown" /><span>Bingo</span></span>}
             >
@@ -58,7 +58,7 @@ class Sidebar extends Component {
                 <Icon type="barcode" />
                 <span>Cartones</span>
               </Link>
-            </Menu.Item> */}
+            </Menu.Item>
             { menus }
           </Menu>
         </Sider>
@@ -74,7 +74,7 @@ class Sidebar extends Component {
     modules.map( module => {
     
       switch ( module ) {
-        case "games":
+        case "games_TEST":
           const gamesOptions = this.renderOptions( 'games', permissions )
           
           menus.push(
@@ -88,7 +88,7 @@ class Sidebar extends Component {
           
           break;
 
-        case "cardboards":
+        case "cardboards_TEST":
           menus.push(
             <Menu.Item key="bingo_menu_cardboards">
               <Link to="/dashboard/cardboard_managment">

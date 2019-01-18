@@ -1,6 +1,6 @@
 webpackJsonp([9],{
 
-/***/ "Lbz0":
+/***/ "WpDg":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20,9 +20,9 @@ var _reactRedux = __webpack_require__("RH2O");
 
 var _index = __webpack_require__("cl7k");
 
-var _CasinoForm = __webpack_require__("oxZ7");
+var _CasinosTable = __webpack_require__("xfkh");
 
-var _CasinoForm2 = _interopRequireDefault(_CasinoForm);
+var _CasinosTable2 = _interopRequireDefault(_CasinosTable);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,56 +32,58 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CasinoControl = function (_Component) {
-  _inherits(CasinoControl, _Component);
+var CasinoList = function (_Component) {
+  _inherits(CasinoList, _Component);
 
-  function CasinoControl() {
-    _classCallCheck(this, CasinoControl);
+  function CasinoList() {
+    _classCallCheck(this, CasinoList);
 
-    return _possibleConstructorReturn(this, (CasinoControl.__proto__ || Object.getPrototypeOf(CasinoControl)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CasinoList.__proto__ || Object.getPrototypeOf(CasinoList)).apply(this, arguments));
   }
 
-  _createClass(CasinoControl, [{
+  _createClass(CasinoList, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.onGetAllCasinos();
+    }
+  }, {
     key: 'render',
     value: function render() {
 
       return _react2.default.createElement(
         _react.Fragment,
         null,
-        _react2.default.createElement(_CasinoForm2.default, {
-          loading: this.props.loading,
-          onCreateCasino: this.props.onCreateCasino
+        _react2.default.createElement(_CasinosTable2.default, {
+          casinos: this.props.casinos
         })
       );
     }
   }]);
 
-  return CasinoControl;
+  return CasinoList;
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
     loading: state.cas.loading,
-    error: state.cas.error
+    error: state.cas.error,
+    casinos: state.cas.casinos
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    onCreateCasino: function onCreateCasino(_ref) {
-      var name = _ref.name,
-          address = _ref.address,
-          phone = _ref.phone;
-      return dispatch((0, _index.createCasino)({ name: name, phone: phone, address: address }));
+    onGetAllCasinos: function onGetAllCasinos() {
+      return dispatch((0, _index.getAllCasinos)());
     }
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CasinoControl);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CasinoList);
 
 /***/ }),
 
-/***/ "oxZ7":
+/***/ "xfkh":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -107,143 +109,51 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var hasErrors = function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(function (field) {
-    return fieldsError[field];
-  });
-};
+var CasinosTable = function (_Component) {
+  _inherits(CasinosTable, _Component);
 
-var CasinoForm = function (_Component) {
-  _inherits(CasinoForm, _Component);
-
-  function CasinoForm() {
+  function CasinosTable() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, CasinoForm);
+    _classCallCheck(this, CasinosTable);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CasinoForm.__proto__ || Object.getPrototypeOf(CasinoForm)).call.apply(_ref, [this].concat(args))), _this), _this.handleSubmit = function (e) {
-      e.preventDefault();
-
-      _this.props.form.validateFields(function (err, values) {
-        console.log(err);
-        if (!err) {
-          console.log('Recived values: ', values);
-          var newCasino = {
-            name: values.casinoName,
-            address: values.casinoAddress,
-            phone: values.casinoPhone
-          };
-          _this.props.onCreateCasino(newCasino);
-        }
-      });
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CasinosTable.__proto__ || Object.getPrototypeOf(CasinosTable)).call.apply(_ref, [this].concat(args))), _this), _this.getColumns = function () {
+      return [{
+        title: 'Nombre',
+        key: 'name',
+        dataIndex: 'name'
+      }, {
+        title: 'Dirección',
+        key: 'address',
+        dataIndex: 'address'
+      }, {
+        title: 'Teléfono',
+        key: 'phone',
+        dataIndex: 'phone'
+      }];
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(CasinoForm, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.props.form.validateFields();
-    }
-  }, {
+  _createClass(CasinosTable, [{
     key: 'render',
     value: function render() {
-      var _props$form = this.props.form,
-          getFieldDecorator = _props$form.getFieldDecorator,
-          getFieldsError = _props$form.getFieldsError,
-          getFieldError = _props$form.getFieldError,
-          isFieldTouched = _props$form.isFieldTouched;
-
-
-      var casinoNameError = isFieldTouched('casinoName') && getFieldError('casinoName');
-      var casinoAddressError = isFieldTouched('casinoAddress') && getFieldError('casinoAddress');
-      var casinoPhoneError = isFieldTouched('casinoPhone') && getFieldError('casinoPhone');
-
-      return _react2.default.createElement(
-        _antd.Form,
-        {
-          layout: 'inline',
-          onSubmit: this.handleSubmit
-        },
-        _react2.default.createElement(
-          _antd.Divider,
-          { orientation: 'left' },
-          'Informaci\xF3n B\xE1sica'
-        ),
-        _react2.default.createElement(
-          _antd.Form.Item,
-          {
-            validateStatus: casinoNameError ? 'error' : '',
-            help: casinoNameError || ''
-          },
-          getFieldDecorator('casinoName', {
-            rules: [{ required: true, message: 'Ingrese el nombre del casino!' }]
-          })(_react2.default.createElement(_antd.Input, {
-            prefix: _react2.default.createElement(_antd.Icon, { type: 'shop', style: { color: 'rgba(0,0,0,.25)' } }),
-            placeholder: 'Nombre del casino',
-            size: 'large',
-            disabled: this.props.loading
-          }))
-        ),
-        _react2.default.createElement(
-          _antd.Form.Item,
-          {
-            validateStatus: casinoAddressError ? 'error' : '',
-            help: casinoAddressError || ''
-          },
-          getFieldDecorator('casinoAddress', {
-            rules: [{ required: true, message: 'Ingrese la dirección del casino!' }]
-          })(_react2.default.createElement(_antd.Input, {
-            prefix: _react2.default.createElement(_antd.Icon, { type: 'home', style: { color: 'rgba(0,0,0,.25)' } }),
-            placeholder: 'Direcci\xF3n del casino',
-            size: 'large',
-            disabled: this.props.loading
-          }))
-        ),
-        _react2.default.createElement(
-          _antd.Form.Item,
-          {
-            validateStatus: casinoPhoneError ? 'error' : '',
-            help: casinoPhoneError || ''
-          },
-          getFieldDecorator('casinoPhone', {
-            rules: [{ required: true, message: 'Ingrese el telefono del casino!' }]
-          })(_react2.default.createElement(_antd.Input, {
-            prefix: _react2.default.createElement(_antd.Icon, { type: 'phone', style: { color: 'rgba(0,0,0,.25)' } }),
-            placeholder: 'Telefono del casino',
-            size: 'large',
-            disabled: this.props.loading
-          }))
-        ),
-        _react2.default.createElement(
-          _antd.Form.Item,
-          null,
-          _react2.default.createElement(
-            _antd.Button,
-            {
-              type: 'primary',
-              htmlType: 'submit',
-              size: 'large',
-              disabled: hasErrors(getFieldsError()),
-              loading: this.props.loading
-            },
-            'Crear Casino'
-          )
-        )
-      );
+      return _react2.default.createElement(_antd.Table, {
+        columns: this.getColumns(),
+        dataSource: this.props.casinos
+      });
     }
   }]);
 
-  return CasinoForm;
+  return CasinosTable;
 }(_react.Component);
 
-var WrappedCasinoForm = _antd.Form.create()(CasinoForm);
-exports.default = WrappedCasinoForm;
+exports.default = CasinosTable;
 
 /***/ })
 
