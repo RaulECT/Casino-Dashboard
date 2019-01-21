@@ -6,8 +6,10 @@
   "scripts": {
     "test": "jest --watch",
     "watch:webpack": "node_modules/.bin/webpack --watch",
+    "webpack": "node_modules/.bin/webpack",
     "devserver": "node index.js",
-    "start": "npm-run-all --parallel watch:webpack devserver"
+    "start": "npm-run-all --parallel watch:webpack devserver",
+    "deploy": "npm run webpack && npm run devserver"
   },
   "author": "Raul canul",
   "license": "ISC",

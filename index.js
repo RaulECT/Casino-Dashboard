@@ -274,5 +274,7 @@ function updateTime( casinoId ) {
 
 io.listen(server)
 
-server.listen( config.APP_PORT )
+server.listen( config.APP_PORT, () => {
+  console.log( `Bingo App running on port ${config.APP_PORT} 🚀` )
+} )
 
