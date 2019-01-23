@@ -67,12 +67,13 @@ app.get( '/', function( req, res ) {
  */
 const io = require('socket.io')()
 io.on( "connect",( client ) => {
-
+  
   var casinoId = client.handshake.query.casinoId ? client.handshake.query.casinoId : ''
   var casinoGame = gamesHandler.searchByCasinoId( casinoId )
   var currentCasinoGame = casinoGame.length > 0 ? casinoGame[0].game : null
   
   client.join( casinoId )
+  
 
   if ( currentCard !== null && cardList !== null ) {
     
@@ -272,9 +273,10 @@ function updateTime( casinoId ) {
   io.to(casinoId).emit( 'UPDATE_COUNTDOWN', { time: countdownTime } )
 }
 
-io.listen(server)
-
 server.listen( config.APP_PORT, () => {
   console.log( `Bingo App running on port ${config.APP_PORT} 🚀` )
 } )
+
+io.listen(server)
+
 
