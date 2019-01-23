@@ -1,10 +1,10 @@
 let config = {
   CARDBOARDS_PER_PAGE: 154,
   // SOCKET_PRODUCTION_URL: 'http://104.192.4.252:3000',
-  SOCKET_PRODUCTION_URL: 'http://74.208.217.139:5003',
+  SOCKET_PRODUCTION_URL: 'https://damp-castle-22963.herokuapp.com',
   SOCKET_DEV_URL: 'http://localhost:5003',
   // APP_PORT: 3000,
-  APP_PORT: 5003,
+  APP_PORT: 80,
   CARDBOARDS_NUMCODE_LENGTH: 4,
   // API_URL: 'http://104.192.4.252:3002/loteriabingo/api',
   API_URL: 'http://74.208.217.139:5002/loteriabingo/api',
